@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuite failures="0" time="0.044" errors="0" skipped="0" tests="1" name="org.x.cloud.global.AppTest">
+  <properties>
+    <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
+    <property name="sun.boot.library.path" value="/usr/local/jdk1.7.0_51/jre/lib/amd64"/>
+    <property name="java.vm.version" value="24.51-b03"/>
+    <property name="java.vm.vendor" value="Oracle Corporation"/>
+    <property name="java.vendor.url" value="http://java.oracle.com/"/>
+    <property name="path.separator" value=":"/>
+    <property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM"/>
+    <property name="file.encoding.pkg" value="sun.io"/>
+    <property name="user.country" value="CN"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="sun.os.patch.level" value="unknown"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="user.dir" value="/workspace/gitHub-totem/totem/totem/global"/>
+    <property name="java.runtime.version" value="1.7.0_51-b13"/>
+    <property name="java.awt.graphicsenv" value="sun.awt.X11GraphicsEnvironment"/>
+    <property name="basedir" value="/workspace/gitHub-totem/totem/totem/global"/>
+    <property name="java.endorsed.dirs" value="/usr/local/jdk1.7.0_51/jre/lib/endorsed"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="surefire.real.class.path" value="/workspace/gitHub-totem/totem/totem/global/target/surefire/surefirebooter8246589299519652447.jar"/>
+    <property name="java.io.tmpdir" value="/tmp"/>
+    <property name="line.separator" value="
+"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="os.name" value="Linux"/>
+    <property name="sun.jnu.encoding" value="UTF-8"/>
+    <property name="java.library.path" value="/usr/local/jdk1.7.0_51/jre/lib/amd64/server:/usr/local/jdk1.7.0_51/jre/lib/amd64:/usr/local/jdk1.7.0_51/jre/../lib/amd64:/workspace/MyEclipse/Common/binary/com.sun.java.jdk.linux.x86_64_1.6.0.013/jre/lib/amd64/server:/workspace/MyEclipse/Common/binary/com.sun.java.jdk.linux.x86_64_1.6.0.013/jre/lib/amd64:/workspace/MyEclipse/Common/binary/com.sun.java.jdk.linux.x86_64_1.6.0.013/jre/../lib/amd64:.:/lib64:/usr/lib64:/opt/qt-everywhere-opensource-src-4.8.4/lib:/usr/java/packages/lib/amd64:/usr/lib64:/lib64:/lib:/usr/lib"/>
+    <property name="surefire.test.class.path" value="/workspace/gitHub-totem/totem/totem/global/target/test-classes:/workspace/gitHub-totem/totem/totem/global/target/classes:/server/apache-maven-3.1.0/.m2/repository/org/slf4j/slf4j-api/1.6.4/slf4j-api-1.6.4.jar:/server/apache-maven-3.1.0/.m2/repository/org/slf4j/slf4j-log4j12/1.6.4/slf4j-log4j12-1.6.4.jar:/server/apache-maven-3.1.0/.m2/repository/log4j/log4j/1.2.17/log4j-1.2.17.jar:/server/apache-maven-3.1.0/.m2/repository/commons-io/commons-io/2.4/commons-io-2.4.jar:/server/apache-maven-3.1.0/.m2/repository/commons-lang/commons-lang/2.6/commons-lang-2.6.jar:/server/apache-maven-3.1.0/.m2/repository/commons-pool/commons-pool/1.6/commons-pool-1.6.jar:/server/apache-maven-3.1.0/.m2/repository/commons-codec/commons-codec/1.8/commons-codec-1.8.jar:/server/apache-maven-3.1.0/.m2/repository/org/apache/zookeeper/zookeeper/3.4.6/zookeeper-3.4.6.jar:/server/apache-maven-3.1.0/.m2/repository/jline/jline/0.9.94/jline-0.9.94.jar:/server/apache-maven-3.1.0/.m2/repository/junit/junit/4.11/junit-4.11.jar:/server/apache-maven-3.1.0/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar:/server/apache-maven-3.1.0/.m2/repository/io/netty/netty/3.7.0.Final/netty-3.7.0.Final.jar:/server/apache-maven-3.1.0/.m2/repository/org/mongodb/mongo-java-driver/2.12.2/mongo-java-driver-2.12.2.jar:/server/apache-maven-3.1.0/.m2/repository/org/apache/curator/curator-x-discovery/2.2.0-incubating/curator-x-discovery-2.2.0-incubating.jar:/server/apache-maven-3.1.0/.m2/repository/org/apache/curator/curator-recipes/2.2.0-incubating/curator-recipes-2.2.0-incubating.jar:/server/apache-maven-3.1.0/.m2/repository/org/apache/curator/curator-framework/2.2.0-incubating/curator-framework-2.2.0-incubating.jar:/server/apache-maven-3.1.0/.m2/repository/org/apache/curator/curator-client/2.2.0-incubating/curator-client-2.2.0-incubating.jar:/server/apache-maven-3.1.0/.m2/repository/org/codehaus/jackson/jackson-mapper-asl/1.9.13/jackson-mapper-asl-1.9.13.jar:/server/apache-maven-3.1.0/.m2/repository/org/codehaus/jackson/jackson-core-asl/1.9.13/jackson-core-asl-1.9.13.jar:/server/apache-maven-3.1.0/.m2/repository/xerces/xercesImpl/2.11.0/xercesImpl-2.11.0.jar:/server/apache-maven-3.1.0/.m2/repository/xml-apis/xml-apis/1.4.01/xml-apis-1.4.01.jar:/server/apache-maven-3.1.0/.m2/repository/org/zeromq/jzmq/3.0.1/jzmq-3.0.1.jar:/server/apache-maven-3.1.0/.m2/repository/org/xerial/snappy/snappy-java/1.1.0-M3/snappy-java-1.1.0-M3.jar:/server/apache-maven-3.1.0/.m2/repository/com/belerweb/pinyin4j/2.5.0/pinyin4j-2.5.0.jar:/server/apache-maven-3.1.0/.m2/repository/net/sourceforge/nekohtml/nekohtml/1.9.18/nekohtml-1.9.18.jar:/server/apache-maven-3.1.0/.m2/repository/joda-time/joda-time/2.3/joda-time-2.3.jar:"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="java.class.version" value="51.0"/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="os.version" value="3.11.10-100.fc18.x86_64"/>
+    <property name="user.home" value="/root"/>
+    <property name="user.timezone" value=""/>
+    <property name="java.awt.printerjob" value="sun.print.PSPrinterJob"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.specification.version" value="1.7"/>
+    <property name="user.name" value="root"/>
+    <property name="java.class.path" value="/workspace/gitHub-totem/totem/totem/global/target/test-classes:/workspace/gitHub-totem/totem/totem/global/target/classes:/server/apache-maven-3.1.0/.m2/repository/org/slf4j/slf4j-api/1.6.4/slf4j-api-1.6.4.jar:/server/apache-maven-3.1.0/.m2/repository/org/slf4j/slf4j-log4j12/1.6.4/slf4j-log4j12-1.6.4.jar:/server/apache-maven-3.1.0/.m2/repository/log4j/log4j/1.2.17/log4j-1.2.17.jar:/server/apache-maven-3.1.0/.m2/repository/commons-io/commons-io/2.4/commons-io-2.4.jar:/server/apache-maven-3.1.0/.m2/repository/commons-lang/commons-lang/2.6/commons-lang-2.6.jar:/server/apache-maven-3.1.0/.m2/repository/commons-pool/commons-pool/1.6/commons-pool-1.6.jar:/server/apache-maven-3.1.0/.m2/repository/commons-codec/commons-codec/1.8/commons-codec-1.8.jar:/server/apache-maven-3.1.0/.m2/repository/org/apache/zookeeper/zookeeper/3.4.6/zookeeper-3.4.6.jar:/server/apache-maven-3.1.0/.m2/repository/jline/jline/0.9.94/jline-0.9.94.jar:/server/apache-maven-3.1.0/.m2/repository/junit/junit/4.11/junit-4.11.jar:/server/apache-maven-3.1.0/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar:/server/apache-maven-3.1.0/.m2/repository/io/netty/netty/3.7.0.Final/netty-3.7.0.Final.jar:/server/apache-maven-3.1.0/.m2/repository/org/mongodb/mongo-java-driver/2.12.2/mongo-java-driver-2.12.2.jar:/server/apache-maven-3.1.0/.m2/repository/org/apache/curator/curator-x-discovery/2.2.0-incubating/curator-x-discovery-2.2.0-incubating.jar:/server/apache-maven-3.1.0/.m2/repository/org/apache/curator/curator-recipes/2.2.0-incubating/curator-recipes-2.2.0-incubating.jar:/server/apache-maven-3.1.0/.m2/repository/org/apache/curator/curator-framework/2.2.0-incubating/curator-framework-2.2.0-incubating.jar:/server/apache-maven-3.1.0/.m2/repository/org/apache/curator/curator-client/2.2.0-incubating/curator-client-2.2.0-incubating.jar:/server/apache-maven-3.1.0/.m2/repository/org/codehaus/jackson/jackson-mapper-asl/1.9.13/jackson-mapper-asl-1.9.13.jar:/server/apache-maven-3.1.0/.m2/repository/org/codehaus/jackson/jackson-core-asl/1.9.13/jackson-core-asl-1.9.13.jar:/server/apache-maven-3.1.0/.m2/repository/xerces/xercesImpl/2.11.0/xercesImpl-2.11.0.jar:/server/apache-maven-3.1.0/.m2/repository/xml-apis/xml-apis/1.4.01/xml-apis-1.4.01.jar:/server/apache-maven-3.1.0/.m2/repository/org/zeromq/jzmq/3.0.1/jzmq-3.0.1.jar:/server/apache-maven-3.1.0/.m2/repository/org/xerial/snappy/snappy-java/1.1.0-M3/snappy-java-1.1.0-M3.jar:/server/apache-maven-3.1.0/.m2/repository/com/belerweb/pinyin4j/2.5.0/pinyin4j-2.5.0.jar:/server/apache-maven-3.1.0/.m2/repository/net/sourceforge/nekohtml/nekohtml/1.9.18/nekohtml-1.9.18.jar:/server/apache-maven-3.1.0/.m2/repository/joda-time/joda-time/2.3/joda-time-2.3.jar:"/>
+    <property name="java.vm.specification.version" value="1.7"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="java.home" value="/usr/local/jdk1.7.0_51/jre"/>
+    <property name="sun.java.command" value="/workspace/gitHub-totem/totem/totem/global/target/surefire/surefirebooter8246589299519652447.jar /workspace/gitHub-totem/totem/totem/global/target/surefire/surefire6947711809708129293tmp /workspace/gitHub-totem/totem/totem/global/target/surefire/surefire7623288464684018549tmp"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="user.language" value="zh"/>
+    <property name="awt.toolkit" value="sun.awt.X11.XToolkit"/>
+    <property name="java.vm.info" value="mixed mode"/>
+    <property name="java.version" value="1.7.0_51"/>
+    <property name="java.ext.dirs" value="/usr/local/jdk1.7.0_51/jre/lib/ext:/usr/java/packages/lib/ext"/>
+    <property name="sun.boot.class.path" value="/usr/local/jdk1.7.0_51/jre/lib/resources.jar:/usr/local/jdk1.7.0_51/jre/lib/rt.jar:/usr/local/jdk1.7.0_51/jre/lib/sunrsasign.jar:/usr/local/jdk1.7.0_51/jre/lib/jsse.jar:/usr/local/jdk1.7.0_51/jre/lib/jce.jar:/usr/local/jdk1.7.0_51/jre/lib/charsets.jar:/usr/local/jdk1.7.0_51/jre/lib/jfr.jar:/usr/local/jdk1.7.0_51/jre/classes"/>
+    <property name="java.vendor" value="Oracle Corporation"/>
+    <property name="localRepository" value="/server/apache-maven-3.1.0/.m2/repository"/>
+    <property name="file.separator" value="/"/>
+    <property name="java.vendor.url.bug" value="http://bugreport.sun.com/bugreport/"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="sun.desktop" value="gnome"/>
+    <property name="sun.cpu.isalist" value=""/>
+  </properties>
+  <testcase time="0.001" classname="org.x.cloud.global.AppTest" name="testApp"/>
+</testsuite>
