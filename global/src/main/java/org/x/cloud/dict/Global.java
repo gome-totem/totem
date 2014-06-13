@@ -61,9 +61,10 @@ public class Global {
 	public static String scheduleClientIp=null;
 	public static String PluginPath = null;
 	public static String PdfPath = null;
-
+	public static String ConfigPath = null;
 	static {
 		localName = StringUtil.getLocalName();
+		ConfigPath = ConfigFile.rock().getItem("ConfigPath", "/workspace/plugins/");
 		PluginPath = ConfigFile.rock().getItem("PluginPath", "/workspace/plugins/");
 		PdfPath = ConfigFile.rock().getItem("PdfPath", "/server/pdf/");
 		currentEnv = ConfigFile.rock().getItem("currentEnv", "local");
