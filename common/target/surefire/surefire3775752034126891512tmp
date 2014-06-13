@@ -1,0 +1,5 @@
+#surefire
+#Fri Jun 13 16:51:54 CST 2014
+user.dir=/workspace/gitHub-totem/totem/totem/common
+localRepository=/server/apache-maven-3.1.0/.m2/repository
+basedir=/workspace/gitHub-totem/totem/totem/common
