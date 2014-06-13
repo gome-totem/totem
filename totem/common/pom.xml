@@ -2,24 +2,61 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.x.cloud</groupId>
-  <artifactId>common</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <packaging>jar</packaging>
+	<parent>
+		<groupId>org.x</groupId>
+		<artifactId>org.x-parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
 
   <name>common</name>
-  <url>http://maven.apache.org</url>
+  <artifactId>org.x.common.core</artifactId>
+	<packaging>jar</packaging>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    	<java_memcached.version>2.6.6</java_memcached.version>
   </properties>
-
   <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
+  	<dependency>
+			<groupId>java_memcached</groupId>
+			<artifactId>java_memcached</artifactId>
+			<version>${java_memcached.version}</version>
+	</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+		</dependency>
+		<dependency>
+	    <groupId>org.mongodb</groupId>
+	    <artifactId>mongo-java-driver</artifactId>
+	    </dependency>
+	    		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-digester</groupId>
+			<artifactId>commons-digester</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-pool</groupId>
+			<artifactId>commons-pool</artifactId>
+		</dependency>
+				<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+		</dependency>
   </dependencies>
 </project>
