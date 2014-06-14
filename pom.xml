@@ -50,7 +50,7 @@
 		<kafka.version>0.8.1.1</kafka.version>
 		<easymock.version>3.2</easymock.version>
 		<joor.version>0.9.3</joor.version>
-		<curator.version>2.5.0<</curator.version>
+		<curator.version>2.5.0</curator.version>
 		<jackson.version>1.9.13</jackson.version>
 		<mysql.connector.java.version>5.1.26</mysql.connector.java.version>
 		<guava.version>16.0.1</guava.version>
@@ -465,7 +465,7 @@
 						<configuration>
 							<outputDirectory>${dependency.lib.dir}</outputDirectory>
 							<excludeTransitive>false</excludeTransitive>
-							<excludeArtifactIds>org.x.objectpool,org.x.websocket,org.x.bigqueue,org.x.cloud.global,org.x.common.core,org.x.cloud.web,org.x.cloud.core,org.x.netty,org.x.VirtualMachinery</excludeArtifactIds>
+							<excludeArtifactIds>org.x.objectpool,org.x.websocket,org.x.bigqueue,org.x.global,org.x.common,org.x.cloud.web,org.x.cloud.core,org.x.netty,org.x.VirtualMachinery</excludeArtifactIds>
 							<stripVersion>false</stripVersion>
 						</configuration>
 					</execution>
