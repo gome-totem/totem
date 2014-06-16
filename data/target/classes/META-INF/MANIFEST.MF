@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Built-By: root
 Build-Jdk: 1.6.0_13
+Built-By: root
 Created-By: Maven Integration for Eclipse
 
