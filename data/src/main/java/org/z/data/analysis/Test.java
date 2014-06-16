@@ -50,7 +50,6 @@ public class Test extends Thread {
 					System.out.print(s.startOffset() + "(" + ngr.getAttribute(CharTermAttribute.class) + ")" + s.endOffset() + ",");
 					System.out.println(" this word level =============" + a.getLevel());
 				}
-
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 			}
