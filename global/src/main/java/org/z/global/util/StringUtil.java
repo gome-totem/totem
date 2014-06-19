@@ -31,7 +31,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.RandomUtils;
 import org.xerial.snappy.Snappy;
 import org.z.global.dict.Global;
-
 import com.mongodb.BasicDBList;
 
 public class StringUtil {
@@ -872,22 +871,6 @@ public class StringUtil {
 		}
 		return path;
 	}
-
-	public static void main(String[] args) {
-		ArrayList<String> values = new ArrayList<String>();
-		values.add("1");
-		values.add("2");
-		values.add("3");
-		String[] names = new String[] { "1", "2", "3" };
-		BasicDBList items = new BasicDBList();
-		items.add("1");
-		items.add("2");
-		items.add("3");
-		System.out.println(StringUtil.join(values, "AND"));
-		System.out.println(StringUtil.join(names, "AND"));
-		System.out.println(StringUtil.join(items, "AND"));
-	}
-
 	public static String append(Object... strs) {
 		if (strs == null || strs.length == 0) {
 			return null;
@@ -898,4 +881,8 @@ public class StringUtil {
 		}
 		return sb.toString();
 	}
+
+	public static void main(String[] args) {
+	}
+	
 }
