@@ -3,6 +3,10 @@
 	<name>totem</name>
 	<comment></comment>
 	<projects>
+		<project>common</project>
+		<project>core</project>
+		<project>data</project>
+		<project>global</project>
 	</projects>
 	<buildSpec>
 	</buildSpec>
