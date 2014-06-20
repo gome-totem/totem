@@ -12,9 +12,8 @@
 		<module>global</module>
 		<module>common</module>
 		<module>data</module>
+      <module>store</module>
   </modules>
-
-
 
 	<properties>
 		<project.version>0.0.1-SNAPSHOT</project.version>
