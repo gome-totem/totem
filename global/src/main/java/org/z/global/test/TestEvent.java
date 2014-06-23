@@ -1,8 +1,8 @@
 package org.z.global.test;
 
 public class TestEvent {
-    private final int message;
-    public TestEvent(int message) {        
+    protected  int message;
+    public TestEvent(Integer message) {        
         this.message = message;
         System.out.println("event message:"+message);
     }
