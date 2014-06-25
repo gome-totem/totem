@@ -1,4 +1,4 @@
-package org.z.global.test;
+package org.z.global.evernbus;
 
 import java.io.IOException;
 import java.net.ServerSocket;

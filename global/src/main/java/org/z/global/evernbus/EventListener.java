@@ -1,4 +1,4 @@
-package org.z.global.test;
+package org.z.global.evernbus;
 
 import com.google.common.eventbus.Subscribe;
 

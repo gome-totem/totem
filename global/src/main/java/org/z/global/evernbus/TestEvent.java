@@ -1,4 +1,4 @@
-package org.z.global.test;
+package org.z.global.evernbus;
 
 public class TestEvent {
     protected  int message;
