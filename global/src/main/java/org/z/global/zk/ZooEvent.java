@@ -1,4 +1,4 @@
-package org.z.global.util;
+package org.z.global.zk;
 
 import org.apache.zookeeper.ZooKeeper;
 

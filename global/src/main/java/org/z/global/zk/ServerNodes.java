@@ -1,4 +1,4 @@
-package org.z.global.dict;
+package org.z.global.zk;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -10,8 +10,9 @@ import java.util.concurrent.atomic.AtomicLong;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.z.global.dict.ServerDict.NodeType;
+import org.z.global.dict.Global;
 import org.z.global.util.HashTimes;
+import org.z.global.zk.ServerDict.NodeType;
 
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;

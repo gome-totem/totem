@@ -1,4 +1,4 @@
-package org.z.global.util;
+package org.z.global.zk;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,6 @@ import org.apache.curator.framework.state.ConnectionStateListener;
 import org.apache.zookeeper.WatchedEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.z.global.dict.ServerListener;
 
 /**
  * @author xiaoming@yundiz.com

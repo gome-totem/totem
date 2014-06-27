@@ -1,7 +1,7 @@
-package org.z.global.dict;
+package org.z.global.zk;
 
-import org.z.global.dict.ServerDict.NodeAction;
-import org.z.global.dict.ServerDict.NodeType;
+import org.z.global.zk.ServerDict.NodeAction;
+import org.z.global.zk.ServerDict.NodeType;
 
 public interface ZooKeeperWatchIntf {
 

@@ -1,7 +1,8 @@
-package org.z.global.dict;
+package org.z.global.zk;
 
 import java.util.Arrays;
 
+import org.z.global.dict.Global;
 import org.zeromq.ZFrame;
 
 /**

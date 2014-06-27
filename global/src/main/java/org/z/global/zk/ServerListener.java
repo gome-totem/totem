@@ -1,4 +1,4 @@
-package org.z.global.dict;
+package org.z.global.zk;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,10 +9,9 @@ import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.Watcher.Event.EventType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.z.global.dict.ServerDict.NodeAction;
-import org.z.global.dict.ServerDict.NodeType;
 import org.z.global.util.StringUtil;
-import org.z.global.util.ZooConnect;
+import org.z.global.zk.ServerDict.NodeAction;
+import org.z.global.zk.ServerDict.NodeType;
 
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;

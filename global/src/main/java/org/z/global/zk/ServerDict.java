@@ -1,9 +1,8 @@
-package org.z.global.dict;
+package org.z.global.zk;
 
 import org.apache.curator.framework.CuratorFramework;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.z.global.util.ZooConnect;
 
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
