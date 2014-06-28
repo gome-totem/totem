@@ -1,4 +1,4 @@
-package org.z.global.discovery;
+package org.z.global.plugin;
 
 import java.io.File;
 import java.io.IOException;
