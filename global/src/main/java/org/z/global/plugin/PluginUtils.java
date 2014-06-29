@@ -17,7 +17,6 @@ import com.google.common.collect.Lists;
 
 public class PluginUtils {
 	 private PluginUtils() {}
-	 
 	    @SuppressWarnings("unchecked")
 		static Plugin loadPlugin(String className, Map<String,Object> settings, ClassLoader classLoader) {
 	        try {
