@@ -6,23 +6,24 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import org.z.global.io.Booleans;
 import org.z.global.io.IOUtils;
+
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 
 
 public class PluginUtils {
 	 private PluginUtils() {}
 	    @SuppressWarnings("unchecked")
-		static Plugin loadPlugin(String className, Map<String,Object> settings, ClassLoader classLoader) {
+		static Plugin loadPlugin(String className, ImmutableMap<String,Object> settings, ClassLoader classLoader) {
 	        try {
 				Class<? extends Plugin> pluginClass = (Class<? extends Plugin>) classLoader.loadClass(className);
 	            try {
-	                return pluginClass.getConstructor(Map.class).newInstance(settings);
+	                return pluginClass.getConstructor(ImmutableMap.class).newInstance(settings);
 	            } catch (NoSuchMethodException e) {
 	                try {
 	                    return pluginClass.newInstance();
