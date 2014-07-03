@@ -15,22 +15,19 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.z.global.environment.Environment;
 import org.z.global.io.Classes;
 import org.z.global.io.IOUtils;
-import org.z.global.io.Strings;
 import org.z.global.object.MapBuilder;
 import org.z.global.object.Tuple;
 import org.z.global.util.TimeValue;
-
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableMap.Builder;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 
 
 public class PluginService {
@@ -55,19 +52,10 @@ public class PluginService {
 	        }
 	    }
 	    @SuppressWarnings("unchecked")
-		public PluginService(ImmutableMap<String, Object>  settings,Environment environment) {
+		public PluginService(ImmutableMap<String, Object> settings,Environment environment) {
 	    	this.environment = environment;
 	    	this.settings =settings;
 	    	 ImmutableList.Builder<Tuple<PluginInfo, Plugin>> tupleBuilder = ImmutableList.builder();
-	         String[] defaultPluginsClasses = ((String)settings.get("plugin.types")).split(";");
-	         for (String pluginClass : defaultPluginsClasses) {
-	             Plugin plugin = PluginUtils.loadPlugin(pluginClass, settings, Classes.getDefaultClassLoader());
-	             PluginInfo pluginInfo = new PluginInfo(plugin.name(), plugin.description(), hasSite(plugin.name()), true, PluginInfo.VERSION_NOT_AVAILABLE, false);
-	             if (logger.isTraceEnabled()) {
-	                 logger.trace("plugin loaded from settings [{}]", pluginInfo);
-	             }
-	             tupleBuilder.add(new Tuple<PluginInfo, Plugin>(pluginInfo, plugin));
-	         }
 	         tupleBuilder.addAll(loadPlugins());
 	         this.plugins =tupleBuilder.build();
 	         Map<String, Plugin> jvmPlugins = Maps.newHashMap();
@@ -85,22 +73,6 @@ public class PluginService {
 	             sitePlugins.add(tuple.v1().getName());
 	         }
 
-	         String[] mandatoryPlugins = ((String)settings.get("plugin.mandatory")).split(",");
-	         if (mandatoryPlugins != null) {
-	             Set<String> missingPlugins = Sets.newHashSet();
-	             for (String mandatoryPlugin : mandatoryPlugins) {
-	                 if (!jvmPlugins.containsKey(mandatoryPlugin) && !sitePlugins.contains(mandatoryPlugin) && !missingPlugins.contains(mandatoryPlugin)) {
-	                     missingPlugins.add(mandatoryPlugin);
-	                 }
-	             }
-	             if (!missingPlugins.isEmpty()) {
-	                 try {
-						throw new Exception("Missing mandatory plugins [" + Strings.collectionToDelimitedString(missingPlugins, ", ") + "]");
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-	             }
-	         }
 	         logger.info("loaded {}, sites {}", jvmPlugins.keySet(), sitePlugins);
 	         MapBuilder<Plugin, List<OnModuleReference>> onModuleReferences =MapBuilder.newMapBuilder();
 	         for (Plugin plugin : jvmPlugins.values()) {
@@ -328,7 +300,8 @@ public class PluginService {
 
 	        return cachedPluginsInfo;
 	    }
-	      private boolean hasSite(String name) {
+	     @SuppressWarnings("unused")
+		private boolean hasSite(String name) {
 	        File pluginsFile = environment.pluginsFile();
 
 	        if (!pluginsFile.exists() || !pluginsFile.isDirectory()) {
@@ -341,4 +314,13 @@ public class PluginService {
 	    public ImmutableList<Tuple<PluginInfo, Plugin>> plugins() {
 	        return plugins;
 	      }
+	    
+	    
+	    public static void main(String[] args) {
+	    	Environment environment = new Environment();
+	    	Builder<String, Object> builder =ImmutableMap.builder();
+	    	ImmutableMap<String, Object>  map =builder.build();
+			PluginService plugin = new PluginService(map, environment);
+			System.out.println(plugin.plugins().get(0).v2().name());
+		}
 }

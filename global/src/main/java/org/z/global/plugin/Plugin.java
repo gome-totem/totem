@@ -8,7 +8,6 @@ import java.util.HashMap;
 public interface Plugin {
 
     String name();
-
     String description();
     Collection<Class<? extends Module>> modules();
     Collection<? extends Module> modules(HashMap<String,Object> settings);
