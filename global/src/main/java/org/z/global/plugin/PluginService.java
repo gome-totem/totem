@@ -60,14 +60,12 @@ public class PluginService {
 	         this.plugins =tupleBuilder.build();
 	         Map<String, Plugin> jvmPlugins = Maps.newHashMap();
 	         List<String> sitePlugins = Lists.newArrayList();
-
 	         for (Tuple<PluginInfo, Plugin> tuple : this.plugins) {
 	             jvmPlugins.put(tuple.v2().name(), tuple.v2());
 	             if (tuple.v1().isSite()) {
 	                 sitePlugins.add(tuple.v1().getName());
 	             }
 	         }
-
 	         ImmutableList<Tuple<PluginInfo, Plugin>> tuples = loadSitePlugins();
 	         for (Tuple<PluginInfo, Plugin> tuple : tuples) {
 	             sitePlugins.add(tuple.v1().getName());
@@ -112,7 +110,7 @@ public class PluginService {
 	        List<Tuple<PluginInfo, Plugin>> pluginData = Lists.newArrayList();
 
 	        boolean defaultIsolation = Boolean.FALSE;
-	        ClassLoader esClassLoader = Classes.getDefaultClassLoader();
+	        ClassLoader totemClassLoader = Classes.getDefaultClassLoader();
 	        Method addURL = null;
 	        boolean discoveredAddUrl = false;
 
@@ -130,12 +128,12 @@ public class PluginService {
 
 	                        if (isolated) {
 	                            logger.trace("--- creating isolated space for plugin [" + pluginRoot.getAbsolutePath() + "]");
-	                            PluginClassLoader pcl = new PluginClassLoader(PluginUtils.convertFileToUrl(pluginClassPath), esClassLoader);
+	                            PluginClassLoader pcl = new PluginClassLoader(PluginUtils.convertFileToUrl(pluginClassPath), totemClassLoader);
 	                            pluginData.addAll(loadPlugin(pluginClassPath, pluginProperties, pcl, true));
 	                        } else {
 	                            if (!discoveredAddUrl) {
 	                                discoveredAddUrl = true;
-	                                Class<?> esClassLoaderClass = esClassLoader.getClass();
+	                                Class<?> esClassLoaderClass = totemClassLoader.getClass();
 
 	                                while (!esClassLoaderClass.equals(Object.class)) {
 	                                    try {
@@ -150,13 +148,13 @@ public class PluginService {
 	                            }
 
 	                            if (addURL == null) {
-	                                logger.debug("failed to find addURL method on classLoader [" + esClassLoader + "] to add methods");
+	                                logger.debug("failed to find addURL method on classLoader [" + totemClassLoader + "] to add methods");
 	                            }
 	                            else {
 	                                for (File file : pluginClassPath) {
-	                                    addURL.invoke(esClassLoader, file.toURI().toURL());
+	                                    addURL.invoke(totemClassLoader, file.toURI().toURL());
 	                                }
-	                                pluginData.addAll(loadPlugin(pluginClassPath, pluginProperties, esClassLoader, false));
+	                                pluginData.addAll(loadPlugin(pluginClassPath, pluginProperties, totemClassLoader, false));
 	                            }
 	                        }
 	                    } catch (Throwable e) {
@@ -234,7 +232,7 @@ public class PluginService {
 	                    String version = PluginInfo.VERSION_NOT_AVAILABLE;
 	                    String description = PluginInfo.DESCRIPTION_NOT_AVAILABLE;
 
-	                    // We check if es-plugin.properties exists in plugin/_site dir
+	                    // We check if totem-plugin.properties exists in plugin/_site dir
 	                    File pluginPropFile = new File(sitePluginDir, TOTEM_PLUGIN_PROPERTIES);
 	                    if (pluginPropFile.exists()) {
 

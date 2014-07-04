@@ -91,16 +91,16 @@ public class PluginUtils {
 	            if (toString.endsWith(".jar") || toString.endsWith(".zip")) {
 	                JarFile jar = new JarFile(file);
 	                try {
-	                    JarEntry jarEntry = jar.getJarEntry("es-plugin.properties");
+	                    JarEntry jarEntry = jar.getJarEntry("totem-plugin.properties");
 	                    if (jarEntry != null) {
-	                        found.add(new URL("jar:" + file.toURI().toString() + "!/es-plugin.properties"));
+	                        found.add(new URL("jar:" + file.toURI().toString() + "!/totem-plugin.properties"));
 	                    }
 	                } finally {
 	                    IOUtils.closeWhileHandlingException(jar);
 	                }
 	            }
 	            else {
-	                File props = new File(file, "es-plugin.properties");
+	                File props = new File(file, "totem-plugin.properties");
 	                if (props.exists() && props.canRead()) {
 	                    found.add(props.toURI().toURL());
 	                }
