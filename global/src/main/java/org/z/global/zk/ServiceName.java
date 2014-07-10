@@ -1,7 +1,6 @@
 package org.z.global.zk;
 
 import java.util.Arrays;
-
 import org.z.global.dict.Global;
 import org.zeromq.ZFrame;
 
@@ -67,7 +66,7 @@ public enum ServiceName {
 		addItem("defectiveindex", index++);
 		addItem("remoteJob", index++);
 	}
-
+	
 	public ZFrame newFrame() {
 		return new ZFrame(data);
 	}

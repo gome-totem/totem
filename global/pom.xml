@@ -7,7 +7,6 @@
 		<artifactId>org.x-parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-
    <name>org.x.global</name>
   <artifactId>org.x.global</artifactId>
 	<packaging>jar</packaging>
@@ -84,6 +83,10 @@
 		<dependency>
 				<groupId>com.google.guava</groupId>
 				<artifactId>guava</artifactId>
+		</dependency>
+		<dependency>
+			    <groupId>nf.fr.eraasoft</groupId>
+			    <artifactId>objectpool</artifactId>
 		</dependency>
   </dependencies>
 </project>

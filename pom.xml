@@ -13,6 +13,7 @@
 		<module>common</module>
 		<module>data</module>
       <module>store</module>
+    <module>web</module>
   </modules>
 
 	<properties>
@@ -62,6 +63,7 @@
 		<mongo.version>2.12.2</mongo.version>
 		<zookeeper.version>3.4.6</zookeeper.version>
 		<joda-time.version>2.3</joda-time.version>
+		<objectpool.version>1.1.2</objectpool.version>
 		
 		
 	</properties>
@@ -265,6 +267,11 @@
 				<artifactId>org.x.segment</artifactId>
 				<version>${org.x.segment.version}</version>
 			</dependency>
+			<dependency>
+			    <groupId>nf.fr.eraasoft</groupId>
+			    <artifactId>objectpool</artifactId>
+			    <version>${objectpool.version}</version>
+			</dependency>
 			  <dependency>  
 		       <groupId>org.scala-lang</groupId>  
 		       <artifactId>scala-library</artifactId>  
@@ -424,6 +431,11 @@
 				<version>0.7.3</version>
 			</dependency>
 			<dependency>
+			    <groupId>org.jboss.netty</groupId>
+			    <artifactId>netty</artifactId>
+			    <version>3.2.10.Final</version>
+			</dependency>
+			<dependency>
 				<groupId>com.google.guava</groupId>
 				<artifactId>guava</artifactId>
 				<version>${guava.version}</version>
@@ -476,7 +488,7 @@
 						<configuration>
 							<outputDirectory>${dependency.lib.dir}</outputDirectory>
 							<excludeTransitive>false</excludeTransitive>
-							<excludeArtifactIds>org.x.objectpool,org.x.websocket,org.x.bigqueue,org.x.global,org.x.common,org.x.cloud.web,org.x.cloud.core,org.x.netty,org.x.VirtualMachinery</excludeArtifactIds>
+							<excludeArtifactIds>org.x.objectpool,org.x.websocket,org.x.bigqueue,org.x.global,org.x.common,org.x.cloud.web,org.x.cloud.core,org.x.VirtualMachinery</excludeArtifactIds>
 							<stripVersion>false</stripVersion>
 						</configuration>
 					</execution>
