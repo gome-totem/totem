@@ -4,6 +4,10 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.z.global.interfaces.SocketEvent;
+import org.z.global.interfaces.WebSocketEvent;
+import org.z.global.object.LogMessage;
+
 public class ModuleEvent {
 	protected ConcurrentHashMap<String, SocketEvent> socketEvents = new ConcurrentHashMap<String, SocketEvent>();
 	protected ConcurrentHashMap<Long, WebSocketEvent> webSocketEvents = new ConcurrentHashMap<Long, WebSocketEvent>();

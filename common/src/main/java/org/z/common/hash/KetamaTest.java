@@ -2,7 +2,7 @@ package org.z.common.hash;
 
 import java.util.ArrayList;
 
-import org.z.common.interfaces.KetamaNodeIntf;
+import org.z.global.interfaces.KetamaNodeIntf;
 
 
 class TableInfo {

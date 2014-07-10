@@ -1,4 +1,4 @@
-package org.z.global.zk;
+package org.z.global.util;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.z.global.dict.Global;
 import org.z.global.util.StringUtil;
+import org.z.global.zk.ServerDict;
 
 public class ZooUtil {
 	protected static Logger logger = LoggerFactory.getLogger(ZooUtil.class);

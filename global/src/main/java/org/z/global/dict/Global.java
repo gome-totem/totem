@@ -125,13 +125,15 @@ public class Global {
 	}
 
 	public static enum ModuleMessageType {
-		datachange, dragon, skuChange, stateChange, prdCounter, runtimeProdInfo, click, dragonIncreat
+		datachange, dragon, productPrice, promoScore, facetchange
 	}
 
 	public static enum MessageMode {
 		sync, async
 	}
-
+	public  enum CodeType {
+		contient, country, location, category, serviceTag, priceTag, priceRange, language, belongCity
+	}
 	public enum DictConnectMode {
 		file, server;
 	}

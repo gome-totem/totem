@@ -1,4 +1,4 @@
-package org.z.common.interfaces;
+package org.z.global.interfaces;
 
 /**
  * Defines the set of all configuration dependencies required for the

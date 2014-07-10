@@ -1,11 +1,12 @@
-package org.z.core.intf;
+package org.z.global.interfaces;
 
 import org.z.global.dict.Global.SocketDataType;
+import org.z.global.factory.SocketSession;
 
 
 public interface SocketEvent {
 
-	public void onMessage(SocketDataType dataType, Object content);
+	public void onMessage(SocketDataType dataType, Object content, boolean enableCompress);
 
 	public SocketSession session();
 

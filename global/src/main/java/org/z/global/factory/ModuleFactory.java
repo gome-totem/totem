@@ -1,11 +1,13 @@
-package org.z.common.factory;
+package org.z.global.factory;
 
 import java.util.HashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.z.common.interfaces.ModuleIntf;
 import org.z.global.dict.Global;
+import org.z.global.interfaces.ModuleIntf;
+import org.z.global.interfaces.ModuleProcessorIntf;
+import org.z.global.interfaces.ModuleSocketIntf;
 import org.z.global.util.EmptyUtil;
 
 import com.mongodb.BasicDBList;
@@ -46,7 +48,8 @@ public class ModuleFactory {
 	public static BasicDBList loadedModules = new BasicDBList();
 	private static HashMap<String, ClassInfo> moduleInfos = new HashMap<String, ClassInfo>();
 	private static ModuleIntf mq = null;
-
+	private static ModuleIntf processor = null;
+	private static ModuleIntf socket = null;
 	public static void registerModule(String moduleName, Class<?> moduleClass) {
 		moduleInfos.put(moduleNameBy(moduleName), new ClassInfo(moduleClass));
 	}
@@ -54,7 +57,19 @@ public class ModuleFactory {
 	public static void registerModule(String moduleName, Class<?> moduleClass, Object[] params) {
 		moduleInfos.put(moduleNameBy(moduleName), new ClassInfo(moduleClass, params, true));
 	}
-
+	public static ModuleProcessorIntf processor() {
+		if (processor != null)
+			return (ModuleProcessorIntf) processor;
+		ModuleIntf instance = moduleInstanceBy("processor");
+		return (ModuleProcessorIntf) instance;
+	}
+	public static ModuleSocketIntf socket() {
+		if (socket != null)
+			return (ModuleSocketIntf) socket;
+		ModuleIntf instance = moduleInstanceBy("socket");
+		return (ModuleSocketIntf) instance;
+	}
+	
 	public static String moduleNameBy(String name) {
 		if (Global.DevelopMode == true) {
 			return name.toLowerCase() + "@" + Global.DevelopName;

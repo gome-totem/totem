@@ -5,10 +5,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import org.apache.zookeeper.CreateMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.z.common.factory.ModuleFactory;
-import org.z.common.interfaces.ModuleIntf;
 import org.z.core.common.ModuleEvent;
-import org.z.core.intf.SocketEvent;
 import org.z.global.connect.ZeroConnect;
 import org.z.global.connect.ZeroSocket;
 import org.z.global.connect.ZeroSocketFactory;
@@ -20,14 +17,17 @@ import org.z.global.dict.MessageScope;
 import org.z.global.dict.MessageType;
 import org.z.global.dict.MessageVersion;
 import org.z.global.environment.Const;
+import org.z.global.factory.ModuleFactory;
+import org.z.global.interfaces.ModuleIntf;
+import org.z.global.interfaces.SocketEvent;
 import org.z.global.util.StringUtil;
 import org.z.global.util.ZeromqUtil;
+import org.z.global.util.ZooUtil;
 import org.z.global.zk.ServerDict;
 import org.z.global.zk.ServerDict.NodeAction;
 import org.z.global.zk.ServerDict.NodeType;
 import org.z.global.zk.ServiceName;
 import org.z.global.zk.ZooKeeperWatchIntf;
-import org.z.global.zk.ZooUtil;
 import org.zeromq.ZContext;
 import org.zeromq.ZFrame;
 import org.zeromq.ZMQ;
@@ -481,10 +481,6 @@ public class ModuleZeromq implements ModuleIntf, Runnable, ZooKeeperWatchIntf {
 			BasicDBObject oReq = new BasicDBObject();
 			oReq.append("sku", "zzx");
 			mq.dispatch(ServiceName.ProductIndex, MessageScope.ALLROUTER, MessageType.UPDATE, "product", MessageVersion.MQ, System.currentTimeMillis(), oReq.toString());
-			break;
-		case 1:
-			ModuleZeromq mq1 = new ModuleZeromq();
-			mq1.dispatch(ServiceName.SortRule, MessageScope.ALLAPP, MessageType.UPDATESORTRULE, "sortrule", MessageVersion.MQ, System.currentTimeMillis(), "{}");
 			break;
 
 		}

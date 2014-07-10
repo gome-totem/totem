@@ -1,7 +1,8 @@
-package org.z.core.common;
+package org.z.global.factory;
 
 import java.util.concurrent.atomic.AtomicLong;
 
+import org.jboss.netty.channel.ChannelPipeline;
 import org.z.global.dict.Global.SocketConnectType;
 
 

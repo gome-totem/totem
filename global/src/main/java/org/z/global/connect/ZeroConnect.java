@@ -176,9 +176,6 @@ public class ZeroConnect {
 		return oResult;
 	}
 
-	public static DBObject promoScore(BasicDBObject dbObject, String msgTag) {
-		return send(Device.SERVER, ServiceName.ProductIndex, MessageScope.ALLAPP, MessageType.UPDATEFILED, MessageVersion.MQ, msgTag, dbObject, null);
-	}
 
 	public static DBObject post(ServiceName service, MessageType type, String msgTag, BasicDBObject oReq) {
 		String host = "";
@@ -228,9 +225,6 @@ public class ZeroConnect {
 		return send(Device.SERVER, ServiceName.Dict, MessageScope.APP, MessageType.UPDATE, MessageVersion.MQ, msgTag, req, null);
 	}
 
-	public static DBObject Dragonsend(DBObject oDoc) {
-		return send(Device.SERVER, ServiceName.DRAGON, MessageScope.ALLAPP, MessageType.DRAGON, MessageVersion.MQ, "dragonIncrease", oDoc, null);
-	}
 
 	public static DBObject remoteJob(String jobClassName, Object... args) {
 		BasicDBObject oReq = new BasicDBObject();
@@ -389,10 +383,6 @@ public class ZeroConnect {
 			ZeroConnect.updateIndex(ServiceName.ProductIndex, "remove", new BasicDBObject().append("id", "9129931913"));
 			break;
 
-		case 20:
-			send(Device.SERVER, ServiceName.ProductIndex, Const.AppConnMode == HashMode.appserver ? MessageScope.ALLAPP : MessageScope.ROUTER, MessageType.UPDATEFILED, MessageVersion.MQ,
-					"updateAllProWeight", new BasicDBObject().append("sku", 1), null);
-			break;
 		case 19:
 			BasicDBObject oData = new BasicDBObject();
 			for (int i = 0; i < 100000; i++) {
@@ -413,13 +403,6 @@ public class ZeroConnect {
 			System.out.println(ZeroConnect.remoteCall("facet", "getCategoryFacetByCategoryId", new Object[] { catIds }));
 			// System.out.println(ZeroConnect.remoteCall("productindex", "test",
 			// new Object[] { "catId", 123L, 456 }));
-			break;
-		case 16:
-			BasicDBObject obj = new BasicDBObject();
-			obj.append("skuNo", "xxxxxx");
-			obj.append("masloc", "xxx");
-			obj.append("availale", "xxx");
-			ZeroConnect.Dragonsend(obj);
 			break;
 		case 12:
 			String[] values = ZeroConnect.doSecurity(SecurityObject.create(Global.SecurityType.Email, Global.SecurityMode.Do, "xiaoming@yiqihi.com"),

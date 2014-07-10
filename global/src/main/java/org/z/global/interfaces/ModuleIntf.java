@@ -1,4 +1,4 @@
-package org.z.common.interfaces;
+package org.z.global.interfaces;
 
 public interface ModuleIntf {
 	

@@ -12,6 +12,7 @@ import org.apache.curator.framework.state.ConnectionStateListener;
 import org.apache.zookeeper.WatchedEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.z.global.util.ZooUtil;
 
 /**
  * @author xiaoming@yundiz.com

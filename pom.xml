@@ -64,7 +64,7 @@
 		<zookeeper.version>3.4.6</zookeeper.version>
 		<joda-time.version>2.3</joda-time.version>
 		<objectpool.version>1.1.2</objectpool.version>
-		
+		<netty.version>3.2.10.Final</netty.version>
 		
 	</properties>
 
@@ -433,7 +433,7 @@
 			<dependency>
 			    <groupId>org.jboss.netty</groupId>
 			    <artifactId>netty</artifactId>
-			    <version>3.2.10.Final</version>
+			    <version>${netty.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.google.guava</groupId>
