@@ -15,6 +15,8 @@ public interface SocketEvent {
 	public String jobId();
 
 	public int device();
+	
+	public String userId();
 
 	public String serverName();
 

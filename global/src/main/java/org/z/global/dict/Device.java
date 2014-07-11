@@ -6,7 +6,7 @@ import org.zeromq.ZFrame;
 
 public enum Device {
 
-	BROWSER("0"), ANDRIOD("1"), IOS("2"), SERVER("3");
+	BROWSER("0"), ANDRIOD("1"), IOS("2"), SERVER("3"),DESKTOP("4");
 
 	private final byte[] data;
 

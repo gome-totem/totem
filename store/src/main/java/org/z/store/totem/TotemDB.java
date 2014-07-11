@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.z.store.intf.StoreDB;
 import org.z.store.mongdb.MongoDB;
-import org.z.store.redis.RedisPool;
 import org.z.store.totem.StoreBuilder.StoreAction;
 
 import com.google.common.collect.ClassToInstanceMap;

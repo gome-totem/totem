@@ -11,7 +11,7 @@ import java.util.Vector;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.z.global.dict.Global;
+import org.z.global.environment.Const;
 import org.z.global.util.StringUtil;
 
 
@@ -31,7 +31,7 @@ public class ModleSegment {
 		try {
 			String encoding = "utf-8";
 			
-			File file = new File(StringUtil.append(Global.DictRootPath, "/modle.txt"));
+			File file = new File(StringUtil.append(Const.DictRootPath, "/modle.txt"));
 			if (file.isFile() && file.exists()) {
 				// 判断文件是否存在
 				InputStreamReader read = new InputStreamReader(new FileInputStream(file), encoding);// 考虑到编码格式
@@ -55,7 +55,7 @@ public class ModleSegment {
 		try {
 			String encoding = "utf-8";
 			
-			File file = new File(StringUtil.append(Global.DictRootPath, "/brand.txt"));
+			File file = new File(StringUtil.append(Const.DictRootPath, "/brand.txt"));
 			if (file.isFile() && file.exists()) {
 				// 判断文件是否存在
 				InputStreamReader read = new InputStreamReader(new FileInputStream(file), encoding);// 考虑到编码格式

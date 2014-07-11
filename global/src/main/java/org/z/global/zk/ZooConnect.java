@@ -21,10 +21,11 @@ import org.z.global.util.ZooUtil;
 
 public class ZooConnect implements CuratorWatcher, CuratorListener, ConnectionStateListener {
 	public CuratorFramework instance = null;
-	public ArrayList<ServerListener> listeners = new ArrayList<ServerListener>();
+	public ArrayList<ZooListener> listeners = new ArrayList<ZooListener>();
 	protected static Logger logger = LoggerFactory.getLogger(ZooConnect.class);
 
 	public ZooConnect() {
+		System.setProperty("zookeeper.authProvider.1", "org.apache.zookeeper.server.auth.SASLAuthenticationProvider");
 		this.instance = ZooUtil.create();
 	}
 
@@ -41,11 +42,11 @@ public class ZooConnect implements CuratorWatcher, CuratorListener, ConnectionSt
 		}
 	}
 
-	public void add(ServerListener listener) {
+	public void add(ZooListener listener) {
 		listeners.add(listener);
 	}
 
-	public void remove(ServerListener listener) {
+	public void remove(ZooListener listener) {
 		listeners.remove(listener);
 	}
 
@@ -73,7 +74,7 @@ public class ZooConnect implements CuratorWatcher, CuratorListener, ConnectionSt
 		if (newState == ConnectionState.RECONNECTED) {
 			logger.info("Zookeeper Reconnect [{}]", new String[] { client.toString() });
 			for (int i = 0; i < listeners.size(); i++) {
-				ServerListener w = listeners.get(i);
+				ZooListener w = listeners.get(i);
 				w.fireReconnect();
 			}
 		} else if (newState == ConnectionState.LOST || newState == ConnectionState.SUSPENDED) {
@@ -83,7 +84,7 @@ public class ZooConnect implements CuratorWatcher, CuratorListener, ConnectionSt
 
 	private void fireEvents(WatchedEvent e) {
 		for (int i = 0; i < listeners.size(); i++) {
-			ServerListener w = listeners.get(i);
+			ZooListener w = listeners.get(i);
 			w.process(e);
 		}
 	}

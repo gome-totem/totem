@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.z.global.dict.Global;
 import org.z.global.interfaces.ModuleIntf;
 import org.z.global.interfaces.ModuleProcessorIntf;
+import org.z.global.interfaces.ModuleQueueIntf;
 import org.z.global.interfaces.ModuleSocketIntf;
 import org.z.global.util.EmptyUtil;
 
@@ -50,6 +51,7 @@ public class ModuleFactory {
 	private static ModuleIntf mq = null;
 	private static ModuleIntf processor = null;
 	private static ModuleIntf socket = null;
+	private static ModuleIntf queue = null;
 	public static void registerModule(String moduleName, Class<?> moduleClass) {
 		moduleInfos.put(moduleNameBy(moduleName), new ClassInfo(moduleClass));
 	}
@@ -115,7 +117,12 @@ public class ModuleFactory {
 		mq = moduleInstanceBy("mq");
 		return mq;
 	}
-
+	public static ModuleQueueIntf queue() {
+		if (queue != null)
+			return (ModuleQueueIntf) queue;
+		queue = moduleInstanceBy("queue");
+		return (ModuleQueueIntf) queue;
+	}
 
 	public static void loadModules() {
 		for (int i = 0; i < loadedModules.size(); i++) {

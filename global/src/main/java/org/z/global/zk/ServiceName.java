@@ -9,9 +9,8 @@ import org.zeromq.ZFrame;
  */
 
 public enum ServiceName {
-	Server("0"), HtmlPage("1"), User("2"), Bill("3"), Order("4"), Activity("5"), Car("6"), Trip("7"), Room("8"), Booking("9"), Calendar("10"), Recommend("11"), Tag("12"), Appoint("13"), Call("14"), SMS(
-			"15"), TripIndex("16"), RoomIndex("17"), RequireIndex("18"), ProductIndex("19"), TopicIndex("20"), Dict("21"), Schedule("22"), Servlet("23"), RemoteCall("24"), DRAGON("25"), RuleDict("26"), SortRule(
-			"27"), Defectiveindex("28"), RemoteJob("29");
+	Server("0"), HtmlPage("1"), User("2"), Bill("3"), Order("4"), Activity("5"), Car("6"), Trip("7"), Room("8"), Booking("9"), Calendar("10"), Recommend("11"), Desktop("12"), Appoint("13"), Call("14"), SMS(
+			"15"), TripIndex("16"), RoomIndex("17"), RequireIndex("18"), ProductIndex("19"), TopicIndex("20"), Dict("21"), Schedule("22"), Servlet("23"), RemoteCall("24"), Stream("25");
 
 	private byte[] data;
 	public String value = "";
@@ -47,7 +46,7 @@ public enum ServiceName {
 		addItem("booking", index++);
 		addItem("calendar", index++);
 		addItem("recommend", index++);
-		addItem("tag", index++);
+		addItem("desktop", index++);
 		addItem("appoint", index++);
 		addItem("call", index++);
 		addItem("sms", index++);
@@ -60,13 +59,9 @@ public enum ServiceName {
 		addItem("schedule", index++);
 		addItem("servlet", index++);
 		addItem("remotecall", index++);
-		addItem("dragon", index++);
-		addItem("ruledict", index++);
-		addItem("sortrule", index++);
-		addItem("defectiveindex", index++);
-		addItem("remoteJob", index++);
+		addItem("stream", index++);
 	}
-	
+
 	public ZFrame newFrame() {
 		return new ZFrame(data);
 	}

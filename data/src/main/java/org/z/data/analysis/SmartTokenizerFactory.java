@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.x.segment.dict.Dictionary;
 import org.z.common.tree.RadixTreeImpl;
-import org.z.global.dict.Global;
+import org.z.global.environment.Const;
 import org.z.global.util.StringUtil;
 
 
@@ -26,7 +26,7 @@ public class SmartTokenizerFactory extends TokenizerFactory {
 	public static boolean init() {
 		Dictionary.init();
 		trie = new RadixTreeImpl<String>();
-		 String list=StringUtil.loadFileContent(Global.ConfigPath+"/split/en.txt", "utf-8", true);
+		 String list=StringUtil.loadFileContent(Const.ConfigPath+"/split/en.txt", "utf-8", true);
 		 String[] ens =list.split("\\s");
 		 for(String s :ens){
 			  trie.insert(s.trim(), s.trim());

@@ -45,17 +45,9 @@ public class ZeroConnect {
 				targets = new BasicDBList();
 				targets.add(oServer);
 			}
-			if (service == ServiceName.RemoteJob) {
-				service = ServiceName.RemoteCall;
-			}
 			break;
 		case APP:
-			if (service == ServiceName.RemoteJob) {
-				oServer = ServerDict.self.hashServer(NodeType.scheduler, service, null, remoteCallModuleName);
-				service = ServiceName.RemoteCall;
-			} else {
 				oServer = ServerDict.self.hashServer(NodeType.app, service, null, remoteCallModuleName);
-			}
 			if (oServer != null) {
 				targets = new BasicDBList();
 				targets.add(oServer);
@@ -224,16 +216,15 @@ public class ZeroConnect {
 	public static DBObject eyeBussinessSend(String msgTag, BasicDBObject req) {
 		return send(Device.SERVER, ServiceName.Dict, MessageScope.APP, MessageType.UPDATE, MessageVersion.MQ, msgTag, req, null);
 	}
-
-
-	public static DBObject remoteJob(String jobClassName, Object... args) {
-		BasicDBObject oReq = new BasicDBObject();
-		oReq.put("moduleName", "scheduleClient");
-		oReq.put("methodName", "executeJob");
-		oReq.put("args", args);
-		return send(Device.SERVER, ServiceName.RemoteJob, Const.AppConnMode == HashMode.appserver ? MessageScope.APP : MessageScope.ROUTER, MessageType.REMOTECALL, MessageVersion.MQ, "remoteCall",
-				oReq, jobClassName);
+	public static DBObject sendSocket(String server, BasicDBObject oReq) {
+		BasicDBObject oServer = ServerDict.self.serverBy(server);
+		if (oServer == null)
+			return null;
+		return sendBy(oServer.getString("ip"), Global.MQAppServerPort, Device.SERVER, ServiceName.Server, MessageScope.APP, MessageType.SOCKET, MessageVersion.MQ, "socket", CompressMode.NONE,
+				StringUtil.toBytes(oReq.toString()), oReq);
 	}
+
+
 
 	public static DBObject remoteCall(String moduleName, String methodName, Object... args) {
 		BasicDBObject oReq = new BasicDBObject();

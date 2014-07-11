@@ -2,7 +2,7 @@ package org.z.data.analysis;
 
 import java.io.IOException;
 
-import org.z.global.dict.Global;
+import org.z.global.environment.Const;
 import org.z.global.util.StringUtil;
 
 public class Test2 {
@@ -13,7 +13,7 @@ public class Test2 {
 	 */
 	public static void main(String[] args) throws IOException {
 
-		 String list=StringUtil.loadFileContent(Global.ConfigPath+"/split/en.txt", "utf-8", true);
+		 String list=StringUtil.loadFileContent(Const.ConfigPath+"/split/en.txt", "utf-8", true);
 		 String[] ens =list.split("\\s");
 		 for(String s :ens){
 			  System.out.println(s);

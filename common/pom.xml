@@ -17,6 +17,16 @@
     	<java_memcached.version>2.6.6</java_memcached.version>
   </properties>
   <dependencies>
+  		 <dependency>
+			<groupId>org.x</groupId>
+			<artifactId>org.x.global</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		 <dependency>
+			<groupId>org.x</groupId>
+			<artifactId>org.x.store</artifactId>
+			<version>${project.version}</version>
+		</dependency>
   	<dependency>
 			<groupId>java_memcached</groupId>
 			<artifactId>java_memcached</artifactId>

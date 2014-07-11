@@ -121,7 +121,7 @@ public class ModuleZeromq implements ModuleIntf, Runnable, ZooKeeperWatchIntf {
 			serverNode.append("routerId", routerNode.getString("id"));
 			BasicDBList roles = new BasicDBList();
 			serverNode.append("role", roles);
-			if (Global.ServerIP.equalsIgnoreCase(Const.ApiAppServer)) {
+			if (Global.ServerIP.equalsIgnoreCase(Const.BroadCastIP)) {
 				roles.add("api");
 			}
 			registerToRouter();

@@ -21,15 +21,16 @@ public class Global {
 	public static String localIP = null;
 	public static String workDir = null;
 	public static String DevelopName = null;
+	public static String PluginPath = null;
+	public static String PdfPath = null;
 	public static boolean DevelopMode = false;
-	public static boolean solrSql = false;
 	public static long SocketConnectTimeout = 0;
 	public static byte[] ServerNameBytes = null;
 	public static byte[] ServerIPBytes = null;
 	public static HashMode AppConnMode = null;
 	public static int ZooKeeperTimeout = 60 * 1000 * 1000;
 	public static String BroadCastIP = null;
-	public static String coo8Ip = null;
+	public static String redisIp = null;
 	public static int ZooKeeperPort = 19750;
 	public static int MemcachedPort = 19751;
 	public static int MongoPort = 19753;
@@ -43,29 +44,13 @@ public class Global {
 	public static int SocketAppPort = 19763;
 	public static int RomotePort = 19766;
 	public static int RedisPort = 6379;
-	public static int BeanstalkPort = 11300;
 	public static final int DataPacketLimit = 1024;
 	public static String currentEnv;
-	public static String increaseIP = null;
-	public static String gomeIp = null;
-	public static String facetDataIP = null;
-	public static boolean DebugVelocity = false;
-	public static Integer NginxIP = null;
-	public static String BeanstalkIP = null;
-	public static boolean enabledBeanstalkIndex = false;
-	public static String DictRootPath;
-	public static String indexType=null;
-	public static boolean  enableEmbed=true;
-	public static String esIndexIp=null;
-	public static String indexName=null;
-	public static String indexName_reIndex=null;
-	public static String scheduleClientIp=null;
-	public static String PluginPath = null;
-	public static String PdfPath = null;
-	public static String ConfigPath = null;
+	public static String zooUserName = null;
+	public static String zooPassword = null;
+
 	static {
 		localName = StringUtil.getLocalName();
-		ConfigPath = ConfigFile.rock().getItem("ConfigPath", "/server/config/");
 		PluginPath = ConfigFile.rock().getItem("PluginPath", "/workspace/plugins/");
 		PdfPath = ConfigFile.rock().getItem("PdfPath", "/server/pdf/");
 		currentEnv = ConfigFile.rock().getItem("currentEnv", "local");
@@ -74,33 +59,18 @@ public class Global {
 		workDir = StringUtil.currentPath();
 		ServerName = ConfigFile.rock().getItem("ServerName", localName);
 		BroadCastIP = ConfigFile.rock().getItem("BroadCastIP", "10.58.50.100");
-		coo8Ip = ConfigFile.rock().getItem("coo8Ip", "10.58.13.41");
+		redisIp = ConfigFile.rock().getItem("redisIp", "10.58.50.100");
 		ServerIP = ConfigFile.rock().getItem("ServerIP", localIP);
 		byServiceNames = new LinkedHashMap<String, Integer>();
 		byServiceIndexes = new LinkedHashMap<Integer, String>();
 		DevelopMode = ConfigFile.rock().getBooleanItem("DevelopMode", false);
-		solrSql = ConfigFile.rock().getBooleanItem("solrSql", false);
 		DevelopName = ConfigFile.rock().getItem("DevelopName", Global.ServerName);
+		zooUserName = ConfigFile.rock().getItem("ZooUserName", "");
+		zooPassword = ConfigFile.rock().getItem("ZooPassword", "");
 		ServerNameBytes = StringUtil.toBytes(ServerName);
 		ServerIPBytes = StringUtil.toBytes(ServerIP);
 		SocketConnectTimeout = ConfigFile.rock().getIntItem("AppConnectTimeout", "10000");
 		AppConnMode = Global.HashMode.valueOf(ConfigFile.rock().getItem("AppConnectMode", "AppServer").trim().toLowerCase());
-		increaseIP = ConfigFile.rock().getItem("increaseIP", localIP);
-		gomeIp = ConfigFile.rock().getItem("gomeIp", localIP);
-		DebugVelocity = ConfigFile.rock().getBooleanItem("DebugVelocity", false);
-		facetDataIP = ConfigFile.rock().getItem("facetDataIP", localIP);
-		NginxIP = Integer.parseInt(ConfigFile.rock().getItem("NginxIP", "0").toString());
-		BeanstalkIP = ConfigFile.rock().getItem("beanstalkIP", "10.58.50.56");
-		enabledBeanstalkIndex = ConfigFile.rock().getBooleanItem("enabledBeanstalkIndex", false);
-		DictRootPath = ConfigFile.segment().getItem("DictRootPath", "/server/conf/split/");
-		indexType=ConfigFile.rock().getItem("IndexType", "SOLR");
-		enableEmbed=ConfigFile.rock().getBooleanItem("EnableEmbeded", true);
-		esIndexIp=ConfigFile.rock().getItem("ESIndexIp", "10.57.41.215");
-		indexName=ConfigFile.rock().getItem("IndexName", "product");
-		indexName_reIndex=ConfigFile.rock().getItem("IndexName_reindex", "product");
-		
-		scheduleClientIp=ConfigFile.rock().getItem("scheduleClientIp", "10.57.41.215");
-		
 		logger.info("device localIP={} & localName={} & WorkDir={}", new String[] { localIP, localName, workDir });
 	}
 
@@ -126,14 +96,16 @@ public class Global {
 
 	public static enum ModuleMessageType {
 		datachange, dragon, productPrice, promoScore, facetchange
-	}
+	};
+
+	public static enum MessageSource {
+		fromClient, fromRouter, fromApp, fromSocket
+	};
 
 	public static enum MessageMode {
 		sync, async
 	}
-	public  enum CodeType {
-		contient, country, location, category, serviceTag, priceTag, priceRange, language, belongCity
-	}
+
 	public enum DictConnectMode {
 		file, server;
 	}
@@ -150,8 +122,8 @@ public class Global {
 		xsocket, netty
 	};
 
-	public enum UserRole {
-		Tourist, Member, Guider, Driver, Leader, TravelAgent, Landlord, Hotel, Accounter, CarAssistant, RoomAssistant, TripAssistant, TopicAssistant, RequireAssistant, ProductAssistant, Root, PushAssistant
+	public enum Role {
+		Tourist, Member, Guider, Driver, Leader, TravelAgent, Landlord, Hotel, Accounter, CarAssistant, RoomAssistant, TripAssistant, TopicAssistant, RequireAssistant, ProductAssistant, Root, PushAssistant, CustomerService,AirTicket
 	};
 
 	public enum SecurityType {
@@ -162,12 +134,20 @@ public class Global {
 		Do, Undo
 	};
 
-	public enum BizType {
-		none, topic, comment, product, map, car, trip, room, order, finance, require, group
+	public enum SearchMode {
+		Sync, Async
 	}
 
-	public enum Role {
-		Tourist, Member, Guider, Driver, Leader, TravelAgent, Landlord, Hotel, Accounter, CarAssistant, RoomAssistant, TripAssistant, TopicAssistant, RequireAssistant, ProductAssistant, Root, PushAssistant
+	public enum TripItemType {
+		food, activity, sight, history, shop, sex,
+	}
+
+	public enum BizType {
+		ask, topic, comment, product, activity, car, trip, room, order, finance, require, group
+	}
+
+	public enum CodeType {
+		contient, country, location, category, serviceTag, priceTag, priceRange, language, belongCity
 	}
 
 	public enum IllegalType {
@@ -175,11 +155,11 @@ public class Global {
 	}
 
 	public static enum PayCode {
-		Fee, Cut, Recharge, Refund, Withdraw, Confirm, Car, Trip, HotelSublet, Room, PhoneCard, SMS, Appoint, UserCard
+		Fee, Recharge, Refund, Withdraw, PhoneCard, SMS, UserCard, GoldCoin, Order,AirTicket
 	}
 
 	public static enum PayState {
-		NoSupport, NoRecord, Fail, ExpiredFail, Pending, AccountAbnormal, NoMoney, Success,
+		NoSupport, NoRecord, Fail, ExpiredFail, Pending, AccountAbnormal, NoMoney, Success
 	}
 
 	public static enum PayMode {
@@ -191,24 +171,28 @@ public class Global {
 	};
 
 	public static enum OrderState {
-		WaitAccept, AutoCancel, CustomerCancel, ProviderCancel, Accept, ContractCancel, ContractCancelAccept, Finish, Dispute, FinishWithoutComment
+		WaitAccept, AutoCancel, CustomerCancel, ProviderCancel, Accept, ContractCancel, ContractCancelAccept, Pending, Paid, Checked, Running, Close, Dispute
 	}
 
 	public enum TopicType {
 		ci, he, wan, le, artical, help, note, shop, reqguide, reqcar, reqproduct, sharetrip
 	}
 
-	// ask:交流; book:预订; accept:接受预订; deny:拒绝预订; offer:特别优惠 ;
+	// talk:交流; book:预订; accept:接受预订; deny:拒绝预订; offer:特别优惠 ;
 	public static enum ActionType {
-		book, ask, accept, deny, offer, notify, system
+		inquiry, book, talk, accept, deny, offer, notify, system
+	}
+
+	public static enum DialogueType {
+		service, talk, order
 	}
 
 	public static enum RecordState {
-		New, Check, Open, Close, Delete
+		New, Check, Open, Close, Delete, Expire
 	}
 
 	public enum ImageType {
-		Face, Auth, Picture, Snapshot, product
+		Face, Auth, Picture, Snapshot, Product, Tips
 	}
 
 	public enum IndexType {
@@ -230,14 +214,6 @@ public class Global {
 		default:
 			return IndexType.none;
 		}
-	}
-
-	/***
-	 * LOOKING: 初始化状态, LEADING: 领导者状态, FOLLOWING: 跟随者状态,
-	 * OBSERVING:观察者，参与投票，不参与选举
-	 */
-	public enum ServerState {
-		LOOKING, FOLLOWING, LEADING, OBSERVING;
 	}
 
 	public static ServiceName ServiceNameBy(IndexType type) {

@@ -1,52 +1,100 @@
 package org.z.store.redis;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.z.store.intf.StoreDB;
+import org.z.global.util.StringUtil;
+import org.z.global.zk.ServerDict;
 
-import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPoolConfig;
 import redis.clients.jedis.JedisShardInfo;
 import redis.clients.jedis.ShardedJedis;
 import redis.clients.jedis.ShardedJedisPool;
 
+import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
+import com.mongodb.util.JSON;
 
-public class RedisPool implements StoreDB {
-	protected static Logger logger = LoggerFactory.getLogger(RedisPool.class);
-	public ShardedJedisPool pool = null;
-	private JedisPoolConfig cfg;
-
-	public static RedisPool build() {
-		return new RedisPool();
-	}
-
-	public void init(BasicDBObject reids) {
-		cfg = new JedisPoolConfig();
-		cfg.setMaxWaitMillis(10000);
-		this.getDB(reids);
-	}
-
+class ServerIpCompare implements Comparator<JedisShardInfo> {
 	@Override
-	public void getDB(BasicDBObject obj) {
+	public int compare(JedisShardInfo o1, JedisShardInfo o2) {
+		return o1.getHost().compareTo(o2.getHost());
+	}
+}
 
-		String ips = obj.getString("ip");
-		String dbName = obj.getString("dbname");
-		List<JedisShardInfo> shards = new ArrayList<JedisShardInfo>();
-			for (String ip : ips.split(",")) {
-			shards.add(new JedisShardInfo(ip));
-			logger.info("RedisPool register id=[{}] IP[{}]", new Object[] { dbName, ip });
+public class RedisPool {
+	protected Logger logger = LoggerFactory.getLogger(RedisPool.class);
+	protected boolean state = true;
+	public List<JedisShardInfo> shards = null;
+	public ShardedJedisPool pool = null;
+	protected String name = null;
+	public static HashMap<String, RedisPool> instances = new HashMap<String, RedisPool>();
+
+	public static RedisPool use() {
+		return use("default");
+	}
+
+	public static RedisPool use(String name) {
+		RedisPool instance = instances.get(name);
+		if (instance != null) {
+			return instance;
 		}
+		RedisPool pool = new RedisPool();
+		if (pool.init(name) == true) {
+			instances.put(name, pool);
+		}
+		return pool;
+	}
+
+	public RedisPool() {
+		shards = new ArrayList<JedisShardInfo>();
+	}
+
+	public boolean init(String id) {
+		state = false;
+		this.name = id;
+		BasicDBObject oPool = ServerDict.self.redisPoolBy(id);
+		if (oPool == null) {
+			return state;
+		}
+		BasicDBList servers = (BasicDBList) oPool.get("servers");
+		for (Object s : servers) {
+			String server = String.valueOf(s);
+			String ip = ServerDict.self.serverIPBy(server);
+			if (StringUtil.isEmpty(ip))
+				continue;
+			shards.add(new JedisShardInfo(ip));
+			logger.info("RedisPool register Name=[{}] IP[{}]", new Object[] { name, server + "@" + ip });
+		}
+		state = shards.size() != 0;
+		if (state == false) {
+			return state;
+		}
+		JedisPoolConfig cfg = new JedisPoolConfig();
+		cfg.setMaxIdle(1000 * 60);
+		cfg.setTestOnBorrow(true);
+		cfg.setTestOnReturn(true);
+		Collections.sort(shards, new ServerIpCompare());
 		pool = new ShardedJedisPool(cfg, shards);
+		state = true;
+		return state;
 	}
 
 	public String get(String key) {
+		if (state == false) {
+			logger.info("RedisPool[" + name + "] is not ready.");
+			return null;
+		}
+		if (shards == null || shards.size() == 0) {
+			return null;
+		}
 		ShardedJedis jedis = pool.getResource();
 		if (jedis == null)
 			return null;
@@ -57,18 +105,14 @@ public class RedisPool implements StoreDB {
 		}
 	}
 
-	public void expire(String key, int seconds) {
-		ShardedJedis jedis = pool.getResource();
-		if (jedis == null)
-			return;
-		try {
-			jedis.expire(key, seconds);
-		} finally {
-			pool.returnResource(jedis);
-		}
-	}
-
 	public String hget(String key, String field) {
+		if (state == false) {
+			logger.info("RedisPool[" + name + "] is not ready.");
+			return null;
+		}
+		if (shards == null || shards.size() == 0) {
+			return null;
+		}
 		ShardedJedis jedis = pool.getResource();
 		if (jedis == null)
 			return null;
@@ -79,7 +123,14 @@ public class RedisPool implements StoreDB {
 		}
 	}
 
-	public Map<String, String> hgetAll(String key) {
+	public Map<String, String> hget(String key) {
+		if (state == false) {
+			logger.info("RedisPool[" + name + "] is not ready.");
+			return null;
+		}
+		if (shards == null || shards.size() == 0) {
+			return null;
+		}
 		ShardedJedis jedis = pool.getResource();
 		if (jedis == null)
 			return null;
@@ -89,122 +140,93 @@ public class RedisPool implements StoreDB {
 			pool.returnResource(jedis);
 		}
 	}
-	
-	public Long lpush(String key, String value) {
-		ShardedJedis jedis = pool.getResource();
-		if(jedis == null)
-			return null;
-		try {
-			return jedis.lpush(key, value);
-		}
-		finally {
-			pool.returnResource(jedis);
-		}
-	}
-	
-	public Long rpush(String key, String value) {
-		ShardedJedis jedis = pool.getResource();
-		if(jedis == null)
-			return null;
-		try {
-			return jedis.rpush(key, value);
-		}
-		finally {
-			pool.returnResource(jedis);
-		}
-	}
-	
-	public String rpop(String key) {
-		ShardedJedis jedis = pool.getResource();
-		if(jedis == null)
-			return null;
-		try {
-			return jedis.rpop(key);
-		}
-		finally {
-			pool.returnResource(jedis);
-		}
-	}
-	
-	public Long lrem(String key, int count, String value) {
-		ShardedJedis jedis = pool.getResource();
-		if(jedis == null)
-			return null;
-		try {
-			return jedis.lrem(key, count, value);
-		}
-		finally {
-			pool.returnResource(jedis);
-		}
-	}
-	
-	public String lpop(String key) {
-		ShardedJedis jedis = pool.getResource();
-		if(jedis == null){
-			return null;
-		}
-		try {
-			return jedis.lpop(key);
-		}
-		finally {
-			pool.returnResource(jedis);
-		}
-	}
 
-	public List<String> lrange(String key, int start, int end) {
-		ShardedJedis jedis = pool.getResource();
-		List<String> list = null;
-		if (jedis == null)
-			return null;
-		try {
-			list = jedis.lrange(key, start, end);
-		} finally {
-			pool.returnResource(jedis);
+	public long hdel(String key, String[] fields) {
+		if (state == false) {
+			logger.info("RedisPool[" + name + "] is not ready.");
+			return 0;
 		}
-		return list;
-	}
-
-	public long llen(String key) {
+		if (shards == null || shards.size() == 0) {
+			return 0;
+		}
 		ShardedJedis jedis = pool.getResource();
-		Long len = (long) 0 ;
 		if (jedis == null)
 			return 0;
 		try {
-			 len= jedis.llen(key);
-		} finally {
-			pool.returnResource(jedis);
-		}
-		return len;
-	}
-
-	public String set(String key, String value) {
-		ShardedJedis jedis = pool.getResource();
-		if (jedis == null)
-			return null;
-		try {
-			return jedis.set(key, value);
+			return jedis.hdel(key, fields);
 		} finally {
 			pool.returnResource(jedis);
 		}
 	}
 
-	public String hmset(String key, Map<String, String> hash) {
+	public boolean hexists(String key, String field) {
+		if (state == false) {
+			logger.info("RedisPool[" + name + "] is not ready.");
+			return false;
+		}
+		if (shards == null || shards.size() == 0) {
+			return false;
+		}
 		ShardedJedis jedis = pool.getResource();
 		if (jedis == null)
-			return null;
+			return false;
 		try {
-			return jedis.hmset(key, hash);
+
+			return jedis.hexists(key, field);
+		} finally {
+			pool.returnResource(jedis);
+		}
+	}
+
+	public long incrBy(String key, long integer) {
+		if (state == false) {
+			logger.info("RedisPool[" + name + "] is not ready.");
+			return 0;
+		}
+		if (shards == null || shards.size() == 0) {
+			return 0;
+		}
+		ShardedJedis jedis = pool.getResource();
+		if (jedis == null)
+			return 0;
+		try {
+			return jedis.incrBy(key, integer);
+		} finally {
+			pool.returnResource(jedis);
+		}
+	}
+
+	public long decrBy(String key, long integer) {
+		if (state == false) {
+			logger.info("RedisPool[" + name + "] is not ready.");
+			return 0;
+		}
+		if (shards == null || shards.size() == 0) {
+			return 0;
+		}
+		ShardedJedis jedis = pool.getResource();
+		if (jedis == null)
+			return 0;
+		try {
+
+			return jedis.decrBy(key, integer);
 		} finally {
 			pool.returnResource(jedis);
 		}
 	}
 
 	public Long hset(String key, String field, String value) {
+		if (state == false) {
+			logger.info("RedisPool[" + name + "] is not ready.");
+			return null;
+		}
+		if (shards == null || shards.size() == 0) {
+			return null;
+		}
 		ShardedJedis jedis = pool.getResource();
 		if (jedis == null)
 			return null;
 		try {
-
 			return jedis.hset(key, field, value);
 		} finally {
 			pool.returnResource(jedis);
@@ -212,6 +234,13 @@ public class RedisPool implements StoreDB {
 	}
 
 	public void delete(String key) {
+		if (state == false) {
+			logger.info("RedisPool[" + name + "] is not ready.");
+			return;
+		}
+		if (shards == null || shards.size() == 0) {
+			return;
+		}
 		ShardedJedis jedis = pool.getResource();
 		if (jedis == null)
 			return;
@@ -222,117 +251,44 @@ public class RedisPool implements StoreDB {
 		}
 	}
 
-	public void hdelete(String key, String fields) {
-		ShardedJedis jedis = pool.getResource();
-		if (jedis == null)
-			return;
-		try {
-			jedis.hdel(key, fields);
-		} finally {
-			pool.returnResource(jedis);
+	public DBObject getDBObject(String key) {
+		String content = get(key);
+		if (StringUtil.isEmpty(content)) {
+			return null;
 		}
+		return (DBObject) JSON.parse(content);
 	}
 
-	public void zadd(String key, double score, String member) {
-		ShardedJedis jedis = pool.getResource();
-		if (jedis == null)
-			return;
-		try {
-			jedis.zadd(key, score, member);
-		} finally {
-			pool.returnResource(jedis);
+	public String set(String key, String value) {
+		if (state == false) {
+			logger.info("RedisPool[" + name + "] is not ready.");
+			return null;
 		}
-	}
-
-	public void zincrby(String key, double score, String member) {
 		ShardedJedis jedis = pool.getResource();
-		if (jedis == null)
-			return;
-		try {
-			jedis.zincrby(key, score, member);
-		} finally {
-			pool.returnResource(jedis);
-		}
-	}
-
-	public Set<String> zrevrange(String key, long start, long end) {
-		ShardedJedis jedis = pool.getResource();
-		Set<String> set = null;
 		if (jedis == null)
 			return null;
 		try {
-			set = jedis.zrevrange(key, start, end);
+			return jedis.set(key, value);
 		} finally {
 			pool.returnResource(jedis);
 		}
-		return set;
-	}
-
-	public void incrBy(String key, long integer) {
-		ShardedJedis jedis = pool.getResource();
-		if (jedis == null)
-			return;
-		try {
-			jedis.incrBy(key, integer);
-		} finally {
-			pool.returnResource(jedis);
-		}
-	}
-
-	public boolean hexists(String key, String field) {
-		ShardedJedis jedis = pool.getResource();
-		boolean exists = false;
-		if (jedis == null)
-			return exists;
-		try {
-			exists = jedis.hexists(key, field);
-		} finally {
-			pool.returnResource(jedis);
-		}
-		return exists;
-	}
-
-	public boolean exists(String key) {
-		ShardedJedis jedis = pool.getResource();
-		boolean exists = false;
-		if (jedis == null)
-			return exists;
-		try {
-			exists = jedis.exists(key);
-		} finally {
-			pool.returnResource(jedis);
-		}
-		return exists;
 	}
 
 	public static void main(String[] args) {
-		Jedis jedis = new Jedis("10.58.50.107", 6379);
-		/*
-		jedis.zadd("test1", 2, "2");
-		jedis.zadd("test1", 3, "3");
-		jedis.zadd("test1", 4, "4");
-		jedis.zadd("test1", 5, "5");
-		jedis.zadd("test1", 6, "6");
-		jedis.zincrby("test1", 10, "2");
-		System.out.println(jedis.zrevrange("test1", 0, 6));
-		*/
+		int mode = 0;
+		switch (mode) {
+		case 0:
+			for (int i = 0; i < 100; i++) {
+				System.out.println("index=" + i);
+				RedisPool.use().set(String.valueOf(i), "value=" + i);
+			}
+			break;
+		case 1:
+			
+//			RedisPool
 
-		jedis.lpush("key", "v1");
-		jedis.lpush("key1", "v2");
-		jedis.lpush("key", "v2");
-		jedis.lpush("key2", "v1");
-		jedis.lpush("key", "v3");
-		jedis.lpush("key", "v3");
-
-		List<String> v = jedis.lrange("qss", 0, jedis.llen("qss"));
-		Iterator<String> list = v.iterator();
-		while(list.hasNext()){
-			System.out.println(list.next());
+			break;
 		}
-		
-		
-		
+		System.out.println("done!");
 	}
-
 }
-

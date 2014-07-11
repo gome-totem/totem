@@ -12,7 +12,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.z.global.dict.Global;
+import org.z.global.environment.Const;
 import org.z.global.util.StringUtil;
 
 public class IPSeeker {
@@ -137,7 +137,7 @@ public class IPSeeker {
 	}
 
 	public IPSeeker() throws Exception {
-		String fileName = Global.ConfigPath + "ip.dat";
+		String fileName = Const.ConfigPath + "ip.dat";
 		File f = new File(fileName);
 		if (f.exists() == false) {
 			logger.error("IP Dict File[{}] not exist!", new Object[] { fileName });
