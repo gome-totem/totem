@@ -34,7 +34,7 @@ public class Test extends Thread {
 			StringReader sr = new StringReader(li);
 			SmartTokenizer src = new SmartTokenizer(sr);
 			SmartTokenizerFactory.init();
-			src.init(sr);
+			src.init();
 			TokenStream ngr = src;
 			if (isN) {
 				ngr = new SmartWordFilter(ngr, 2, 2, TokenMode.search);

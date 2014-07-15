@@ -256,7 +256,7 @@ public class LxqSplitShopName {
 		SmartTokenizerFactory.init();
 		StringReader sr = new StringReader(testStr);
 		SmartTokenizer src = new SmartTokenizer();
-		src.init(sr);
+		src.init();
 		TokenStream ngr = src;
 
 		ngr = new SmartWordFilter(ngr, 3, 5, TokenMode.search);

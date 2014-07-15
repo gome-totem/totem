@@ -30,6 +30,11 @@
 			<artifactId>org.x.data</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+		  <groupId>cn.emay</groupId>
+		  <artifactId>emayclient</artifactId>
+		  <classifier>emayclient</classifier>
+		</dependency>
   		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
@@ -45,7 +50,7 @@
 		<dependency>
 	    <groupId>org.mongodb</groupId>
 	    <artifactId>mongo-java-driver</artifactId>
-	    </dependency>
+	    		</dependency>
 	    	<dependency>
 			    <groupId>org.java-websocket</groupId>
 			    <artifactId>Java-WebSocket</artifactId>

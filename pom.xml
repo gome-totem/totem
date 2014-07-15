@@ -14,6 +14,7 @@
 		<module>data</module>
       <module>store</module>
     <module>web</module>
+    <module>environment</module>
   </modules>
 
 	<properties>
@@ -46,6 +47,7 @@
 		<jedis.version>2.5.1</jedis.version>
 		<icu4j.version>51.2</icu4j.version>
 		<mail.version>1.4.7</mail.version>
+		<emay.version>1</emay.version>
 		<solr.version>4.6.0</solr.version>
 		<kafka.version>0.8.1.1</kafka.version>
 		<easymock.version>3.2</easymock.version>
@@ -65,6 +67,7 @@
 		<joda-time.version>2.3</joda-time.version>
 		<objectpool.version>1.1.2</objectpool.version>
 		<netty.version>3.2.10.Final</netty.version>
+		<email.version>1.3.1</email.version>
 		
 	</properties>
 
@@ -283,6 +286,11 @@
 				<version>${jzmq.version}</version>
 			</dependency>
 			<dependency>
+			    <groupId>org.apache.commons</groupId>
+			    <artifactId>commons-email</artifactId>
+			    <version>${email.version}</version>
+			</dependency>
+			<dependency>
 				<groupId>redis.clients</groupId>
 				<artifactId>jedis</artifactId>
 				<version>${jedis.version}</version>
@@ -296,6 +304,12 @@
 				<groupId>javax.mail</groupId>
 				<artifactId>mail</artifactId>
 				<version>${mail.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.emay</groupId>
+				<artifactId>emayclient</artifactId>
+				<version>${emay.version}</version>
+				 <classifier>emayclient</classifier>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.solr</groupId>

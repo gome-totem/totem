@@ -5,6 +5,7 @@ import java.util.HashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.z.global.dict.Global;
+import org.z.global.interfaces.ModuleHtmlPageIntf;
 import org.z.global.interfaces.ModuleIntf;
 import org.z.global.interfaces.ModuleProcessorIntf;
 import org.z.global.interfaces.ModuleQueueIntf;
@@ -51,6 +52,7 @@ public class ModuleFactory {
 	private static ModuleIntf mq = null;
 	private static ModuleIntf processor = null;
 	private static ModuleIntf socket = null;
+	private static ModuleIntf htmlpage = null;
 	private static ModuleIntf queue = null;
 	public static void registerModule(String moduleName, Class<?> moduleClass) {
 		moduleInfos.put(moduleNameBy(moduleName), new ClassInfo(moduleClass));
@@ -116,6 +118,12 @@ public class ModuleFactory {
 			return mq;
 		mq = moduleInstanceBy("mq");
 		return mq;
+	}
+	public static ModuleHtmlPageIntf htmlPage() {
+		if (htmlpage != null)
+			return (ModuleHtmlPageIntf) htmlpage;
+		ModuleIntf instance = moduleInstanceBy("htmlpage");
+		return (ModuleHtmlPageIntf) instance;
 	}
 	public static ModuleQueueIntf queue() {
 		if (queue != null)

@@ -42,6 +42,7 @@ public class WebSocketHandler extends SimpleChannelUpstreamHandler {
 		this.session = session;
 	}
 
+	@SuppressWarnings("unused")
 	@Override
 	public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
 		ByteBuffer socketBuffer = (ByteBuffer) e.getMessage();

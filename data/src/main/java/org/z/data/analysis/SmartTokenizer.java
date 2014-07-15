@@ -54,24 +54,24 @@ public final class SmartTokenizer extends Tokenizer {
 		super(factory, input);
 	}
 
-	public void init(Reader stream) {
-		String[] searchList = { "-", "/", "-", "\"", "}", "{", "-", ":", "+", "[", "]", "　", "\\", "(", ")", "（", "）", "^", "o", "|" };
-		String[] replacementList = { " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " " };
+	public void init() {
+		String[] searchList = { "-", "/", "-", "\"", "}", "{", "-", ":" };
+		String[] replacementList = { " ", " ", " ", " ", " ", " ", " ", " " };
 		char[] chars = new char[1024];
 		int index = 0;
 		int readSize;
 		try {
-			readSize = stream.read(chars, index, 1024);
+			readSize = input.read(chars, index, 1024);
 			StringBuilder buffer = new StringBuilder();
 			while (readSize > 0) {
 				String c = new String(chars, 0, readSize).trim();
 				buffer.append(c);
-				readSize = stream.read(chars, index, 1024);
+				readSize = input.read(chars, index, 1024);
 			}
 			String context = buffer.toString().toLowerCase();
 			context = StringUtils.replaceEach(context, searchList, replacementList);
 			tokenObjects = handleSplit(context);
-			// tokenObjects = SplitProcess(tokenObjects);
+			tokenObjects = SplitProcess(tokenObjects);
 			for (int i = 0; i < tokenObjects.size(); i++) {
 				BasicDBObject oToken = (BasicDBObject) tokenObjects.get(i);
 				oToken.append("reserved", SmartTokenizerFactory.trie.searchPrefix(oToken.getString("w").toLowerCase(), 1).size() != 0);
@@ -140,7 +140,6 @@ public final class SmartTokenizer extends Tokenizer {
 		return tokens;
 	}
 
-	@SuppressWarnings("unused")
 	private BasicDBList SplitProcess(BasicDBList basiclist) {
 		String str_zh = "", str_en = "";
 		BasicDBList clonelist = new BasicDBList();

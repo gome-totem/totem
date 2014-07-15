@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.z.core.app.ModuleJobPull;
 import org.z.core.app.ModuleZeromq;
+import org.z.core.common.ModuleProcessor;
 import org.z.core.queue.ModuleQueue;
 import org.z.core.stocket.ModuleSocket;
 import org.z.global.dict.Global;
@@ -17,7 +18,7 @@ public class App {
 		ModuleFactory.registerModule("jobpull", ModuleJobPull.class);
 		ModuleFactory.registerModule("socket",ModuleSocket.class,new Object[] { Global.SocketAppPort } );
 		ModuleFactory.registerModule("queue", ModuleQueue.class);
-//		ModuleFactory.registerModule("processor", ModuleProcessor.class);
+		ModuleFactory.registerModule("processor", ModuleProcessor.class);
 		
 		
 	}
