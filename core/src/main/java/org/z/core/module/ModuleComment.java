@@ -159,6 +159,7 @@ public class ModuleComment implements ServiceIntf {
 		return one;
 	}
 
+	@SuppressWarnings("unused")
 	public BasicDBObject checkComment(Context context, BasicDBObject oReq) {
 		BasicDBObject oResult = new BasicDBObject().append("xeach", false);
 		if (context.user.getRole().isCustomerService() == false) {

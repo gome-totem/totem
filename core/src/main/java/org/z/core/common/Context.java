@@ -15,7 +15,6 @@ import org.z.common.joor.Reflect;
 import org.z.core.module.ModuleRecommend;
 import org.z.global.dict.Global;
 import org.z.global.dict.Global.CodeType;
-import org.z.global.dict.Global.SearchMode;
 import org.z.global.environment.Const;
 import org.z.global.object.DBListObject;
 import org.z.global.util.DBObjectUtil;

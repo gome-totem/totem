@@ -764,6 +764,7 @@ public class ModuleActivity implements ActivityIntf {
 		return results;
 	}
 
+	@SuppressWarnings("unused")
 	public BasicDBObject sendMailByTrip(Context ctx, BasicDBObject oReq) {
 		BasicDBObject oResult = new BasicDBObject().append("xeach", false);
 		if (ctx.user.getRole().isCustomerService() == false) {

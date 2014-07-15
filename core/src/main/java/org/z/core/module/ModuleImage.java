@@ -1,6 +1,5 @@
 package org.z.core.module;
 
-import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
@@ -15,8 +14,6 @@ import org.z.core.common.Context;
 import org.z.core.common.ServiceFactory;
 import org.z.core.interfaces.ServiceIntf;
 import org.z.global.connect.ZeroConnect;
-import org.z.global.dict.Global.ImageType;
-import org.z.global.dict.Global.RecordState;
 import org.z.global.dict.Global.SecurityMode;
 import org.z.global.dict.Global.SecurityType;
 import org.z.global.dict.Global.UserType;

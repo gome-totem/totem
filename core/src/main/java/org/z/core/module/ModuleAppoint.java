@@ -98,6 +98,7 @@ public class ModuleAppoint implements ServiceIntf {
 	}
 
 	/* 读取会话 */
+	@SuppressWarnings("unused")
 	public BasicDBObject read(Context context, String id, String from, String to) {
 		if (context.user.getUserId() == 0) {
 			return null;
