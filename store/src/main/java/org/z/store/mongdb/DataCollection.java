@@ -32,6 +32,7 @@ import com.mongodb.ServerAddress;
 import com.mongodb.WriteResult;
 import com.mongodb.util.JSON;
 
+@SuppressWarnings("deprecation")
 public class DataCollection {
 
 	private static Hashtable<String, DB> mongoDBs = new Hashtable<String, DB>();

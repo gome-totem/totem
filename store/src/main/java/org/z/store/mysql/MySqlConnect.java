@@ -61,6 +61,7 @@ public class MySqlConnect {
 		}
 	}
 
+	@SuppressWarnings({ "unused", "unchecked", "rawtypes" })
 	public static ObjectPool<?> createPool(String uri, String dbUser, String dbPwd, int max, long wait) {
 		try {
 			GenericObjectPool.Config config = new GenericObjectPool.Config();
