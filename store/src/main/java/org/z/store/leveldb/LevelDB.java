@@ -35,7 +35,7 @@ public class LevelDB {
 	protected ConcurrentHashMap<String, Integer> deleteCaches = new ConcurrentHashMap<String, Integer>();
 	protected Integer LockDelete = 0;
 	protected Integer LockUpdate = 1;
-
+	protected long deleteTime = System.currentTimeMillis();
 	public LevelDB(String path, String name) {
 		this.name = name;
 		this.path = path;
@@ -122,6 +122,17 @@ public class LevelDB {
 		synchronized (LockDelete) {
 			deleteCaches.put(key, 0);
 			if (deleteCaches.size() >= Const.LevelDB_BatchDelete) {
+				this.batchDelete(deleteCaches.keySet());
+				deleteCaches.clear();
+			}
+		}
+	}
+	public void delete(String key,boolean noDelay) {
+		synchronized (LockDelete) {
+			deleteCaches.put(key, 0);
+			long end = System.currentTimeMillis();
+			if (deleteCaches.size() >= Const.LevelDB_BatchDelete || end - deleteTime >= 60000||noDelay) {
+				deleteTime = end;
 				this.batchDelete(deleteCaches.keySet());
 				deleteCaches.clear();
 			}

@@ -48,6 +48,9 @@ public class Global {
 	public static String currentEnv;
 	public static String zooUserName = null;
 	public static String zooPassword = null;
+	public static String indexType=null;
+	public static String indexName_reIndex=null;
+	public static String indexName=null;
 
 	static {
 		localName = StringUtil.getLocalName();
@@ -59,6 +62,7 @@ public class Global {
 		workDir = StringUtil.currentPath();
 		ServerName = ConfigFile.rock().getItem("ServerName", localName);
 		BroadCastIP = ConfigFile.rock().getItem("BroadCastIP", "10.58.50.100");
+		indexType=ConfigFile.rock().getItem("IndexType", "es");
 		redisIp = ConfigFile.rock().getItem("redisIp", "10.58.50.100");
 		ServerIP = ConfigFile.rock().getItem("ServerIP", localIP);
 		byServiceNames = new LinkedHashMap<String, Integer>();
@@ -67,8 +71,10 @@ public class Global {
 		DevelopName = ConfigFile.rock().getItem("DevelopName", Global.ServerName);
 		zooUserName = ConfigFile.rock().getItem("ZooUserName", "");
 		zooPassword = ConfigFile.rock().getItem("ZooPassword", "");
+		indexName_reIndex=ConfigFile.rock().getItem("IndexName_reindex", "product");
 		ServerNameBytes = StringUtil.toBytes(ServerName);
 		ServerIPBytes = StringUtil.toBytes(ServerIP);
+		indexName=ConfigFile.rock().getItem("IndexName", "product");
 		SocketConnectTimeout = ConfigFile.rock().getIntItem("AppConnectTimeout", "10000");
 		AppConnMode = Global.HashMode.valueOf(ConfigFile.rock().getItem("AppConnectMode", "AppServer").trim().toLowerCase());
 		logger.info("device localIP={} & localName={} & WorkDir={}", new String[] { localIP, localName, workDir });

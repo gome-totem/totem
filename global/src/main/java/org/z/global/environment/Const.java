@@ -53,6 +53,7 @@ public class Const {
 	public static String ConfigPath = null;
 	public static String RootPath = null;
 	public static String SiteName = null;
+	public static String ESHome = null;
 	public static String ZooIP = null;
 	public static int LevelDB_BatchUpdate = 90;
 	public static int LevelDB_BatchDelete = 30;
@@ -108,6 +109,7 @@ public class Const {
 		SpliterText = Config.segment().getItem("SpliterText", "。！!？?");
 		BroadCastIP = Config.rock().getItem("BroadCastIP", "election leader");
 		ScheduleIP = Config.rock().getItem("ScheduleIP", "election leader");
+		ESHome = Config.rock().getItem("ES_HOME", "/server/es/");
 		ticketProvideId =Config.rock().getIntItem("ticketProvideId", "3");
 	}
 

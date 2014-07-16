@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.StringWriter;
@@ -14,6 +15,8 @@ import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashSet;
@@ -26,12 +29,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.RandomUtils;
 import org.xerial.snappy.Snappy;
 import org.z.global.dict.Global;
+
 import com.mongodb.BasicDBList;
+import com.mongodb.BasicDBObject;
 
 public class StringUtil {
 	private static String delims = " +-*=/!:;{}(),.?'\"\\\t\n\r";
@@ -110,6 +116,23 @@ public class StringUtil {
 		} catch (Exception e) {
 			return content.getBytes();
 		}
+	}
+	public static void quickSortByName(final String name, BasicDBList rows) {
+		Collections.sort(rows, new Comparator<Object>() {
+			@Override
+			public int compare(Object o1, Object o2) {
+				int p1 = ((BasicDBObject) o1).getInt(name, 0);
+				int p2 = ((BasicDBObject) o2).getInt(name, 0);
+				if (p1 > p2) {
+					return 1;
+				} else if (p1 < p2) {
+					return -1;
+				} else {
+					return 0;
+				}
+			}
+
+		});
 	}
 
 	public static String toString(byte[] bytes) {
@@ -193,7 +216,16 @@ public class StringUtil {
 		buffer.append("</p>");
 		return buffer.toString();
 	}
-
+	public static String readSpecial(String str) {
+		StringBuilder buder = new StringBuilder();
+		String regEx = "[A-Za-z0-9 \\u4e00-\\u9fa5]";
+		Pattern p = Pattern.compile(regEx);
+		Matcher m = p.matcher(str);
+		while (m.find()) {
+			buder.append(m.group(0));
+		}
+		return buder.toString();
+	}
 	public static String normalize(String content) {
 		int count = 1;
 		int index = (int) Math.pow(2, count++);
@@ -384,6 +416,23 @@ public class StringUtil {
 			return buffer.toString();
 		} catch (Exception E) {
 			return "";
+		}
+	}
+	public static void deleteFile(String fileName) {
+		try {
+			File file = new File(fileName);
+			if (file.isDirectory()) {
+				File[] files = file.listFiles();
+				for (File f : files) {
+					FileUtils.forceDelete(f);
+				}
+			} else {
+				if (!file.exists())
+					return;
+				FileUtils.forceDelete(file);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 

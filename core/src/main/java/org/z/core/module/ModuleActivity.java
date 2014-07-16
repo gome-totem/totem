@@ -265,8 +265,9 @@ public class ModuleActivity implements ActivityIntf {
 		if (sql.length() != 0) {
 			sql.insert(0, "select contact_person,contact_qq,contact_msn,contact_mobile");
 			oResult = DataSet.queryDBObject(Const.defaultMysqlServer, Const.defaultMysqlDB, sql.toString(), new String[] { String.valueOf(shortId) }, 0, 0);
-			String[] values = ServiceFactory.appDict().decode(oResult.getString("contact_person"), oResult.getString("contact_mobile"),
-					oResult.getString("contact_qq"), oResult.getString("contact_msn"));
+			String[] values = null;
+			//			ServiceFactory.appDict().decode(oResult.getString("contact_person"), oResult.getString("contact_mobile"),
+//					oResult.getString("contact_qq"), oResult.getString("contact_msn"));
 			oResult.clear();
 			int index = 0;
 			oResult.append("name", values[index++]);
@@ -379,8 +380,8 @@ public class ModuleActivity implements ActivityIntf {
 		if (ctx.user.getUserId() != oItem.getLong("customer_userId", 0) && ctx.user.getUserId() != oItem.getLong("user_id", 0)) {
 			return;
 		}
-		String[] values = ServiceFactory.appDict().decode(oItem.getString("customer_name"), oItem.getString("customer_mobile"), oItem.getString("customer_qq"),
-				oItem.getString("customer_msn"), oItem.getString("customer_email"));
+		String[] values = null;//ServiceFactory.appDict().decode(oItem.getString("customer_name"), oItem.getString("customer_mobile"), oItem.getString("customer_qq"),
+				//oItem.getString("customer_msn"), oItem.getString("customer_email"));
 		int index = 0;
 		oItem.append("customer_name", values[index++]);
 		oItem.append("customer_mobile", values[index++]);
@@ -513,8 +514,9 @@ public class ModuleActivity implements ActivityIntf {
 			break;
 		}
 		oResult.append("xeach", true);
-		String[] values = ServiceFactory.appDict().decode(oItem.getString("contact_person"), oItem.getString("contact_mobile"), oItem.getString("contact_qq"),
-				oItem.getString("contact_msn"));
+		String[] values = null;
+//				ServiceFactory.appDict().decode(oItem.getString("contact_person"), oItem.getString("contact_mobile"), oItem.getString("contact_qq"),
+//				oItem.getString("contact_msn"));
 		if (values != null) {
 			int index = 0;
 			oItem.append("contact_person", values[index++]);
@@ -644,8 +646,9 @@ public class ModuleActivity implements ActivityIntf {
 		} else {
 			oResult.append("shortId", Long.parseLong(shortId));
 			oResult.append("exist", true);
-			String[] values = ServiceFactory.appDict().decode(oResult.getString("contact_person"), oResult.getString("contact_mobile"),
-					oResult.getString("contact_qq"), oResult.getString("contact_msn"));
+			String[] values = null;
+//			ServiceFactory.appDict().decode(oResult.getString("contact_person"), oResult.getString("contact_mobile"),
+//					oResult.getString("contact_qq"), oResult.getString("contact_msn"));
 			oResult.append("contact_person", values[0]);
 			oResult.append("contact_mobile", values[1]);
 			oResult.append("contact_qq", values[2]);
@@ -776,7 +779,8 @@ public class ModuleActivity implements ActivityIntf {
 		if (dbObject == null || StringUtil.isEmpty(dbObject.getString("customer_email"))) {
 			return oResult.append("message", "行程单邮件地址不存在.");
 		}
-		String[] values = ServiceFactory.appDict().decode(dbObject.getString("customer_name"), dbObject.getString("customer_email"));
+		String[] values = null;
+//		ServiceFactory.appDict().decode(dbObject.getString("customer_name"), dbObject.getString("customer_email"));
 		String fileName = "order-" + id + ".pdf";
 		String pageUrl = "http://www.yiqihi.com/trip/" + id + "&pdf=true&name=plan&cookieId=" + ctx.cookieId;
 		BasicDBObject oFile = PdfTool.createFor(pageUrl, fileName);

@@ -7,9 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.z.common.joor.Reflect;
 import org.z.core.app.ModuleZeromq;
-import org.z.core.interfaces.IndexServiceIntf;
 import org.z.core.interfaces.ServiceIntf;
-import org.z.core.module.ModuleSolrIndex;
+import org.z.core.module.ModuleProduct;
 import org.z.core.queue.ModuleMsg;
 import org.z.global.dict.Global.LogLevel;
 import org.z.global.dict.Global.ModuleMessageType;
@@ -18,6 +17,7 @@ import org.z.global.dict.MessageScope;
 import org.z.global.dict.MessageType;
 import org.z.global.environment.Business.ClassName;
 import org.z.global.factory.ModuleFactory;
+import org.z.global.interfaces.IndexServiceIntf;
 import org.z.global.interfaces.ModuleIntf;
 import org.z.global.interfaces.ModuleProcessorIntf;
 import org.z.global.interfaces.ModuleQueueIntf;
@@ -261,9 +261,6 @@ public class ModuleProcessor implements ModuleProcessorIntf {
 			case DATACHANGE:
 				if (messageTag.equalsIgnoreCase("price")) {
 					IndexServiceIntf index = (IndexServiceIntf) ModuleFactory.moduleInstanceBy(String.valueOf(oReq.get("indexName")));
-					if (index != null) {
-						index.handleMsg(new ModuleMsg(ModuleMessageType.datachange, String.valueOf(oReq.get("id")), messageTime, oReq));
-					}
 				}
 				break;
 			}
@@ -293,7 +290,7 @@ public class ModuleProcessor implements ModuleProcessorIntf {
 				break;
 			case SEARCH:
 				BasicDBObject oUser = (BasicDBObject) JSON.parse(messageTag);
-				oResult.putAll((BSONObject) index.search(oReq, oUser, SearchMode.Async));
+				oResult.putAll((BSONObject) index.search(oReq));
 				String q = oReq.containsField("question") ? String.valueOf(oReq.get("question")) : "";
 				LogMessage oLog = new LogMessage(LogLevel.info, "Seach");
 				oLog.add("from", sender.toString());
@@ -303,7 +300,7 @@ public class ModuleProcessor implements ModuleProcessorIntf {
 				oLog.add("req", oReq.toString());
 				break;
 			case REQUEST:
-				ModuleSolrIndex solrindex = (ModuleSolrIndex) ModuleFactory.moduleInstanceBy("productindex");
+				ModuleProduct solrindex = (ModuleProduct) ModuleFactory.moduleInstanceBy("productindex");
 				BasicDBList skus = (BasicDBList) oReq;
 				BasicDBObject sku = null;
 				BasicDBList reskus = new BasicDBList();

@@ -55,5 +55,11 @@
 			    <groupId>org.java-websocket</groupId>
 			    <artifactId>Java-WebSocket</artifactId>
 			</dependency>
+					<dependency>
+			<groupId>org.elasticsearch</groupId>
+			<artifactId>elasticsearch</artifactId>
+			  <!-- <version>1.0.0.Beta2</version> -->
+			  <version>1.0.0</version>
+		</dependency>
   </dependencies>
 </project>

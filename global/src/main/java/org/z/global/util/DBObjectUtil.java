@@ -28,7 +28,34 @@ public class DBObjectUtil {
 		}
 		return (BasicDBList) JSON.parse(content);
 	}
-
+	public static void quickSortByNum(BasicDBList rows, final String fieldName) {
+		Collections.sort(rows, new Comparator<Object>() {
+			@Override
+			public int compare(Object o1, Object o2) {
+				BasicDBObject object1 = (BasicDBObject) o1;
+				BasicDBObject object2 = (BasicDBObject) o2;
+				return object2.getInt(fieldName, 0) - object1.getInt(fieldName, 0);
+			}
+		});
+	}
+	
+	public static void quickSortByNum(BasicDBList rows, final String... fieldNames) {
+		Collections.sort(rows, new Comparator<Object>() {
+			@Override
+			public int compare(Object o1, Object o2) {
+				BasicDBObject object1 = (BasicDBObject) o1;
+				BasicDBObject object2 = (BasicDBObject) o2;
+				for (String fieldName : fieldNames) {
+					int result = object2.getInt(fieldName, 0) - object1.getInt(fieldName, 0);
+					if (result == 0) {
+						continue;
+					}
+					return result;
+				}
+				return 0;
+			}
+		});
+	}
 	public static List<DBObject> toList(BasicDBList list) {
 		List<DBObject> result = new ArrayList<DBObject>();
 		for (int i = 0; i < list.size(); i++) {

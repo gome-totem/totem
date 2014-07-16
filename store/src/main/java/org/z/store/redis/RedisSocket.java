@@ -1,5 +1,7 @@
 package org.z.store.redis;
 
+import java.util.Set;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,13 +44,22 @@ public class RedisSocket {
 	public String set(String prefix, String key, String content) {
 		return this.set(prefix + "@" + key, content);
 	}
+	public Boolean exists(String key) {
+		return this.instance.exists(key);
+	}
 
+	public Set<String> keys(String pattern) {
+		return this.instance.keys(pattern);
+	}
 	public void delete(String key) {
 		this.instance.del(key);
 	}
 
 	public String set(String key, String content) {
 		return this.instance.set(key, content);
+	}
+	public void expire(String key, int seconds) {
+		this.instance.expire(key, seconds);
 	}
 
 	public void destroy() {

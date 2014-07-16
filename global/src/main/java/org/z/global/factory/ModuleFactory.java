@@ -54,6 +54,7 @@ public class ModuleFactory {
 	private static ModuleIntf socket = null;
 	private static ModuleIntf htmlpage = null;
 	private static ModuleIntf queue = null;
+	private static ModuleIntf productIndex = null;
 	public static void registerModule(String moduleName, Class<?> moduleClass) {
 		moduleInfos.put(moduleNameBy(moduleName), new ClassInfo(moduleClass));
 	}
@@ -118,6 +119,12 @@ public class ModuleFactory {
 			return mq;
 		mq = moduleInstanceBy("mq");
 		return mq;
+	}
+	public static ModuleIntf productIndex() {
+		if (productIndex != null)
+			return productIndex;
+		productIndex = moduleInstanceBy("productindex");
+		return productIndex;
 	}
 	public static ModuleHtmlPageIntf htmlPage() {
 		if (htmlpage != null)
