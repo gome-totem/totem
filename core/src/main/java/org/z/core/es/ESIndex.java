@@ -105,6 +105,7 @@ public abstract class ESIndex implements IndexServiceIntf {
 //			ESDict.clearDynamicDB(oReq, jedis);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public int add(DBObject oDocs) {
 		

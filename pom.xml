@@ -13,8 +13,7 @@
 		<module>common</module>
 		<module>data</module>
       <module>store</module>
-    <module>web</module>
-    <module>environment</module>
+      <module>web</module>
   </modules>
 
 	<properties>
@@ -68,7 +67,7 @@
 		<objectpool.version>1.1.2</objectpool.version>
 		<netty.version>3.2.10.Final</netty.version>
 		<email.version>1.3.1</email.version>
-		
+		<jmagick.version>6.6.9</jmagick.version>
 	</properties>
 
 	<distributionManagement>
@@ -99,6 +98,11 @@
 		    <artifactId>flume-ng-log4jappender</artifactId>
 		     <version>${flume.log4j.version}</version>
 		</dependency>
+			<dependency>
+			    <groupId>jmagick</groupId>
+			    <artifactId>jmagick</artifactId>
+			    <version>${jmagick.version}</version>
+			</dependency>
 			<dependency>
 		    <groupId>org.apache.flume</groupId>
 		    <artifactId>flume-ng-core</artifactId>

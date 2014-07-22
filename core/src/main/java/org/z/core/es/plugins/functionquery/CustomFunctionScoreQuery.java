@@ -150,7 +150,8 @@ public class CustomFunctionScoreQuery extends  Query{
             return new CustomBoostFactorScorer(this, subQueryScorer, function, maxBoost, combineFunction);
         }
 
-        @Override
+        @SuppressWarnings("unused")
+		@Override
         public Explanation explain(AtomicReaderContext context, int doc) throws IOException {
             Explanation subQueryExpl = subQueryWeight.explain(context, doc);
             if (!subQueryExpl.isMatch()) {
@@ -191,7 +192,8 @@ public class CustomFunctionScoreQuery extends  Query{
         }
     }
 
-    private void addExplainDetail(double weight,int weightFactor,int stock,int stockFactor,double promoScore ,int promoScoreFactor,Explanation explSrc){
+    @SuppressWarnings("unused")
+	private void addExplainDetail(double weight,int weightFactor,int stock,int stockFactor,double promoScore ,int promoScoreFactor,Explanation explSrc){
         
             double factor1=Math.sqrt(ESProductScript.div(weight, weightFactor));
             String factor2=ESProductScript.mul(stock, stockFactor);

@@ -4,7 +4,6 @@ package org.z.core.es;
 import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
-import org.elasticsearch.bootstrap.Bootstrap;
 import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.ImmutableSettings.Builder;
 import org.elasticsearch.common.settings.Settings;

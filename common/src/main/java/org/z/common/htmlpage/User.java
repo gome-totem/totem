@@ -272,7 +272,7 @@ public class User implements UserIntf {
 	}
 
 	@Override
-	public BasicDBObject register(String name, String password, String email, String code, boolean checkCode) {
+	public BasicDBObject register( String password, String email, String code, boolean checkCode) {
 		return null;
 	}
 

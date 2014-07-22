@@ -34,6 +34,7 @@ public class QueryBuilder {
 	private List<FilterBuilder> filters= Lists.newArrayList();
 //	private AndFilterBuilder andFilterBuilder;
 	BoolFilterBuilder andFilterBuilder;
+	@SuppressWarnings("unused")
 	private StringBuilder querySql;
 	private SearchRequestBuilder searchBuilder;
 	private Integer facetSize=200;//默认所有facet 最大200
@@ -118,6 +119,7 @@ public class QueryBuilder {
 		return addFilter(FilterType.RANGE, field, from, to, null, null, null);
 			
 	}
+	@SuppressWarnings("rawtypes")
 	public QueryBuilder addOrFilter(String field,List orValues){
 		
 		return addFilter(FilterType.OR,field,null,null,null,orValues,null);
@@ -133,7 +135,8 @@ public class QueryBuilder {
 		return addFilter(FilterType.FILTER,null,null,null,filter,null,null);
 	}
 	 
-	public QueryBuilder addFilter(FilterType type,String  field,Object value,Object toValue,FilterBuilder filter,List orValues ,BasicDBObject orFilters) {
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public QueryBuilder addFilter(FilterType type,String  field,Object value,Object toValue,FilterBuilder filter,List  orValues ,BasicDBObject orFilters) {
 		
 		if(andFilterBuilder==null){
 //			andFilterBuilder= FilterBuilders.andFilter().cache(true);
@@ -169,7 +172,7 @@ public class QueryBuilder {
 		return this;
 	}
 	
-	public BoolFilterBuilder buildOrFilter(String field ,List orValues){
+	public BoolFilterBuilder buildOrFilter(String field ,List<Object> orValues){
 		BoolFilterBuilder  orFilter=FilterBuilders.boolFilter().cache(true);
 		for(Object obj:orValues ){
 			orFilter.should(FilterBuilders.termFilter(field, obj));
@@ -180,6 +183,7 @@ public class QueryBuilder {
 //		}
 		return orFilter;
 	}
+	@SuppressWarnings("rawtypes")
 	public BoolFilterBuilder buildOrFilter(BasicDBObject orFilters){
 		
 		BoolFilterBuilder  orFilter=FilterBuilders.boolFilter().cache(true);

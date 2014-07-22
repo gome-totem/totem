@@ -2,7 +2,6 @@ package org.z.core.es;
 
 import java.io.IOException;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.slf4j.Logger;
@@ -15,11 +14,6 @@ import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
-/**
- *
- * @author 蒋礼俊
- * @version 2013-6-20 下午4:21:55
- */
 public class CategoryDict {
 
 	protected static Logger logger = LoggerFactory.getLogger(CategoryDict.class);

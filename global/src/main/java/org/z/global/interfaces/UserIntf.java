@@ -121,7 +121,7 @@ public interface UserIntf {
 
 	public BasicDBObject forgetPassword(BasicDBObject oReq);
 
-	public BasicDBObject register(String name, String password, String email, String code, boolean checkCode);
+	public BasicDBObject register(String password, String email, String code, boolean checkCode);
 
 	public BasicDBObject registerBy(String authMode, String site, String peerId, String name, String city, int sex, String face, String authToken, String authSecret);
 

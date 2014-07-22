@@ -66,7 +66,8 @@ public class CustomFunctionScoreQueryParser implements QueryParser {
         combineFunctionsMap = combineFunctionMapBuilder.build();
     }
 
-    @Override
+    @SuppressWarnings("unused")
+	@Override
     public Query parse(QueryParseContext parseContext) throws IOException, QueryParsingException {
         XContentParser parser = parseContext.parser();
 

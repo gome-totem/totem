@@ -8,9 +8,7 @@ import java.util.Map;
 import org.elasticsearch.index.fielddata.ScriptDocValues.Strings;
 import org.elasticsearch.script.AbstractFloatSearchScript;
 import org.z.core.module.ModuleProduct;
-import org.z.global.util.StringUtil;
 
-import com.mongodb.BasicDBList;
 
 /**
  * script for product sort
@@ -32,7 +30,8 @@ public class ESProductScript extends AbstractFloatSearchScript {
         this.fakeCatId=(String)params.get("fakeCatId");
     }
 
-    @Override
+    @SuppressWarnings("unused")
+	@Override
     public float runAsFloat() {
         float result=10;
         double promScore= this.docFieldDoubles("promoScore").isEmpty()?0:this.docFieldDoubles("promoScore").getValue();

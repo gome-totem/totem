@@ -7,6 +7,7 @@ import org.z.core.app.ModuleZeromq;
 import org.z.core.common.ModuleProcessor;
 import org.z.core.module.ModuleAppoint;
 import org.z.core.module.ModuleBill;
+import org.z.core.module.ModuleUser;
 import org.z.core.queue.ModuleQueue;
 import org.z.core.stocket.ModuleSocket;
 import org.z.global.dict.Global;
@@ -23,6 +24,7 @@ public class App {
 		ModuleFactory.registerModule("processor", ModuleProcessor.class);
 		ModuleFactory.registerModule("appoint", ModuleAppoint.class);
 		ModuleFactory.registerModule("bill", ModuleBill.class);
+		ModuleFactory.registerModule("user", ModuleUser.class);
 	}
 
 }

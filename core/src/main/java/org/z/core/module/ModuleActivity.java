@@ -245,6 +245,7 @@ public class ModuleActivity implements ActivityIntf {
 	}
 
 	/* 为浏览使用 */
+	@SuppressWarnings("null")
 	public BasicDBObject readContactBy(long shortId, BizType type) {
 		if (shortId == 0) {
 			return null;
@@ -373,6 +374,7 @@ public class ModuleActivity implements ActivityIntf {
 		return oResult;
 	}
 
+	@SuppressWarnings("null")
 	public void decodeCustomer(Context ctx, BasicDBObject oItem) {
 		if (oItem == null) {
 			return;
@@ -497,6 +499,7 @@ public class ModuleActivity implements ActivityIntf {
 	}
 
 	/* 为网页异步，编辑使用 */
+	@SuppressWarnings("unused")
 	public BasicDBObject readByEdit(Context context, BasicDBObject oReq) {
 		BasicDBObject oResult = new BasicDBObject().append("xeach", false);
 		BizType type = BizType.values()[oReq.getInt("bizType")];
@@ -529,6 +532,7 @@ public class ModuleActivity implements ActivityIntf {
 	}
 
 	/* 为网页同步，编辑使用 */
+	@SuppressWarnings("null")
 	public BasicDBObject readByEdit(Context context, BizType type, int catalog, String shortId) {
 		BasicDBObject oResult = null;
 		String sql = null;
@@ -767,7 +771,7 @@ public class ModuleActivity implements ActivityIntf {
 		return results;
 	}
 
-	@SuppressWarnings("unused")
+	@SuppressWarnings({ "unused", "null" })
 	public BasicDBObject sendMailByTrip(Context ctx, BasicDBObject oReq) {
 		BasicDBObject oResult = new BasicDBObject().append("xeach", false);
 		if (ctx.user.getRole().isCustomerService() == false) {

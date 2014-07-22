@@ -1,0 +1,5 @@
+#surefire
+#Thu Jul 17 12:34:06 CST 2014
+user.dir=/workspace/jcr_totem/data
+localRepository=/server/apache-maven-3.2.2/.m2/repository
+basedir=/workspace/jcr_totem/data

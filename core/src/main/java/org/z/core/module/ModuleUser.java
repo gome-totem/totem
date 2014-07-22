@@ -194,11 +194,10 @@ public class ModuleUser implements ServiceIntf {
 			break;
 		/* 注册 */
 		case 1:
-			String name = ctx.request.getString("userName");
-			String password = ctx.request.getString("password");
 			String email = ctx.request.getString("email");
 			String code = ctx.request.getString("code");
-			oResult = ctx.user.register(name, password, email, code, true);
+			String password = ctx.request.getString("password");
+			oResult = ctx.user.register( password, email, code, true);
 			break;
 		/* 找回密码 */
 		case 2:

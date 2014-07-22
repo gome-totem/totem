@@ -9,10 +9,7 @@ import org.z.common.joor.Reflect;
 import org.z.core.app.ModuleZeromq;
 import org.z.core.interfaces.ServiceIntf;
 import org.z.core.module.ModuleProduct;
-import org.z.core.queue.ModuleMsg;
 import org.z.global.dict.Global.LogLevel;
-import org.z.global.dict.Global.ModuleMessageType;
-import org.z.global.dict.Global.SearchMode;
 import org.z.global.dict.MessageScope;
 import org.z.global.dict.MessageType;
 import org.z.global.environment.Business.ClassName;
@@ -228,6 +225,7 @@ public class ModuleProcessor implements ModuleProcessorIntf {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	public BasicDBObject execute(String sender, int deviceIndex, int serviceIndex, MessageScope scope, int messageType, int messageVersion, String messageId,
 			String messageTag, String messageTo, long messageTime, DBObject oReq) {
 		BasicDBObject oResult = new BasicDBObject().append("xeach", false);
@@ -255,15 +253,6 @@ public class ModuleProcessor implements ModuleProcessorIntf {
 			break;
 		case RemoteCall:
 			handleRemoteCall((BasicDBObject) oReq, oResult);
-			break;
-		case Schedule:
-			switch (msgType) {
-			case DATACHANGE:
-				if (messageTag.equalsIgnoreCase("price")) {
-					IndexServiceIntf index = (IndexServiceIntf) ModuleFactory.moduleInstanceBy(String.valueOf(oReq.get("indexName")));
-				}
-				break;
-			}
 			break;
 //		case Test:
 //			oResult = (BasicDBObject) oReq;

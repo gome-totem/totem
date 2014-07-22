@@ -1,11 +1,16 @@
 package org.z.core.module;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Properties;
 
+import javax.mail.internet.MimeUtility;
+
+import org.apache.commons.mail.EmailAttachment;
+import org.apache.commons.mail.HtmlEmail;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.slf4j.Logger;
@@ -235,6 +240,38 @@ public class ModuleMail implements ServiceIntf {
 		} catch (Exception e) {
 			logger.error("MailService", e);
 			return "";
+		}
+	}
+	public boolean sendMail(String addr, String subject, String content) {
+		return sendMail(addr, subject, content, null);
+	}
+
+	public boolean sendMail(String addr, String subject, String content, String fileName) {
+		try {
+			HtmlEmail email = new HtmlEmail();
+			MailRecord rec = readMailAccount(Const.defaultMysqlDB);
+			email.setHostName(rec.hostName);
+			email.setAuthentication(rec.userId, rec.password);
+			email.setFrom(rec.userId, rec.userName);
+			email.setCharset("utf-8");
+			email.setSubject(subject);
+			email.setHtmlMsg(content);
+			email.getToAddresses().clear();
+			email.addTo(addr);
+			if (StringUtil.isEmpty(fileName) == false) {
+				File f = new File(fileName);
+				if (f.exists() == true) {
+					EmailAttachment attachment = new EmailAttachment();
+					attachment.setPath(fileName);
+					attachment.setName(MimeUtility.encodeText(f.getName()));
+					email.attach(attachment);
+				}
+			}
+			email.send();
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
 		}
 	}
 

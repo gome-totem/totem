@@ -22,7 +22,6 @@ import org.z.global.util.JodaUtil;
 import org.z.global.util.StringUtil;
 import org.z.store.mongdb.DataSet;
 
-import cn.emay.sdk.client.api.Client;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
@@ -31,7 +30,7 @@ public class ModuleSMS implements ServiceIntf {
 
 	protected boolean isAlive = true;
 	protected static final Logger logger = LoggerFactory.getLogger(ModuleSMS.class);
-	protected Client client = null;
+//	protected Client client = null;
 	protected String smsKey = Config.rock().getItem("Sms-Key", "");
 	protected String smsPassword = Config.rock().getItem("Sms-Password", "");
 
@@ -41,7 +40,7 @@ public class ModuleSMS implements ServiceIntf {
 			return true;
 		}
 		try {
-			client = new Client(smsKey, smsPassword);
+//			client = new Client(smsKey, smsPassword);
 		} catch (Exception e) {
 			logger.info("init", e);
 			return false;
@@ -231,7 +230,7 @@ public class ModuleSMS implements ServiceIntf {
 			content += "【一起嗨】";
 			DataSet.insert(Const.defaultMysqlServer, Const.defaultMysqlDB, sql, new String[] { userId, buffer.toString(), content, String.valueOf(priority),
 					String.valueOf(System.currentTimeMillis()) });
-			oResult.append("state", client.sendSMS(mobiles, content, "", priority));
+//			oResult.append("state", client.sendSMS(mobiles, content, "", priority));
 		} catch (Exception e) {
 			logger.error("send", e);
 		}
@@ -269,18 +268,18 @@ public class ModuleSMS implements ServiceIntf {
 		switch (mode) {
 		/** 激活账号 **/
 		case 0:
-			int state = sms.client.registEx(sms.smsPassword);
-			System.out.println("注册结果:" + state);
+//			int state = sms.client.registEx(sms.smsPassword);
+//			System.out.println("注册结果:" + state);
 			break;
 		/** 公司地址 **/
 		case 1:
-			state = sms.client.sendSMS(new String[] { "13439758492" }, "公司地址:丰台区公益西桥地铁C口东亚三环3号楼1212室,网站地址:www.yiqihi.com,电话:010-60934633【一起嗨】", "", 5);
-			System.out.println("发送结果:" + state);
+//			state = sms.client.sendSMS(new String[] { "13439758492" }, "公司地址:丰台区公益西桥地铁C口东亚三环3号楼1212室,网站地址:www.yiqihi.com,电话:010-60934633【一起嗨】", "", 5);
+//			System.out.println("发送结果:" + state);
 			break;
 		/** 系统已经恢复 **/
 		case 2:
-			state = sms.client.sendSMS(new String[] { "13718821128" }, "感谢您使用一起嗨海外旅行服务，您申报的手机激活及发布需求故障已经于8.30日更新上线，现已能正常使用，再次抱歉给您带来不便！【一起嗨】", "", 5);
-			System.out.println("发送结果:" + state);
+//			state = sms.client.sendSMS(new String[] { "13718821128" }, "感谢您使用一起嗨海外旅行服务，您申报的手机激活及发布需求故障已经于8.30日更新上线，现已能正常使用，再次抱歉给您带来不便！【一起嗨】", "", 5);
+//			System.out.println("发送结果:" + state);
 			break;
 		}
 	}

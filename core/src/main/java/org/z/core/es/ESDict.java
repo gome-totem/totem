@@ -41,6 +41,7 @@ public class ESDict implements DictInfo {
 		return true;
 	}
 
+	@SuppressWarnings({ "unchecked", "unused" })
 	public static void clearDynamicDB(BasicDBObject req, ShardedJedis jedis) {
 
 		if (!isClearCache(req.getString("fromIp")) || req == null || req.get("clearIds") == null) {

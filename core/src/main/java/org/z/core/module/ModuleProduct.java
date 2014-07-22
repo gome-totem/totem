@@ -231,6 +231,7 @@ public class ModuleProduct extends ESIndex implements IndexServiceIntf {
 		return result;
 	}
 
+	@SuppressWarnings("unused")
 	public BasicDBObject addSku(List<BasicDBObject> indexDocs, List<String> clearData, BasicDBObject oSku, BasicDBObject oProduct, BasicDBList productFacets, ShardedJedis jedis) {
 		BasicDBObject indexDoc = new BasicDBObject();
 		String productId = oProduct.getString("id");
@@ -410,6 +411,7 @@ public class ModuleProduct extends ESIndex implements IndexServiceIntf {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private void maybeAdd(String productId, String skuId, long time, String type, String innerType) {
 		if (time == 0) {
 			logger.info("updateSchedule date isEmpty");
@@ -765,6 +767,7 @@ public class ModuleProduct extends ESIndex implements IndexServiceIntf {
 		return salePrice;
 	}
 
+	@SuppressWarnings("unused")
 	public boolean updateProductState(int state, long startDate, long endDate, String skuId, String productId, String Type) {
 		boolean intoindex = false;
 		long current = System.currentTimeMillis();
@@ -831,6 +834,7 @@ public class ModuleProduct extends ESIndex implements IndexServiceIntf {
 		updateField((BasicDBObject) oReq);
 	}
 
+	@SuppressWarnings("unchecked")
 	public void updateField(BasicDBObject oReq) {
 		if (oReq == null) {
 			return;
@@ -1081,6 +1085,7 @@ public class ModuleProduct extends ESIndex implements IndexServiceIntf {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private void updateFacetRanges(BasicDBObject oProduct, double docPrice, BasicDBObject fields) {
 		if (oProduct.containsField("categories")) {
 			BasicDBList categories = (BasicDBList) oProduct.get("categories");
@@ -1155,6 +1160,7 @@ public class ModuleProduct extends ESIndex implements IndexServiceIntf {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	public BasicDBObject search(DBObject oRequire, ShardedJedis jedis) {
 		BasicDBObject oResult = new BasicDBObject();
 		long start = System.currentTimeMillis();
@@ -1637,6 +1643,7 @@ public class ModuleProduct extends ESIndex implements IndexServiceIntf {
 		return fqs;
 	}
 
+	@SuppressWarnings("null")
 	public SearchResponse getQueryResponse(QueryBuilder queryBuilder, BasicDBObject oReq, BasicDBObject oResult, List<FilterBuilder> fqs, boolean comMode) throws Exception {
 
 		String question = oReq.getString("question", "").trim();
@@ -1852,18 +1859,12 @@ public class ModuleProduct extends ESIndex implements IndexServiceIntf {
 		}
 		int docOrder = 0;
 
-		boolean instock = false;
-		if (oReq.getString("instock", "0").equalsIgnoreCase("1")) {
-			instock = true;
-		}
 		long cacheTime = 0;
 		long parseTime = 0;
-		int ii = 0;
 		for (SearchHit hit : response.getHits().getHits()) {
 			Map<String, SearchHitField> fields = hit.getFields();
 			BasicDBObject item = new BasicDBObject();
 			String productId = ((String) fields.get(FIELD_PRODID).getValue());
-			float docScore = hit.getScore();
 
 			String skuId = ((String) fields.get(FIELD_SKUID).getValue());
 			if (oReq.getBoolean("debug", false)) {
@@ -1921,7 +1922,6 @@ public class ModuleProduct extends ESIndex implements IndexServiceIntf {
 				item.putAll((Map<?, ?>) product);
 				item.append("skus", skus);
 			}
-			ii++;
 			item.append("evaluateCount", fields.get(FIELD_EVALUATECOUNT) != null ? fields.get(FIELD_EVALUATECOUNT).getValue() : null);
 			item.append("order", docOrder++);
 			item.remove("facets");
@@ -1931,14 +1931,9 @@ public class ModuleProduct extends ESIndex implements IndexServiceIntf {
 		return items;
 	}
 
-	private int getnewStock(float score) {
-		int result = 0;
-		if (score >= 1000)
-			result = 1;
-		return result;
-	}
 
 
+	@SuppressWarnings("unused")
 	public BasicDBList readCategories(String defaultId, Map<String, Integer> counts, String pageName) {
 		HashSet<String> parents = new HashSet<String>();
 		HashSet<String> defaultNodes = new HashSet<String>();
@@ -2193,7 +2188,7 @@ public class ModuleProduct extends ESIndex implements IndexServiceIntf {
 			if (indicesExistsResponse.isExists()) {
 				return true;
 			}
-			Map setting = new HashMap();
+			Map<String,Object> setting = new HashMap<String,Object>();
 			setting.put("index.number_of_shards", 4);
 			setting.put("index.number_of_replicas", 0);
 			setting.put("similarity.cbm25.type", "BM25");
@@ -2230,6 +2225,7 @@ public class ModuleProduct extends ESIndex implements IndexServiceIntf {
 
 	}
 
+	@SuppressWarnings({ "unchecked", "null" })
 	@Override
 	protected void addDoc(BasicDBObject product, ShardedJedis jedis) {
 
@@ -2298,6 +2294,7 @@ public class ModuleProduct extends ESIndex implements IndexServiceIntf {
 		return result;
 	}
 
+	@SuppressWarnings("unchecked")
 	private void addArrayValue(BasicDBObject result, String field, Object value) {
 
 		if (result == null)
