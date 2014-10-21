@@ -407,7 +407,7 @@
 				<dependency>
 			    <groupId>io.netty</groupId>
 			    <artifactId>netty-all</artifactId>
-			    <version>${io.netty}</version>
+			    <version>${io.netty.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.curator</groupId>
