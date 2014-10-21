@@ -11,12 +11,15 @@ import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
 import org.bson.BSONObject;
+import org.elasticsearch.action.WriteConsistencyLevel;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
 import org.elasticsearch.action.index.IndexRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.support.replication.ReplicationType;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.index.engine.DocumentMissingException;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.script.ScriptService.ScriptType;
 import org.elasticsearch.search.SearchHit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -303,7 +306,7 @@ public abstract class ESIndex implements IndexServiceIntf {
 			} else {
 				script.append(value);
 			}
-			client.prepareUpdate(indexName, indexType, id).setScript(script.toString()).execute();
+			client.prepareUpdate(indexName, indexType, id).setScript(script.toString(),ScriptType.INLINE).setRetryOnConflict(3).setReplicationType(ReplicationType.SYNC).setConsistencyLevel(WriteConsistencyLevel.ALL).execute();
 
 			// logger.info("update  indexName [{}] type[{}] id [{}] script [{}]",
 			// new Object[] { indexName, indexType,id,script.toString()});
@@ -337,7 +340,7 @@ public abstract class ESIndex implements IndexServiceIntf {
 				script.append(";");
 			}
 
-			client.prepareUpdate(indexName, indexType, id).setScript(script.toString()).execute();
+			client.prepareUpdate(indexName, indexType, id).setScript(script.toString(),ScriptType.INLINE).setRetryOnConflict(3).setReplicationType(ReplicationType.SYNC).setConsistencyLevel(WriteConsistencyLevel.ALL).execute().actionGet();
 			// logger.info("update  indexName [{}] type[{}] id [{}] script [{}]",
 			// new Object[] { indexName, indexType,id,script.toString()});
 		} catch (DocumentMissingException mis) {

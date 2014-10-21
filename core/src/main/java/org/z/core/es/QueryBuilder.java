@@ -24,6 +24,7 @@ import org.z.core.module.ModuleProduct;
 
 import com.google.common.collect.Lists;
 import com.mongodb.BasicDBObject;
+@SuppressWarnings("deprecation")
 public class QueryBuilder {
 	protected static Logger logger = LoggerFactory.getLogger(QueryBuilder.class);
 	public enum FilterType{
