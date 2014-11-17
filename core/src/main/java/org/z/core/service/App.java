@@ -33,11 +33,11 @@ public class App {
 		long start  =System.currentTimeMillis();
 		init();
 		logger.info("java.library.path[{}]",new Object[]{System.getProperty("java.library.path")});
-		ModuleFactory.registerLoadModule("");
-		ModuleFactory.registerLoadModule("");
-		ModuleFactory.registerLoadModule("");
-		ModuleFactory.registerLoadModule("");
-		ModuleFactory.registerLoadModule("");
+		ModuleFactory.registerLoadModule("mq");
+		ModuleFactory.registerLoadModule("jobpull");
+		ModuleFactory.registerLoadModule("socket");
+		ModuleFactory.registerLoadModule("queue");
+		ModuleFactory.registerLoadModule("processor");
 		String value = Config.rock().getItem("AppServices", "").toLowerCase();
 		String[] values = value.split("\\,");
 		for (int i = 0; i < values.length; i++) {
