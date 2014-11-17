@@ -185,5 +185,34 @@ public class ModuleFactory {
 	public static boolean containsModule(String module) {
 		return loadedModules.contains(moduleNameBy(module));
 	}
+	public static void loadModules(BasicDBList values) {
+		for (int i = 0; i < values.size(); i++) {
+			String name = values.get(i).toString().toLowerCase();
+			if (Global.DevelopMode == true) {
+				loadedModules.add(name + "@" + Global.DevelopName);
+			} else {
+				loadedModules.add(name);
+			}
+		}
+		for (int i = 0; i < values.size(); i++) {
+			String moduleName = String.valueOf(values.get(i));
+			ModuleIntf instance = ModuleFactory.moduleBy(moduleName);
+			if (instance == null) {
+				LOG.error("module[{}] not be registered.", new String[] { moduleName });
+				System.exit(-1);
+			}
+			LOG.info("===>Load Module[{}] Start.", new String[] { moduleName });
+			if (instance.init(false) == false) {
+				LOG.error("module[{}]  init fail", new String[] { moduleName });
+				System.exit(-1);
+			}
+			instance.start(false);
+			if (instance.isAlive() == false) {
+				LOG.error("module[{}]  start fail", new String[] { moduleName });
+				System.exit(-1);
+			}
+			LOG.info("===>Load module[{}] Ok.", new String[] { moduleName });
+		}
+	}
 
 }
