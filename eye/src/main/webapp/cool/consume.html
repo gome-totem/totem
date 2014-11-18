@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>consume</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+     	/** padding-top: 20px;*/
+	  	/** background-color:#000000;*/
+    	/** padding-bottom: 60px;**/
+	 	/** background: url("img/15553.jpg") center repeat-y;*/ 
+	 	/**  height:1000px;*/ 
+       }
+		table th,
+		table tr > th > a:HOVER,
+		table tr > th > a:FOCUS{
+		  color: GRAY;
+		  font-weight: bold;
+		  background-color: #F5F5F5;
+		}
+		table tr{
+		 color: gray;
+		}
+      .container {
+        margin: 0 auto;
+        max-width: 1000px;
+      	}
+      .container > hr {
+        margin: 60px 0;
+      	}
+      .jumbotron {
+        margin: 80px 0;
+        text-align: center;
+      	}
+      .jumbotron h1 {
+        font-size: 100px;
+        line-height: 1;
+      	}
+      .jumbotron .lead {
+        font-size: 24px;
+        line-height: 1.25;
+      	}
+      .jumbotron .btn {
+        font-size: 21px;
+        padding: 14px 24px;
+      	}
+
+      /* Supporting marketing content */
+      .marketing {
+        margin: 60px 0;
+      	}
+      .marketing p + h4 {
+        margin-top: 28px;
+      	}
+      .navbar .navbar-inner {
+        padding: 0;
+      	}
+      .navbar .nav {
+        margin: 0;
+        display: table;
+        width: 100%;
+      	}
+      .navbar .nav li {
+        display: table-cell;
+        width: 1%;
+        float: none;
+      	}
+      .navbar .nav li a {
+        font-weight: bold;
+        text-align: center;
+        border-left: 1px solid rgba(255,255,255,.75);
+        border-right: 1px solid rgba(0,0,0,.1);
+      	}
+      .navbar .nav li:first-child a {
+        border-left: 0;
+        border-radius: 3px 0 0 3px;
+      	}
+      .navbar .nav li:last-child a {
+        border-right: 0;
+        border-radius: 0 3px 3px 0;
+      	}
+     .span9{
+     	  width: 884px;
+      	}
+      h4{
+      	color: gray;
+      	}
+    </style>
+  </head>
+
+  <body>
+  	<div class="span9">
+	<table class="table table-bordered table-hover">
+  		<tr>
+			<th>项目</th><th>金额</th><th>消费日期</th><th>支付方式</th><th>明细</th>
+		</tr>
+  		<tr>
+			<td>游泳卡</td><td>680</td><td>2013-09-05</td><td>方立垫付</td><td>30次</td>
+		</tr>
+		<tr>
+			<td>羽毛球卡</td><td>300</td><td>2013-09-05</td><td>方立垫付</td><td>30/小时</td>
+		</tr>
+		<tr>
+			<td>游泳食物</td><td>32</td><td>2013-09-10</td><td>周动垫付</td><td>6瓶饮料，6个小面包</td>
+		</tr>
+		<tr>
+			<td>羽毛球食物</td><td>76</td><td>2013-09-13</td><td>方立垫付</td><td>水+面包</td>
+		</tr>
+  		<tr>
+			<td>游泳食物</td><td>20</td><td>2013-09-17</td><td>方立垫付</td><td>面包（5个面包）</td>
+		</tr>
+		<tr>
+			<td>游泳食物</td><td>46</td><td>2013-09-17</td><td>肖明垫付</td><td>PIZZA(4个萨利亚小PIZZA)</td>
+		</tr>
+		<tr>
+			<td>中秋晚餐</td><td>288</td><td>2013-09-18</td><td>肖明垫付</td><td>4个PIZZA，1个莎拉，3个米饭，6个面，3个鱿鱼</td>
+		</tr>
+		<tr>
+			<td>十一聚餐</td><td>99</td><td>2013-09-30</td><td>肖明垫付</td><td>肖明，邹德雄，刘朝阳</td>
+		</tr>
+		<tr>
+			<td>加班餐</td><td>112</td><td>2013-10-14</td><td>方立垫付</td><td>全组</td>
+		</tr>
+    </table>
+	
+	<h4>游泳详情</h4>
+	<table class="table table-bordered table-hover">
+  		<tr>
+			<th>详情</th><th>日期</th><th>次数</th><th>人员</th>
+		</tr>
+  		<tr>
+			<td>游泳卡</td><td>2013-09-10</td><td>6次</td><td>肖明 方立 周动 张志新 刘向前 刘朝阳</td>
+		</tr>
+		<tr>
+			<td>游泳卡</td><td>2013-09-14</td><td>3次</td><td>周动 张志新 刘朝阳</td>
+		</tr>
+		<tr>
+			<td>游泳卡</td><td>2013-09-17</td><td>5次</td><td>肖明 方立 周动 张志新 刘向前</td>
+		</tr>
+		<tr>
+			<td>游泳卡</td><td>2013-09-23</td><td>3次</td><td>周动 张志新 刘向前</td>
+		</tr>
+		<tr>
+			<td>游泳卡</td><td>2013-09-25</td><td>3次</td><td>周动 张志新 刘向前</td>
+		</tr>
+		<tr>
+			<td>游泳卡</td><td>2013-10-12</td><td>2次</td><td>周动 张志新</td>
+		</tr>
+		<tr>
+			<td>游泳卡</td><td>2013-10-15</td><td>2次</td><td>周动 张志新</td>
+		</tr>
+		<tr>
+			<td>游泳卡</td><td>2013-10-17</td><td>3次</td><td>周动 张志新 刘向前</td>
+		</tr>
+    </table>
+    
+	 <h4>羽毛球详情</h4>    
+    <table class="table table-bordered table-hover">
+    	<tr>
+			<th>详情</th><th>日期</th><th>次数</th><th>人员</th>
+		</tr>
+    	<tr>
+			<td>羽毛球</td><td>2013-09-13</td><td>2个小时</td><td>方立 彭章 刘向前 </td>
+		</tr>
+		<tr>
+			<td>羽毛球</td><td>2013-09-21</td><td>2个小时</td><td>方立 刘向前 张雷 乔爽爽</td>
+		</tr>
+		<tr>
+			<td>羽毛球</td><td>2013-10-15</td><td>2个小时</td><td>全组</td>
+		</tr>
+    </table>
+    
+	<h4>其它活动</h4>    
+	<table class="table table-bordered table-hover">
+	  	<tr>
+			<th>详情</th><th>日期</th><th>活动</th><th>人员</th>
+		</tr>
+		<tr>
+			<td>蒋礼俊孩子满月</td><td>2013-09-25</td><td>金钱豹聚餐</td><td>肖明 方立 张志新 周动 邹德雄 张雷 乔爽爽 刘向前 彭章 蒋礼俊 刘朝阳</td>
+		</tr>
+	</table>
+	</div>
+	
+   <script src="js/jquery.js"></script>
+   <script src="js/bootstrap.js"></script>
+  </body>
+</html>

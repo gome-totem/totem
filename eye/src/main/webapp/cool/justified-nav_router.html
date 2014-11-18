@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Template &middot; Bootstrap</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+     /**   padding-top: 20px;*/
+	  	  background-color:#000000;
+    /** padding-bottom: 60px;**/
+	 /** background: url("img/15553.jpg") center repeat-y;*/ 
+	 /**  height:1000px;*/ 
+       }
+	tr{
+		 /***color: #777777;*/
+		 color:white;
+		 font-weight: bold;
+	}
+      /* Custom container */
+      .container {
+        margin: 0 auto;
+        max-width: 1000px;
+      }
+      .container > hr {
+        margin: 60px 0;
+      }
+
+      /* Main marketing message and sign up button */
+      .jumbotron {
+        margin: 80px 0;
+        text-align: center;
+      }
+      .jumbotron h1 {
+        font-size: 100px;
+        line-height: 1;
+      }
+      .jumbotron .lead {
+        font-size: 24px;
+        line-height: 1.25;
+      }
+      .jumbotron .btn {
+        font-size: 21px;
+        padding: 14px 24px;
+      }
+
+      /* Supporting marketing content */
+      .marketing {
+        margin: 60px 0;
+      }
+      .marketing p + h4 {
+        margin-top: 28px;
+      }
+
+
+      /* Customize the navbar links to be fill the entire space of the .navbar */
+      .navbar .navbar-inner {
+        padding: 0;
+      }
+      .navbar .nav {
+        margin: 0;
+        display: table;
+        width: 100%;
+      }
+      .navbar .nav li {
+        display: table-cell;
+        width: 1%;
+        float: none;
+      }
+      .navbar .nav li a {
+        font-weight: bold;
+        text-align: center;
+        border-left: 1px solid rgba(255,255,255,.75);
+        border-right: 1px solid rgba(0,0,0,.1);
+      }
+      .navbar .nav li:first-child a {
+        border-left: 0;
+        border-radius: 3px 0 0 3px;
+      }
+      .navbar .nav li:last-child a {
+        border-right: 0;
+        border-radius: 0 3px 3px 0;
+      }
+    </style>
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="../assets/js/html5shiv.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
+    <link rel="shortcut icon" href="../assets/ico/favicon.png">
+  </head>
+
+  <body>
+
+    <div class="container">
+
+      <div class="masthead">
+        <h3 class="">TOTEM</h3>
+        <div class="navbar">
+          <div class="navbar-inner">
+            <div class="container">
+              <ul class="nav">
+                <li class="active"><a href="#">Home</a></li>
+                <li><a href="#">Projects</a></li>
+                <li><a href="#">Services</a></li>
+                <li><a href="#">Downloads</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+              </ul>
+            </div>
+          </div>
+        </div><!-- /.navbar -->
+      </div>
+
+      <!-- Jumbotron -->
+
+	<h4 class="">活动详情</h4>
+	<table class="table table-bordered table-hover">
+  		<tr>
+			<th>项目</th><th>金额</th><th>消费日期</th><th>支付方式</th><th>明细</th>
+		</tr>
+  		<tr>
+			<td>游泳卡</td><td>680</td><td>2013-09-05</td><td>方立垫付</td><td>30次</td>
+		</tr>
+		<tr>
+			<td>羽毛球卡</td><td>300</td><td>2013-09-05</td><td>方立垫付</td><td>30/小时</td>
+		</tr>
+		<tr>
+			<td>游泳食物</td><td>32</td><td>2013-09-10</td><td>周动垫付</td><td>6瓶饮料，6个小面包</td>
+		</tr>
+		<tr>
+			<td>羽毛球食物</td><td>76</td><td>2013-09-13</td><td>方立垫付</td><td>水+面包</td>
+		</tr>
+  		<tr>
+			<td>游泳食物</td><td>20</td><td>2013-09-17</td><td>方立垫付</td><td>面包（5个面包）</td>
+		</tr>
+		<tr>
+			<td>游泳食物</td><td>46</td><td>2013-09-17</td><td>肖明垫付</td><td>PIZZA(4个萨利亚小PIZZA)</td>
+		</tr>
+		<tr>
+			<td>中秋晚餐</td><td>288</td><td>2013-09-18</td><td>肖明垫付</td><td>4个PIZZA，1个莎拉，3个米饭，6个面，3个鱿鱼</td>
+		</tr>
+    </table>
+	
+	<table class="table table-bordered table-hover">
+  		<tr>
+			<th>详情</th><th>日期</th><th>次数</th><th>人员</th>
+		</tr>
+  		<tr>
+			<td>游泳卡</td><td>2013-09-10</td><td>6次</td><td>肖明 方立 周动 张志新 刘向前 刘朝阳</td>
+		</tr>
+		<tr>
+			<td>游泳卡</td><td>2013-09-14</td><td>3次</td><td>周动 张志新 刘朝阳</td>
+		</tr>
+		<tr>
+			<td>游泳卡</td><td>2013-09-17</td><td>5次</td><td>肖明 方立 周动 张志新 刘向前</td>
+		</tr>
+		<tr>
+			<td>游泳卡</td><td>2013-09-23</td><td>3次</td><td>周动 张志新 刘向前</td>
+		</tr>
+		<tr>
+			<td>羽毛球</td><td>2013-09-13</td><td>2个小时</td><td>方立 彭章 刘向前 </td>
+		</tr>
+    </table>
+
+      <hr>
+
+      <div class="footer">
+        <p>&copy; Gome Search group 2013</p>
+      </div>
+
+    </div> <!-- /container -->
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script>
+
+//	$(document).ready(function(){
+//		var backImgs = ["img/5588.jpg","img/6242.jpg","img/10586.jpg"] ;
+//		var count =  0;
+//		window.setInterval(changeBodyBackImage, 60000);
+//		function changeBodyBackImage(){
+//			var index = count % backImgs.length ;
+//			$(document.body).css("background-image","url(" + backImgs[index] + ")") ;
+//			count ++ ;
+//		}
+//	}) ;
+//	$('#example').popover('toggle') ;
+    </script> 
+  </body>
+</html>

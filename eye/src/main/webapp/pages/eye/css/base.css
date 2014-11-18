@@ -1,0 +1,197 @@
+html,body {
+	height: 100%;
+	/* The html and body elements cannot have any padding or margin. */
+}
+/* Wrapper for page content to push down footer */
+#wrap {
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	/* Negative indent footer by it's height */
+	margin: 0 auto -60px;
+}
+/* Set the fixed height of the footer here */
+#push,#footer {
+	height: 60px;
+}
+#footer {
+	background-color: #f5f5f5;
+}
+/* Lastly, apply responsive CSS fixes as necessary */
+@media ( max-width : 767px) {
+	#footer {
+		margin-left: -20px;
+		margin-right: -20px;
+		padding-left: 20px;
+		padding-right: 20px;
+	}
+}
+/* Custom page CSS
+      -------------------------------------------------- */
+/* Not required for template or sticky footer method. */
+#wrap>.container {
+	padding-top: 60px;
+}
+.container .credit {
+	margin: 20px 0;
+}
+code {
+	font-size: 80%;
+}
+.sidebar-nav {
+        padding: 9px 0;
+}
+.show-main {
+  min-height: 20px;
+  padding: 19px;
+  margin-bottom: 20px;
+  background-color: #f5f5f5;
+  border: 1px solid #e3e3e3;
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+div.orgChart div.node {
+	cursor: pointer;
+}
+li{
+	list-style:none;	
+}
+ul li{
+	list-style-type:none;
+	margin:0px;
+}
+.span2 .well #zooNav{margin: 0 0 10px 5px;}
+.span2 .well{padding: 5px 0 0 0;}
+.well h4 .ui-icon{display:inline-block;background-position: -15px -142px;}
+#off-line{height: 200px; overflow:hidden;}
+#right_head{min-height: 0px;}
+.container .row-fluid .faq-color .btn{background-image:none; margin-bottom:10px;}
+.container .row-fluid .faq-color{padding-bottom:10px;}
+.container .row-fluid .main-info{padding-bottom:10px; width:78.359%}
+#add-router-form input.text { margin-bottom:12px; width:95%; padding: .4em; }
+#add-app-form input.text { margin-bottom:12px; width:95%; padding: .4em; }
+.form-signin {
+	max-width: 300px;
+	padding: 19px 29px 29px;
+	margin: 0 auto 20px;
+	background-color: #fff;
+	border: 1px solid #e5e5e5;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+	box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+	float: left;
+}
+.form-signin .form-signin-heading,.form-signin .checkbox {
+	margin-bottom: 10px;
+}
+.form-signin input[type="text"],.form-signin input[type="password"] {
+	font-size: 16px;
+	height: auto;
+	margin-bottom: 15px;
+	padding: 7px 9px;
+}
+#zooTree-init div.orgChart div.node {
+    background-color: yellow;
+    border: 2px solid black;
+    border-radius: 8px 8px 8px 8px;
+    box-shadow: 4px 4px 6px #888888;
+    cursor: default;
+    display: inline-block;
+    height: 110px;
+    line-height: 1.3em;
+    padding: 0 4px;
+    width: 134px;
+}
+#zooTree div.orgChart div.node {
+    background-color: #99FF00;
+    border: 2px solid black;
+    border-radius: 8px 8px 8px 8px;
+    box-shadow: 4px 4px 6px #888888;
+    cursor: default;
+    display: inline-block;
+    height: 117px;
+    line-height: 1.3em;
+    padding: 0 4px;
+    width: 147px;
+}
+#zooTree-original div.orgChart div.node {
+    background-color: yellow;
+    height: 40px;
+}
+#zooTree-init  div.orgChart div.node {
+    background-color: yellow;
+   /** height: 40px;*/
+}
+.node .table tr td{
+	font-size: 12px;
+}
+.node .table tr td{
+	line-height: 12px;
+}
+ .nodes .node .table-bordered{
+ margin-top:1px;
+ margin-bottom:1px;
+ border-color:black;
+ }
+ .nodes .node .table-bordered th{
+ border-color:black;
+ }
+ .nodes .node .table-bordered td{
+ border-color:black;
+ }
+body {
+    /* padding-top: 40px; */
+    position: relative;
+}
+body {
+    background-color: #FFFFFF;
+    color: #333333;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    line-height: 20px;
+    margin: 0;
+}
+html {
+    font-size: 100%;
+}
+.node .progress {
+    background-color: #F7F7F7;
+    background-image: linear-gradient(to bottom, #99FF00, #99FF00);
+    background-repeat: repeat-x;
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) inset;
+    height: 20px;
+    margin-top: 37px;
+    overflow: hidden;
+}
+#zooTree div.orgChart table tbody div.warning {
+    background-color: #D699BB;
+}
+#zooTree div.orgChart table tbody div.error {
+    background-color: red;
+}
+#zooTree div.orgChart {
+    border: none;
+}
+#zooTree-init div.orgChart {
+    border:  none;
+}
+.eye-hide{
+	display:none;
+}
+.h-font{
+	color: #9F9F9F;
+}
+.row .block4{
+	width:260px;
+}
+.bloclrow{
+	margin-bottom:65px;
+}

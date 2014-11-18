@@ -1,0 +1,8 @@
+<link href="/pages/eye/css/base.css" rel="stylesheet" />
+<link href="${initParam.cdnCssServerUrl}/pages/css/bootstrap.css" rel="stylesheet" />
+<link href="${initParam.cdnCssServerUrl}/pages/css/bootstrap-responsive.min.css" rel="stylesheet" />
+<link href="${initParam.cdnCssServerUrl}/pages/css/jquery-ui-1.10.2.custom.css" rel="stylesheet" />
+<link href="${initParam.cdnCssServerUrl}/pages/css/jquery.orgchart.css" rel="stylesheet" />
+
+<link rel="icon" href="/pages/eye/favicon.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="/pages/eye/favicon.ico" type="image/x-icon" />

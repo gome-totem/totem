@@ -1,0 +1,17 @@
+[{
+	"id":1,
+	"text":"数据字典",
+	"children":[{
+		"id":11,
+		"text":"<a id='tree11' href='javascript:showContent(11)'>server服务配置</a>",
+		"iconCls":"icon-tip"
+	},{
+		"id":13,
+		"text":"<a  href='javascript:showContent(13)'>关键词过滤配置</a>",
+		"iconCls":"icon-tip"
+	},{
+		"id":12,
+		"text":"<a  href='javascript:showContent(12)'>基础数据配置</a>",
+		"iconCls":"icon-tip"
+	}]
+}]

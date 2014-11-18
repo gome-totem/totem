@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="/pages/js/jquery-1.9.1.js"></script>
+
+<script type="text/javascript">
+
+$.getJSON( "/cloud/eye/es", {})
+.done(function(data) {
+//	  console.log(JSON.stringify(data));
+
+	 
+	//  console.log(JSON.stringify(data.nodes));
+var mid=data.master_node;
+	 
+	 var health=data.health;
+	  $( "#status" ).append( health.status );
+	  $( "#active_shards" ).append( health.active_shards );
+	  $( "#unassigned_shards" ).append( health.unassigned_shards );
+	  $( "#initializing_shards" ).append( health.initializing_shards );
+	  $( "#cluster_name" ).append( health.cluster_name );
+	  $( "#number_of_nodes" ).append( health.number_of_nodes );
+	  
+	 
+	  $.each( data.nodes, function( i, item ) {
+		//	  console.log( i+" "+JSON.stringify(item) );
+			  var ism="no";
+			  if(i==mid) ism="yes";
+			  var str="<tr class='' ><td>"+i+"</td><td>"+item.name+"</td><td>"+item.transport_address+"</td><td>"+ism+"</td></tr>";
+			  $( "#es_tbody" ).append( str );
+			  
+		      });
+
+})
+.fail(function() {
+  alert("error");
+});
+		
+
+</script>
+</head>
+<body>
+<h1>ES监控页面</h1>
+
+<li id="cluster_name">cluster_name:</li>
+<li id="status">status:</li>
+<li  id="active_shards">active_shards:</li>
+<li id="unassigned_shards">unassigned_shards:</li>
+<li id="initializing_shards">initializing_shards:</li>
+<li id="number_of_nodes">number_of_nodes:</li>
+
+<br>
+<table id="eslist" width="800"  border="1" cellpadding="0" cellspacing="0">
+<thead>
+						<tr>
+							<th>nodeID</th>
+							<th>nodeName</th>
+							<th>IP</th>
+							<th>是否主节点</th>
+						</tr>
+					</thead>
+						<tbody id="es_tbody"></tbody>
+</table>
+</body>
+</html>

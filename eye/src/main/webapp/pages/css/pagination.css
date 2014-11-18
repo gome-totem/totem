@@ -1,0 +1,159 @@
+.pagination {
+    clear: both;
+    height: 32px;
+    margin: 20px 0 25px;
+    position: relative;
+}
+.pagination a, .pagination span, .pagination label, .pagination button {
+    float: left;
+}
+.pagination a, .pagination span.cur {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #DDDDDD;
+    color: #5E5E5E;
+    font: 14px/30px Arial;
+    height: 30px;
+    margin: 0 0 0 -1px;
+    min-width: 4px;
+    padding: 0 13px;
+    position: relative;
+    z-index: 0;
+}
+.pagination span.cur {
+    background: none repeat scroll 0 0 #F8F8F8;
+    border: 1px solid #E6E6E6;
+    color: #A5A5A5;
+    font-weight: 500;
+    text-decoration: none;
+    z-index: 10;
+}
+.pagination a:hover {
+    color: #CC0000;
+    text-decoration: none;
+}
+.pagination a.prev:hover, .pagination a.next:hover {
+    background: none repeat scroll 0 0 #FFFFFF;
+    color: #CC0000;
+    font-weight: normal;
+}
+.pagination s {
+    position: absolute;
+}
+.pagination .prev {
+    font-size: 12px;
+    padding: 0 8px 0 21px;
+}
+.pagination .prev s {
+    background: url("../images/list_bg.png") no-repeat scroll -107px -89px transparent;
+    height: 10px;
+    left: 10px;
+    overflow: hidden;
+    top: 10px;
+    width: 6px;
+}
+.pagination .disable .icon-prev {
+    background-position: -60px -25px;
+}
+.pagination .disable .icon-next {
+    background-position: -67px -25px;
+}
+.pagination .next {
+    font-size: 12px;
+    padding: 0 21px 0 8px;
+}
+.pagination .next s {
+    background: url("../images/list_bg.png") no-repeat scroll -114px -89px transparent;
+    height: 10px;
+    overflow: hidden;
+    right: 10px;
+    top: 10px;
+    width: 6px;
+}
+.pagination .placeholder {
+    background: url("../images/list_bg.png") no-repeat scroll -55px 0 transparent;
+    height: 22px;
+    margin: 0 8px;
+    overflow: hidden;
+    width: 16px;
+}
+.pagination .show-more {
+    border: 0 none;
+    font-weight: 500;
+    margin: 0 10px;
+    padding: 0 14px 0 0;
+}
+.pagination .show-more:hover {
+    background: none repeat scroll 0 0 transparent;
+    border: 0 none;
+    color: #EA5504;
+    text-decoration: underline;
+}
+.pagination .show-more s {
+    background: url("./images/search_bg.png") no-repeat scroll -20px -34px transparent;
+    height: 5px;
+    overflow: hidden;
+    right: 0;
+    top: 9px;
+    width: 9px;
+}
+.pagination .show-more:hover s {
+    background-position: -30px -34px;
+}
+.pagination .txt-wrap {
+    color: #959595;
+    line-height: 30px;
+    margin: 0 5px 0 10px;
+}
+.pagination .txt {
+    border: 1px solid #CCCCCC;
+    color: #5E5E5E;
+    font-family: Arial;
+    height: 30px;
+    line-height: 18px;
+    margin: 0 5px;
+    padding: 4px 0;
+    text-align: center;
+    vertical-align: middle;
+    width: 32px;
+}
+.pagination .btn {
+    background: none repeat scroll 0 0 #F8F8F8;
+    border: 1px solid #DDDDDD;
+    color: #5E5E5E;
+    cursor: pointer;
+    font: 12px/26px "Simsun";
+    height: 27px;
+    margin-top: 2px;
+    padding: 0;
+    text-align: center;
+    width: 42px;
+}
+.pagination .btn:hover {
+    border: 1px solid #CCCCCC;
+    color: #333333;
+}
+.pagination .btn:active {
+    background: none repeat scroll 0 0 #F3F3F3;
+}
+.pagination .disable {
+    background: none repeat scroll 0 0 #F8F8F8;
+    color: #CCCCCC;
+    cursor: default;
+}
+.pagination a.disable:hover {
+    background: none repeat scroll 0 0 #F8F8F8;
+    color: #CCCCCC;
+}
+.pagination .fr{
+	display: inline;
+    float: right;
+    height: 40px;
+    margin-right: 5px;
+    margin-top: 5px;
+    text-indent: 0px;
+}
+.pagination .fr a{
+	cursor: pointer;
+   outline: 0 none;
+   text-decoration: none;
+}

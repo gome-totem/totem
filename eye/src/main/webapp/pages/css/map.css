@@ -1,0 +1,45 @@
+.rightMain{width: 100%;}
+.citylist, #result {
+	background:#FFF;
+	border-left:1px dotted #999;
+	top:0px;
+	right:0px;
+	font-size:12px;
+}
+#result dl,#result dt,#result dd,#result ul,#result li{
+    margin:0;
+    padding:0;
+    list-style:none;
+}
+#result dt{
+    font-size:14px;
+    font-family:"微软雅黑";
+    font-weight:bold;
+    border-bottom:1px dotted #000;
+    padding:5px 0 5px 5px;
+    margin:5px 0;
+}
+#result dd{
+    padding:5px 0 0 5px;
+}
+#result li{
+    line-height:28px;
+}
+h5{
+    font-size:14px;
+    font-family:"微软雅黑";
+    font-weight:bold;
+    border-top:1px dotted #000;
+    border-bottom:1px dotted #000;
+    padding:5px 0 5px 5px;
+    margin:1px 0;
+}
+#question li{
+	 padding:5px 0 5px 5px;
+    margin:1px 0;
+}
+#question {position:relative; width:450px; height:80%; margin: 0 auto 0;  }
+#question a {position:absolute; top:0px; left:0px; font-family: Microsoft YaHei; color:#000; font-weight:bold; text-decoration:none; padding: 3px 6px; }
+#question a:hover { color:#FF0000; letter-spacing:2px;}
+#k_100 td, #q_100 td{border-bottom:1px dotted #000;}
+#k_100 td.hover, #q_100 td.hover{background:#999;}

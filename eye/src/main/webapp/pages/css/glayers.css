@@ -1,0 +1,19 @@
+/*ie6居中显示层的样式*/
+.chagetop { left:expression(eval(document.documentElement.scrollLeft+ (document.documentElement.clientWidth-this.offsetWidth)/2));
+top:expression(eval(document.documentElement.scrollTop+ (document.documentElement.clientHeight-this.offsetHeight)/2));z-index:9999999;
+}
+/*遮罩*/
+.overlay { background:#000; cursor: pointer; display: block; filter:alpha(opacity=60); opacity: 0.6; height:100%; width:100%; position:absolute; left:expression(eval(document.documentElement.scrollLeft));
+top:expression(eval(document.documentElement.scrollTop));
+z-index:9999998;width:100%}
+.alert-pop {
+    background-color: #FFFFFF;
+    padding: 13px 14px 13px;
+    width: 380px;
+}
+.alert-cont .close {
+    background: url("../images/list_bg.png") no-repeat scroll -81px 0 rgba(0, 0, 0, 0);
+    float: right;
+    height: 16px;
+    width: 16px;
+}

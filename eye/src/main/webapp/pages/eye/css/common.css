@@ -1,0 +1,64 @@
+
+body, dl, dt, dd, ul, ol, li, pre, form, fieldset, input, p, blockquote, th, td, menu,textarea,select { font-weight:400; margin:0; padding:0; }
+body { background-color:#FFFFFF; color:#333; font:normal 12px/1.5  'Arial','SimSun','Tahoma','Helvetica', 'sans-serif'; padding:0 10px; text-align:left; }
+a { text-decoration:none; color:#333; outline:none; cursor:pointer; }
+a:hover { text-decoration: underline }
+/*颜色样式*/
+.black { color:#000; }
+.red { color:#f00; }
+.green{color:#2e963d;}
+.red-d{color:#c00;}
+.blue { color:#0066cc; }
+.gray { color:#ccc; }
+.highlight { color:#F00; }
+.fff{ color:#fff;}
+.light{ color:#F60;}
+.lowlight{color:#999}
+.color-bk{color:#000}
+.color-r,.sidelink.color-r{color:#f00}
+a:hover.color-r,a:hover.sidelink.color-r{color:#f00}
+.color-rc,.sidelink.color-rc{color:#C00}
+a:hover.color-rc,a:hover.sidelink.color-rc{color:#C00}
+.color-b,.sidelink.color-b{color:#0066CC}
+a:hover.color-b,a:hover.sidelink.color-b{color:#0066CC}
+.color-g,.sidelink.color-g{color:#009900}
+a:hover.color-g,a:hover.sidelink.color-g{color:#009900}
+.color-p,.sidelink.color-p{color:#9900cc}
+a:hover.color-p,a:hover.sidelink.color-p{color:#9900cc}
+.color-o,.sidelink.color-o{color:#fa621e}
+a:hover.color-o,a:hover.sidelink.color-o{color:#fa621e}
+
+/*文字排版*/
+.f10 { font-size:10px; }
+.f12 { font-size:12px; }
+.f13 { font-size:13px; }
+.f14 { font-size:14px; }
+.f16 { font-size:16px; }
+.f18 { font-size:18px; }
+.f20 { font-size:20px; }
+.f24 { font-size:24px; }
+.f26 { font-size:26px; }
+
+
+/*字体*/
+.SimSun { font-family:'SimSun'; }
+.yahei {font-family:'微软雅黑'; }
+
+/*定位*/
+.tl { text-align:left; }
+.tc { text-align:center; }
+.tr { text-align:right; }
+.bc { margin-left:auto; margin-right:auto; }
+.fl { float:left; display:inline; }
+.fr { float:right; display:inline; }
+.vt { vertical-align:top; }
+.vm { vertical-align:middle; }
+.vb { vertical-align:bottom; }
+.pr { position:relative; }
+.pa { position:absolute; }
+.db{display:block;}
+.dbin{display:inline-block;}
+.zoom { zoom:1; }
+.invisible { visibility:hidden; }
+.hidden { display:none!important; }
+.hide{ display:none; }

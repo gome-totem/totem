@@ -1,0 +1,1089 @@
+/*************************************************
+ *  
+ *      css RESET
+ *
+ *************************************************/
+html, body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, q, th, td, caption, article, aside, figure, figcaption, footer, header, hgroup, nav, section, audio, video{
+    margin: 0;
+    padding: 0;
+}
+fieldset, img, iframe{
+    border: 0 none;
+}
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section{
+    display: block;
+}
+ol, ul {
+    list-style: none;
+}
+blockquote, q{
+    quotes: none;
+}
+blockquote:before, blockquote:after, q:before, q:after{
+    content: '';
+    content: none;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+caption, th{
+    text-align: left;
+}
+em, strong, th,s,i{
+    font-style: normal;
+    font-weight: 500;
+}
+sup{
+    vertical-align:text-top;
+}
+sub{
+    vertical-align:text-bottom;
+}
+textarea{
+    resize: none;
+}
+
+/* clear float */
+.clearfix:after{
+    content:".";
+    display:block;
+    height:0;
+    clear:both;
+    visibility:hidden;
+}
+.clearfix{
+    *zoom:1;
+}
+html, body{
+    height: 100%;
+    background: #FFF;
+    font: 12px/1.5 Arial,simsun;
+}
+.M{
+    width: 1200px;
+    margin: 0 auto;
+}
+.NS .M{
+    width: 980px;
+}
+a span, a em, a strong{
+    cursor: pointer;
+}
+.c, .clear{
+    clear: both;
+    float: none;
+}
+.c{
+    overflow: hidden;
+    height: 0;
+}
+.fl{float: left;}
+.fr{float: right; text-indent: 0;}
+.char, .char1, .char2, .char3{
+    display: inline-block;
+    *display: inline;
+    width: 0.5em;
+    *zoom: 1;
+}
+.char1{width: 1em;}
+.char2{width: 2em;}
+.char3{width: 3em;}
+body{
+    font-family:"新宋体","Arial";
+    line-height:1.5;
+	color:#5E5E5E;
+}
+/*表单元素*/
+.nCheckBox,.nRadio{
+    vertical-align:-2px;
+    *vertical-align:-3px;
+    margin:-2px 5px 0 0;
+    *margin:0 2px 0 -4px; 
+}
+.nSelect{
+    height:22px;
+    line-height:22px;
+    border: 1px solid #CCC;
+    margin:0;
+}
+.nTextArea{
+    display: block;
+    padding:5px;
+    border: 1px solid #CCC;
+    color: #A5A5A5;
+}
+.nTextArea:focus{
+    border-color: #A5A5A5;
+    color: #5E5E5E;
+}
+.nText{
+    height: 27px;
+    padding:3px 0;
+    margin: 0 3px 0 0;
+    border: 1px solid #CCC;
+    color: #A5A5A5;
+    vertical-align: middle;
+}
+.nText:focus{
+    border-color: #A5A5A5;
+    color: #5E5E5E;
+}
+.nTextFocus{
+    border-color: #A5A5A5;
+    color: #5E5E5E;
+}
+.nText-err{
+    border-color:#C00;
+}
+/* font 红色,蓝色,绿色,橙色,灰色,雅黑*/
+a{
+    color: #5E5E5E;
+    text-decoration: none;
+}
+a:hover{
+	color:#C00;
+	text-decoration:underline;
+}
+.nBlue,.nBlue:hover{
+	color:#06C;
+}
+.nRed,.nRed:hover{
+	color:#C00;
+}
+.nOrange,.nOrange:hover{
+	color:#EA5504;
+}
+.nGreen,.nGreen:hover{
+	color:#2A8C01;
+}
+.nLowLeight{
+	color:#A5A5A5;
+}
+.nMidLeight{
+    color:#5E5E5E;
+}
+.nMidLeightE6{
+    color:#E6E6E6;
+}
+.nHeighLeight{
+	color:#333;
+}
+.nYaHei{
+    font-family:"Microsoft YaHei"
+}
+.nArial{
+    font-family:"arial"
+}
+.txtCen{
+    text-align:center;
+}
+.f14{
+    font-size:14px;
+}
+.nPrice i{
+    font-family:"Arial";
+    padding-right:2px;
+}
+/* button 白,灰,红色颜色按钮 */
+.nBtn{
+    display:inline-block;
+	height:24px;
+	line-height:24px;
+	padding:0 19px;
+    margin:0 4px 0 0;
+    overflow:hidden;
+    vertical-align:middle;
+}
+.nBtn,.nBtn:visited{
+	color:#333;
+	background:#FFF;
+	border:1px solid #DDD;
+}
+.nBtn:hover{
+	color:#333;
+	text-decoration:none;
+	border-color:#CCC;
+}
+.nBtn:active{
+	color:#333;
+	text-decoration:none;
+	border-color:#CCC;
+	background:#F8F8F8;
+}
+.nBtn-pay{
+    display:inline-block;
+    height:30px;
+    padding:5px 20px;
+    font:500 18px/30px "Microsoft YaHei";
+    background:#C00;
+    color:#FFF;
+    overflow:hidden;
+}
+.nBtn-pay b{
+    margin-left:5px;
+    font-family:simsun;
+}
+.nBtn-pay:hover{
+    color:#FFF;
+    text-decoration:none;
+    background:#D00;
+}
+/**/
+.nBtn-g,.nBtn-g:visited{
+	background:#F8F8F8;
+}
+.nBtn-g:active{
+	color:#333;
+	text-decoration:none;
+	border-color:#CCC;
+	background:#F3F3F3;
+}
+/**/
+.nBtn-r,.nBtn-r:visited{
+	color:#FFF;
+	background:#C00;
+	border-color:#C00;
+}
+.nBtn-r:hover{
+	color:#FFF;
+	text-decoration:none;
+	border-color:#D00;
+	background:#D00;
+}
+/**/
+.nBtn-no{
+	display:inline-block;
+	height:24px;
+	line-height:24px;
+	padding:0 8px;
+    margin:0 7px 0 -3px;
+	color:#CCC;
+	background:#F8F8F8;
+	border:1px solid #E6E6E6;
+	cursor:default;
+    vertical-align:middle;
+}
+/**/
+.nBtn-load{
+    display:inline-block;
+    height:16px;
+    line-height:16px;
+    padding:6px 18px;
+    margin:0 7px 0 -3px;
+    border:1px solid #CCC;
+    background:#FFF;
+    overflow:hidden;
+    vertical-align:middle;
+    *display:inline;
+    *zoon:1;
+}
+.nBtn-w{
+    padding:2px 19px;
+}
+/*登陆框*/
+.loginBox{
+    position: relative;
+    top: 50%;
+    width: 500px;
+    height: 449px;
+    margin: -225px auto 0;
+    background: url(../images/logbg.png) no-repeat;
+    box-shadow:0 0 40px rgba(0, 0, 0, .19);
+    border:1px solid #f1f1f1\9;
+}
+.loginHd{
+    height: 65px;
+    font: normal 20px/76px "Microsoft YaHei";
+    color: #FFF;
+    overflow: hidden;
+}
+.loginHd .logo{
+    float: left;
+    width: 180px;
+    height: 30px;
+    margin: 18px 30px 0 56px;
+    background: url(../images/logo.png) no-repeat;
+}
+.loginBd{
+    padding: 40px 0 31px;
+}
+.loginBd .login-item{
+    position: relative;
+    width: 300px;
+    height: 36px;
+    margin:0 auto;
+    padding:0 0 25px 0;
+    overflow: hidden;
+}
+.login-item .tips{
+    position: absolute;
+    left:0;
+    top: 38px;
+}
+.login-item .wrong{
+    color:#C00;
+}
+.login-item .nText{
+    width: 288px;
+    height: 28px;
+    line-height: 28px;
+    font-size: 14px;
+    padding-left: 10px;
+}
+.login-item .btnnuw{
+    display:block;
+    width:300px;
+    height:40px;
+    background:#C30000;
+    font:700 16px/40px "微软雅黑";
+    color:#EEE;
+    text-align:center;
+    border:0 none;
+    outline:none;
+}
+.btnnuw:hover{
+    color:#EEE;
+    text-decoration:none;
+    background:#D00;
+}
+.actions input{
+    letter-spacing:10px;
+}
+
+.loginFt{
+    padding:20px 40px 0;
+}
+/*模板*/
+.demoWarp{
+    width: 100%;
+    min-width: 1200px;
+}
+/*.demoTop*/
+.demoTop{
+    height: 65px;
+    background: #534B4A;
+}
+.demoTop .logo{
+    float: left;
+    width: 220px;
+    height: 65px;
+    background:#39312F url(../images/logo.png) no-repeat 20px 22px;
+}
+.demoTop .nav{
+    float: right;
+    margin-top: 30px;
+}
+.demoTop .nav li{
+    float: right;
+    height: 35px;
+    cursor: pointer;
+}
+.demoTop .links{}
+.demoTop .links a{
+    display: block;
+    height: 31px;
+    padding: 0 20px;
+    border-bottom: 4px solid #534B4A;
+    font: 700 14px/35px "Microsoft YaHei";
+    color: #A5A5A5;
+    overflow: hidden;
+    *zoom:1;
+    _display:inline;
+}
+.demoTop .links a:hover,.demoTop .links a.cur{
+    color: #FFF;
+    text-decoration: none;
+    border-bottom-color:#C00; 
+}
+.demoTop .user{
+    position: relative;
+    width: 90px;
+    padding: 0 10px;
+    margin-right: 20px;
+    line-height: 35px;
+    z-index: 9;
+}
+.demoTop .user .pic{
+    display: inline-block;
+    vertical-align: top;
+    *vertical-align: middle;
+    font-size: 35px;
+    margin-right: 5px;
+}
+.demoTop .user .f{
+    color: #CCC;
+    line-height: 35px;
+}
+.demoTop .user .s,.demoTop .notice .s{
+    display: inline-block;
+    margin-left: 3px;
+    font-size: 0;
+    line-height: 0;
+    border-left: 4px solid #534B4A;
+    border-right: 4px solid #534B4A;
+    border-top: 4px solid #CCC;
+    vertical-align: 2px;
+}
+.demoTop li.notice{
+    position: relative;
+    width: 36px;
+    height:18px;
+    padding:8px 10px 9px;
+    *padding:12px 0 5px 10px;
+    z-index: 9;
+}
+.demoTop .notice .ico{
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 35px;
+    margin:-1px 5px 0 0;
+    height: 12px;
+    width: 16px;
+    background: url(../images/bg.png) 0 -18px;
+}
+.demoTop .notice .nums{
+    position: absolute;
+    top: -10px;
+    left: -6px;
+    width: 15px;
+    height: 15px;
+    font-size: 12px;
+    line-height: 16px;
+    text-align: center;
+    color: #FFF;
+    background: url(../images/bg.png);
+}
+.demoTop .chs{
+    background: #FFF;
+}
+.demoTop .chs .ico{
+    background-position: -19px -18px;
+}
+.demoTop .chs .s{
+    border-left: 4px solid #FFF;
+    border-right: 4px solid #FFF;
+    border-top: 0 none;
+    border-bottom: 4px solid #5E5E5E;
+}
+.tipsBox{
+    position: absolute;
+    top:35px;
+    background: #FFF;
+    border: 1px solid #E1E1E1;
+    border-top: 0 none;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .19);
+    z-index: 10;
+    color: #A5A5A5;
+    display: none;
+}
+.demoTop .chs .tipsBox{
+    display: block;
+}
+.tipsBox span{
+    display: block;
+    padding-left:10px;
+    height: 32px;
+    line-height: 32px;
+}
+.tipsBox a{
+    color: #06C;
+}
+.demoTop .notice .tipsBox{
+    width: 100px;
+    left: -1px;
+    cursor: default;
+}
+.demoTop .user .tipsBox{
+    width: 260px;
+    padding: 0 10px;
+    right: 0;
+    cursor: default;
+    line-height: 2.5;
+}
+.demoTop .user .tipsBox span{
+    float: left;
+    width:120px;
+    display: inline;
+    padding-left: 0;
+}
+.demoTop .user .tipsBox .l{
+    border-top: 1px solid #E6E6E6;
+}
+/*.demoMain*/
+.demoMain{
+    border-left: 220px solid #F2F2F0;
+}
+.leftBar{
+    float: left;
+    width: 220px;
+    padding-top: 50px;
+    margin-left: -220px;
+    _position:relative;
+}
+/*barBox*/
+.barBox{
+    width: 220px;
+    overflow: hidden;
+}
+.barBox dt{
+    font: 700 14px/40px "";
+    height: 40px;
+    padding-left: 55px;
+    cursor: pointer;
+}
+.barBox dt i,.barBox dt s{
+    width: 16px;
+    background: url(../images/bg.png) no-repeat;
+}
+.barBox dt i{
+    float: left;
+    height: 16px;
+    margin: 12px 10px 0 0;
+    background-position: 0 -34px;
+    _margin: 11px 7px 0 0;
+}
+.barBox dt s{
+    float: right;
+    height: 12px;
+    margin: 15px 18px 0 0;
+    background-position: right -150px;
+    cursor: pointer;
+}
+.barBoxShow dt s{
+    background-position: right -166px;
+}
+.barBox dd{
+    display: none;
+    font: 500 14px/40px "";
+    height: 40px;
+    overflow: hidden;
+}
+.barBoxShow dd{
+    display: block;
+}
+.barBox dd a{
+    display: block;
+    height: 40px;
+    padding-left: 81px;
+    *background: #F2F2F0;
+}
+.barBox dd a:hover,.barBox dd a.cur{
+    background: #534B4A;
+    color: #FFF;
+    text-decoration: none;
+}
+.barBox dd s{
+    float: right;
+    border-top:3px solid #534B4A;
+    border-bottom:3px solid #534B4A;
+    border-left:4px solid #FFF;
+    margin: 17px 22px 0 0;
+    font-size: 0;
+    line-height: 0;
+    visibility: hidden;
+}
+.barBox dd a:hover s,.barBox dd a.cur s{
+    visibility:visible;
+}
+
+.rightMain{
+    float: left;
+    position: relative;
+    width: 100%;
+}
+.rightMainb{
+	 float: left;
+    position: relative;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .19);
+    width: 100%;
+}
+.slideBtn{
+    position: absolute;
+    left: -30px;
+    top: 17px;
+    width: 30px;
+    height: 40px;
+    background: url(../images/bg.png) no-repeat 0 -184px;
+}
+.allScreen{
+    background-position:0 -231px;
+    left:0
+}
+.main{
+	margin: 20px;
+   min-width: 940px;
+   width: 96%;
+}
+.main-map{
+	 min-width: 940px;
+    width: 96%;
+}
+.crumbs{
+    margin: 20px; 
+}
+.crumbs li{
+    float: left;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 25px 0 10px;
+    margin-right: 4px;
+    color: #A5A5A5;
+    background: #F3F3F3 url(../images/bg.png) right -118px no-repeat;
+}
+.crumbs .home{
+    float: left;
+    width: 16px;
+    height: 16px;
+    margin:7px -11px 0 0;
+    background: #F3F3F3 url(../images/bg.png) right -34px no-repeat;
+}
+.crumbs .lBg{
+    float: left;
+    width: 11px;
+    height: 30px;
+    margin-left: -21px;
+    background: url(../images/bg.png) 0 -149px no-repeat;
+    _position:relative;
+}
+
+.daysData{
+    margin-bottom: 45px;
+}
+.data{
+    float: left;
+    width: 14%;
+    margin-right: 2%;
+    text-align: center;;
+}
+.schematic{
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 7px;
+    background: #F3F3F3 url(../images/numsBg.png)  no-repeat;
+}
+.data .triger{
+    font: 700 14px/18px "Microsoft YaHei";
+}
+.data .triger:hover{
+    color: #C00;
+    text-decoration: underline;
+    cursor: pointer;
+}
+.triger i{
+    font: 700 16px/18px "Microsoft YaHei";
+}
+
+.brands{
+    margin-bottom: 25px;
+}
+.brands li{
+    float: left;
+    width: 14%;
+    height: 63px;
+    margin-right: 2%;
+    border: 1px solid #DDD;
+    box-shadow: 0 0 5px rgba(0, 0, 0, .19);   
+}
+.brands li a{
+    float: left;
+    width: 100%;
+    height: 63px;
+    text-align: center;
+    background: #F8F8F8;
+    color: #5E5E5E;
+}
+.brands li a:hover{
+    color: #5E5E5E;
+    text-decoration: none;
+    background: #FFF;
+}
+.brands img{
+    display: block;
+    width: 24px;
+    height: 24px;
+    margin: 13px auto 3px;
+}
+
+.setBox{
+    width: 96%;
+    padding: 15px 0;
+    margin-bottom: 25px;
+    border: 1px solid #E6E6E6;
+}
+.setBox .setHd{
+    height: 26px;
+    font:700 16px/26px "Microsoft YaHei";
+    color: #333;
+}
+.setHd .ic{
+    float: left;
+    width: 4px;
+    height: 16px;
+    margin: 5px 10px 0 30px;
+    overflow: hidden;
+    background: #CC0000;
+}
+.setHd .fr{
+    font:500 14px "新宋体";
+    color: #E6E6E6; 
+    margin:5px 10px 0 0;
+}
+.setHd .down,.setHd .close{
+    display: inline-block;
+    width: 17px;
+    margin: 0 5px;
+    background: url(../images/bg.png)  no-repeat;
+    vertical-align: top;
+}
+.setHd .down{
+    height: 17px;
+    background-position: 0 -51px;
+}
+.setHd .down:hover{
+    background-position: -19px -51px;
+}
+.setHd .up{
+    background-position: 0 -95px;
+}
+.setHd .up:hover{
+    background-position: -19px -95px;
+}
+.setHd .close{
+    height: 17px;
+    background-position: 0 -74px;
+}
+.setHd .close:hover{
+    background-position: -18px -74px;
+}
+
+.setTurn{
+    display: none;
+    margin:15px 0 0 30px;
+}
+.setTurn_recommed{
+    margin:15px 0 0 30px;
+}
+.setTurn th{
+    width: 75px;
+    text-align: right;
+    padding-right: 10px;
+}
+.setTurn td{
+    padding: 10px 0;
+}
+.setTurn .ok{
+}
+.setTurn .nBtn-r{
+    padding:2px 19px;
+}
+.setTurn .fz label,.setTurn .fp label{
+    padding-right: 12px;
+}
+
+.proLists{
+    display: none;
+    padding: 16px 30px 0;
+}
+.proLists td,.proLists th{
+    height: 32px;
+    line-height: 32px;
+    border-bottom: 1px solid #E6E6E6;
+    text-align: left;
+    text-indent: 20px;
+}
+.proLists th{
+    background: #F3F3F3;
+}
+
+.manual{
+    display: none;
+    padding: 0 30px;
+    line-height: 22px;
+}
+.manual h4{
+    height: 32px;
+    line-height: 32px;
+    margin: 16px 0 5px;
+    background: #F3F3F3;
+    padding: 0 14px;
+}
+.manual p,.manual ol{
+    padding: 0 14px;
+}
+.manual li{
+    list-style: decimal;
+    list-style-position:inside;
+}
+
+.bottomLine{
+    position: relative;
+    top: 16px;
+}
+.bottomLine .line{
+    position: relative;
+    top: 2px;
+    height: 1px;
+    margin:0 3px;
+    border: 1px solid #E6E6E6;
+    border-top: 0 none;
+    font-size: 0;
+    line-height: 0;
+}
+.bottomLine .line .line{
+    _top:3px;
+}
+.copyright{
+    padding: 25px 0 150px;
+    text-align: center;
+}
+
+.setBoxShow .setTurn,.setBoxShow .proLists,.setBoxShow .manual{
+    display: block;
+}
+/*分页*/
+.pagination{
+    clear: both;
+    height:32px;
+    margin:20px 0 13px;
+    position: relative;
+}
+.pagination a,
+.pagination span,
+.pagination label,
+.pagination button{
+    float: left;
+}
+.pagination a,.pagination span.cur{
+    position:relative;
+    min-width:4px;
+    height:30px;
+    margin:0 0 0 -1px;
+    padding:0 13px;
+    background: #FFF;
+    border:1px solid #ddd;
+    z-index:0;
+    font:normal 14px/30px Arial;
+    color:#5e5e5e;
+}
+.pagination span.cur{
+    background: #F8F8F8;
+    border: 1px solid #E6E6E6;
+    color: #888;
+    font-weight:500;
+    text-decoration: none;
+    z-index: 10;
+    color:#a5a5a5;
+}
+.pagination a:hover{
+    color:#CC0000;
+    text-decoration:none;   
+}
+.pagination a.prev:hover,.pagination a.next:hover{
+    font-weight:normal;
+    color:#cc0000;  
+    background:#fff;
+}
+.pagination s{
+    position: absolute;
+    text-decoration: none;
+    font: 700 16px/28px "新宋体";
+    color: #CC0000;
+    _top:0;
+}
+.pagination .prev{
+    padding: 0 8px 0 21px;
+    font-size:12px;
+}
+.pagination .prev s{
+    left:9px;
+}
+
+.pagination .next{
+    padding: 0 21px 0 8px;
+    font-size:12px;
+}
+.pagination .next s{
+    right:9px;
+}
+.pagination .placeholder{
+    overflow: hidden;
+    width:16px;
+    height:32px;
+    line-height:24px;
+    margin:0 8px;
+    
+}
+.pagination .show-more{
+    margin: 0 10px;
+    padding: 0 14px 0 0;
+    border: 0 none;
+    font-weight: 500;
+}
+.pagination .show-more:hover{
+    background: none;
+    border: 0 none;
+    color: #EA5504;
+    text-decoration: underline;
+}
+.pagination .show-more s{
+    overflow: hidden;
+    top: 9px;
+    right: 0;
+    width: 9px;
+    height: 5px;
+    background: url(../images/coo8/search/search_bg.png) no-repeat -20px -34px;
+}
+
+.pagination .show-more:hover s{
+    background-position: -30px -34px;
+}
+.pagination .txt-wrap{
+    margin: 0 5px 0 10px;
+    color: #959595;
+    line-height:30px;
+}
+.pagination .txt{
+    width: 32px;
+    height:18px;
+    line-height:18px;
+    margin:0 5px 0;
+    padding:4px 0;
+    border: 1px solid #ccc;
+    text-align: center;
+    vertical-align: middle;
+    color:#5e5e5e;
+    font-family:Arial;
+}
+.pagination .btn{
+    width:42px;
+    height:26px;
+    padding: 0;
+    background: #FFF;
+    border: 1px solid #ddd;
+    color: #5e5e5e;
+    text-align: center;
+    cursor: pointer;
+    margin-top:2px;
+    background:#f8f8f8;
+    font:normal 12px/26px "Simsun";
+}
+.pagination .btn:hover{
+    border:1px solid #ccc;
+    color:#333;
+}
+.pagination .btn:active{
+    background:#f3f3f3
+}
+.pagination .disable{
+    cursor:default;
+    background:#F8F8F8;
+    color:#ccc;
+}
+.pagination a.disable:hover{
+    color:#ccc; 
+    background:#f8f8f8;
+}
+.pagination .disable s{
+    color:#CCC;
+}
+.error{
+	color:#FF0000;
+}
+.warning{
+	color:#FFFF00;
+}
+.eyehide{
+	display:none;
+}
+td.top{
+	padding: 0;
+	font-size:12px;
+	white-space: nowrap;
+}
+/*business-rec*/
+.business-rec{
+    border:1px solid #E6E6E6;
+}
+.no_rec{
+    padding: 18px 0;
+    text-align: center;
+}
+.business_list{
+    margin: 18px 0;
+}
+.business_list th,.business_list td{
+    height: 34px;
+    line-height: 36px;
+}
+.business_list th{
+    text-align: right;
+    padding-right: 5px;
+    width: 100px;
+}
+.business_list .nText{
+    position: absolute;
+    top: 5px;
+    width: 150px;
+    padding-left: 5px;
+    z-index: 2;
+}
+.business_list .bgTxt{
+    position: absolute;
+    top: 0;
+    padding-left: 5px;
+    z-index: 0
+}
+.business_list .col_2{
+    position: relative;
+    width: 165px;
+}
+.business_list .nSelect{
+    width: 158px;
+}
+.js_gm{
+    display: none;
+}
+.business_list .save{
+    background: #FFF;
+    border-color:#FFF;
+    color: #5E5E5E;
+}
+/*alert_item*/
+.alert_item{
+    width: 350px;
+    height:100px;
+    padding: 18px 11px 11px 20px;
+    border:1px solid #E6E6E6;
+    background: #FFF; 
+}
+.alert_item input{
+    float: left;
+    margin: 39px 9px 0px -14px;
+}
+.alert_item img{
+    float: left;
+    width: 100px;
+    height: 100px;
+    margin-right: 10px;
+    border:1px solid #E6E6E6;
+}
+input.zdx_t {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #FFFFFF;
+}
+input.zdx_s {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #336699;
+}
+.col_3 span{
+	  font-size: 12px;
+    height: 29px;
+    width: 100px;
+    overflow: hidden;
+    padding-left: 10px;
+    text-align: left;
+    word-break: break-all;
+    word-wrap: break-word;
+}
