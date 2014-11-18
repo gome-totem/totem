@@ -2,13 +2,11 @@ package org.z.core.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.z.core.app.ModuleJobPull;
 import org.z.core.router.ModuleZeromq;
 import org.z.core.stocket.ModuleSocket;
 import org.z.global.dict.Global;
 import org.z.global.environment.ConfigFile;
 import org.z.global.factory.ModuleFactory;
-
 import com.mongodb.BasicDBList;
 
 public class Router {
@@ -19,7 +17,7 @@ public class Router {
 	public static void init() {
 		ModuleFactory.registerModule("mq", ModuleZeromq.class);
 //		ModuleFactory.registerModule("broadcast", ModuleBroadcast.class, new Object[] { "router" });
-		ModuleFactory.registerModule("jobpull", ModuleJobPull.class, new Object[] { 1 });
+//		ModuleFactory.registerModule("jobpull", ModuleJobPull.class, new Object[] { 1 });
 		ModuleFactory.registerModule("socket", ModuleSocket.class, new Object[] { Global.SocketRouterPort });
 	}
 
