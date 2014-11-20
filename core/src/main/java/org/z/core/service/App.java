@@ -7,6 +7,7 @@ import org.z.core.app.ModuleZeromq;
 import org.z.core.common.ModuleProcessor;
 import org.z.core.module.ModuleAppoint;
 import org.z.core.module.ModuleBill;
+import org.z.core.module.ModuleHtmlPage;
 import org.z.core.module.ModuleUser;
 import org.z.core.queue.ModuleQueue;
 import org.z.core.stocket.ModuleSocket;
@@ -27,6 +28,7 @@ public class App {
 		ModuleFactory.registerModule("appoint", ModuleAppoint.class);
 		ModuleFactory.registerModule("bill", ModuleBill.class);
 		ModuleFactory.registerModule("user", ModuleUser.class);
+		ModuleFactory.registerModule("HtmlPage", ModuleHtmlPage.class);
 	}
 	
 	public static void main(String[] args) {
@@ -37,7 +39,7 @@ public class App {
 		ModuleFactory.registerLoadModule("jobpull");
 		ModuleFactory.registerLoadModule("socket");
 		ModuleFactory.registerLoadModule("queue");
-		ModuleFactory.registerLoadModule("processor");
+		ModuleFactory.registerLoadModule("HtmlPage");
 		String value = Config.rock().getItem("AppServices", "").toLowerCase();
 		String[] values = value.split("\\,");
 		for (int i = 0; i < values.length; i++) {
@@ -54,6 +56,8 @@ public class App {
 				ModuleFactory.registerLoadModule(split[0], ips);
 			}
 		}
+		ModuleFactory.registerLoadModule("processor");
+		ModuleFactory.loadModules();
 		logger.info("AppServer starting success in {} ms.", System.currentTimeMillis() - start);
 	}
 
