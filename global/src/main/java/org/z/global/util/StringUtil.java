@@ -109,6 +109,25 @@ public class StringUtil {
 			return compressed;
 		}
 	}
+	public static String XSSFilter(String source) {
+		StringBuilder result = new StringBuilder();
+		Pattern pattern = Pattern.compile("[\u4e00-\u9fa5 a-zA-Z0-9]");// 中文,英文,数字
+
+		char[] c = source.toCharArray();
+		for (int i = 0; i < c.length; i++) {
+			String v = String.valueOf(c[i]);
+			boolean match = true;
+			Matcher matcher = pattern.matcher(v);
+			while (matcher.find()) {
+				result.append(matcher.group());
+				match = false;
+			}
+			if (match) {
+				result.append(escape(v));
+			}
+		}
+		return result.toString();
+	}
 
 	public static byte[] toBytes(String content) {
 		try {

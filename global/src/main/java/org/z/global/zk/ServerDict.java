@@ -202,7 +202,7 @@ public class ServerDict {
 	}
 
 	public static void main(String[] args) {
-		System.out.println(ServerDict.self.pages());
+		System.out.println(ServerDict.self.routers());
 	}
 
 }

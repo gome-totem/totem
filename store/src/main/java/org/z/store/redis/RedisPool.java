@@ -79,8 +79,6 @@ public class RedisPool {
 		}
 		JedisPoolConfig cfg = new JedisPoolConfig();
 		cfg.setMaxIdle(1000 * 60);
-		cfg.setTestOnBorrow(true);
-		cfg.setTestOnReturn(true);
 		Collections.sort(shards, new ServerIpCompare());
 		pool = new ShardedJedisPool(cfg, shards);
 		state = true;

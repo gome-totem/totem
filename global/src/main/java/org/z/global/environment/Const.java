@@ -98,7 +98,7 @@ public class Const {
 		SolrHome = Config.rock().getItem("SolrHome", "/server/solr/");
 		DictRootPath = Config.rock().getItem("DictRootPath", "/server/conf/");
 		SecurityClassName = Config.rock().getItem("SecurityClassName", "");
-		SocketHandlerClassName = Config.rock().getItem("SocketHandlerClassName", "org.x.service.handler.SocketHandler");
+		SocketHandlerClassName = Config.rock().getItem("SocketHandlerClassName", "org.z.core.stocket.SocketHandler");
 		DictIP = Config.rock().getItem("DictIP", "");
 		AppConnMode = Global.HashMode.valueOf(Config.rock().getItem("AppConnectMode", "AppServer").trim().toLowerCase());
 		AppConnectPoolEnable = Config.rock().getBooleanItem("AppConnectPoolEnable", true);
