@@ -1,0 +1,43 @@
+<div class="clear"></div>
+<style>
+/*Query scrollbar*/
+#dlgcall .scroller .viewport {height: 330px;overflow: hidden;}
+#dlgcall .scroller .overview {list-style: none;position: absolute;left: 0;top: 0;padding: 0;margin: 0;}
+</style>
+<div id="dlgcall" style="z-index:999">
+	<div style="width:710px;">
+		<div tag="call" class="scroller">
+			<div class="scrollbar">
+				<div class="track">
+					<div class="thumb">
+						<div class="end"></div>
+					</div>
+				</div>
+			</div>
+			<div class="viewport">
+				<div class="overview" style="width:710px;padding-left:20px;">
+					<div id="messages" style="width:710px;min-height:330px;"></div>
+				</div>
+			</div>
+		</div>
+		<div
+			style="overflow: hidden;padding: 0 0 0px 10px;height:120px;width:720px;">
+			<div style="display:block;" class="ke-toolbar">
+				<span class="ke-outline"> <span onclick="user.call.sendMsg()"
+					class="callmsg" /></span> </span> <span class="ke-inline-block ke-separator"></span>
+				<span id="callmode1"> <!--  < span class="ke-outline"><span
+                              onclick="user.call.callKFbyPhone()" class="callkf"></span> </span> <span
+                         class="ke-inline-block ke-separator"></span>  -->
+				</span> <span id="callmode2" class="ke-outline"> <!-- 
+					<span
+                         onclick="user.call.callback()" class="callme"></span> <span style="float:right;margin-top:10px;">建议您下载本站的移动客户端，通讯更快捷</span>
+                         --> </span>
+			</div>
+			<div style="height:80px;line-height:18px;margin-top:15px;">
+				<textarea id="edtMsg" placeholder="您想咨询的问题，按回车即可发送消息"
+					style="font-size:15px;width:700px;height:60px;border:none;box-shadow:none;"></textarea>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="clear"></div>

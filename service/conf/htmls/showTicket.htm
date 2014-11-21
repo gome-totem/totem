@@ -1,0 +1,296 @@
+<div id="o">
+	#if(!$context.pdf())
+	<!-- path s -->
+	<div class="p-path">
+		<div class="icon-home"></div>
+		<ul class="clearfix">
+			<li><a href="#">主页</a>
+			</li>
+			<li><span class="text-arr">&gt;</span>
+			</li>
+			<li><a href="/order/$!{order.id}">$!{orderinfo.customerUserId}-$!{order.id}-$!{orderinfo.startTime}</a>
+			</li>
+		</ul>
+	</div>
+	<!-- path e -->
+	#end
+	<!-- order-header s -->
+	<div class="o-h">
+		<div class="o-h-top">
+			<div class="o-h-l">
+				<div class="o-h-l-order">
+					<span class="o-h-l-icon"></span> <span class="o-h-l-name">一起嗨机票函</span>
+					<span class="o-h-l-number">NO.$!{order.id}</span>
+				</div>
+			</div>
+			<div class="o-h-c">
+				<div class="o-h-c-price">
+					金额：<b>￥$!{orderinfo.totalPrice}</b>
+				</div>
+				<div class="o-h-c-state #if($!{isClose}) close #end">
+					<span>状态：</span><em>$tool.ticketStateName($!{order.status})</em>
+				</div>
+			</div>
+			<div class="o-h-r">
+				<ul>
+					#if(!$!{isPaid})
+					<li><a target="_blank" href="http://www.yiqihi.com/pay/code=9&$!{order.id}"
+						class="btn-operation btn-operation-pay"> <i class="icon-pay"></i>
+							<span class="btn-text">立即付款</span> </a>
+					</li> #end #if(!${context.pdf()})
+					<li><a href="javascript:void(0)"
+						onclick="order.sendMail(this,$!{order.id})"
+						class="btn-operation btn-operation-email"> <i
+							class="icon-email"></i> <span class="btn-text">发送邮件</span> </a></li>
+					<li>
+					<li><a
+						href="/file/airticket?id=$!{order.id}&name=$!{orderinfo.customerUserId}-$!{orderinfo.startTime}"
+						class="btn-operation btn-operation-down"> <i class="icon-down"></i>
+							<span class="btn-text">订单下载</span> </a>
+					</li> #end
+					<!--
+					<li><a target="_blank" href="http://www.yiqihi.com/hi/${travelorder.hiEncode($context,$order)}"
+						class="btn-operation btn-operation-service"> <i
+							class="icon-service"></i> <span class="btn-text">联系客服</span> </a>
+					</li>
+					 -->
+				</ul>
+			</div>
+		</div>
+	</div>
+		<!--客人的行程信息-->
+	<div class="o-p o-p-none">
+		<div class="o-p-nav">
+			<span class="icon-person"></span>旅客信息
+		</div>
+		<div class="o-p-con  des-lists">
+			<table width="100%" cellpadding="0" border="0">
+							<tr>
+								<th width="20%">姓名</th>
+								<th width="10%">性别</th>
+								<th width="10%">国籍</th>
+								<th width="20%">护照号</th>
+								<th width="15%">护照有效期</th>
+								<th width="15%">出生日期</th>
+							</tr>
+						#set($pass=$order.passport) #foreach($pas in $pass)
+					<tr>
+						<td align="center">$!{pas.name}</td>
+						<td align="center">#if($!{pas.sex}== 'MR' ) 男士 #elseif($!{pas.sex}== 'MS' )
+										女士 #else 儿童 #end</td>
+						<td align="center">$!{pas.country}</td>
+						<td align="center">$!{pas.passNumber}</td>
+						<td align="center">$!{pas.validity}</td>
+						<td align="center">$!{pas.born}</td>
+					</tr>
+					#end
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<!--客人详情信息-->
+	<div class="o-p o-p-none">
+		<div class="o-p-nav">
+			<span class="icon-schedule"></span>航班信息
+		</div>
+		<div class="o-p-con">
+			<table width="100%" cellpadding="0" border="0">
+				<tbody>
+						<tr>
+								<th width="15%">航班编号<input type="hidden"
+									value="$!{order.customers.size()}" name="customerCount">
+								</th>
+								<th width="12%">出发机场</th>
+								<th width="18%">起飞时间</th>
+								<th width="12%">到达机场</th>
+								<th width="18%">到达时间</th>
+								<th width="10%">成人票价(含税)</th>
+								<th width="10%">儿童票价(含税)</th>
+							</tr>
+					#set($tick=$order.ticket) #foreach($ticket in $tick)
+					<tr>
+						<td align="center">$!{ticket.airNumber}</td>
+						<td align="center">$!{ticket.starting}</td>
+						<td align="center">$!{ticket.startTime}</td>
+						<td align="center">$!{ticket.destination}</td>
+						<td align="center">$!{ticket.endTime}</td>
+						<td align="center">$!{ticket.ticketPrice}</td>
+						<td align="center">$!{ticket.childrenPrice}</td>
+					</tr>
+					#end
+				
+				</tbody>
+			</table>
+		</div>
+			<div class="o-p-nav">
+			<span class="icon-schedule"></span>航班备注
+		</div>
+		<div class="o-p-con">
+			<table width="100%" cellpadding="0" border="0">
+				<tbody>
+					<tr >
+				    <td ><strong>$!{orderinfo.comment}</strong></td>
+					</tr>
+			</tbody>
+			</table>
+			</div>
+	</div>	
+	<!-- order-details s -->
+	<div class="o-d" style="margin:0px;border-style:none solid solid solid">
+		<div class="o-d-total clearfix">
+			<div class="o-d-total-b">
+				<div class="o-d-total-b-nav"></div>
+				<div class="o-d-total-b-con">
+					<dl class="clearfix">
+						<dt></dt>
+						<dd class="totaltit">机票合计</dd>
+						<dd class="totaltit"></dd>
+						<dd class="totaltit">人数</dd>
+					</dl>
+					<dl class="clearfix">
+						<dt></dt>
+						<dd class="totaltit">成人票价：</dd>
+						<dd class="price">$!{orderinfo.adultPrice}</dd>
+						<dd class="commission">
+						X
+						</dd>
+						<strong>$!{orderinfo.adultCount}<strong>
+					</dl>
+					<dl class="clearfix">
+						<dt></dt>
+						<dd class="totaltit">儿童票价：</dd>
+						<dd class="price">$!{orderinfo.childrenPrice}</dd>
+						<dd class="commission">
+						X
+						</dd>
+						<strong>$!{orderinfo.childrenCount}</strong>
+					</dl>
+				</div>
+			</div>
+			<div class="o-d-total-c">
+				<div class="o-d-total-c-nav">人民币</div>
+				<div class="o-d-total-c-con">
+					<ul>
+						<li>￥$tool.sumprice($!{orderinfo.adultPrice},$!{orderinfo.adultCount})</li>
+						<li>￥$tool.sumprice($!{orderinfo.childrenPrice},$!{orderinfo.childrenCount})</li>
+						<li>￥$!{orderinfo.totalPrice}</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="o-d-pay clearfix">
+			<div class="o-d-pay-a">
+				<div class="o-d-pay-a-total">合计应付金额：¥$!{orderinfo.totalPrice}元</div>
+			</div>
+			#if($!{order.status}<=3)
+			<div class="o-d-pay-b">
+				<a arget="_blank" href="http://www.yiqihi.com/pay/code=8&$!{order.id}"
+					class="btn-operation btn-operation-pay"> <i class="icon-pay"></i>
+					<span class="btn-text">立即付款</span> </a>
+			</div>
+			#end
+		</div>
+	</div>
+	<!-- order-details e -->
+
+	<!-- 一起嗨服务条款 s -->
+		<div class="o-clause">
+		<div class="o-clause-nav">
+			<span class="icon-clause"></span>温馨提示
+		</div>
+		<div  class="o-clause-con">
+			<ul>
+				<li><span class="icon-arrow-right">&gt;</span>请确认您的护照有效期在半年以上。</li>
+				<li><span class="icon-arrow-right">&gt;</span>如您有任何有关签证或护照的问题请联系大使馆进行确认。</li>
+				<li><span class="icon-arrow-right">&gt;</span>航空公司有可能根据市场或者其他原因调整航班时间及日期，建议起飞前三天与承运航空公司做机票再确认。以免航班变动给您的行程带来不便。</li>
+				<li><span class="icon-arrow-right">&gt;</span>发票请在行程走完之前开具。</li>
+				<li><span class="icon-arrow-right">&gt;</span>请您在航班起飞前2小时到达机场，或请根据所乘航空公司规定提前到达机场，凭购票时使用的有效身份证件到值机柜台按时办理乘机手续。</li>
+				<li><span class="icon-arrow-right">&gt;</span>请您持有效身份证件、登机牌及报销凭证办理安全检查手续。</li>
+				<li><span class="icon-arrow-right">&gt;</span>如有任何疑问，请随时与我们联系</li>
+			</ul>
+		</div>
+	</div>
+	<div class="o-clause">
+		<div class="o-clause-nav">
+			<span class="icon-clause"></span>一起嗨服务条款
+		</div>
+		<div class="o-clause-con">
+			<ul>
+				<li><span class="icon-arrow-right">&gt;</span>7*24小时客服协调服务，如果对导游的服务不满意，一起嗨提供导游更换服务,充分保障您的旅行体验。</li>
+				<li><span class="icon-arrow-right">&gt;</span>一起嗨仅收取网站佣金，及代理收取导游的预订金，其它的消费支出由您决定，并当时当地和导游结算，杜绝类似国内旅行市场乱收费的现象。</li>
+				<li><span class="icon-arrow-right">&gt;</span>一起嗨保障交易双方的安全，所以您务必提供真实有效的身份认证信息给我们。交易的双方都会收到一份对方认证信息的函件。</li>
+				<li><span class="icon-arrow-right">&gt;</span>如果导游未经客人允许带客人进入强制购物场所,客人保留证据,
+					有权拒绝支付导游费用。一起嗨会退还客人当天导游服务费,及网站佣金。</li>
+				<li><span class="icon-arrow-right">&gt;</span>如果导游没能按照订单进行服务,开始或中途甩下客人,
+					一起嗨会及时更换导游, 并且退还客人当天导游服务费,及网站佣金。</li>
+				<li><span class="icon-arrow-right">&gt;</span>根据法规,如果客人选择没有专业讲解证的导游，则导游不能在规定的景点景区进行讲解,如需专业讲解需景区内另请讲解员</li>
+				<li><span class="icon-arrow-right">&gt;</span>部分收费景点客人自主选择是否进入。如因收费景点客人不选择进入览而
+					致的景点提前游览完毕，导游服务费不变，不会因行程提前结束而减少收费</li>
+				<li><span class="icon-arrow-right">&gt;</span>因不可抗拒因素导致的行程延误缩短或提前完成，导游服务费不变，仍按约
+					定价格收费（不可抗拒因素：如交通堵塞 、意外事故、天气、游客身体状况）</li>
+				<li><span class="icon-arrow-right">&gt;</span>请客人保管好个人物品，旅途中任何时候、地方遗失物品都与本公司无关</li>
+			</ul>
+		</div>
+
+	</div>
+	<div class="o-clause-bg"></div>
+	<!-- 一起嗨服务条款 e -->
+
+	#if($b6 && $isPaid==true)
+	<div class="o-p o-p-none">
+		<div class="o-p-nav">
+			<span class="icon-arrow"></span>行程中，每天由一起嗨支付导游费用明细
+		</div>
+		<div class="o-p-con">
+			<input type="hidden" value="$!{context.cookieId}"
+				id="uploadImageData" cookieId="$!{context.cookieId}"
+				guideUserId="$!{order.guideUserId}"
+				serviceUserId="$!{order.serviceUserId}" /> <input type="hidden"
+				value="$!{orderId}" id="orderId" /> #set($index=0)
+			<table width="100%" cellpadding="0" border="0">
+				<tr>
+					<th width="10%" align="center">支付时间</th>
+					<th width="20%" align="left" style="padding-left:10px;">支付内容</th>
+					<th width="10%" align="center">支付金额</th>
+					<th width="10%" align="center">人民币金额</th>
+					<th width="10%" align="center">状态</th>
+					<th width="10%" align="center">支付截图</th>
+					<th width="30%" align="left">操作</th>
+				</tr>
+				#set($parseOrderItems=$order.parseOrderItems)
+				#foreach($parseOrderItem in $parseOrderItems)
+				<tr>
+					<td align="center">$!{parseOrderItem.time}</td>
+					<td width="20%" align="left" style="padding-left:10px;">$!{parseOrderItem.costName}</td>
+					<td align="center"><b>$currencyName$!{parseOrderItem.price}</b>
+					<td align="center"><b>￥$tool.multi($!{order.rate}
+							,$!{parseOrderItem.price})</b>
+					<td align="center">#set($paid=$parseOrderItem.status>=8)
+						<div
+							class="#if(${paid}) o-p-state-success #else o-p-state-fail #end">
+							#if($!{parseOrderItem.status}>0)<span class="icon-correct"></span>#end
+							$tool.orderStateName($!{parseOrderItem.status})
+						</div>
+					</td>
+					<td align="center">#set($_orderItemId=$context.getParam('orderItemId'))
+						#if(${paid}) <a
+						href="http://www.yiqihi.com/receipts/$!{parseOrderItem.receipt}"
+						target="_blank">查看截图</a>
+						#elseif($_orderItemId==$!{parseOrderItem.id}) <font color="red">$context.getParam('msg')</font>
+						#end</td>
+					<td align="left">#if(${paid} && ($!{order.status})<=10 ) <a
+						href="javascript:cancelPaid('$!{orderId}','$!{parseOrderItem.id}')">取消支付</a>
+						#elseif($context.pdf()==false) <a href="javascript:void(0)"
+						orderid="$!{orderId}" orderitemid="$!{parseOrderItem.id}"
+						class="button grey red-hover" style="color:#333;padding:0px 5px;"
+						id="orderItemUpload$index"><b></b>点击上传</a> #set($index=$index+1)
+						#end</td>
+				</tr>
+				#end
+			</table>
+			<input type="hidden" id="uploadCount" value="$index" />
+		</div>
+	</div>
+	#end
+</div>
+$context.includeJavaScript("jquery/","jquery.uploader.js")

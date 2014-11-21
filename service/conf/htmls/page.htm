@@ -1,0 +1,26 @@
+<!doctype html public "-//w3c//dtd xhtml 1.0 transitional//en" "http://www.w3.org/tr/xhtml1/dtd/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+#set($doc=$service.readPushDoc($context))
+<title>$doc.getString("title")©$tool.seoTitle()</title>
+ $context.includeCss("","page.css")
+$context.readHtmlHeader()
+</head>
+<script>
+	function documentReady() {
+	}
+</script>
+
+<body>
+	$context.readHeader()
+	<div class="w1200">
+		<div class="container area clearfix">
+			<h2 class="page-title">$doc.getString("title")</h2>
+			<p>$doc.getString("content")</p>
+		</div>
+
+	</div>
+	<div class="clear" style="margin-top:40px;"></div>
+	$context.readFooter()
+</body>
+</html>

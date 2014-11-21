@@ -1,0 +1,38 @@
+$context.readHtmlHeader() $context.include('header')
+<p>
+	欢迎$quicklogin.get($context,"name") <img alt=""
+		src='$quicklogin.get($context,"img")'>
+</p>
+邮箱：
+<input type="text" id="email" value="">
+<br />
+密码：
+<input type="password" id="password" value="">
+<br />
+<input type="button" id="button" value="提交" onclick="javascript:submit()">
+<br />
+$context.include('footer')
+
+<script>
+    function documentReady(){
+    }
+	function submit() {
+		var username = $("#email").val();
+		var password = $("#password").val();
+		var user = {};
+		user.username = username;
+		user.password = password;
+		user.funcIndex = 37;
+		$.ajax({
+			type : "POST",
+			url : "/user",
+			dataType : "json",
+			data : JSON.stringify(user),
+			success : function(object) {
+				if (object.error == -1) {
+
+				}
+			}
+		});
+	}
+</script>

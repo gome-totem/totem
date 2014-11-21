@@ -1,0 +1,429 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" class="mozilla">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>#set($qCountry=$context.getParam('c'))
+	#set($qPageNumber=$context.getParamByInt('p',1))
+	#set($qContinent=$service.readContinent($qCountry)) $qCountry
+	私人旅行社区©$tool.seoTitle()</title>
+<link rel="shortcut icon" href="/images/hi.ico">
+	<link rel="icon" type="image/png" href="/images/hi.png" >
+		<script src="http://maps.google.com/maps/api/js?sensor=false"
+			type="text/javascript"></script>
+		$context.includeCss("","forum.css") $context.readHtmlHeader()
+		<style>
+/* cluster */
+.cluster {
+	color: #FFFFFF;
+	text-align: center;
+	font-family: Verdana;
+	font-size: 14px;
+	font-weight: bold;
+	text-shadow: 0 0 2px #000;
+	-moz-text-shadow: 0 0 2px #000;
+	-webkit-text-shadow: 0 0 2px #000;
+}
+
+.cluster-1 {
+	background: url(/images/markers/m1.png) no-repeat;
+	line-height: 50px;
+	width: 50px;
+	height: 40px;
+}
+
+.cluster-2 {
+	background: url(/images/markers/m2.png) no-repeat;
+	line-height: 53px;
+	width: 60px;
+	height: 48px;
+}
+
+.cluster-3 {
+	background: url(/images/markers/m3.png) no-repeat;
+	line-height: 66px;
+	width: 70px;
+	height: 56px;
+}
+</style>
+</head>
+
+<body class="mon-compte">
+	$context.readHeader()
+	<div id="container">
+		<div class="wrap">
+			<ul id="breadcrum">
+				<li><a href="/" class="home"> <span></span> <strong>主页</strong>
+				</a></li>
+				<li>/</li>
+				<li>$qCountry 私人旅行社区</li>
+			</ul>
+			<div class="forum">
+				<div class="forum_left">
+					<div class="postbox">
+						<div class="l">
+							<img width="80" height="80" src="/photo/faces/$user.userId">
+						</div>
+						<div class="r">
+							<div class="dot">
+								<span></span>
+							</div>
+							<div class="content">
+								<div class="viewport">
+									<div class="upload">
+										<a href="javascript:void(0)" id="btnUpload"
+											onclick="dlgPicture.popup()"> <span class="uimg"></span>
+											<span class="utext"> 上传照片 </span> </a>
+									</div>
+									<div class="textarea">
+										<textarea id="edtContent"
+											placeholder="我有问题请教..有资讯分享..,这里不适合长篇大论,我们认为有价值的东西，往往都是最简单的..."></textarea>
+									</div>
+								</div>
+							</div>
+							<div class="postbar">
+								<div class="ctl">
+									<div class="tag">
+										<span id="type"> <label><input type="radio"
+												tag="5" name="t" />寻求帮助</label> <label><input type="radio"
+												tag="1" name="t" />当地美食</label> <label><input type="radio"
+												tag="2" name="t" />必去景点</label> <label><input type="radio"
+												tag="6" name="t" />有用贴士</label> <label><input type="radio"
+												tag="7" name="t" />购物</label> </span> <input type="text" class="input"
+											id="edtCity" placeholder="想去或所在的目的城市" />
+									</div>
+									<div style="margin-top:5px;float:right;"
+										class="greenButtonRound">
+										<a href="javascript:void(0)" onclick="postMessage(this)"
+											class="lpButton2010"> <strong>立即发布</strong> </a>
+									</div>
+								</div>
+								<div class="pictures" style="clear:both;display:none">
+									<ul id="pictures" class="photo-gallery"></ul>
+									<div class="clear" style="height:1px;"></div>
+								</div>
+							</div>
+							<div class="btm"></div>
+						</div>
+					</div>
+					<div class="clear"></div>
+					<div class="msg_con">
+						<div class="msg_title">
+							<div class="msg_titlel">
+								<a href="javascript:void(0)" class="current"
+									onclick="searchByTime()">最新更新</a> #if($user.userId!=0) <a
+									href="javascript:void(0)" onclick="searchByUser(this)">我发布的</a>
+								#end <a href="javascript:void(0)" tag="5"
+									onclick="searchByType(this)">寻求帮助</a> <a
+									href="javascript:void(0)" tag="0 TO 1"
+									onclick="searchByType(this)">美食</a> <a
+									href="javascript:void(0)" tag="2 TO 3"
+									onclick="searchByType(this)">必去景点</a> <a
+									href="javascript:void(0)" tag="7" onclick="searchByType(this)">购物</a>
+								<a href="javascript:void(0)" tag="6"
+									onclick="searchByType(this)">有用贴士</a>
+							</div>
+						</div>
+						#set($result=$service.readTopicsBy($context,$qCountry,$qPageNumber))
+						#set($items=$result.get("items"))
+						<div style="width:800px;float:left;" id="topics"
+							offset="$items.size()">
+							#foreach($item in $items)
+							<div class="msg_content" id="item$velocityCount">
+								<div class="msg_conleft">
+									<a target="_blank" href="/i/$item.getString('userId')"> <img
+										width="60px" height="60px"
+										src="/photo/faces/$item.get('userId')" /> </a> <span class="loc"><em></em>
+										$tool.iff($tool.isEmpty($item.getString('location')),$item.getString('country'),$item.getString('location'))
+									</span> <span class="time">$tool.dateDiff($item.getLong('timestamp',0))</span>
+								</div>
+								#set($keyId=$item.getString('id'))
+								#set($server=$item.getString('server'))
+								#set($type=$item.getInt('type',2)) #if($type==0|| $type==1)
+								<div class="msg_conright msg_tag_food"></div>
+								#elseif ($type==2)
+								<div class="msg_conright msg_tag_eye"></div>
+								#elseif ($type==3)
+								<div class="msg_conright msg_tag_trip"></div>
+								#elseif ($type==4)
+								<div class="msg_conright msg_tag_artical"></div>
+								#elseif ($type==5)
+								<div class="msg_conright msg_tag_help"></div>
+								#elseif ($type==6)
+								<div class="msg_conright msg_tag_favorite"></div>
+								#elseif ($type==7)
+								<div class="msg_conright msg_tag_shop"></div>
+								#elseif ($type==8)
+								<div class="msg_conright msg_tag_reqguide"></div>
+								#elseif ($type==9)
+								<div class="msg_conright msg_tag_reqcar"></div>
+								#elseif ($type==10)
+								<div class="msg_conright msg_tag_reqproduct"></div>
+								#end
+								<div class="msg_conmid">
+									#set($url=$service.readTopicUrl($item))
+									#if($tool.isEmpty($item.getString('title'))==false)
+									<div class="msg_conmid_t">
+										<p>
+											#if($tool.isEmpty($url)) $item.getString('title') #else <a
+												target="_blank" href="$url">$item.getString('title')</a>
+											#end
+										</p>
+									</div>
+									#end
+									<div class="msg_conmid_c">
+										$item.getString("content") #if ($context.isTopicAssistant()) <a
+											href="javascript:void(0)" server="$item.getString('server')"
+											keyId="$item.getString('id')" onclick="deleteTopic(this)">删除</a>
+										#end
+									</div>
+									#set($pictures=$item.get("pictures")) #if($pictures.size()>0)
+									<div class="msg_conmid_img photos">
+										#foreach($picture in $pictures) <a
+											style="display:$tool.displayOf($velocityCount,1)"
+											href="http://image.yiqihi.com/pictures/${picture.getString('picture')}.jpg"
+											data-fancybox-group="gallery" class="fancybox-thumbs">
+											#if ($velocityCount==1) <span class="num"><em>$pictures.size()</em>
+										</span> <img lazy="true" shot="$picture.getString('shot')"
+											src="http://image.yiqihi.com/shots/$picture.getString('shot')" />
+											#else <img src="/images/nopic.gif" 
+											shot="$picture.getString('shot')" />
+											#end </a> #end
+									</div>
+									#end
+									<div class="clear"></div>
+									<div class="msg_reply">
+										#if($item.getInt('replyCount',0)>0)
+										<p class="yes" id="expand$velocityCount"></p>
+										<p class="t">
+											<a href="javascript:void(0)"
+												onclick="reloadReplies('$server','$keyId',$velocityCount)">
+												全部回复(<span id="replyCount$velocityCount">$item.get('replyCount')</span>)
+											</a>
+										</p>
+										#end
+										<p class="reply">
+											<span></span> <a href="javascript:void(0)"
+												id="readReply$velocityCount" index="$velocityCount"
+												server="$server" keyId="$keyId"
+												onclick="popupReplyBox(this)">回复</a>
+										</p>
+									</div>
+									<div id="reply$velocityCount"></div>
+									#if($item.getInt('replyCount',0)>0)
+									<div class="msg_reply" id="replies$velocityCount">
+										<span class="user"><em></em>$item.getString('last_userName'),</span><span
+											class="time">$tool.dateDiff($item.getLong('last_timestamp'))</span>
+										<em class="quote">“</em> $item.getString('last_content') <em
+											class="quote">”</em>
+									</div>
+									#end
+								</div>
+							</div>
+							#end
+						</div>
+					</div>
+					<!--载入更多-->
+					#if ($isSpider==false)
+					<div class="msg_more" id="zrmore">
+						<a href="javascript:void(0)" onclick="reloadTopics(this)"> <span
+							class="b"></span><span class="t">载入更多</span> </a>
+					</div>
+					#else
+					<div class="pagebar" id="pager">#set($url='/forum?c='+$qCountry)
+						$tool.getPager($result.getInt('totalCount'),$qPageNumber,10,$url)</div>
+					#end
+				</div>
+				<div class="forum_right">
+					<!--地图-->
+					<div class="map" id="googleMap"></div>
+					<div class="box">
+						<div class="adstitle">
+							<p style="width:150px;">大众跟团旅行最新资讯</p>
+						</div>
+						<div class="adstext">
+							<ul>
+								<li><a target="_blank"
+									href="http://bj.uzai.com/tour-56219.html">抄底价韩国釜山、水原、首尔精华5日游
+								</a><span>¥2016起</span>
+								</li>
+								<li><a target="_blank"
+									href="http://bj.uzai.com/tour-56244.html">韩国釜山、水原、首尔、济州6日游
+								</a><span>¥3169起</span></li>
+								<li><a target="_blank"
+									href="http://bj.uzai.com/tour-56408.html">新品超值韩国釜山、水原、首尔、庆州温泉6日游
+								</a><span>¥3089起</span>
+								</li>
+								<li><a target="_blank"
+									href="http://bj.uzai.com/tour-12152.html">韩国济州、首尔5日精华游</a><span>¥3279起</span>
+								</li>
+								<li><a target="_blank"
+									href="http://bj.uzai.com/tour-48833.html">韩国济州、首尔豪华5日游 </a><span>¥3939起</span>
+								</li>
+								<li><a target="_blank"
+									href="http://bj.uzai.com/tour-48971.html">韩国首尔、济州3飞5日精华游（大韩航空)</a><span>¥3179起</span>
+								</li>
+								<li><a target="_blank"
+									href="http://bj.uzai.com/tour-45032.html">韩国釜山、济州、首尔5日全景游</a><span>¥3509起</span>
+								</li>
+							</ul>
+						</div>
+						<div class="clear"></div>
+						<div class="pad20">
+							<div class="adstitle">
+								<p style="width:130px">自驾导游团队线路</p>
+							</div>
+							<div class="adszy">
+								<ul>
+									#set($items=$context.recommend().readTrips(9)) #foreach($item
+									in $items)
+									<li><A target="_blank" href="/trip/$item.get('short_id')">
+											<img
+											src="http://image.yiqihi.com/shots/$item.get('snapshot')"
+											width="108" height="108" /> </a>
+										<p>
+											<A target="_blank" href="/product/$item.get('short_id')">$item.get('title')</A>
+											<span class="position"></span><span>
+												$tool.currencyNameBy($item.getInt('currency'))
+												$item.get('price')</span>
+										</p>
+									</li>
+									<div class="clear"></div>
+									#end
+								</ul>
+							</div>
+						</div>
+						<div class="clear"></div>
+						<div class="pad20">
+							<div class="adstitle">
+								<p style="width:130px;">留学生推荐国外商品</p>
+							</div>
+							<div class="adssx">
+								#set($items=$context.recommend().readProducts(9)) #foreach($item
+								in $items)
+								<dl>
+									<dt>
+										<A target="_blank" href="/product/$item.get('short_id')">
+											<img
+											src="http://image.yiqihi.com/shots/$item.get('snapshot')"
+											width="193" height="193" /> </A>
+									</dt>
+									<dd>
+										<p>
+											<A target="_blank" href="/product/$item.get('short_id')">
+												$item.get('title') </a>
+										</p>
+										<p>
+											<span class="position"></span><span>所在地:$item.get('country')</span>
+											$tool.currencyNameBy($item.getInt('currency'))
+											$item.get('price')
+										</p>
+									</dd>
+								</dl>
+								#end
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div style="display:none">
+
+		<div class="msg_reply" id="templateReply" jsselect="$this.items">
+			<span class="user"><em></em><font jscontent="$this.userName"></font>,</span>
+			<span class="time" jscontent="dateDiff($this.timestamp)"></span> <em
+				class="quote">“</em> <span jscontent="htmlToText($this.content,300)"></span>
+			<em class="quote">”</em> #if ($context.isTopicAssistant()) <a
+				href="javascript:void(0)" class="redlink"
+				jsvalues="replyServer:$replyServer;replyKeyId:$replyKeyId;replyId:$this.id"
+				onclick="deleteReply(this)">删除</a> #end
+		</div>
+
+		<div style="width:800px;float:left;" id="templateTopic">
+			<div class="msg_content" jsselect="$this.items"
+				jsvalues="id:'item'+$args.index">
+				<div class="msg_conleft">
+					<a target="_blank" jsvalues="href:'/i/'+$this.userId"> <img
+						width="60px" height="60px"
+						jsvalues="src:'/photo/faces/'+$this.userId" /> </a> <span class="loc"><em></em>
+						<font jscontent="readLocation($this)"></font> </span> <span class="time">
+						<font jscontent="dateDiff($this.timestamp)"></font> </span>
+				</div>
+				<div jsvalues="class:readMsgTagClass($this)"></div>
+				<div class="msg_conmid">
+					<div class="msg_conmid_t"
+						jsdisplay="$this.title && $this.title.length>0">
+						<p jshtml="readMsgTitle($this)"></p>
+					</div>
+					<div class="msg_conmid_c">
+						<span jscontent="$this.content"></span> #if
+						($context.isTopicAssistant()) <a href="javascript:void(0)"
+							jsvalues="server:$this.server;keyId:$this.id;"
+							onclick="deleteTopic(this)">删除</a> #end
+					</div>
+					<div class="msg_conmid_img photos"
+						jsdisplay="$this.pictures.length>0" jshtml="readPictures($this)">
+					</div>
+					<div class="clear"></div>
+					<div class="msg_reply">
+						<p class="yes" jsvalues="id:'expand'+$args.index"
+							jsdisplay="$this.replyCount>0"></p>
+						<p class="t" jsdisplay="$this.replyCount>0">
+							<a href="javascript:void(0)"
+								jsvalues=".server:$this.server;.keyId:$this.id;.index:$args.index"
+								onclick="reloadReplies(this.server,this.keyId,this.index)">
+								全部回复(<span jsvalues="id:'replyCount'+$args.index"
+								jscontent="$this.replyCount"></span>) </a>
+						</p>
+						<p class="reply">
+							<span></span> <a href="javascript:void(0)"
+								jsvalues="id:'readReply'+$args.index;index:$args.index;server:$this.server;keyId:$this.id"
+								onclick="popupReplyBox(this)">回复 </a>
+						</p>
+					</div>
+					<div jsvalues="id:'reply'+$args.index;"></div>
+					<div class="msg_reply" jsvalues="id:'replies'+$args.index;"
+						jsdisplay="$this.replyCount>0">
+						<span class="user"><em></em> <font
+							jscontent="$this.last_userName"></font> ,</span> <span class="time"
+							jscontent="dateDiff($this.last_timestamp)"></span> <em
+							class="quote">“</em> <span
+							jscontent="$this.last_content+$args.index"></span> <em
+							class="quote">”</em>
+					</div>
+					<div jseval="$args.index++"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		var docs = $service.countriesByMap();
+	</script>
+
+	<div class="replybox" id="replyBox" style="display:none">
+		<div class="top">
+			<span></span>
+		</div>
+		<div class="content">
+			<textarea id="edtReplyContent"></textarea>
+			<div style="margin:10px;float:right;" class="largeWhiteButton">
+				<a href="javascript:void(0)" onclick="hideReplyBox()"
+					class="lpButton2010"> <strong>取消</strong> </a>
+			</div>
+			<div style="margin:10px;float:right;" class="largeDarkRedButton">
+				<a href="javascript:void(0)" onclick="replyMessage(this)"
+					class="lpButton2010"> <strong>回复</strong> </a>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</div>
+	$context.readFooter(true)
+	$context.includeJavaScript("","swfobject.js")
+	$context.includeJavaScript("jquery/","jquery.fancybox.js")
+	$context.includeJavaScript("","rock.js")
+	$context.includeJavaScript("","forum.js")
+</body>
+</html>

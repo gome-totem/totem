@@ -1,0 +1,461 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" class="mozilla">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+#set($profile=$user.readProfile("",true))
+<title>发布旅行体验©$tool.seoTitle()</title>
+$context.readHtmlHeader() 
+$context.includeCss("","backend.css")
+</head>
+
+<body>
+	$context.readHeader(false) $context.include("usertitle")
+	#set($shortId=$context.getParam('id'))
+	#set($activity=$service.readByEdit($context,3,$shortId))
+	<div class="home">
+		$context.include("userinfo")
+		<div class="content clearfix">
+			$context.include("userpanel")
+			<div class="fieldset">
+				<span style="display:none" id="activityContent">$activity.toString()</span>
+				<span style="display:none" id="profileContent">$profile.toString()</span>
+				<!-- 编辑服务 -->
+				<div class="service" id="container" shortId="$shortId"
+					state="$activity.get('state')">
+					<!-- 第一步 -->
+					<div class="service-c" style="display: block;">
+						<div id="form-wizard" class="wizard clearfix">
+							<ul class="steps">
+								<li class="active" data-target="#step1"><span class="none"></span>
+									<b>1</b>旅行体验的基本资料</li>
+								<li data-target="#step2" ><span
+									class="none"></span> <b>2</b>标题和描述</li>
+								<li data-target="#step3"><span
+									class="none"></span> <b>3</b>您的照片</li>
+								<li data-target="#step4"><span
+									class="none"></span> <b>4</b>报价</li>
+							</ul>
+						</div>
+						<!--编辑区 -->
+						<div class="step-content" id="step1">
+							<div>
+								<div class="form four clearfix">
+									<dl>
+										<dt>
+											您是哪里人<b>*</b>
+										</dt>
+										<dd>
+											<input type="text" id="edtEthnicity" class="input frame" />
+										</dd>
+									</dl>
+									<dl>
+										<dt>
+											居住城市<b>*</b>
+										</dt>
+										<dd>
+											<input type="text" id="edtCity" class="input frame" />
+										</dd>
+									</dl>
+									<dl>
+										<dt>
+											您的其他职业<b>*</b>
+										</dt>
+										<dd>
+											<input type="text" id="edtJob" class="input frame" />
+										</dd>
+									</dl>
+									<dl>
+										<dt>
+											最高学历<b>*</b>
+										</dt>
+										<dd>
+											<select class="select frame" id="edtEducation">
+												<option value="中专">中专</option>
+												<option value="大专">大学专科</option>
+												<option value="本科">大学本科</option>
+												<option value="硕士">硕士</option>
+												<option value="博士">博士</option>
+											</select>
+										</dd>
+									</dl>
+								</div>
+								<div class="form four clearfix">
+									<dl>
+										<dt>
+											出生年月日(1980-08-08)<b>*</b>
+										</dt>
+										<dd>
+											<input type="text" id="edtBirthday" class="input frame" />
+										</dd>
+									</dl>
+									<dl>
+										<dt>
+											做导游的时间(年)<b>*</b>
+										</dt>
+										<dd>
+											<input type="text" id="edtWorkYear"
+												class="input frame numeric" />
+										</dd>
+									</dl>
+									<dl>
+										<dt>
+											身份类型<b>*</b>
+										</dt>
+										<dd>
+											<select class="select frame" id="edtIdType">
+												<option value="移民">移民</option>
+												<option value="留学生">留学生</option>
+												<option value="居留证">居留证</option>
+											</select>
+										</dd>
+									</dl>
+									<dl>
+										<dt>
+											性别<b>*</b>
+										</dt>
+										<dd>
+											<select class="select frame" id="edtSex">
+												<option value="男">男</option>
+												<option value="女">女</option>
+											</select>
+										</dd>
+									</dl>
+								</div>
+							</div>
+							<h4>
+								<i></i><b>会说的语言 <span class="f-red">*</span> </b>
+							</h4>
+							<div class="tag110 clearfix">
+								<ul>
+									<li><label><input type="checkbox" value="英语"
+											tag="tag" id="tag0" />英语</label>
+									</li>
+									<li><label><input type="checkbox" value="法语"
+											tag="tag" id="tag1" />法语</label>
+									</li>
+									<li><label><input type="checkbox" value="西班牙语"
+											tag="tag" id="tag2" />西班牙语</label>
+									</li>
+									<li><label><input type="checkbox" value="意大利语"
+											tag="tag" id="tag3" />意大利语</label>
+									</li>
+									<li><label><input type="checkbox" value="德语"
+											tag="tag" id="tag4" />德语</label>
+									</li>
+									<li><label><input type="checkbox" value="韩语"
+											tag="tag" id="tag5" />韩语</label>
+									</li>
+									<li><label><input type="checkbox" value="日语"
+											tag="tag" id="tag6" />日语</label>
+									</li>
+									<li><label><input type="checkbox" value="泰语"
+											tag="tag" id="tag7" />泰语</label>
+									</li>
+									<li><label><input type="checkbox" value="越南语"
+											tag="tag" id="tag8" />越南语</label>
+									</li>
+									<li><label><input type="checkbox" value="普通话"
+											tag="tag" id="tag9" />普通话</label>
+									</li>
+									<li><label><input type="checkbox" value="上海话"
+											tag="tag" id="tag10" />上海话</label>
+									</li>
+									<li><label><input type="checkbox" value="粤语"
+											tag="tag" id="tag11" />粤语</label>
+									</li>
+									<li><label><input type="checkbox" value="四川话"
+											tag="tag" id="tag12" />四川话</label>
+									</li>
+									<li><label><input type="checkbox" value="闽南话"
+											tag="tag" id="tag13" />闽南话</label>
+									</li>
+									<li><label><input type="checkbox" value="台语"
+											tag="tag" id="tag14" />台语</label>
+									</li>
+									<li><label><input type="checkbox" value="客家话"
+											tag="tag" id="tag15" />客家话</label>
+									</li>
+								</ul>
+							</div>
+
+							<h4>
+								<i></i><b>旅行体验标签 *</b>
+							</h4>
+							<div class="tag110 clearfix">
+								<ul>
+									<li><label><input type="checkbox" value="城市徒步"
+											tag="tag" id="tag101" />城市徒步</label>
+									</li>
+									<li><label><input type="checkbox" value="荒野求生"
+											tag="tag" id="tag102" />荒野求生 </label>
+									</li>
+									<li><label><input type="checkbox" value="演出赛事"
+											tag="tag" id="tag103" />演出赛事</label>
+									</li>
+									<li><label><input type="checkbox" value="直升飞机"
+											tag="tag" id="tag104" />直升飞机</label>
+									</li>
+									<li><label><input type="checkbox" value="热气球"
+											tag="tag" id="tag105" />热气球</label>
+									</li>
+									<li><label><input type="checkbox" value="骑马"
+											tag="tag" id="tag106" />骑马 </label>
+									</li>
+									<li><label><input type="checkbox" value="潜水"
+											tag="tag" id="tag107" />潜水</label>
+									</li>
+									<li><label><input type="checkbox" value="骑行"
+											tag="tag" id="tag108" />骑行</label>
+									</li>
+									<li><label><input type="checkbox" value="参观酒庄"
+											tag="tag" id="tag109" />参观酒庄</label>
+									</li>
+									<li><label><input type="checkbox" value="观赏动物"
+											tag="tag" id="tag110" />观赏动物</label>
+									</li>
+									<li><label><input type="checkbox" value="游船巡航"
+											tag="tag" id="tag111" />游船巡航</label>
+									</li>
+									<li><label><input type="checkbox" value="观光巴士"
+											tag="tag" id="tag112" />观光巴士</label>
+									</li>
+									<li><label><input type="checkbox" value="夜店狂欢"
+											tag="tag" id="tag113" />夜店狂欢</label>
+									</li>
+									<li><label><input type="checkbox" value="AV拍摄片场"
+											tag="tag" id="tag114" />AV拍摄片场 </label>
+									</li>
+								</ul>
+							</div>
+
+							<h4>
+								<i></i><b>您在哪些城市提供旅行体验,客人会通过城市搜索</b>
+							</h4>
+							<div class="clearfix" style="padding-left:20px;">
+								<input type="text" id="edtTargets" style="width:900px;"
+									class="text token frame" />
+							</div>
+							<h4>
+								<i></i><b>联系信息 <span class="f-red">*</span> </b>
+							</h4>
+							<div class="tip">
+								<span class="protected-badge">&nbsp;保护<b></b> </span>只有您接受了客人预订后,才会分享你的联系信息。我们对别人隐藏这些细节
+							</div>
+
+							$context.include("plugin.editcontact")
+							
+							<div class="next-step">
+								<label>还有<i>4个步骤</i>即可发布服务</label> <a href="javascript:void(0)"
+									data-target="1"
+									class="button grey red-hover button-1 image-right" tag="next"><span
+									class="next"></span>下一步</a>
+							</div>
+
+						</div>
+						<div class="step-content" id="step2" >
+							$context.include("plugin.editdesc")
+							<div class="next-step">
+								<label>还有<i>3个步骤</i>即可发布服务</label> <a href="javascript:void(0)"
+									data-target="2"
+									class="button grey red-hover button-1 image-right" tag="next"><span
+									class="next"></span>下一步</a> <a href="javascript:void(0)"
+									data-target="2" class="button grey red-hover button-1"
+									tag="prev"><span class="prev"></span>上一步</a>
+							</div>
+
+						</div>
+						<div class="step-content" id="step3">
+							<h4>
+								<i></i><b>头像<span class="f-red">*</span> </b>
+							</h4>
+							$context.include("plugin.face")
+							<h4>
+								<i></i><b>旅行体验的活动照片<span class="f-gray">（最多<span
+										class="f-red">12</span>张)</span> <span class="f-red">*</span> </b>
+							</h4>
+							<div class="infoblock">
+								<p>推荐上传：① 强烈建议上传精彩的图片</p>
+								<p>
+									<i>如果需要调整图片顺序，请直接拖动图片,交换图片位置</i>
+								</p>
+							</div>
+
+							<div class="clearfix" style="padding-left:25px;">
+								<div>
+									<ul id="pictures" class="photo-gallery"></ul>
+								</div>
+								<div class="image">
+									<span class="close"></span>
+								</div>
+
+								<div class="image">
+									<span class="close"></span>
+								</div>
+
+								<div class="addimage" id="selectPhoto" title="增加图片">
+									<i></i>
+								</div>
+							</div>
+
+							<div class="next-step">
+								<label>还有<i>2个步骤</i>即可发布服务</label> <a href="javascript:void(0)"
+									data-target="3"
+									class="button grey red-hover button-1 image-right" tag="next"><span
+									class="next"></span>下一步</a> <a href="javascript:void(0)"
+									data-target="3" class="button grey red-hover button-1"
+									tag="prev"><span class="prev"></span>上一步</a>
+							</div>
+
+						</div>
+						<div class="step-content" id="step4"  >
+							<h4>
+								<i></i><b>旅行体验报价<span class="f-red">*</span> </b>
+							</h4>
+							<div class="form four clearfix">
+								<dl>
+									<dt>
+										收费方式<b>*</b>
+									</dt>
+									<dd>
+										<select id="edtChargeWay" class="select frame">
+											<option value="4">按人数收费(每人)</option>
+										</select>
+									</dd>
+								</dl>
+								<dl>
+									<dt>
+										报价货币<b>*</b>
+									</dt>
+									<dd>
+										<select id="edtCurrency" class="select frame">
+												$context.include("plugin.currency")
+										</select>
+									</dd>
+								</dl>
+								<dl>
+									<dt>
+										出发集合地点 <b>*</b>
+									</dt>
+									<dd>
+										<input type="text"
+											id="edtVenue" class="input frame" />
+									</dd>
+								</dl>
+								<dl>
+									<dt>
+										游玩时间（小时）*</b>
+									</dt>
+									<dd>
+										<input type="text"
+											id="edtHour" class="input frame numeric" />
+									</dd>
+								</dl>
+							</div>
+							<div class="tip">如果您的报价已经包含了下面的费用，请打勾</div>
+							<div class="tag130 clearfix" style="padding:10px;">
+								<ul>
+									<li><label><input type="checkbox" value="包含导游费"
+											tag="priceTag" id="priceTag1" />包含导游费</label></li>
+									<li><label><input type="checkbox" value="包含餐费"
+											tag="priceTag" id="priceTag2" />包含餐费</label></li>
+									<li><label><input type="checkbox" value="包含车的油费"
+											tag="priceTag" id="priceTag4" />包含车的油费</label></li>
+									<li><label><input type="checkbox" value="包含车的过路费"
+											tag="priceTag" id="priceTag5" />包含车的过路费</label></li>
+									<li><label><input type="checkbox" value="包含车的停车费"
+											tag="priceTag" id="priceTag6" />包含车的停车费</label></li>
+									<li><label><input type="checkbox" value="包含公共交通费"
+											tag="priceTag" id="priceTag7" />包含公共交通费</label></li>
+								</ul>
+							</div>
+							<div class="price-table">
+								<dl class="tableHd  clearfix">
+									<dt class="PriceName" style="width:265px;">报价方案名称</dt>
+									<dt class="PriceAge" style="width:130px;">年龄段</dt>
+									<dt class="PriceValue">价格</dt>
+									<dt class="PricePerson">最多接纳多少人</dt>
+									<dt class="PriceActive">运营状态</dt>
+									<dt class="PriceMenu">操作</dt>
+								</dl>
+								<div id="prices" jseval="$recIndex=0"></div>
+								<div onclick="activity.addPrice()" id="addPrice" class="addPrice">
+									<i></i><span>增加报价方案</span>
+								</div>
+							</div>
+							<h4>
+								<i></i><b>客人成功预订后，违约取消预订，需要遵循的条款</b><span class="f-red">*</span>
+							</h4>
+							<div class="form one clearfix">
+								<dl>
+									<dd>
+										<select class="select frame" id="edtPolicyCancel">
+											<option value="0">灵活模式：在预订日期凌晨零点以前取消预订,全额退款,否则不退。</option>
+											<option value="1" selected>1天模式：提前1天取消预订,全额退款,否则不退。</option>
+											<option value="3">3天模式：提前3天取消预订,全额退款,否则不退。</option>
+											<option value="5">5天模式：提前5天取消预订,全额退款,否则不退。</option>
+											<option value="7">7天模式：提前7天取消预订,全额退款,否则不退。</option>
+										</select> <input type="hidden" size="30" id="edtSecurityDeposit"
+											value="0" />
+									</dd>
+								</dl>
+							</div>
+							<div class="next-step">
+								<label><i>全部填写完成</i> 即可发布服务</label> <a
+									href="javascript:commit()"
+									class="button grey red-hover button-3 image-right" tag="commit"><span
+									class="tick"></span>保存发布</a> <a href="javascript:void(0)"
+									data-target="4" class="button grey red-hover button-1"
+									tag="prev"><span class="prev"></span>上一步</a>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="hidden" style="display:none">
+		<div class="row" id="templateRow" jsselect="$this">
+			<dl class="tableBd clearfix" jsvalues="index:$recIndex"
+				jseval="activity.renderPrice(this,$this)">
+				<dd class="PriceName" style="width:260px;">
+					<input type="text" class="price-input w250" />
+				</dd>
+				<dd class="PriceAge" style="width:130px;">
+					<input type="text" class="price-input w120" />
+				</dd>
+				<dd class="PriceValue">
+					<span class="currency"> <em>￥</em> <input type="text"
+						class="price-input w110" /> </span>
+				</dd>
+				<dd class="PricePerson">
+					<input type="text" class="price-input w120" />
+				</dd>
+				<dd class="PriceActive">
+					<div class="price-switch on"></div>
+				</dd>
+				<dd class="PriceMenu">
+					<a class="price-btn" tag="edit" href="javascript:void(0)">运营日历</a>
+					<a class="price-btn" tag="delete" href="javascript:void(0)">删除</a>
+				</dd>
+			</dl>
+			<div class="edit" jsvalues=".id:'edit'+$recIndex"
+				jseval="$recIndex++"></div>
+		</div>
+		<div id="editRow">
+			<a href="javascript:void(0)" class="closeIco"
+				onclick="activity.hideCalendar()"></a> <b class="dqIco"></b>
+				$context.include("plugin.editcalendar")
+		</div>
+
+	</div>
+
+	$context.readFooter(true)
+	$context.includeJavaScript("jquery/","jquery.calendar.js")
+	$context.includeJavaScript("","tinymce/tinymce.min.js")
+	$context.includeJavaScript("jquery/","jquery.jcrop.js")
+	$context.includeJavaScript("jquery/","jquery.tokeninput.js")
+	$context.includeJavaScript("","rock.js")
+	$context.includeJavaScript("","postactivity.js")
+</body>
+</html>

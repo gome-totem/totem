@@ -1,0 +1,253 @@
+<script>
+    function readRuleKey(bizType, catalog, chargeWay) {
+	var buffer = [];
+	switch (bizType) {
+	case 7:
+	    buffer.push('<option value="room">预订房间数</option>');
+	    break;
+	case 6:
+	    buffer.push('<option value="person">预订客人数</option>');
+	    break;
+	}
+	if (chargeWay == 0) {
+	    buffer.push('<option value="hour">预订小时数</option>');
+	} else {
+	    buffer.push('<option value="day">预订天数</option>');
+	}
+	return buffer.join('');
+    }
+
+    function readRuleKeyName() {
+	var v = $('#edtRuleKey').val();
+	switch (v) {
+	case "person":
+	    return "每个客人";
+	case "hour":
+	    return "每个小时";
+	case "day":
+	    return "每天";
+	case "room":
+	    return "每个房间";
+	}
+    }
+</script>
+<style>
+.rule input {
+	width: 100px;
+	border: 1px solid #8C8C8C;
+	border-radius: 2px 2px 2px 2px;
+	color: #404040;
+	font-size: 12px;
+	margin: 4px;
+	padding: 6px;
+}
+
+select.rule {
+	border: 1px solid #8C8C8C;
+	border-radius: 2px 2px 2px 2px;
+	color: #404040;
+	font-size: 12px;
+	margin: 4px;
+	padding: 7px 6px 6px;
+	width: 110px;
+}
+
+a.rule {
+	float: right;
+	margin-top: 5px;
+	width: 110px;
+}
+</style>
+<div style="display:none">
+     <div class="form rule" id="templateSetting" jsvalues=".state:$state;.catalog:$catalog">
+          <div>
+               <p style="margin:0 0 0.6em">
+                    <label for="edtRuleFrom">预约日期从</label> <input type="text" id="edtRuleFrom" class="checkin"> <label
+                         for="edtRuleTo">至</label> <input type="text" id="edtRuleTo" class="checkout"> <label>，如果</label>
+                    <select class="rule" onchange="ruleChanged()" id="edtRuleKey" 
+                         jshtml="readRuleKey($bizType,$catalog,$chargeWay)">
+                    </select> <label>大于等于</label> <select class="rule" onchange="ruleChanged()" id="edtRuleCount">
+                         <option selected="selected" value="1">1</option>
+                         <option value="2">2</option>
+                         <option value="3">3</option>
+                         <option value="4">4</option>
+                         <option value="5">5</option>
+                         <option value="6">6</option>
+                         <option value="7">7</option>
+                         <option value="8">8</option>
+                         <option value="9">9</option>
+                         <option value="10">10</option>
+                         <option value="11">11</option>
+                         <option value="12">12</option>
+                         <option value="13">13</option>
+                         <option value="14">14</option>
+                         <option value="15">15</option>
+                         <option value="16">16</option>
+                         <option value="17">17</option>
+                         <option value="18">18</option>
+                         <option value="19">19</option>
+                         <option value="20">20</option>
+                         <option value="21">21</option>
+                         <option value="22">22</option>
+                         <option value="23">23</option>
+                         <option value="24">24</option>
+                         <option value="25">25</option>
+                         <option value="26">26</option>
+                         <option value="27">27</option>
+                         <option value="28">28</option>
+                         <option value="29">29</option>
+                         <option value="30">30</option>
+                         <option value="31">31</option>
+                    </select>
+               </p>
+
+          </div>
+          <div>
+               <p style="margin:0 0 0.6em">
+                    <label>价格则按照</label> <input id="edtRuleKeyName" type="text" style="background:#EFEFEF;" readonly="readonly" />
+                    <select class="rule" onchange="ruleChanged()" id="edtRuleOperate" style="margin-left:20px;width:115px;">
+                         <option selected="selected" value="0">优惠</option>
+                         <option value="1">加收</option>
+                    </select> <label>金额</label> <span class="currency_symbol" jscontent="$currency"></span><input onkeyup="ruleChanged()"
+                         type="text" value="0" id="edtRuleAmount" class="numeric" ><span id="adding"></span> <a
+                         onclick="addRules(this)" class="rule button grey red-hover">增加价格策略</a>
+               </p>
+
+          </div>
+          <div>
+               <p class="hr"></p>
+          </div>
+          <div>
+               <p>
+                    <label>使用此工具来测试价格是否被正确计算 </label>
+               </p>
+          </div>
+          <div>
+               <p>
+                    <label for="edtTestFrom">预约出发日期</label> <input type="text" id="edtTestFrom"> <label for="edtTestTime">预约天数</label>
+                    <input type="text" id="edtTestTime" class="numeric"> <label for="edtTestPersonCount"
+                         jsdisplay="$bizType!=7">旅客人数</label> <select class="rule" id="edtTestPersonCount" jsdisplay="$bizType!=7">
+                         <option selected="selected" value="1">1</option>
+                         <option value="2">2</option>
+                         <option value="3">3</option>
+                         <option value="4">4</option>
+                         <option value="5">5</option>
+                         <option value="6">6</option>
+                         <option value="7">7</option>
+                         <option value="8">8</option>
+                         <option value="9">9</option>
+                         <option value="10">10</option>
+                         <option value="11">11</option>
+                         <option value="12">12</option>
+                         <option value="13">13</option>
+                         <option value="14">14</option>
+                         <option value="15">15</option>
+                         <option value="16">16</option>
+                         <option value="17">17</option>
+                         <option value="18">18</option>
+                         <option value="19">19</option>
+                         <option value="20">20</option>
+                         <option value="21">21</option>
+                         <option value="22">22</option>
+                         <option value="23">23</option>
+                         <option value="24">24</option>
+                         <option value="25">25</option>
+                         <option value="26">26</option>
+                         <option value="27">27</option>
+                         <option value="28">28</option>
+                         <option value="29">29</option>
+                         <option value="30">30</option>
+                         <option value="31">31</option>
+                    </select> <label for="edtTestRoomCount" jsdisplay="$bizType==7 && $catalog==0">预订房间数</label> <select
+                         id="edtTestRoomCount" jsdisplay="$bizType==7 && $catalog==0" class="rule">
+                         <option selected="selected" value="1">1</option>
+                         <option value="2">2</option>
+                         <option value="3">3</option>
+                         <option value="4">4</option>
+                         <option value="5">5</option>
+                         <option value="6">6</option>
+                         <option value="7">7</option>
+                         <option value="8">8</option>
+                         <option value="9">9</option>
+                         <option value="10">10</option>
+                         <option value="11">11</option>
+                         <option value="12">12</option>
+                         <option value="13">13</option>
+                         <option value="14">14</option>
+                         <option value="15">15</option>
+                         <option value="16">16</option>
+                         <option value="17">17</option>
+                         <option value="18">18</option>
+                         <option value="19">19</option>
+                         <option value="20">20</option>
+                         <option value="21">21</option>
+                         <option value="22">22</option>
+                         <option value="23">23</option>
+                         <option value="24">24</option>
+                         <option value="25">25</option>
+                         <option value="26">26</option>
+                         <option value="27">27</option>
+                         <option value="28">28</option>
+                         <option value="29">29</option>
+                         <option value="30">30</option>
+                         <option value="31">31</option>
+                    </select> <a onclick="testPrice(this)" class="rule button grey red-hover">检查价格计算</a>
+               </p>
+          </div>
+          <div id="testResult"></div>
+          <div>
+               <p class="hr"></p>
+          </div>
+          <div id="rules"></div>
+     </div>
+
+     <div id="comment">
+          <div id="comments"></div>
+          <div id="commentPager" class="pagebar"></div>
+     </div>
+
+     <ol class="messages list" id="templateComment">
+          <li jsselect="$this.items">
+               <div class="image rounded">
+                    <a target="_blank" jsvalues=".href:'/i/'+$this.userId"> <img width="66" height="66"
+                         jsvalues=".src:'/photo/faces/'+$this.userId"> </a>
+                    <div class="tl"></div>
+                    <div class="tr"></div>
+                    <div class="bl"></div>
+                    <div class="br"></div>
+               </div>
+               <div class="caption">
+                    <h4>
+                         <strong jscontent="$this.userName"></strong> <em style="display:inline-block;margin-left:6px;"
+                              jseval="$time=longToDateTimeStr($this.timestamp)" jscontent="$time"></em>
+                    </h4>
+                    <p jscontent="$this.comment"></p>
+               </div>
+               <h5>
+                    <div class="rating" jshtml="readCommentScoreByPerson($this.scoreP)"></div>
+                    <div class="rating" jshtml="readCommentScoreByActivity($this.scoreA)"></div>
+               </h5>
+          </li>
+     </ol>
+
+     <table id="templateRules" width="100%" cellspacing="0" cellpadding="0" border="0" class="table" jseval="$recIndex=0">
+          <tbody>
+               <tr class="even" jseval="$bizType=$this.bizType">
+                    <th width="70%" scope="col">策略条件</th>
+                    <th width="15%" scope="col">加收/优惠</th>
+                    <th width="15%" scope="col" align="center">操作</th>
+               </tr>
+          </tbody>
+          <tbody>
+               <tr jseval="$recIndex++" jsvalues="class:readRowclass($recIndex)" jsselect="rules">
+                    <td scope="col"><span class="number" jscontent="$recIndex"></span> <span
+                         jshtml="readRuleContent($bizType,$this)"></span>
+                    </td>
+                    <td scope="col" jshtml="readRuleAmount($this)"></td>
+                    <td scope="col"><a href="javascript:void(0)" jsvalues=".index:$recIndex"
+                         onclick="deleteRule(this.index,this)">删除</a>
+                    </td>
+               </tr>
+          </tbody>
+     </table>
+</div>

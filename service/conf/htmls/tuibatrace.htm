@@ -1,0 +1,99 @@
+<!doctype html public "-//w3c//dtd xhtml 1.0 transitional//en" "http://www.w3.org/tr/xhtml1/dtd/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+#set($profile=$user.readProfile($context.getParam("u"),true))
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>推广效果管理©$tool.seoTitle()</title>$context.includeCss("","backend.css")
+$context.includeCss("","tuiba.css") $context.readHtmlHeader()
+<style>
+.add_sz li {
+	border: 0;
+	width: 30px;
+	height: 23px;
+}
+</style>
+<script language="javascript">
+	function getPushName(type, key) {
+		return "<font color='green'>推广渠道:" + type + "&" + key + "</font>&nbsp;&nbsp;";
+	}
+</script>
+</head>
+<body>
+	$context.readHeader(false) $context.include("usertitle")
+	<div class="home">
+		$context.include("userinfo")
+		<div class="content clearfix">
+			$context.include("userpanel")
+			<div class="fieldset">
+				<div id="spinner"></div>
+				<div class="shantu">
+					<ul class="shantub">
+						<li><p class="p1" style="width:500px">推广产品标题</p>
+							<p style="width:100px">效果数</p>
+							<p style="width:200px">效果时间</p>
+							<p style="width:100px">操作</p></li>
+					</ul>
+					<ul class="shantul" id="userDocs">
+					</ul>
+					<div jsvalues="docPager" class="pagebar"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div style="display:none">
+		<li id="templateDoc" jsselect="items" style="float:left">
+			<p style="width:500px" jscontent="$this.title"></p>
+			<p style="width:100px" jscontent="$this.reply_count"
+				jsvalues=".id:'traceTotal'+$this.id"></p>
+			<p style="width:200px" jseval="$text1=dateDiff($this.reply_datetime)"
+				jscontent="$text1"></p>
+			<p style="width:100px">
+				<a href="javascript:void(0)" jsvalues=".docid:$this.id"
+					onclick="readTrace(this.docid)">PV详情</a>
+			</p>
+			<div class="bianji" jsvalues=".id:'trace'+$this.id"
+				style="display:none">
+				<div class="dynamic"></div>
+				<div jsvalues=".id:'tracePager'+$this.id" class="add_sz"></div>
+			</div>
+		</li>
+		<div id="templateTrace" jsselect="items">
+			<div class="sanl" jsvalues=".id:'traceDiv'+$index">
+				<div class="tu"></div>
+				<p class="p4" style="width:300px"
+					jseval="$text0=getPushName($this.type,$this.key)" jshtml="$text0"></p>
+				<p class="p5" jseval="$text1=dateDiff($this.created_date)"
+					jscontent="$text1"></p>
+				<p class="p5" jseval="$text2='来源ip:'+$this.ip" jscontent="$text2"></p>
+			</div>
+			<div jsvalues=".id:'traceCustomer'+$index" jseval="$index++">
+				<div class="dynamic"></div>
+			</div>
+		</div>
+	</div>
+
+	<div style="display:none">
+		<div class="stanc" id="templateTraceCustomer">
+			<p class="passp">
+				<a href="javascript:void(0)" jsvalues=".recIndex:$this.recIndex"
+					class="pass" onclick="closeTraceCustomer(this.recIndex)"></a>
+			</p>
+			<div class="feny" style="padding-top:6px;">
+				<p>1</p>
+				客户点击了该链接: <a target="_blank" jsvalues=".href:$this.traceUrl"> <span
+					jscontent="$this.traceUrl"></span> </a>
+			</div>
+			<table width="681" border="0" cellspacing="0" cellpadding="0"
+				class="jif" jsdisplay="$this.items">
+				<tr jsselect="items">
+					<td width="150"><span jscontent="$this.key"></span></td>
+					<td jscontent="$this.value"></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	$context.readFooter() $context.includeJavaScript("","rock.js")
+	$context.includeJavaScript("","tuibatrace.js")
+</body>
+</html>

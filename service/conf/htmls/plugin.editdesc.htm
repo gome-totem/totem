@@ -1,0 +1,48 @@
+<h4>
+	#if($context.getPageName()=="postreq")
+	<i></i>一句话简述您的需求<span class="f-gray">（导游或一起嗨客服会通过标题搜索)</span> <span
+		class="f-red">*</span>
+	#else
+	<i></i>吸引客人的标题<span class="f-gray">（客人会通过标题搜索)</span> <span
+		class="f-red">*</span>
+	#end
+</h4>
+<div class="form pad-l25 clearfix">
+	<input type="text" id="edtTitle" class="input frame"
+		style="width:890px;" />
+</div>
+<h4>
+	<i></i>
+	#if($context.getPageName()=="postactivity")
+	<label for="edtDesc">旅行体验的详细安排</label><span class="f-gray">（客人会通过关键词搜索该描述)</span>
+	#elseif($context.getPageName()=="postreq")
+	<label for="edtDesc">详细需求描述</label>
+	#else
+	<label for="edtDesc">服务内容描述</label><span class="f-gray">（客人会通过关键词搜索该描述)</span>
+	#end
+	<span class="f-red">*</span> 
+</h4>
+<div style="width:900px;padding-left:25px; overflow:hidden;">
+	<textarea id="edtDesc" class="rich"></textarea>
+</div>
+#if($context.getPageName()=="postactivity")
+<div class="infoblock">
+	<p>
+		<i>该内容描述对预约成功率非常重要，建议您编辑如下内容：</i>
+	</p>
+	<p>① 旅行体验活动的详细安排</p>
+	<p>② 旅行体验活动中的亮点</p>
+	<p>③ 旅行体验活动中的注意事项</p>
+</div>
+#else
+<div class="infoblock">
+	<p>
+		<i>服务内容描述对预约成功率非常重要，建议您编辑如下内容：</i>
+	</p>
+	<p>① 您接待过的成功案例，活动，或什么特别的人（比如明星）</p>
+	<p>② 您熟悉的线路，景点，代购资源，美容</p>
+	<p>③ 您对当地展馆，美食，住宿，文化的了解</p>
+	<p>④ 您提供的服务详细描述或对客人的要求</p>
+	<p>⑤ 您自己的性格，特长</p>
+</div>
+#end

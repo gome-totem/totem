@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<title>网站维护~数据同步更新</title>
+		<link rel="shortcut icon" href="/images/hi.ico" >
+		<link rel="icon" type="image/gif" href="/images/hi.gif" >
+		<style type="text/css" title="currentStyle">
+			@import "/jquery/css/datatable/page.css";
+			@import "/jquery/css/datatable/table.css";
+		</style>
+	</head>
+	<body id="dt_example">
+		<div id="container">
+			<div class="full_width big">
+				数据同步更新
+			</div>
+			
+			<h1>操作说明</h1>
+		   <ul>
+		   <li><i>拼车同步</i>:将xdb中抓取的拼车数据，自动生成闪图，提交到运营环境</li>
+		   </ul>
+			<h1>--数据热同步--</h1>
+			<p>
+			<a href="javascript:void(0)" onclick="updateIncludeVersions()">页面js&css热启动</a>
+			<span id="includeVersion"></span>
+			</p>
+			<h1>--数据同步列表--</h1>
+			<p>
+			<a href="javascript:void(0)" onclick="sync('pingche')">拼车数据同步</a>
+			<span id="pingche"></span>
+			</p>
+
+			<div class="clear" id="test"></div>
+			
+			<div id="footer" style="text-align:center;">
+				$context.readFooter()
+			</div>
+		</div>
+	</body>
+	$context.includeJavaScript("","datatable_sync.js")
+</html>

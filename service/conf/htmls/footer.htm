@@ -1,0 +1,133 @@
+#if ($includeDlgPicture==true) $context.include('dlgpicture') #end
+#if($user.userId==0) $context.include('loginDialog') #end
+
+#if($context.pdf()==false)
+<div class="clear"></div>
+<div class="footerline"></div>
+<div class="footer" style="min-width:1100px;">
+	<div class="box" style="width:1100px;margin:0 auto;">
+		<dl class="about">
+			<dt>关于我们</dt>
+			<dd>
+				<a target="_blank" href="/terms">服务条款</a>
+			</dd>
+			<dd>
+				<a target="_blank" href="/help#aboutus">关于我们</a>
+			</dd>
+			<dd>
+				<a target="_blank" href="/help#joinus">加入我们</a>
+			</dd>
+			<dd>
+				<a target="_blank" href="/help#corp">商务合作</a>
+			</dd>
+		</dl>
+		<dl class="faq">
+			<dt>常见问题</dt>
+			<dd>
+				<a target="_blank" href="/help#publish">如何发布服务？</a>
+			</dd>
+			<dd>
+				<a target="_blank" href="/help#fee">我们收佣金吗？</a>
+			</dd>
+			<dd>
+				<a target="_blank" href="/help#booking">我想预约服务，如何进行？</a>
+			</dd>
+			<dd>
+				<a target="_blank" href="/help#matter">有交易纠纷怎么办？</a>
+			</dd>
+
+		</dl>
+		<dl class="contact">
+			<dt>联系我们</dt>
+			<dd>
+				<a href="mailto:team@yiqihi.com"><span class="mailto"></span>给我们发送电子邮件</a>
+			</dd>
+			<dd>
+				<a href="http://weibo.com/p/1006063802847084/home"><span
+					class="sina"></span>关注官方微博</a>
+			</dd>
+			<dd>
+				<a href="javascript:void(0)"><span class="tel"></span>010-56216655<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;010-56216633</a>
+			</dd>
+		</dl>
+		<dl class="down">
+			<dt>移动客户端下载</dt>
+			<dd>
+				<div class="app">
+					<a class="ios"></a>
+				</div>
+			</dd>
+			<dd>
+				<div class="app">
+					<a class="andriod"></a>
+				</div>
+			</dd>
+		</dl>
+		<dl class="pay">
+			<dt>邮件订阅</dt>
+			<dd class="orangeAngleButton">
+				<input type="text" class="email" id="edtSubscribe"
+					placeHolder="请输入邮箱地址,然后点击订阅按钮" /> <a class="lpButton2010"
+					style="margin-bottom:10px;" href="javascript:void(0)"
+					onclick="subscribe(1)"><strong>订阅由导游直接发布的杂志</strong> </a>
+			</dd>
+			<dd>
+				<p class="alipay" style="width:96px;height:32px;"></p>
+				<p class="paypal" style="width:107px;height:29px;"></p>
+			</dd>
+		</dl>
+	</div>
+</div>
+<div class="clear"></div>
+<div class="bottomer" style="min-width:1100px;">
+	<div>
+		<dl>
+			<dt>
+				<a target="_blank" href="javascript:void(0)">广告服务</a> | <a
+					target="_blank" href="javascript:void(0)">提交问题</a> | <a
+					target="_blank" href="javascript:void(0)">版权声明</a> |
+			</dt>
+			<dd>$tool.currentYear() &mdash; yiqihi.com© 京ICP备14024970号-1 </dd>
+		</dl>
+	</div>
+</div>
+#end
+
+
+<div style="display:none" id="hiddenbox"></div>
+<div id="dialogOverlay" style="display:none" class="opaque"></div>
+#if($context.developMode()==false)
+<script type="text/javascript">
+	var _gaq = _gaq || [];
+	_gaq.push([ '_setAccount', 'UA-18988825-3' ]);
+	_gaq.push([ '_trackPageview' ]);
+	(function() {
+		var ga = document.createElement('script');
+		ga.type = 'text/javascript';
+		ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0];
+		s.parentNode.insertBefore(ga, s);
+	})();
+</script>
+#end $context.includeJavaScript("jquery/","jquery-1.8.3.min.js")
+$context.includeJavaScript("jquery/","jquery-ui.1.8.23.min.js")
+$context.includeJavaScript("jquery/","jquery.common.js")
+$context.includeJavaScript("jquery/","jquery.dateinput.js")
+$context.includeJavaScript("jquery/","jquery.watermark.js")
+$context.includeJavaScript("jquery/","jquery.pager.js")
+$context.includeJavaScript("jquery/","jquery.scrollTo.js")
+$context.includeJavaScript("jquery/","jquery.scrollbar.js")
+$context.includeJavaScript("jquery/","jquery.autocomplete.js")
+$context.includeJavaScript("jquery/","jquery.poshytip.js")
+$context.includeJavaScript("jquery/","jquery.lazyload.js")
+$context.includeJavaScript("","json2.js")
+$context.includeJavaScript("","util.js")
+$context.includeJavaScript("","template.js")
+$context.includeJavaScript("","swfobject.js")
+$context.includeJavaScript("","web_socket.js") #if($user.userId==0)
+$context.includeJavaScript("","login.js") #end #if
+($includeDlgPicture==true)
+$context.includeJavaScript("jquery/","jquery.ajaxupload.js") #end
+$context.includeJavaScript("","common.js")
+$context.includeJavaScript("","header.js")

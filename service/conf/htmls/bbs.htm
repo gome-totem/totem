@@ -1,0 +1,1718 @@
+<!doctype html public "-//w3c//dtd xhtml 1.0 transitional//en" "http://www.w3.org/tr/xhtml1/dtd/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>$tool.seoTitle()</title> $context.includeCss("","bbs.css")
+$context.readHtmlHeader()
+</head>
+<body>
+	$context.readHeader(false) #set($contact=$user.readContact())
+	<!--banner-->
+	<div class="bbs-banner">
+		<div class="shadow"></div>
+		<div class="bbs-warp">
+			<div class="bbs-title">
+				<p>私密、实时、自动销毁</p>
+				<p>个性化旅行服务领导者</p>
+			</div>
+			<ul class="bbs-about">
+				<li class="qdy" data-v="0"><span class="bg"></span> <b
+					class="icon"></b>
+					<p class="name">需要导游</p>
+				</li>
+				<li class="qzc" data-v="1"><span class="bg"></span> <b
+					class="icon"></b>
+					<p class="name">需要租车</p>
+				</li>
+				<li class="qtb" data-v="2"><span class="bg"></span> <b
+					class="icon"></b>
+					<p class="name">需要同伴</p>
+				</li>
+				<li class="smht" data-v="3"><span class="bg"></span> <b
+					class="icon"></b>
+					<p class="name">
+						<span>Security</span>私密话题
+					</p> <span class="num">1000</span>
+				</li>
+				<li class="tlxc" data-v="4"><span class="bg"></span> <b
+					class="icon"></b>
+					<p class="name">
+						<span>Discuss</span>讨论行程
+					</p>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<!--banner end-->
+	<!--tools-->
+	<div class="bbs-tools">
+		<div class="bbs-warp">
+			<div class="tools-all">
+				<h2 class="hd">
+					全部<b class="drop"></b>
+				</h2>
+				<ul class="bd" style="display:none">
+					<li>求同伴</li>
+					<li>求同伴</li>
+					<li>求同伴</li>
+					<li>求同伴</li>
+				</ul>
+			</div>
+
+			<div class="tools-search">
+				<input type="text" class="search-text" value="提问前可以先搜索，看看你的需求是否有人问过" />
+				<input type="button" class="search-btn" />
+			</div>
+			<p class="tools-join-num">
+				共<span>322684</span>个讨论，<span>125454</span>人参与
+			</p>
+		</div>
+	</div>
+	<!--tools end-->
+
+
+	<div class="bbs-warp ">
+		<ul class="bbs-messages-select clearfix">
+			<li class="sel-guider"><b></b>求导游(5)</li>
+			<li class="sel-car"><b></b>求租车(5)</li>
+			<li class="sel-friend cur"><b></b>求同伴(5)</li>
+			<li class="sel-topic"><b></b>私密话题(5)</li>
+			<li class="sel-trip"><b></b>讨论行程(5)</li>
+			<li class="sel-fb"><b></b>我发布的(5)</li>
+			<li class="sel-jr"><b></b>我加入的(5)</li>
+		</ul>
+		#set($result=$service.searchBy($context,0))
+		#set($items=$result.get("items")) #foreach($item in $items)
+		#set($className=$tool.requireClassBy($item.getInt('catalog')))
+		<div class="bbs-messages" data-id="item">
+			<div class="message">
+				<span class="message-l"><img width="60" height="60"
+					src="/photo/faces/$item.get('user_id')"> </span>
+				<!--话题中间内容-->
+				<div class="message-m">
+					<div class="title">
+						<i class="icon-hot"></i><i class="icon-light"></i><i
+							class="messages-op $className"> </i><em title="出发日期">$tool.formatDate($item.get("dept_date"),"yyyy-MM-dd")</em>
+						$item.get('title')
+					</div>
+					<div class="introduce">$tool.extractText($item.get('description'),200)<p style="font-size:13px;font-style:italic;">$tool.nowDiff($item.getLong('last_modified'))</p></div>
+					<div class="time">
+						<span class="view-infos"><em class="mdd"></em>$tool.locationBy($item.get('locations'))</span>
+						<span class="view-infos"><em class="rq"></em>
+							$item.get("day")天</span> <span class="view-infos"><em class="rs"></em>$item.get("person")</span>
+						<span class="view-infos"><em class="car"></em>$item.get("car_enabled")</span>
+					</div>
+				</div>
+				<!--话题中间内容 end-->
+				<!--话题右侧内容 end-->
+				<div class="message-r">
+					<div class="point">●</div>
+					<div class="bgsj"></div>
+					<div class="peoples">99人</div>
+					<div class="btns">
+						#if ($user.getUserId()==$item.getLong("user_id"))
+						<a class="edit" data-i="$item.get('short_id')"  data-c="$item.get('catalog')"  href="javascript:void(0)"></a> 
+						#else
+						<a class="shenqing"  href="javascript:void(0)"></a> 
+						#end
+						<a
+							class="yuedu" href="javascript:void(0)"></a>
+					</div>
+					<div class="mess">12未读消息</div>
+					<div class="time">
+						<b></b>剩余2天19时5分22秒
+					</div>
+				</div>
+			</div>
+			<!--话题 end-->
+			<!--话题评论-->
+			<div class="bbs-discuss clearfix" >
+				<span class="waves"></span> <a class="close"
+					href="javascript:void(0)"></a>
+				<div class="discuss-body">
+					<div class="discuss-left">
+						<div class="head">
+							<em class="quote"></em>
+							<div class="content">$item.get('description')</div>
+						</div>
+						<div class="discuss-control clearfix">
+							<span class="icon"></span>
+						</div>
+						<div class="discuss" >
+							<div class="day">
+								<b>现在</b>
+							</div>
+							<div class="talk">
+								<div jsselect="$this.items" jstcache="6" jsinstance="0">
+									<div jstcache="0">
+										<div jseval="setMsgClassName($this,this)" jstcache="1"
+											class="msg_item_box msg_item_l clearfix">
+											<div class="msg_item_pic" jstcache="0">
+												<a jscontent="$this.userName" class="dialist_pic_box"
+													target="_blank" javalues=".href:'/i/'+$this.userId"
+													jstcache="2">肖鸣</a>
+											</div>
+											<div class="msg_item_content" jstcache="0">
+												<div class="msg_arrow" jstcache="0">
+													<em class="line2_c" jstcache="0">◆</em> <span class="bg5_c"
+														jstcache="0">◆</span>
+												</div>
+												<div class="msg_item_main" jstcache="0">
+													<div class="msg_dia_con" jstcache="0">
+														<p jshtml="replaceLine($this.content)" class="msg_dia_txt"
+															jstcache="3">
+															?<br>?<br>????
+														</p>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div jsselect="$this.items" jstcache="6" jsinstance="1">
+									<div jstcache="0" class="even">
+										<div jseval="setMsgClassName($this,this)" jstcache="1"
+											class="msg_item_box msg_item_l clearfix">
+											<div class="msg_item_pic" jstcache="0">
+												<a jscontent="$this.userName" class="dialist_pic_box"
+													target="_blank" javalues=".href:'/i/'+$this.userId"
+													jstcache="2">大王</a>
+											</div>
+											<div class=" msg_item_content" jstcache="0">
+												<div class="msg_arrow" jstcache="0">
+													<em class="line2_c" jstcache="0">◆</em> <span class="bg5_c"
+														jstcache="0">◆</span>
+												</div>
+												<div class="msg_item_main" jstcache="0">
+													<div class="msg_dia_con" jstcache="0">
+														<p jshtml="replaceLine($this.content)" class="msg_dia_txt"
+															jstcache="3">88888</p>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="send_msg">
+									<textarea placeholder="输入内容,按回车即可发送消息"
+										data-jq-watermark="processed"></textarea>
+								</div>
+
+							</div>
+							<div class="clear"></div>
+							<div class="time">
+								<b class="point"></b><b class="ago">3分钟以前</b>
+							</div>
+							<!--一个回复-->
+							<div class="content" >
+								<a class="face" href="#"><img alt="" src="_demp/32187.jpg">
+								</a>
+								<p class="name">
+									<a class="nBlue" href="#">韩寒123131</a>
+								</p>
+								<p class="text">
+									<a class="at-name" href="#">@央视新闻</a>【超过1天了！转发微博，为生命守候！】马航MH370航班与地面失去联系，至今已超过1天，239个生命，生死未卜……今天，无论你在哪里，让我们用微博传递一句话：马航MH370，我们等你回家，我们会为你守候
+								</p>
+								<div class="opreat">
+									<a class="upload" href="javascript:void(0)">上传图片</a> <a
+										class="like" href="javascript:void(0)"></a> <a class="reply"
+										href="javascript:void(0)"></a>
+									<div class="load-pic-warp">
+										<b class="triangle"></b>
+										<ul class="load-pic-box clearfix">
+											<li><b class="add"></b>添加图片</li>
+											<li><b class="jigsaw"></b>拼图上传</li>
+											<li><b class="capture"></b>截屏上传</li>
+											<li><b class="nphotos"></b>传至相册</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+
+							<!--一个回复-->
+							<div class="content clearfix">
+								<a class="face" href="#"><img alt="" src="_demp/32187.jpg">
+								</a>
+								<p class="name">
+									<a class="nBlue" href="#">韩寒123131</a>
+								</p>
+								<p class="text">
+									<a class="at-name" href="#">@央视新闻</a>【超过1天了！转发微博，为生命守候！】马航MH370航班与地面失去联系，至今已超过1天，239个生命，生死未卜……今天，无论你在哪里，让我们用微博传递一句话：马航MH370，我们等你回家，我们会为你守候
+								</p>
+								<div class="opreat">
+									<a class="upload" href="javascript:void(0)">上传图片</a> <a
+										class="like" href="javascript:void(0)"></a> <a class="reply"
+										href="javascript:void(0)"></a>
+								</div>
+							</div>
+
+							<!--一个回复-->
+							<div class="content clearfix">
+								<a class="face" href="#"><img alt="" src="_demp/32187.jpg">
+								</a>
+								<p class="name">
+									<a class="nBlue" href="#">韩寒123131</a>
+								</p>
+								<p class="text">
+									<a class="at-name" href="#">@央视新闻</a>【超过1天了！转发微博，为生命守候！】马航MH370航班与地面失去联系，至今已超过1天，239个生命，生死未卜……今天，无论你在哪里，让我们用微博传递一句话：马航MH370，我们等你回家，我们会为你守候
+								</p>
+								<textarea class="replycon" rows="10" cols="30" id="" name=""></textarea>
+								<div class="opreat">
+									<a class="upload" href="javascript:void(0)">上传图片</a> <a
+										class="like" href="javascript:void(0)"></a> <a class="reply"
+										href="javascript:void(0)"></a>
+								</div>
+							</div>
+
+							<!--带图片的一个回复-->
+							<div class="content clearfix">
+								<a class="face" href="#"><img alt="" src="_demp/32187.jpg">
+								</a>
+								<p class="name">
+									<a class="nBlue" href="#">韩寒123131</a>
+								</p>
+								<p class="text">
+									<a class="at-name" href="#">@央视新闻</a>【超过1天了！转发微博，为生命守候！】马航MH370航班与地面失去联系，至今已超过1天，239个生命，生死未卜……今天，无论你在哪里，让我们用微博传递一句话：马航MH370，我们等你回家，我们会为你守候
+								</p>
+								<ul class="pic clearfix">
+									<li><a href="#"></a><img width="98" height="65"
+										src="_demp/1111.jpg"></li>
+									<li><a href="#"></a><img width="98" height="65"
+										src="_demp/1111.jpg"></li>
+									<li><a href="#"></a><img width="98" height="65"
+										src="_demp/1111.jpg"></li>
+									<li><a href="#"></a><img width="98" height="65"
+										src="_demp/1111.jpg"></li>
+									<li><a href="#"></a><img width="98" height="65"
+										src="_demp/1111.jpg"></li>
+								</ul>
+								<div class="opreat">
+									<a class="upload" href="javascript:void(0)">上传图片</a> <a
+										class="like" href="javascript:void(0)"></a> <a class="reply"
+										href="javascript:void(0)"></a>
+								</div>
+							</div>
+						</div>
+						<div class="discuss" >
+							<div class="day">
+								<b>昨天</b>
+							</div>
+							<div class="time">
+								<b class="point"></b><b class="ago">3分钟以前</b>
+							</div>
+							<!--一个回复-->
+							<div class="content nerrow clearfix">
+								<a class="face" href="#"><img alt="" src="_demp/32187.jpg">
+								</a> <a class="big-pic" href="#"><img width="270" height="180"
+									src="_demp/1111.jpg"> </a>
+								<p class="name">
+									<a class="nBlue" href="#">韩寒123131</a>
+								</p>
+								<p class="text">
+									<a class="at-name" href="#">@央视新闻</a>【超过1天了！转发微博，为生命守候！】马航MH370航班与地面失去联系，至今已超过1天，239个生命，生死未卜……今天，无论你在哪里，让我们用微博传递一句话：马航MH370，我们等你回家，我们会为你守候
+								</p>
+								<p class="opreat">
+									<a class="like" href="javascript:void(0)"></a> <a class="reply"
+										href="javascript:void(0)"></a>
+								</p>
+							</div>
+
+							<!--一个回复-->
+							<div class="content nerrow clearfix">
+								<a class="face" href="#"><img alt="" src="_demp/32187.jpg">
+								</a> <a class="big-pic" href="#"><img width="270" height="180"
+									src="_demp/1111.jpg"> </a>
+								<p class="name">
+									<a class="nBlue" href="#">韩寒123131</a>
+								</p>
+								<p class="text">
+									<a class="at-name" href="#">@央视新闻</a>【超过1天了！转发微博，为生命守候！】马航MH370航班与地面失去联系，至今已超过1天，239个生命，生死未卜……今天，无论你在哪里，让我们用微博传递一句话：马航MH370，我们等你回家，我们会为你守候
+								</p>
+								<textarea class="replycon" rows="10" cols="30" id="" name=""></textarea>
+								<div class="opreat">
+									<a class="like" href="javascript:void(0)"></a> <a class="reply"
+										href="javascript:void(0)"></a>
+								</div>
+							</div>
+							<!--一个回复-->
+							<div class="content nerrow clearfix">
+								<a class="face" href="#"><img alt="" src="_demp/32187.jpg">
+								</a> <a class="big-pic" href="#"><img width="270" height="180"
+									src="_demp/1111.jpg"> </a>
+								<p class="name">
+									<a class="nBlue" href="#">韩寒123131</a>
+								</p>
+								<p class="text">
+									<a class="at-name" href="#">@央视新闻</a>【超过1天了！转发微博，为生命守候！】马航MH370航班与地面失去联系，至今已超过1天，239个生命，生死未卜……今天，无论你在哪里，让我们用微博传递一句话：马航MH370，我们等你回家，我们会为你守候
+								</p>
+								<textarea class="replycon" rows="10" cols="30" id="" name=""></textarea>
+								<div class="opreat">
+									<a class="like" href="javascript:void(0)"></a> <a class="reply"
+										href="javascript:void(0)"></a>
+								</div>
+							</div>
+							<!--一个回复-->
+							<div class="content nerrow clearfix">
+								<a class="face" href="#"><img alt="" src="_demp/32187.jpg">
+								</a> <a class="big-pic" href="#"><img width="270" height="180"
+									src="_demp/1111.jpg"> </a>
+								<p class="name">
+									<a class="nBlue" href="#">韩寒123131</a>
+								</p>
+								<p class="text">
+									<a class="at-name" href="#">@央视新闻</a>【超过1天了！转发微博，为生命守候！】马航MH370航班与地面失去联系，至今已超过1天，239个生命，生死未卜……今天，无论你在哪里，让我们用微博传递一句话：马航MH370，我们等你回家，我们会为你守候
+								</p>
+								<textarea class="replycon" rows="10" cols="30" id="" name=""></textarea>
+								<div class="opreat">
+									<a class="like" href="javascript:void(0)"></a> <a class="reply"
+										href="javascript:void(0)"></a>
+								</div>
+							</div>
+							<!--一个回复-->
+							<div class="content nerrow clearfix">
+								<a class="face" href="#"><img alt="" src="_demp/32187.jpg">
+								</a> <a class="big-pic" href="#"><img width="270" height="180"
+									src="_demp/1111.jpg"> </a>
+								<p class="name">
+									<a class="nBlue" href="#">韩寒123131</a>
+								</p>
+								<p class="text">
+									<a class="at-name" href="#">@央视新闻</a>【超过1天了！转发微博，为生命守候！】马航MH370航班与地面失去联系，至今已超过1天，239个生命，生死未卜……今天，无论你在哪里，让我们用微博传递一句话：马航MH370，我们等你回家，我们会为你守候
+								</p>
+								<textarea class="replycon" rows="10" cols="30" id="" name=""></textarea>
+								<div class="opreat">
+									<a class="like" href="javascript:void(0)"></a> <a class="reply"
+										href="javascript:void(0)"></a>
+								</div>
+							</div>
+						</div>
+						<!--加载更过-->
+						<a class="add-more" href="javascript:void(0)"></a>
+					</div>
+					<div js-box="triger" class="discuss-right">
+					 
+						<div class="contact">
+							<dl>
+								<dt>
+									<em class="name"></em>
+								</dt>
+								<dd title="真实姓名">$item.getString("contact_name")</dd>
+							</dl>
+							<dl>
+								<dt>
+									<em class="mobile"></em>
+								</dt>
+								<dd title="手机">$item.getString("contact_mobile")</dd>
+							</dl>
+							<dl>
+								<dt>
+									<em class="qq"></em>
+								</dt>
+								<dd title="QQ号">$item.getString("contact_qq")</dd>
+							</dl>
+							<dl>
+								<dt>
+									<em class="weixin"></em>
+								</dt>
+								<dd title="微信">$item.getString("contact_msn")</dd>
+							</dl>
+						</div>
+						<div class="clear"></div>
+						<div class="panel" style="margin-top:30px;">
+							<p class="header">
+								<em></em>邀请好友加入
+							</p>
+							<div class="content">
+								<p>
+									<input data-id="joinUser" type="text" class="light"
+										placeholder="输入您朋友的QQ或邮箱地址" />
+								</p>
+								<p>
+									<textarea data-id="joinContent" class="light"
+										style="height:110px" />
+									我想邀请你参加【$item.get('title')】讨论
+									</textarea>
+								</p>
+								<p>
+									<a onclick="changePassword(this)" href="javascript:void(0)"
+										class="button grey red-hover  image-right "
+										style="width:240px">立即发送邀请</a>
+									<!-- btn btn-arrow-right btngray -->
+								</p>
+							</div>
+						</div>
+						<div class="panel">
+							<p class="header">
+								<em class="add"></em>资源分享
+							</p>
+							<div class="content">
+								<div js-anchor="triger-con" class="share-panel">
+									<ul class="panel-hd clearfix">
+										<li><b class="share-links"></b>分享链接</li>
+										<li><b class="share-pic"></b>分享图片</li>
+										<li><b class="share-tips"></b>分享贴士</li>
+									</ul>
+									<ul class="panel-bd">
+										<li class="links"><a href="">爱你的两个我</a></li>
+										<li class="pic"><a href="">爱你的两个我</a></li>
+										<li class="tips"><a href="">爱你的两个我</a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		#end
+
+	</div>
+
+	<div style="display:none">
+		<div id="post0">
+			<ul class="smart-hd clearfix">
+				<li class="cur"><b>1</b>简洁(必填)</li>
+				<li><b>2</b>基本(必填)</li>
+				<li>可选项</li>
+				<li class="none">
+					<div class="boxbtn">
+						<button class="save" type="submit">
+							<em class="guide"></em><font>立即发布</font>
+						</button>
+					</div></li>
+				<li class="none"><img style="display:none" data-id="process"
+					src="/images/process.gif" /></li>
+			</ul>
+			<div class="post" style="height:480px">
+				<div class="smart-con">
+					<div class="form four clearfix">
+						<dl>
+							<dt>
+								公开范围<b>*</b>
+							</dt>
+							<dd>
+								<select class="select " data-id="edtScope">
+									<option value="0" selected>公开-0:任何人都可以阅读/回复/查看联系方式</option>
+									<option value="1">私密-1:只有我同意后才可以阅读/回复/查看联系方式</option>
+									<option value="2">私密-2:任何人都可以阅读,只有我同意后才可以回复/查看联系方式</option>
+									<option value="3">私密-3:任何人都可以阅读/回复,只有我同意后才可以查看联系方式</option>
+									<option value="4">私密-4:任何人都可以阅读/查看联系方式,只有我同意后才可以回复</option>
+								</select>
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								发帖多少天后，<b>自动销毁*</b>
+							</dt>
+							<dd>
+								<select class="select " data-id="edtExpire">
+									<option value="0" selected>永不销毁</option>
+									$tool.numberOptions(30,"天后,自动销毁")
+								</select>
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								<b>标题*</b>一句话简洁说明您的需求
+							</dt>
+							<dd>
+								<input type="text" data-id="edtTitle" class="input"
+									style="width:380px;">
+							</dd>
+						</dl>
+					</div>
+					<div class="label2" data-id="lblTargets">您想要去的目的地</div>
+					<div class="clearfix">
+						<input type="text" data-id="edtTargets"
+							style="width:790px;border:1px solid #E0E0E0;" class="text token" />
+					</div>
+					<div class="label2" data-id="lblDesc">
+						具体需求简洁描述<em>（为了避免骚扰, 建议您不要留下联系方式）</em>
+					</div>
+					<div style="width:790px;overflow:hidden;">
+						<textarea data-id="edtDesc" class="rich"></textarea>
+					</div>
+					<div class="smart-footer ">
+						<span class="public-badge" style="margin-left:9px;">&nbsp;公开<b></b>
+						</span><i>当前页所填信息完全公开</i>
+					</div>
+				</div>
+				<div class="smart-con" style="display:none">
+					<div class="form four clearfix">
+						<dl>
+							<dt>
+								出发日期<b>*</b>
+							</dt>
+							<dd>
+								<input type="text" data-id="edtDeptDate" class="input"
+									value="$tool.currentDateTime(30)">
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								出行天数<b>*</b>
+							</dt>
+							<dd>
+								<input type="text" data-id="edtDay" class="input  numeric"
+									minvalue="1" value="3">
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								酒店档次要求<b>*</b>
+							</dt>
+							<dd>
+								<select class="select " data-id="edtHotelStar">
+									<option value="0" selected>经济(三星及以下)</option>
+									<option value="1">舒适(三星+到四星+)</option>
+									<option value="2">豪华(四星+及以上)</option>
+								</select>
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								酒店价格接受范围<b>*</b>
+							</dt>
+							<dd>
+								<select class="select " data-id="edtHotelPrice">
+									<option value="0">每晚300RMB以下</option>
+									<option value="1" selected>每晚300-500RMB</option>
+									<option value="2">每晚500-800RMB</option>
+									<option value="3">每晚800-1000RMB</option>
+									<option value="4">每晚1000RMB以上</option>
+								</select>
+							</dd>
+						</dl>
+					</div>
+					<div class="form four clearfix">
+						<dl>
+							<dt>
+								您一共几人<b>*</b>
+							</dt>
+							<dd>
+								<input type="text" data-id="edtPerson" class="input  numeric"
+									minvalue="1" value="1">
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								其中有几个婴儿(2岁以下)<b>*</b>
+							</dt>
+							<dd>
+								<input type="text" data-id="edtBaby" class="input  numeric"
+									value="0">
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								其中有几个小孩(2-11岁)<b>*</b>
+							</dt>
+							<dd>
+								<input type="text" data-id="edtChild" class="input  numeric"
+									value="0">
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								其中有几个老人<b>*</b>
+							</dt>
+							<dd>
+								<input type="text" data-id="edtOld" class="input  numeric"
+									value="0">
+							</dd>
+						</dl>
+					</div>
+					<div class="form four clearfix">
+						<dl>
+							<dt>
+								对导游性别的要求<b>*</b>
+							</dt>
+							<dd>
+								<select class="select " data-id="edtSex">
+									<option value="不限" selected>不限</option>
+									<option value="男">男</option>
+									<option value="女">女</option>
+								</select>
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								是否需要用车<b>*</b>
+							</dt>
+							<dd>
+								<select class="select " data-id="edtCarEnabled">
+									<option value="0">不需要用车</option>
+									<option value="1" selected>需要5座车</option>
+									<option value="2">需要7座车</option>
+									<option value="3">需要9座车</option>
+									<option value="4">需要15座车</option>
+									<option value="5">需要30座车</option>
+									<option value="6">需要50座车</option>
+								</select>
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								对车型要求<b>*</b>
+							</dt>
+							<dd>
+								<input type="text" data-id="edtCarModel" class="input" value="无">
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								需要几辆车<b>*</b>
+							</dt>
+							<dd>
+								<input type="text" data-id="edtCarCount" class="input  numeric"
+									value="1">
+							</dd>
+						</dl>
+					</div>
+					<div class="form four clearfix">
+						<dl>
+							<dt>
+								是否已办签证<b>*</b>
+							</dt>
+							<dd>
+								<select data-id="edtVisa" class="select ">
+									<option value="0" selected>未办理</option>
+									<option value="1">正在办理中</option>
+									<option value="2">已经办理</option>
+								</select>
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								行程安排-紧凑程度<b>*</b>
+							</dt>
+							<dd>
+								<select data-id="edtRelax" class="select ">
+									<option value="0">尽可能多游览景点</option>
+									<option value="1">适当紧凑安排，我们体力不错</option>
+									<option value="2" selected>休闲一些，别太赶</option>
+								</select>
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								预算金额货币<b>*</b>
+							</dt>
+							<dd>
+								<select data-id="edtCurrency" class="select ">
+									$context.include("plugin.currency")
+								</select>
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								预算总金额<b>*</b>
+							</dt>
+							<dd>
+								<input type="text" data-id="edtPrice" class="input  numeric"
+									value="0">
+							</dd>
+						</dl>
+					</div>
+					<div class="label">
+						联系方式 <span class="protected"><b></b>&nbsp;保护:只有您接受了网友的申请,才会分享你的联系信息。我们对别人隐藏这些细节
+						</span>
+					</div>
+					<div class="form two clearfix">
+						<dl>
+							<dt>
+								真实姓名<b>*</b>
+							</dt>
+							<dd>
+								<input type="text" data-id="edtName" class="input"
+									value="${contact.getString('name','')}" />
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								手机号码（国外用户,号码前加国家代码.注:不要+号）<b>*</b>
+							</dt>
+							<dd>
+								<input type="text" data-id="edtMobile" class="input"
+									value="${contact.getString('mobile','')}" />
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								腾讯QQ账号<b>*</b>
+							</dt>
+							<dd>
+								<input type="text" data-id="edtQQ" class="input  numeric"
+									value="${contact.getString('qq','')}" />
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								微信号<b>*</b>
+							</dt>
+							<dd>
+								<input type="text" data-id="edtMSN" class="input"
+									value="${contact.getString('msn','')}" />
+							</dd>
+						</dl>
+					</div>
+				</div>
+				<div class="smart-con" style="display:none">
+					<div class="label">对语言的要求</div>
+					<div class="tag200 clearfix">
+						<ul>
+							<li><label><input type="checkbox" value="德语"
+									tag="tag" />德语</label></li>
+							<li><label><input type="checkbox" value="英语"
+									tag="tag" />英语</label></li>
+							<li><label><input type="checkbox" value="韩语"
+									tag="tag" />韩语</label></li>
+							<li><label><input type="checkbox" value="法语"
+									tag="tag" />法语</label></li>
+							<li><label><input type="checkbox" value="日语"
+									tag="tag" />日语</label></li>
+							<li><label><input type="checkbox" value="西班牙语"
+									tag="tag" />西班牙语</label></li>
+							<li><label><input type="checkbox" value="普通话"
+									tag="tag" />普通话</label></li>
+							<li><label><input type="checkbox" value="广东话"
+									tag="tag" />广东话</label></li>
+							<li><label><input type="checkbox" value="四川话"
+									tag="tag" />四川话</label></li>
+							<li><label><input type="checkbox" value="闽南话"
+									tag="tag" />闽南话</label></li>
+							<li><label><input type="checkbox" value="上海话"
+									tag="tag" />上海话</label></li>
+							<li><label><input type="checkbox" value="意大利语"
+									tag="tag" />意大利语</label></li>
+						</ul>
+					</div>
+					<div class="label">对服务的要求</div>
+					<div class="tag200 clearfix">
+						<ul>
+							<li><label><input type="checkbox" value="有私家车"
+									tag="tag" /><b>有</b>私家车</label></li>
+							<li><label><input type="checkbox" value="提供接机"
+									tag="tag" /><b>提供</b>接机</label></li>
+							<li><label><input type="checkbox" value="熟悉美食"
+									tag="tag" /><i>熟悉</i>美食</label></li>
+							<li><label><input type="checkbox" value="熟悉夜总会"
+									tag="tag" /><i>熟悉</i>夜总会</label></li>
+							<li><label><input type="checkbox" value="有导游证"
+									tag="tag" /><b>有</b>导游证</label></li>
+							<li><label><input type="checkbox" value="提供住宿"
+									tag="tag" /><b>提供</b>住宿</label></li>
+							<li><label><input type="checkbox" value="熟悉摄影"
+									tag="tag" /><i>熟悉</i>摄影</label></li>
+							<li><label><input type="checkbox" value="熟悉红灯区"
+									tag="tag" /><i>熟悉</i>红灯区</label></li>
+							<li><label><input type="checkbox" value="有驾照"
+									tag="tag" /><b>有</b>驾照</label></li>
+							<li><label><input type="checkbox" value="商务翻译"
+									tag="tag" /><b>提供</b>商务翻译</label></li>
+							<li><label><input type="checkbox" value="熟悉文化历史"
+									tag="tag" /><i>熟悉</i>文化历史</label></li>
+							<li><label><input type="checkbox" value="代购"
+									tag="tag" />代购商品 </label></li>
+							<li><label><input type="checkbox" value="专业导游"
+									tag="tag" />专业导游</label></li>
+							<li><label><input type="checkbox" value="兼职导游"
+									tag="tag" />兼职导游</label></li>
+							<li><label><input type="checkbox" value="熟悉美容医院"
+									tag="tag" /><i>熟悉</i>美容医院</label></li>
+							<li><label><input type="checkbox" value="代订酒店"
+									tag="tag" />代订酒店</label></li>
+						</ul>
+					</div>
+					<div class="smart-footer ">
+						<span class="public-badge" style="margin-left:9px;">&nbsp;公开<b></b>
+						</span><i>当前页所填信息完全公开</i>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="post1">
+			<ul class="smart-hd clearfix">
+				<li class="cur"><b>1</b>简洁(必填)</li>
+				<li><b>2</b>基本(必填)</li>
+				<li class="none">
+					<div class="boxbtn">
+						<button class="save" type="submit">
+							<em class="car"></em><font style="margin:6px">立即发布</font>
+						</button>
+					</div></li>
+				<li class="none"><img style="display:none" data-id="process"
+					src="/images/process.gif" /></li>
+			</ul>
+			<div class="post" style="height:480px">
+				<div class="smart-con">
+					<div class="form four clearfix">
+						<dl>
+							<dt>
+								公开范围<b>*</b>
+							</dt>
+							<dd>
+								<select class="select " data-id="edtScope">
+									<option value="0" selected>公开:任何人都可以查看/回复</option>
+									<option value="1">私密:只有我同意后才可以查看/回复</option>
+									<option value="2">私密:委托一起嗨客服管理</option>
+								</select>
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								发帖多少天后，<b>自动销毁*</b>
+							</dt>
+							<dd>
+								<select class="select " data-id="edtExpire">
+									<option value="0" selected>永不销毁</option>
+									$tool.numberOptions(30,"天后,自动销毁")
+								</select>
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								<b>标题*</b>一句话简洁说明您的需求
+							</dt>
+							<dd>
+								<input type="text" data-id="edtTitle" class="input"
+									style="width:380px;">
+							</dd>
+						</dl>
+					</div>
+					<div class="label2" data-id="lblTargets">您想要去的目的地</div>
+					<div class="clearfix">
+						<input type="text" data-id="edtTargets"
+							style="width:790px;border:1px solid #E0E0E0;" class="text token" />
+					</div>
+					<div class="label2" data-id="lblDesc">
+						具体需求简洁描述<em>（为了避免骚扰, 建议您不要留下联系方式）</em>
+					</div>
+					<div style="width:790px;overflow:hidden;">
+						<textarea data-id="edtDesc" class="rich"></textarea>
+					</div>
+					<div class="smart-footer ">
+						<span class="public-badge" style="margin-left:9px;">&nbsp;公开<b></b>
+						</span><i>当前页所填信息完全公开</i>
+					</div>
+				</div>
+				<div class="smart-con" style="display:none">
+					<div class="form four clearfix">
+						<dl>
+							<dt>
+								出发日期<b>*</b>
+							</dt>
+							<dd>
+								<input type="text" data-id="edtDeptDate" class="input"
+									value="$tool.currentDateTime(30)">
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								出行天数<b>*</b>
+							</dt>
+							<dd>
+								<input type="text" data-id="edtDay" class="input  numeric"
+									minvalue="1" value="3">
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								您一共几人<b>*</b>
+							</dt>
+							<dd>
+								<input type="text" data-id="edtPerson" class="input  numeric"
+									minvalue="1" value="1">
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								是否已办签证<b>*</b>
+							</dt>
+							<dd>
+								<select data-id="edtVisa" class="select ">
+									<option value="0" selected>未办理</option>
+									<option value="1">正在办理中</option>
+									<option value="2">已经办理</option>
+								</select>
+							</dd>
+						</dl>
+					</div>
+					<div class="form four clearfix">
+						<dl>
+							<dt>
+								需要几座车<b>*</b>
+							</dt>
+							<dd>
+								<select class="select " data-id="edtCarEnabled">
+									<option value="1" selected>需要5座车</option>
+									<option value="2">需要7座车</option>
+									<option value="3">需要9座车</option>
+									<option value="4">需要15座车</option>
+									<option value="5">需要30座车</option>
+									<option value="6">需要50座车</option>
+								</select>
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								对车型要求<b>*</b>
+							</dt>
+							<dd>
+								<input type="text" data-id="edtCarModel" class="input" value="无">
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								需要几辆车<b>*</b>
+							</dt>
+							<dd>
+								<input type="text" data-id="edtCarCount" class="input  numeric"
+									value="1">
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								是否有国外驾照<b>*</b>
+							</dt>
+							<dd>
+								<select data-id="edtCarLicence" class="select ">
+									<option value="0" selected>没有国外驾照</option>
+									<option value="1">需要一起嗨代办国外驾照</option>
+									<option value="2">已有国外驾照</option>
+								</select>
+							</dd>
+						</dl>
+					</div>
+					<div class="form four clearfix">
+						<dl>
+							<dt>
+								预算金额货币<b>*</b>
+							</dt>
+							<dd>
+								<select data-id="edtCurrency" class="select ">
+										$context.include("plugin.currency")
+								</select>
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								预算总金额<b>*</b>
+							</dt>
+							<dd>
+								<input type="text" data-id="edtPrice" class="input  numeric"
+									value="0">
+							</dd>
+						</dl>
+					</div>
+					<div class="label">
+						联系方式 <span class="protected"><b></b>&nbsp;保护:只有您接受了网友的申请,才会分享你的联系信息。我们对别人隐藏这些细节
+						</span>
+					</div>
+					<div class="form two clearfix">
+						<dl>
+							<dt>
+								真实姓名<b>*</b>
+							</dt>
+							<dd>
+								<input type="text" data-id="edtName" class="input"
+									value="${contact.getString('name','')}" />
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								手机号码（国外用户,号码前加国家代码.注:不要+号）<b>*</b>
+							</dt>
+							<dd>
+								<input type="text" data-id="edtMobile" class="input"
+									value="${contact.getString('mobile','')}" />
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								腾讯QQ账号<b>*</b>
+							</dt>
+							<dd>
+								<input type="text" data-id="edtQQ" class="input  numeric"
+									value="${contact.getString('qq','')}" />
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								微信号<b>*</b>
+							</dt>
+							<dd>
+								<input type="text" data-id="edtMSN" class="input"
+									value="${contact.getString('msn','')}" />
+							</dd>
+						</dl>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="post2">
+			<ul class="smart-hd clearfix">
+				<li class="cur"><b>1</b>简洁(必填)</li>
+				<li><b>2</b>基本(必填)</li>
+				<li class="none">
+					<div class="boxbtn">
+						<button class="save" type="submit">
+							<em class="person"></em><font>立即发布</font>
+						</button>
+					</div></li>
+				<li class="none"><img style="display:none" data-id="process"
+					src="/images/process.gif" /></li>
+			</ul>
+			<div class="post" style="height:480px">
+				<div class="smart-con">
+					<div class="form four clearfix">
+						<dl>
+							<dt>
+								公开范围<b>*</b>
+							</dt>
+							<dd>
+								<select class="select " data-id="edtScope">
+									<option value="0" selected>公开:任何人都可以查看/回复</option>
+									<option value="1">私密:只有我同意后才可以查看/回复</option>
+									<option value="2">私密:委托一起嗨客服管理</option>
+								</select>
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								发帖多少天后，<b>自动销毁*</b>
+							</dt>
+							<dd>
+								<select class="select " data-id="edtExpire">
+									<option value="0" selected>永不销毁</option>
+									$tool.numberOptions(30,"天后,自动销毁")
+								</select>
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								<b>标题*</b>一句话简洁说明您的需求
+							</dt>
+							<dd>
+								<input type="text" data-id="edtTitle" class="input"
+									style="width:380px;">
+							</dd>
+						</dl>
+					</div>
+					<div class="label2" data-id="lblTargets">您想要去的目的地</div>
+					<div class="clearfix">
+						<input type="text" data-id="edtTargets"
+							style="width:790px;border:1px solid #E0E0E0;" class="text token" />
+					</div>
+					<div class="label2" data-id="lblDesc">
+						具体需求简洁描述<em>（为了避免骚扰, 建议您不要留下联系方式）</em>
+					</div>
+					<div style="width:790px;overflow:hidden;">
+						<textarea data-id="edtDesc" class="rich"></textarea>
+					</div>
+					<div class="smart-footer ">
+						<span class="public-badge" style="margin-left:9px;">&nbsp;公开<b></b>
+						</span><i>当前页所填信息完全公开</i>
+					</div>
+				</div>
+				<div class="smart-con" style="display:none">
+					<div class="form four clearfix">
+						<dl>
+							<dt>
+								出发日期<b>*</b>
+							</dt>
+							<dd>
+								<input type="text" data-id="edtDeptDate" class="input"
+									value="$tool.currentDateTime(30)">
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								出行天数<b>*</b>
+							</dt>
+							<dd>
+								<input type="text" data-id="edtDay" class="input  numeric"
+									minvalue="1" value="3">
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								至少需要几个同伴<b>*</b>
+							</dt>
+							<dd>
+								<input type="text" data-id="edtPerson" class="input  numeric"
+									minvalue="1" value="1">
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								同伴年龄段要求<b>*</b>
+							</dt>
+							<dd>
+								<select data-id="edtAge" class="select ">
+									<option value="0" selected>18-26岁</option>
+									<option value="1">27-35岁</option>
+									<option value="2">35-43岁</option>
+									<option value="3">44-52岁</option>
+									<option value="3">53-61岁</option>
+									<option value="3">61岁以上</option>
+								</select>
+							</dd>
+						</dl>
+					</div>
+					<div class="form four clearfix">
+						<dl>
+							<dt>
+								同伴性别要求<b>*</b>
+							</dt>
+							<dd>
+								<select data-id="edtSex" class="select ">
+									<option value="不限" selected>不限</option>
+									<option value="男生">男生</option>
+									<option value="女生">女生</option>
+									<option value="情侣">情侣</option>
+									<option value="夫妻">夫妻</option>
+								</select>
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								同伴职业要求<b>*</b>
+							</dt>
+							<dd>
+								<select data-id="edtRelax" class="select ">
+									<option value="0" selected>不限</option>
+									<option value="1">学生</option>
+									<option value="2">上班族</option>
+									<option value="3">自由职业</option>
+									<option value="4">土豪</option>
+								</select>
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								费用平摊方式<b>*</b>
+							</dt>
+							<dd>
+								<select data-id="edtChargeWay" class="select ">
+									<option value="0" selected>AA制平摊</option>
+									<option value="1">请你玩，所有费用我出</option>
+									<option value="2">陪你玩，所有费用你出</option>
+								</select>
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								是否已办签证<b>*</b>
+							</dt>
+							<dd>
+								<select data-id="edtVisa" class="select ">
+									<option value="0" selected>未办理</option>
+									<option value="1">正在办理中</option>
+									<option value="2">已经办理</option>
+								</select>
+							</dd>
+						</dl>
+					</div>
+					<div class="form four clearfix">
+						<dl>
+							<dt>
+								预算金额货币<b>*</b>
+							</dt>
+							<dd>
+								<select data-id="edtCurrency" class="select ">
+										$context.include("plugin.currency")		
+								</select>
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								预算总金额<b>*</b>
+							</dt>
+							<dd>
+								<input type="text" data-id="edtPrice" class="input  numeric"
+									value="0">
+							</dd>
+						</dl>
+					</div>
+					<div class="label">
+						联系方式 <span class="protected"><b></b>&nbsp;保护:只有您接受了网友的申请,才会分享你的联系信息。我们对别人隐藏这些细节
+						</span>
+					</div>
+					<div class="form two clearfix">
+						<dl>
+							<dt>
+								真实姓名<b>*</b>
+							</dt>
+							<dd>
+								<input type="text" data-id="edtName" class="input"
+									value="${contact.getString('name','')}" />
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								手机号码（国外用户,号码前加国家代码.注:不要+号）<b>*</b>
+							</dt>
+							<dd>
+								<input type="text" data-id="edtMobile" class="input"
+									value="${contact.getString('mobile','')}" />
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								腾讯QQ账号<b>*</b>
+							</dt>
+							<dd>
+								<input type="text" data-id="edtQQ" class="input  numeric"
+									value="${contact.getString('qq','')}" />
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								微信号<b>*</b>
+							</dt>
+							<dd>
+								<input type="text" data-id="edtMSN" class="input"
+									value="${contact.getString('msn','')}" />
+							</dd>
+						</dl>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="post3">
+			<ul class="smart-hd clearfix">
+				<li class="cur"><b>1</b>简洁(必填)</li>
+				<li><b>2</b>基本(必填)</li>
+				<li class="none">
+					<div class="boxbtn">
+						<button class="save" type="submit">
+							<em class="topic"></em><font>立即发布</font>
+						</button>
+					</div></li>
+				<li class="none"><img style="display:none" data-id="process"
+					src="/images/process.gif" /></li>
+			</ul>
+			<div class="post" style="height:480px">
+				<div class="smart-con">
+					<div class="form four clearfix">
+						<dl>
+							<dt>
+								公开范围<b>*</b>
+							</dt>
+							<dd>
+								<select class="select " data-id="edtScope">
+									<option value="1" selected>私密:只有我同意后才可以查看/回复</option>
+									<option value="2">私密:委托一起嗨客服管理</option>
+								</select>
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								发帖多少天后，<b>自动销毁*</b>
+							</dt>
+							<dd>
+								<select class="select " data-id="edtExpire">
+									<option value="0" selected>永不销毁</option>
+									$tool.numberOptions(30,"天后,自动销毁")
+								</select>
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								<b>标题*</b>一句话简洁描述您的话题
+							</dt>
+							<dd>
+								<input type="text" data-id="edtTitle" class="input"
+									style="width:380px;">
+							</dd>
+						</dl>
+					</div>
+					<div class="label2" data-id="lblTargets">话题相关的目的地</div>
+					<div class="clearfix">
+						<input type="text" data-id="edtTargets"
+							style="width:790px;border:1px solid #E0E0E0;" class="text token" />
+					</div>
+					<div class="label2" data-id="lblDesc">
+						话题描述<em>（为了避免骚扰, 建议您不要留下联系方式）</em>
+					</div>
+					<div style="width:790px;overflow:hidden;">
+						<textarea data-id="edtDesc" class="rich"></textarea>
+					</div>
+					<div class="smart-footer ">
+						<span class="public-badge" style="margin-left:9px;">&nbsp;公开<b></b>
+						</span><i>当前页所填信息完全公开</i>
+					</div>
+				</div>
+				<div class="smart-con" style="display:none">
+					<div class="form four clearfix">
+						<dl>
+							<dt>
+								出发日期<b>*</b>
+							</dt>
+							<dd>
+								<input type="text" data-id="edtDeptDate" class="input"
+									value="$tool.currentDateTime(30)">
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								出行天数<b>*</b>
+							</dt>
+							<dd>
+								<input type="text" data-id="edtDay" class="input  numeric"
+									minvalue="1" value="3">
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								您一共几人<b>*</b>
+							</dt>
+							<dd>
+								<input type="text" data-id="edtPerson" class="input  numeric"
+									minvalue="1" value="1">
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								是否已办签证<b>*</b>
+							</dt>
+							<dd>
+								<select data-id="edtVisa" class="select ">
+									<option value="0" selected>未办理</option>
+									<option value="1">正在办理中</option>
+									<option value="2">已经办理</option>
+								</select>
+							</dd>
+						</dl>
+					</div>
+					<div class="form four clearfix">
+						<dl>
+							<dt>
+								预算金额货币<b>*</b>
+							</dt>
+							<dd>
+								<select data-id="edtCurrency" class="select ">
+										$context.include("plugin.currency")
+								</select>
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								预算总金额<b>*</b>
+							</dt>
+							<dd>
+								<input type="text" data-id="edtPrice" class="input  numeric"
+									value="0">
+							</dd>
+						</dl>
+					</div>
+					<div class="label">
+						联系方式 <span class="protected"><b></b>&nbsp;保护:只有您接受了网友的申请,才会分享你的联系信息。我们对别人隐藏这些细节
+						</span>
+					</div>
+					<div class="form two clearfix">
+						<dl>
+							<dt>
+								真实姓名<b>*</b>
+							</dt>
+							<dd>
+								<input type="text" data-id="edtName" class="input"
+									value="${contact.getString('name','')}" />
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								手机号码（国外用户,号码前加国家代码.注:不要+号）<b>*</b>
+							</dt>
+							<dd>
+								<input type="text" data-id="edtMobile" class="input"
+									value="${contact.getString('mobile','')}" />
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								腾讯QQ账号<b>*</b>
+							</dt>
+							<dd>
+								<input type="text" data-id="edtQQ" class="input  numeric"
+									value="${contact.getString('qq','')}" />
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								微信号<b>*</b>
+							</dt>
+							<dd>
+								<input type="text" data-id="edtMSN" class="input"
+									value="${contact.getString('msn','')}" />
+							</dd>
+						</dl>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="post4">
+			<ul class="smart-hd clearfix">
+				<li class="cur"><b>1</b>简洁(必填)</li>
+				<li><b>2</b>基本(必填)</li>
+				<li class="none">
+					<div class="boxbtn">
+						<button class="save" type="submit">
+							<em class="trip"></em><font style="margin:6px;">立即发布</font>
+						</button>
+					</div></li>
+				<li class="none"><img style="display:none" data-id="process"
+					src="/images/process.gif" /></li>
+			</ul>
+			<div class="post" style="height:480px">
+				<div class="smart-con">
+					<div class="form four clearfix">
+						<dl>
+							<dt>
+								公开范围<b>*</b>
+							</dt>
+							<dd>
+								<select class="select " data-id="edtScope">
+									<option value="0" selected>公开:任何人都可以查看/回复</option>
+									<option value="1">私密:只有我同意后才可以查看/回复</option>
+									<option value="2">私密:委托一起嗨客服管理</option>
+								</select>
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								发帖多少天后，<b>自动销毁*</b>
+							</dt>
+							<dd>
+								<select class="select " data-id="edtExpire">
+									<option value="0" selected>永不销毁</option>
+									$tool.numberOptions(30,"天后,自动销毁")
+								</select>
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								<b>标题*</b>一句话简洁描述您的行程
+							</dt>
+							<dd>
+								<input type="text" data-id="edtTitle" class="input"
+									style="width:380px;">
+							</dd>
+						</dl>
+					</div>
+					<div class="label2" data-id="lblTargets">行程相关的目的地</div>
+					<div class="clearfix">
+						<input type="text" data-id="edtTargets"
+							style="width:790px;border:1px solid #E0E0E0;" class="text token" />
+					</div>
+					<div class="label2" data-id="lblDesc">
+						行程描述<em>（为了避免骚扰, 建议您不要留下联系方式）</em>
+					</div>
+					<div style="width:790px;overflow:hidden;">
+						<textarea data-id="edtDesc" class="rich"></textarea>
+					</div>
+					<div class="smart-footer ">
+						<span class="public-badge" style="margin-left:9px;">&nbsp;公开<b></b>
+						</span><i>当前页所填信息完全公开</i>
+					</div>
+				</div>
+				<div class="smart-con" style="display:none">
+					<div class="form four clearfix">
+						<dl>
+							<dt>
+								出发日期<b>*</b>
+							</dt>
+							<dd>
+								<input type="text" data-id="edtDeptDate" class="input"
+									value="$tool.currentDateTime(30)">
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								出行天数<b>*</b>
+							</dt>
+							<dd>
+								<input type="text" data-id="edtDay" class="input  numeric"
+									minvalue="1" value="3">
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								行程最多几人<b>*</b>
+							</dt>
+							<dd>
+								<input type="text" data-id="edtPerson" class="input  numeric"
+									minvalue="1" value="1">
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								是否已办签证<b>*</b>
+							</dt>
+							<dd>
+								<select data-id="edtVisa" class="select ">
+									<option value="0" selected>未办理</option>
+									<option value="1">正在办理中</option>
+									<option value="2">已经办理</option>
+								</select>
+							</dd>
+						</dl>
+					</div>
+					<div class="form four clearfix">
+						<dl>
+							<dt>
+								酒店档次要求<b>*</b>
+							</dt>
+							<dd>
+								<select class="select " data-id="edtHotelStar">
+									<option value="0" selected>经济(三星及以下)</option>
+									<option value="1">舒适(三星+到四星+)</option>
+									<option value="2">豪华(四星+及以上)</option>
+								</select>
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								酒店价格接受范围<b>*</b>
+							</dt>
+							<dd>
+								<select class="select " data-id="edtHotelPrice">
+									<option value="0">每晚300RMB以下</option>
+									<option value="1" selected>每晚300-500RMB</option>
+									<option value="2">每晚500-800RMB</option>
+									<option value="3">每晚800-1000RMB</option>
+									<option value="4">每晚1000RMB以上</option>
+								</select>
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								是否需要用车<b>*</b>
+							</dt>
+							<dd>
+								<select class="select " data-id="edtCarEnabled">
+									<option value="0">不需要用车</option>
+									<option value="1" selected>需要5座车</option>
+									<option value="2">需要7座车</option>
+									<option value="3">需要9座车</option>
+									<option value="4">需要15座车</option>
+									<option value="5">需要30座车</option>
+									<option value="6">需要50座车</option>
+								</select>
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								对车型要求<b>*</b>
+							</dt>
+							<dd>
+								<input type="text" data-id="edtCarModel" class="input" value="无">
+							</dd>
+						</dl>
+					</div>
+					<div class="form four clearfix">
+						<dl>
+							<dt>
+								行程安排-紧凑程度<b>*</b>
+							</dt>
+							<dd>
+								<select data-id="edtRelax" class="select ">
+									<option value="0">尽可能多游览景点</option>
+									<option value="1">紧凑安排，拼命逛</option>
+									<option value="2" selected>休闲一些，慢慢玩</option>
+								</select>
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								预算金额货币<b>*</b>
+							</dt>
+							<dd>
+								<select data-id="edtCurrency" class="select ">
+										$context.include("plugin.currency")
+								</select>
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								预算总金额<b>*</b>
+							</dt>
+							<dd>
+								<input type="text" data-id="edtPrice" class="input  numeric"
+									value="0">
+							</dd>
+						</dl>
+					</div>
+					<div class="label">行程标签</div>
+					<div class="tag100 clearfix">
+						<ul>
+							<li><label><input type="checkbox" value="逛街"
+									tag="tag" />逛街</label></li>
+							<li><label><input type="checkbox" value="逛酒吧"
+									tag="tag" />逛酒吧</label></li>
+							<li><label><input type="checkbox" value="吃"
+									tag="tag" />尝人间美味</label></li>
+							<li><label><input type="checkbox" value="看风景"
+									tag="tag" />看风景</label></li>
+							<li><label><input type="checkbox" value="人文历史"
+									tag="tag" />人文历史</label></li>
+							<li><label><input type="checkbox" value="摄影"
+									tag="tag" />摄影</label></li>
+						</ul>
+					</div>
+
+					<div class="label">
+						联系方式 <span class="protected"><b></b>&nbsp;保护:只有您接受了网友的申请,才会分享你的联系信息。我们对别人隐藏这些细节
+						</span>
+					</div>
+					<div class="form two clearfix">
+						<dl>
+							<dt>
+								真实姓名<b>*</b>
+							</dt>
+							<dd>
+								<input type="text" data-id="edtName" class="input"
+									value="${contact.getString('name','')}" />
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								手机号码（国外用户,号码前加国家代码.注:不要+号）<b>*</b>
+							</dt>
+							<dd>
+								<input type="text" data-id="edtMobile" class="input"
+									value="${contact.getString('mobile','')}" />
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								腾讯QQ账号<b>*</b>
+							</dt>
+							<dd>
+								<input type="text" data-id="edtQQ" class="input  numeric"
+									value="${contact.getString('qq','')}" />
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								微信号<b>*</b>
+							</dt>
+							<dd>
+								<input type="text" data-id="edtMSN" class="input"
+									value="${contact.getString('msn','')}" />
+							</dd>
+						</dl>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	$context.readFooter() $context.includeJavaScript("","bbs.js")
+	$context.includeJavaScript("","tinymce/tinymce.min.js")
+	$context.includeJavaScript("jquery/","jquery.popup.js")
+	$context.includeJavaScript("jquery/","jquery.tokeninput.js")
+</body>
+</html>

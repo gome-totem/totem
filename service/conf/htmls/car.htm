@@ -1,0 +1,444 @@
+<!DOCTYPE HTML>
+#set($shortId=$context.getParamByLong('id'))
+#set($activity=$service.readBy($shortId,0))
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+#if ($tool.isNull($activity))
+<title>导游地陪©$tool.seoTitle()</title> #else
+<title>$tool.abbreviate($activity.getString('title'),20)-$activity.getString('country')中文私人导游_$activity.getString('city')私人导游_$activity.getString('city')留学生导游-©一起嗨海外导游旅行网</title>
+#end 
+$context.readHtmlHeader()
+$context.includeCss("","page.css")
+$context.includeCss("","bubbles.css") 
+</head>
+<body>
+	$context.readHeader()
+	<!--面包屑-->
+	<div class="crumb area">
+		<a href="/"><b class="micon png"></b>主页</a>
+		#if ($tool.isNull($activity)==false)
+		/ <a href="/searchtrip/c=$activity.getString('country')">$activity.getString('country')</a>/<span>$activity.getString('city')</span>
+		#end
+	</div>
+	#if ($tool.isNull($activity) || ($tool.byInt($activity,'state')!=2 &&
+	!$context.hasPageRight('guide',$activity.getLong('user_id'))))
+	<div class="container area clearfix">
+		#if ($tool.isNull($activity))
+		<h2 class="page-title">服务已经下线或者不存在。</h2>
+		#else
+		<h2 class="page-title">服务正在审核中，请稍候访问。</h2>
+		#end
+		<p>
+			联系我们： <a href="mailto:team@yiqihi.com">team@yiqihi.com</a>
+		</p>
+	</div>
+	#else #set($profile=$user.readProfile("",false))
+	<div style="margin:0;padding:0;display:inline">
+		<input type="hidden" value="$activity.getString('id')" id="activityId" />
+		<input type="hidden" value="$shortId" id="shortId" /> <input
+			type="hidden" value="$activity.getInt('chargeWay')" id="chargeWay" />
+		<input type="hidden" value="$activity.getInt('currency')"
+			id="currency"> <input type="hidden" value="5" id="bizType" />
+		<input type="hidden" value="$activity.getString('title')"
+			id="bizTitle" /> <input type="hidden" value="$tool.priceNameBy($activity.get('prices'),$activity.getInt('price'))" id="bizName" /> <input
+			type="hidden" value="$activity.getString('catalog')" id="catalog" />
+		<input type="hidden" value="$profile.getString('bind_mobile')"
+			id="bindMobile" /> <input type="hidden"
+			value="$profile.getString('mobile')" id="mobile" /> <input
+			type="hidden" value="$activity.getLong('user_id')" id="userId" /> <span
+			id="metaContent" style="display:none">$activity.getString('guide')</span>
+	</div>
+	<div class="container area clearfix" id="body">
+		<div class="main_content left">
+			<div class="title png">
+				<h2>$activity.getString('title')</h2>
+			</div>
+			<div class="mod_outer mod_outer2">
+				<div class="mod mod_slide">
+					<ul class="mod_nav clearfix" id="tabs">
+						<li class="nav_1 current png"><a tag="#photos-tab"
+							href="javascript:void(0)" class="selected"><b class="png"></b>照片</a>
+						</li>
+						<!-- 
+						<li class="nav_2"><a tag="#tips-tab"
+							href="javascript:void(0)"><b class="png"></b>贴士</a></li> -->
+						<li class="nav_3"><a tag="#calendar-tab"
+							href="javascript:void(0)"><b class="png"></b>优惠</a></li>
+					</ul>
+					#set($photos=$activity.get("photos"))
+					<div class="slide">
+						<div id="photos-tab" class="tab current" tag="tab">
+							<div id="gallery" class="ad-gallery">
+								<div class="ad-image-wrapper"></div>
+								<div class="ad-nav">
+									<div class="ad-thumbs">
+										<ul class="ad-thumb-list">
+											#foreach($photo in $photos)
+											<li><a
+												href="http://image.yiqihi.com/pictures/$photo.getString('picture')">
+													<img width="85" height="85"
+													src="http://image.yiqihi.com/shots/$photo.getString('shot')"
+													class="image$velocityCount"> </a></li> #end
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div id="tips-tab" tag="tab" class="tips_con" style="display:none">
+							#set($result=$tips.readTopicsBy($context,$activity.getString('country'),1))
+							#set($items=$result.get("items"))
+							<ul class="lists">
+								#foreach($item in $items) #set($className="") #if
+								($velocityCount==$items.size()) #set($className="last") #end
+								<li class="$className">#set($type=$item.getInt('type',2))
+									#if($type==0|| $type==1)
+									<div class="msg_conright msg_tag_food"></div> #elseif
+									($type==2)
+									<div class="msg_conright msg_tag_eye"></div> #elseif ($type==3)
+									<div class="msg_conright msg_tag_trip"></div> #elseif
+									($type==4)
+									<div class="msg_conright msg_tag_artical"></div> #elseif
+									($type==5)
+									<div class="msg_conright msg_tag_help"></div> #elseif
+									($type==6)
+									<div class="msg_conright msg_tag_favorite"></div> #elseif
+									($type==7)
+									<div class="msg_conright msg_tag_shop"></div> #elseif
+									($type==8)
+									<div class="msg_conright msg_tag_reqguide"></div> #elseif
+									($type==9)
+									<div class="msg_conright msg_tag_reqcar"></div> #elseif
+									($type==10)
+									<div class="msg_conright msg_tag_reqproduct"></div> #end
+									<div class="detail">
+										<p>$item.getString("content")</p>
+										#set($pictures=$item.get("pictures")) #if($pictures.size()>0)
+										<span class="dimg" id="item$velocityCount">
+											#foreach($picture in $pictures) <a
+											style="display:$tool.displayOf($velocityCount,1)"
+											href="http://image.yiqihi.com/pictures/${picture.getString('picture')}.jpg"
+											data-fancybox-group="gallery" class="fancybox-thumbs">
+												#if ($velocityCount==1)
+												<div class="num">
+													<em>$pictures.size()</em>
+												</div> <img lazy="true" shot="$picture.getString('shot')"
+												src="http://image.yiqihi.com/shots/$picture.getString('shot')" />
+												#else <img src="/images/nopic.gif"
+												shot="$picture.getString('shot')" /> #end </a> #end </span> #end
+										<div class="ts png"></div>
+									</div></li> #end
+							</ul>
+						</div>
+
+						<div id="calendar-tab" class="coupon_mod" tag="tab"
+							style="display:none">
+							<div id="rules"></div>
+						</div>
+
+					</div>
+					<b class="shadow"></b>
+				</div>
+			</div>
+			<div style="padding-top:30px;height:1px"></div>
+			<div class="mod mod_city">
+				<div class="header">我的描述及服务城市</div>
+				<div class="city_section">
+					<dl class="clearfix png">
+						#set($locations=$activity.get("locations")) #if
+						($locations.size()>0) #foreach($location in $locations)
+						<dd class="tag-red1">
+							<span> #if ($location.containsField("value"))
+								$location.value #elseif ($location.containsField("name"))
+								$location.name #else $location #end </span> #end #end
+							#set($tags=$service.hashSetBy($activity,"tags"))
+							#if($service.hasTag($tags,"普通话"))
+						<dd class="tag-orange2">
+							<span>中文普通话</span>
+						</dd>
+						#end #if($service.hasTag($tags,"粤语"))
+						<dd class="tag-orange2">
+							<span>中文粤语</span>
+						</dd>
+						#end #if($service.hasTag($tags,"上海话"))
+						<dd class="tag-orange2">
+							<span>上海话</span>
+						</dd>
+						#end #if($service.hasTag($tags,"四川话"))
+						<dd class="tag-orange2">
+							<span>四川话</span>
+						</dd>
+						#end #if($service.hasTag($tags,"闽南话"))
+						<dd class="tag-orange2">
+							<span>闽南话</span>
+						</dd>
+						#end #if($service.hasTag($tags,"台语"))
+						<dd class="tag-orange2">
+							<span>台语</span>
+						</dd>
+						#end #if($service.hasTag($tags,"英语"))
+						<dd class="tag-orange2">
+							<span>英语</span>
+						</dd>
+						#end #if($service.hasTag($tags,"韩语"))
+						<dd class="tag-orange2">
+							<span>韩语</span>
+						</dd>
+						#end #if($service.hasTag($tags,"法语"))
+						<dd class="tag-orange2">
+							<span>法语</span>
+						</dd>
+						#end #if($service.hasTag($tags,"日语"))
+						<dd class="tag-orange2">
+							<span>日语</span>
+						</dd>
+						#end #if($service.hasTag($tags,"泰语"))
+						<dd class="tag-orange2">
+							<span>泰语</span>
+						</dd>
+						#end #if($service.hasTag($tags,"西班牙语"))
+						<dd class="tag-orange2">
+							<span>西班牙语</span>
+						</dd>
+						#end #if($service.hasTag($tags,"意大利语"))
+						<dd class="tag-orange2">
+							<span>意大利语</span>
+						</dd>
+						#end #if($service.hasTag($tags,"德语"))
+						<dd class="tag-orange2">
+							<span>德语</span>
+						</dd>
+						#end
+					</dl>
+				</div>
+				<div style="margin-bottom:10px;">
+					#if($service.hasTag($tags,"有私家车")) <span class="tag-yellow1">有私家车</span>
+					#end #if($service.hasTag($tags,"有驾照")) <span class="tag-yellow1">有驾照</span>
+					#end #if($service.hasTag($tags,"有导游证")) <span class="tag-yellow1">有导游证</span>
+					#end #if($service.hasTag($tags,"有私家旅馆")) <span class="tag-yellow1">有私家旅馆</span>
+					#end #if($service.hasTag($tags,"我是专业导游")) <span class="tag-yellow1">我是专业导游</span>
+					#end #if($service.hasTag($tags,"我是兼职导游")) <span class="tag-yellow1">我是兼职导游</span>
+					#end #if($service.hasTag($tags,"我是留学生")) <span class="tag-yellow1">我是留学生</span>
+					#end #if($service.hasTag($tags,"我是当地旅行社")) <span
+						class="tag-yellow1">我是当地旅行社</span> #end
+					#if($service.hasTag($tags,"能接机")) <span class="tag-yellow1">能接机</span>
+					#end #if($service.hasTag($tags,"能代订打折酒店")) <span
+						class="tag-yellow1">能代订打折酒店</span> #end
+					#if($service.hasTag($tags,"能代订打折机票")) <span class="tag-yellow1">能代订打折机票</span>
+					#end #if($service.hasTag($tags,"能代购打折商品")) <span
+						class="tag-yellow1">能代购打折商品</span> #end
+					#if($service.hasTag($tags,"能胜任商务翻译")) <span class="tag-yellow1">能胜任商务翻译</span>
+					#end #if($service.hasTag($tags,"熟悉当地美食")) <span class="tag-yellow1">熟悉当地美食</span>
+					#end #if($service.hasTag($tags,"熟悉人文历史")) <span class="tag-yellow1">熟悉人文历史</span>
+					#end #if($service.hasTag($tags,"熟悉当地景点")) <span class="tag-yellow1">熟悉当地景点</span>
+					#end #if($service.hasTag($tags,"熟悉摄影")) <span class="tag-yellow1">熟悉摄影</span>
+					#end #if($service.hasTag($tags,"熟悉美容医院")) <span class="tag-yellow1">熟悉美容医院</span>
+					#end #if($service.hasTag($tags,"熟悉夜总会")) <span class="tag-yellow1">熟悉夜总会</span>
+					#end #if($service.hasTag($tags,"熟悉红灯区")) <span class="tag-yellow1">熟悉红灯区</span>
+					#end
+				</div>
+				<p>$tool.htmlBy($activity.getString('description'))</p>
+			</div>
+
+			$context.include("plugin.comment")
+
+			<div class="mod mod_step clearfix">
+				<div class="header">同城导游</div>
+				<a href="/forum/c=$activity.getString('country')" target="_blank"
+					class="more fr">进入$activity.getString('country')贴士论坛</a>
+				<ul class="clearfix">
+					#set($records=$service.readRandoms(6,$activity.getString('country'),1,3))
+					#foreach($record in $records)
+					<li class="png"><a href="/guide/$record.get('short_id')"
+						target="_blank"><img width="240" height="240"
+							src="http://image.yiqihi.com/shots/$record.get('snapshot')"
+							alt=""> </a> <span class="tt">$record.get('title')</span> <span
+						class="tag tag1 png">导游</span>
+						<div class="bot clearfix">
+							<span class="price"><em>$tool.currencyNameBy($record.getInt('currency'))
+									$record.get('price')</em> </span>
+						</div>
+					</li> #end
+				</ul>
+			</div>
+
+		</div>
+
+		<div class="aside right">
+			<div class="bar clearfix">
+				<div class="select_box fl" id="searchBox">
+					<span id="searchName" onclick="javascript:showSearchBox();">寻找导游</span>
+					<a href="javascript:showSearchBox();" class="icon">选择</a>
+					<div class="links" id="searchLinks">
+						<a href="javascript:void(0)">寻找导游</a> <a href="javascript:void(0)">寻找线路</a>
+					</div>
+				</div>
+				<div class="search fl">
+					<form action="" class="search_form">
+						<input type="text" id="searchCountry" placeholder="搜索目的地/国家"
+							class="stxt"> <input type="submit" value="查询"
+							id="searchButton" class="sbtn png">
+					</form>
+				</div>
+			</div>
+
+			<div class="mod_outer mod_card_outer" style="_margin-top:-2px">
+				<div class="mod mod_card clearfix">
+					<div class="head fl">
+						<a id="toUser" userId="$activity.getString('user_id')"
+							target="_blank" userName="$activity.getString('user_name')"
+							href="/i/$activity.getString('user_id')"> <img
+							src="/photo/faces/$activity.get('user_id')" alt=""> </a>
+						<div class="shadow png"></div>
+						<!-- <span class="name png">$activity.get('city')</span> -->
+					</div>
+					<div class="detail fl">
+						<div class="png">
+							#set($rank=$activity.getInt('rank'))
+							#set($comment=$service.readCommentScore($shortId))
+							#set($count=$tool.byInt($comment,'count')) <em class="rating"><em
+								class="star #if($rank>=1) selected #end"></em> <em
+								class="star #if($rank>=2) selected #end"></em> <em
+								class="star #if($rank>=3) selected #end"></em> <em
+								class="star #if($rank>=4) selected #end"></em> <em
+								class="star #if($rank>=5) selected #end"></em> #if($count>0) <strong>$count条评论</strong>
+								#end </em>
+						</div>
+						<p>
+							<b>昵称：</b><span class="full">$activity.getString('user_name')</span>
+						</p>
+						<p>
+							<b>籍贯：</b><span class="full">$tool.by($activity,'guide','ethnicity')</span>
+						</p>
+						<p>
+							<b>居住：</b><span class="full">$activity.get('city')</span>
+						</p>
+						<a href="javascript:void(0)" onclick="user.callNow()"
+							class="contact png">联系我</a>
+					</div>
+					<div class="grade png">
+						<!--b class="degree copper">铜</b-->
+						<!--b  class="degree gold png">金</b-->
+						<!--b class="degree silver">银</b-->
+					</div>
+					<div class="paper_pin png"></div>
+				</div>
+				<div class="shadow2 png"></div>
+			</div>
+
+			<div class="mod_outer">
+				<div class="mod mod_order">
+					<div class="header">
+						在线预约<font id="calcLoading"></font>
+					</div>
+					<div class="salary png">
+						<span class="price">$tool.currencyNameBy($activity.getInt('currency'))<font
+							id="price">$activity.getInt('price')</font> </span> <span class="per">
+							$tool.chargeWayBy($activity.getInt('chargeWay'))</span>
+					</div>
+					<form action="" class="order_form">
+						<div class="clearfix">
+							<div class="date_choose">
+								<label>预约类型</label> <select id="edtPriceName"
+									onchange="user.readCalendarBy()">
+									$tool.priceNameOptions($activity.get('prices'),$activity.getInt('price'))
+								</select>
+								<div class="tip"></div>
+							</div>
+							<div class="date_choose">
+								<div>
+									<label>预约日期</label> <input type="text" class="input"
+										style="border:none;height:20px;width:285px;" id="edtDeptDate"
+										value="$tool.currentDateTime(3)"/>
+									<div class="tip"></div>
+								</div>
+							</div>
+						</div>
+						<div class="clearfix">
+							<div class="mod_select fl png">
+								<div class="middle">
+									<label>旅客人数</label> <select id="edtPersonCount"
+										onchange="user.bookingChange($('#calcLoading'))" class="input">
+										$tool.personOptions(30)
+									</select>
+									<div class="tip"></div>
+								</div>
+							</div>
+							<div class="mod_select fr png">
+								<div class="middle">
+									<label>预约天数</label> <select class="input" id="edtTime"
+										onchange="user.bookingChange($('#calcLoading'))">
+										$tool.timeOptions($activity.getInt('chargeWay'))
+									</select>
+									<div class="tip"></div>
+								</div>
+							</div>
+						</div>
+						<div class="orderbtn" onclick="user.callNow()">
+							<span> 费用合计： <em class="png">$tool.currencyNameBy($activity.getInt('currency'))<font id="total-price"></font> </em> </span>
+                            <b class="tet">立即预定</b>
+						</div>
+					</form>
+				</div>
+
+				<div class="mod mod_calendar">
+					<div class="header"  id="priceNameHeader">档期资费</div>
+					<div id="calendar"></div>
+					#set($priceTags=$service.hashSetBy($activity,"priceTags"))
+					<div class="details">
+						<h5>报价包含的费用(打钩的)</h5>
+						<ul class="services_list clearfix">
+							<li
+								class="$tool.iff($service.hasPriceTag($priceTags,'包含每天小费'),'','none')"><b
+								class="png"></b>小费</li>
+							<li
+								class="$tool.iff($service.hasPriceTag($priceTags,'包含餐补'),'','none')"><b
+								class="png"></b>餐补</li>
+							<li
+								class="$tool.iff($service.hasPriceTag($priceTags,'包含住宿费'),'','none')"><b
+								class="png"></b>住宿费</li>
+							<li
+								class="$tool.iff($service.hasPriceTag($priceTags,'包含车的油费'),'','none')"><b
+								class="png"></b>车的油费</li>
+							<li
+								class="$tool.iff($service.hasPriceTag($priceTags,'包含车的过路费'),'','none')"><b
+								class="png"></b>车的过路费</li>
+							<li
+								class="$tool.iff($service.hasPriceTag($priceTags,'包含车的停车费'),'','none')"><b
+								class="png"></b>车的停车费</li>
+							<li
+								class="$tool.iff($service.hasPriceTag($priceTags,'包含公共交通费'),'','none')"><b
+								class="png"></b>公共交通费</li>
+						</ul>
+						<b class="arrow png"></b> <b class="shadow png"></b>
+					</div>
+				</div>
+
+				<div class="shadow_end png"></div>
+			</div>
+
+		</div>
+	</div>
+	$context.readCall($activity,6,$activity.getInt('catalog'))
+	<div style="display:none">
+
+		<ul class="coupon_lists" id="templateRules" jseval="$recIndex=1">
+			<li class="clearfix" jsselect="$this.rules">
+				<div class="seq fl png" jscontent="$recIndex"></div>
+				<div class="con fl" jseval="$recIndex++">
+					<p jshtml="readRuleContent($bizType,$this)"></p>
+				</div></li>
+		</ul>
+
+	</div>
+
+	#end $context.readFooter()
+	$context.includeJavaScript("","swfobject.js")
+	$context.includeJavaScript("","web_socket.js")
+	$context.includeJavaScript("jquery/","jquery.gallery.js")
+	$context.includeJavaScript("jquery/","jquery.fancybox.js")
+	$context.includeJavaScript("jquery/","jquery.calendar.js")
+	$context.includeJavaScript("","car.js")
+	$context.includeJavaScript("","user.js")
+</body>
+</html>

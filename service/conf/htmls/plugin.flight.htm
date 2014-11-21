@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<link rel="shortcut icon" href="/images/hi.ico" >
+<link rel="icon" type="image/gif" href="/images/hi.gif" >
+$context.includeCss("","plugins.css")
+$context.includeCss("jquery/","jquery.plugin.css")
+<script>
+function initHeader(){};
+</script>
+</head>
+<body>
+<div class="jpss_con">
+	<div class="jpss_conc">
+		<div class="jpss_d1"></div>
+		<div class="jpss_cocccon">
+			<div class="jpss_22"><a class="jpss_22dandu" href="javascript:void(0)"></a></div>
+			<div class="jpss_ccc1">
+				<div class="fd_jpsss fd_jpss">
+					<p class="fjyd_tb"></p><p class="fjyd_text">机票</p>
+				</div>
+				<form>
+				<div class="sscon">
+					<span>机票搜索</span>
+					<input type="text" id="fromCity">
+					<span>去</span>
+					<input type="text"  id="toCity">
+					<span>日期</span>
+					<input type="text" id="deptDate">
+					<a href="javascript:void(0)" onclick="doSearchFlight(this)">搜索</a>
+				</div>
+				</form>
+			</div>
+			<div class="jpss_ccc2" id="flights"></div>
+		</div>
+		<div class="jpss_conc2"></div>
+	</div>
+</div>
+ <div style="display:none">
+	<div id="flightTemplate">
+		<div  class="jp_c2hbb" jsselect="items">
+			<div class="jp_cd1" jseval="$args.index++">
+				<p style="overflow:hidden;">
+					<a href="javascript:void(0)" jsvalues=".object:$this;.index:$args.index" onclick="doFlashCallback(this,this.object,this.index)">
+						<span jscontent="$this.airline" class="airline"></span>
+						<span class="flightNumber" jscontent="$this.flightNumber"></span>
+					</a>
+				</p>
+				<p><a href="javascript:void(0)"></a></p>
+			</div>
+			<div class="jp_cd2">
+				<font jscontent="$this.deptPort" class="deptPort"></font>
+				<font jscontent="$this.deptTime" class="deptTime"></font>
+				<font jscontent="$this.arrivePort" class="arrivePort"></font>
+				<font jscontent="$this.arriveTime" class="arriveTime"></font>
+			</div>
+			<div class="jp_cd3">￥<strong jscontent="$this.price">118</strong>
+			</div>
+		</div>
+	</div>
+ 
+ </div>
+ 
+ 
+</body>
+
+$context.includeJavaScript("jquery/","jquery-1.8.3.min.js")
+$context.includeJavaScript("jquery/","jquery-ui.1.9.2.min.js")
+$context.includeJavaScript("jquery/","jquery.common.js")
+$context.includeJavaScript("jquery/","jquery.dateinput.js")
+$context.includeJavaScript("jquery/","jquery.watermark.js")
+$context.includeJavaScript("jquery/","jquery.pager.js")
+$context.includeJavaScript("jquery/","jquery.scrollTo.js")
+$context.includeJavaScript("jquery/","jquery.autocomplete.js")
+$context.includeJavaScript("jquery/","jquery.poshytip.js")
+$context.includeJavaScript("","common.js")
+$context.includeJavaScript("","header.js")
+$context.includeJavaScript("","json2.js")
+$context.includeJavaScript("","util.js")
+$context.includeJavaScript("","template.js")
+$context.includeJavaScript("","plugin.flight.js")
+
+</html>

@@ -1,0 +1,248 @@
+#if($context.pdf()==true)
+#else
+<div style="min-width:1200px">
+	<div class="htop">
+		<div class="logo">
+			<div class="left">
+				<a href="/">
+					<p class="hi">
+						<span></span>
+					</p> </a> 专注个性化旅行服务
+			</div>
+			#set($messageCount=0) #set($bool=$user.userId==0) #if($bool)
+			<div class="right" id="header" userId="$user.userId"
+				serverIP="$user.serverIP" userName="$user.userName"
+				isSpider="$isSpider" time="$tool.currentTimeMillis()"
+				cookieId="$context.cookieId">
+				<p class="login">
+					<A href="javascript:void(0)" onclick="javascript:dlgLogin.show(1)">注册</A><A
+						href="javascript:void(0)" onclick="javascript:dlgLogin.show(2)">登录</A>
+					<em class="phonenum"></em><em class="phoneicon"></em>
+				</p>
+			</div>
+			#else
+			<div class="logout" id="header" userId="$user.userId"
+				serverIP="$user.serverIP" userName="$user.userName"
+				isSpider="$isSpider" time="$tool.currentTimeMillis()"
+				cookieId="$context.cookieId">
+				<ul>
+					<li class="msg"><a href="/messages"><p>
+								#set($messageCount=$user.newMessageCount()) <span>$messageCount</span>
+							</p>消息</a>
+					</li>
+					<li class="user"><a href="javascript:void(0)">
+							<p class="icon"></p> <span>$user.userName</span>
+							<p class="arw"></p> </a>
+					</li>
+					<li><em class="phonenum"></em> <em class="phoneicon"></em>
+					</li>
+				</ul>
+				<div class="clear"></div>
+				<div class="popup" id="headUser"
+					style="display:none;width: 230px;height: 209px;position: absolute;right:-10px;top:36px;z-index:30;">
+					<div class="arrow"></div>
+					<dl>
+						<dt>
+							<img src="/photo/faces/$user.userId" width="48" height="48" />
+						</dt>
+						<dd>
+							发布服务：$user.serviceCount <br />发布需求：0 <br />旅行贴士：$user.topicCount
+							<br />身份认证：$user.bindCount
+						</dd>
+					</dl>
+					<div class="clear"></div>
+					<div style="padding:16px;">
+						<a href="/messages" class="button green  w90"
+							style="margin-right:10px;">用户中心</a> <a href="javascript:void(0)"
+							onclick="logout(0)" class="button red  w90">退出登录</a>
+					</div>
+				</div>
+			</div>
+			#end
+		</div>
+
+		<div class="clear"></div>
+	</div>
+
+	<div class="navbar" id="navBar">
+		<div class="c">
+			<div class="logo">
+				<a href="/"><span></span> </a>
+			</div>
+			<div class="nav">
+				<ul>
+					<li class="item"><a href="javascript:void(0)" id="navG"><span>预约导游</span>
+					</a></li>
+					<li class="item"><a href="javascript:void(0)" id="navS"><span>发布服务</span>
+					</a></li>
+					<li class="item"><a href="javascript:void(0)" id="navR"><span>个性需求</span>
+					</a></li>
+					<li class="item"><a href="/help" target="_blank" id="navFAQ"><span
+							class="question"></span>服务保障</a></li>
+				</ul>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<!--预约导游下拉-->
+		<div class="nav_list" id="_navG"
+			style="display:none;position:relative">
+			#set($items=$context.guideNumByContinent("亚洲").value)
+			<dl id="t1">
+				<div class="item">
+					<h3>亚洲</h3>
+					#foreach($item in $items)
+					<dd>
+						<a href="/searchtrip/c=$tool.encode($item.get('country'))"><p>$item.get("country")</p>
+							<em>$item.get("total")</em> </a>
+					</dd>
+					#end
+					<p class="expand">
+						<a href="javascript:void(0)"><span></span> </a>
+					</p>
+				</div>
+				<div class="line"></div>
+			</dl>
+
+			#set($items=$context.guideNumByContinent("欧洲").value)
+			<dl id="t2">
+				<div class="item">
+					<h3>欧洲</h3>
+					#foreach($item in $items)
+					<dd>
+						<a href="/searchtrip/c=$tool.encode($item.get('country'))"><p>$item.get("country")</p>
+							<em>$item.get("total")</em> </a>
+					</dd>
+					#end
+					<p class="expand">
+						<a href="javascript:void(0)"><span></span> </a>
+					</p>
+				</div>
+				<div class="line"></div>
+			</dl>
+
+			#set($items=$context.guideNumByContinent("南美洲").value) #if
+			($items.size()>0)
+			<dl id="t3">
+				<div class="item">
+					<h3>南美洲</h3>
+					#foreach($item in $items)
+					<dd>
+						<a href="/searchtrip/c=$tool.encode($item.get('country'))"><p>$item.get("country")</p>
+							<em>$item.get("total")</em> </a>
+					</dd>
+					#end
+					<p class="expand">
+						<a href="javascript:void(0)"><span></span> </a>
+					</p>
+				</div>
+				<div class="line"></div>
+			</dl>
+			#end #set($items=$context.guideNumByContinent("大洋洲").value) #if
+			($items.size()>0)
+			<dl id="t4">
+				<div class="item">
+					<h3>大洋洲</h3>
+					#foreach($item in $items)
+					<dd>
+						<a href="/searchtrip/c=$tool.encode($item.get('country'))"><p>$item.get("country")</p>
+							<em>$item.get("total")</em> </a>
+					</dd>
+					#end
+					<p class="expand">
+						<a href="javascript:void(0)"><span></span> </a>
+					</p>
+				</div>
+				<div class="line"></div>
+			</dl>
+			#end #set($items=$context.guideNumByContinent("北美洲").value) #if
+			($items.size()>0)
+			<dl id="t5">
+				<div class="item">
+					<h3>北美洲</h3>
+					#foreach($item in $items)
+					<dd>
+						<a href="/searchtrip/c=$tool.encode($item.get('country'))"><p>$item.get("country")</p>
+							<em>$item.get("total")</em> </a>
+					</dd>
+					#end
+					<p class="expand">
+						<a href="javascript:void(0)"><span></span> </a>
+					</p>
+				</div>
+				<div class="line"></div>
+			</dl>
+			#end #set($items=$context.guideNumByContinent("非洲").value) #if
+			($items.size()>0)
+			<dl id="t6">
+				<h3>非洲</h3>
+				#foreach($item in $items)
+				<dd>
+					<a href="/searchtrip/c=$tool.encode($item.get('country'))"><p>$item.get("country")</p>
+						<em>$item.get("total")</em> </a>
+				</dd>
+				#end
+				<p class="expand">
+					<a href="javascript:void(0)" onclick="expandContinent(6)"><span></span>
+					</a>
+				</p>
+			</dl>
+			#end
+			<div class="clear"></div>
+			<a href="javascript:hideNavPanel();" class="navicon_close"></a>
+		</div>
+
+		<!--我要找旅行服务-->
+		<div class="nav_list service" id="_navR" style="display:none">
+			<dl>
+				<h3>找导游或车</h3>
+				<dd>我已经有初步的旅行计划,需要找一名导游或车(车主能兼职导游工作)</dd>
+				<dt>
+					<a class="button grey red-hover  image-right w110"
+						href="/postreq/c=0" target="_blank">我需要导游或车</a>
+				</dt>
+			</dl>
+			<div class="line"></div>
+			<dl>
+				<h3>找旅行同伴</h3>
+				<dd>我已经有初步的旅行计划,需要找AA制同伴,我们一起旅行</dd>
+				<dt>
+					<a class="button grey red-hover  image-right w110"
+						href="/postreq/c=1" target="_blank">我需要旅行同伴</a>
+				</dt>
+			</dl>
+			<div class="line"></div>
+			<dl style="border-right:none;">
+				<h3>需求大厅</h3>
+				<dd>客人的需求全部汇总在此处,导游或商家都能从中找到适合自己的客人</dd>
+				<dt>
+					<a class="button grey red-hover  image-right w110"
+						href="javascript:void(0)" style="color:#bbb">进入大厅<span
+						class="next"></span>
+					</a>
+				</dt>
+			</dl>
+			<div class="clear"></div>
+			<a href="javascript:hideNavPanel();" class="navicon_close"></a>
+		</div>
+
+		<!--我要提供旅行服务-->
+		<div class="nav_list navicon service" id="_navS" style="display:none">
+				<a href="javascript:void(0)" class="navicon_left"></a>
+				<a href="javascript:void(0)" class="navicon_right"></a>
+				<div class="navicon_warp">
+					<ul class="navicon_lists">
+						<li><a href="/postguide" target="_blank"><span class="guider"></span>发布导游服务</a></li>
+						<li><a href="/postcar"     target="_blank"><span class="car"></span>发布租车服务</a></li>
+						<li><a href="/posttrip"     target="_blank"><img src="/images/new.gif"/><span class="trip"></span>发布特色线路</a></li>
+					</ul>
+					<div class="clear"></div>
+				</div>
+			<a href="javascript:hideNavPanel();" class="navicon_close"></a>
+			<div class="clear"></div>
+		</div>
+		#if ($enableBorderShadow==true)
+		<div class="shadow"></div>
+		#end
+	</div>
+</div>
+#end

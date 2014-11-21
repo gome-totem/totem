@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" class="mozilla">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>编辑信息©$tool.seoTitle()</title>
+<link rel="shortcut icon" href="/images/hi.ico">
+	<link rel="icon" type="image/png" href="/images/hi.png" >
+		$context.includeCss("","page.css")
+		$context.includeCss("","backend.css") $context.readHtmlHeader()
+</head>
+<style>
+ul li label {
+	width: 100%;
+	padding: 3px;
+	float: left;
+	display: block;
+}
+
+p label {
+	width: 100%;
+	padding: 3px;
+	float: left;
+	display: block;
+}
+</style>
+
+<body>
+	$context.readHeader() #set($shortId=$context.getParam('shortId'))
+	#set($bizName=$context.getParam('name'))
+	#set($activity=$root.readActivity($shortId,$bizName)) #if
+	($user.role.isRoot()==false)
+	<div id="container">
+		<div class="wrap">
+			<ul id="breadcrum">
+				<li><a href="/" class="home"> <span></span> <strong>主页</strong>
+				</a></li>
+			</ul>
+			<h2 class="page-title">页面不存在。</h2>
+			<p>
+				请联系我们 <a href="mailto:team@yiqihi.com">team@yiqihi.com</a>
+			</p>
+		</div>
+		<div style="font: 0px/0px sans-serif;clear: both;display:block"></div>
+	</div>
+	#else
+
+	<div class="container area clearfix" id="body">
+		<ul id="breadcrum">
+			<li><a href="/" class="home"> <span></span> <strong>主页</strong>
+			</a></li>
+			<li>/</li>
+			<li>编辑服务</li>
+		</ul>
+		#set($record=$context.readToCheckCount())
+		<div class="main_content left">
+			<div style="display:none" id="activityContent">
+				$tool.base64($activity.toString())</div>
+			<div class="mod mod_city">
+				<form id="steps" class="form offer_edit_form">
+									<input type="hidden" value="$activity.getInt('state')" id="state" />
+					<input type="hidden" value="$shortId" id="shortId" /> <input
+						type="hidden" value="$bizName" id="bizName" />
+					<fieldset id="baseInfo" style="margin:0px;">
+						<div style="width:710px;">
+							<p>
+								<label for="edtTitle"> 服务标题 <em>*</em> </label> <span
+									class="inputholder"> <input type="text" size="30"
+									id="edtTitle" class="input frame" style="width:700px;" /> </span>
+							</p>
+							<p>
+								<label for="edtLevel"> 服务星级评定 <em>*</em> </label><select
+									id="edtRank">
+									<option value="1">对服务评价-1颗星</option>
+									<option value="2" selected>对服务评价-2颗星</option>
+									<option value="3">对服务评价-3颗星</option>
+									<option value="4">对服务评价-4颗星</option>
+									<option value="5">对服务评价-5颗星</option>
+								</select>
+							</p>
+							<p>
+								<label id="lblDesc" for="edtDesc" style="float:none">
+									服务内容 <em>*</em> </label>
+								<textarea id="edtDesc" style="width:700px;"></textarea>
+							</p>
+						</div>
+						<div>
+							<button type="button" class="btn btn-red" id="btnNextStep"
+								onclick="commit()" style="margin-left:6px;">更新服务</button>
+							<button type="button" class="btn btn-red" id="btnNextStep"
+								onclick="sendEmail()" style="margin-left:6px;">发送合作邮件</button>
+						</div>
+					</fieldset>
+				</form>
+			</div>
+
+		</div>
+
+		<div class="aside right">
+
+			<div class="mod_outer">
+				<div class="mod mod_order">
+					<h3>登录信息</h3>
+					#set($info=$user.readLoginAccount($activity.getString('user_id')))
+					#set($inOffice=$tool.startsWith($context.ip,"111.197.5.34"))
+					<div style="padding:10px;">
+						<ul>
+							#if ($inOffice)
+							<li><label id="lblEmail" for="edtMail">
+									登录用户名：$info.get('email') </label></li>
+							<li><label id="lblPassword" for="edtPassword">
+									&nbsp;&nbsp;&nbsp;登录密码：$tool.fakePassword($info.get('password'))
+							</label>
+							</li> #else
+							<li><label>IP：$context.ip </label>
+							</li> #end
+						</ul>
+					</div>
+				</div>
+
+				<div class="mod mod_calendar">
+					<h3>联系信息</h3>
+					<div style="padding:10px;">
+						<p>
+							<label for="edtCountry"> 国家 </label> <input type="text" size="30"
+								id="edtCountry" class="input frame" style="width:280px;" />
+						</p>
+						<p>
+							<label for="edtCity"> 城市 </label> <input type="text" size="30"
+								id="edtCity" class="input frame" style="width:280px;" />
+						</p>
+						#if ($inOffice)
+						#set($contact=$root.readContactBy($bizName,$shortId))
+						<p>
+							<label for="edtUserName">
+								用户名称:$contact.get("contact_person") </label> <input type="hidden"
+								size="30" id="edtUserName" class="input frame"
+								style="width:280px;" value="$contact.get('contact_person')" />
+						</p>
+						<p>
+							<label for="edtQQ"> 腾讯QQ :$contact.get("contact_qq") </label>
+						</p>
+						<p>
+							<label for="edtMsn"> 微信号码 :$contact.get("contact_msn") </label>
+						</p>
+						<p>
+							<label for="edtMobile"> 移动电话
+								:$contact.get("contact_mobile")</label>
+						</p>
+						#end
+					</div>
+				</div>
+				<div class="shadow_end png"></div>
+			</div>
+
+		</div>
+
+	</div>
+
+	#end $context.readFooter()
+	$context.includeJavaScript("","tinymce/tinymce.min.js")
+	$context.includeJavaScript("","rock.js")
+	$context.includeJavaScript("","editservice.js")
+</body>
+</html>

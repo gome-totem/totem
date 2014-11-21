@@ -1,0 +1,71 @@
+<h2 style="font-size:16px;margin-bottom:10px;"><a class="link" href="javascript:void(0)" onclick="popConsole()">网站数据维护中心</a></h2>
+<div id="console" class="dialog-mask" style="display:none">
+	<div style="margin-top: 100px;" class="dialog-container shown">
+		<div class="dialog-container-front">
+			<div class="dialog" style="width:750px;">
+				<div class="dialog-head">
+					<h1>管理员控制台</h1>
+					<div  onclick="$('#console').hide()" class="dialog-btn-close"><b></b></div>
+				</div>
+				<div class="dialog-content">
+					<form class="form rounded" style="padding:20px;">
+						<fieldset>
+							<div class="item" style="width:100%">
+							   快照(snapshot)&nbsp;
+							   <b style="font-size:14px;" id="snapshot_"></b>
+							</div>
+							<div class="item">
+							  <label for="title_">
+								 标题 
+								<em>*</em>
+							  </label>
+							  <span class="input_holder">
+								 <input type="text" class="text" id="title_"  size="30" style="width:690px;">
+								 <input id="consolePageName" type="hidden" value="$pageName"/>
+							  </span>
+							</div>
+							<div class="three">
+								<div class="item" style="width:230px;">
+									<label for="price_">
+									价格(price)
+									<em>*</em>
+									</label>
+									<span class="input_holder">
+									  <input type="text" size="30" id="price_"  style="width:210px;" class="text date">
+									</span>
+								</div>
+								<div class="item" style="width:230px;">
+									<label for="position_">
+									  推荐的位置(position)
+									<em>*</em>
+									</label>
+									<select  id="position_" style="display:block;margin-top:9px;height:38px;width:200px;">
+										<option value="韩国">首页-韩国</option>
+										<option value="日本">首页-日本</option>
+										<option value="法国">首页-法国</option>
+										<option value="意大利">首页-意大利</option>
+										<option value="index">index</option>
+										<option value="slider">slider</option>
+									</select>
+								</div>
+								<div class="item" style="width:230px;">
+									<div style="margin-left:60px;">
+										<select  id="consoleMode" style="display:block;margin-bottom:3px;width:150px;">
+											<option value="0">编辑该服务</option>
+											<option value="1">删除该服务</option>
+											<option value="2">取消推荐该服务</option>
+											<option value="3">推荐该服务</option>
+											<option value="4">发短信通知发布主</option>
+										</select>
+										<button onclick="console(this)"  style="float:left;width:150px;" class="btn" type="button">立即执行操作</button>
+									</div>
+								</div>
+								<div class="clear"></div>
+							</div>
+						</fieldset>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

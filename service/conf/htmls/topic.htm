@@ -1,0 +1,379 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>贴士浏览</title>
+	#set($qCountry=$context.getParam('c'))
+   #set($quri=$context.pageName)
+	#set($qPageNumber=$context.getParamByInt('p',1))
+	$context.readHtmlHeader()
+	$context.includeCss("","topic.css")
+</head>
+<body class="pin-view">
+	$context.readHeader()
+	<div class="bgWarp">
+		<img src="http://www.yiqihi.com/images/bg/6.jpg" alt="" width="100%"
+			height="319">
+			<div class="maslk"></div>
+	</div>
+	#set($reqUser=$context.reqUserBy())
+	<div id="user_card">
+		<div class="maozi"></div>
+		<div class="inner clearfix ">
+			<div class="avatar-unit">
+				<a href="/s134270/" title="$reqUser.get('user_name')" class="img x">
+				<img height="140" width="140"  src="/photo/faces/$reqUser.get('user_id')">
+				</a>
+				<div class="counts clearfix">
+					<a href="/s134270/followers/" class="followers"><div
+							class="num">0</div>
+						<div class="sub">粉丝</div>
+					</a><a href="/s134270/following/" class="follows"><div class="num">0</div>
+						<div class="sub">关注</div>
+					</a>
+				</div>
+			</div>
+			<div class="head-line">
+				<div class="name">$reqUser.get('user_name')</div>
+			</div>
+			<ul class="introduction">
+				<li><i id="intro_location"></i><em></em>
+				</li>
+			</ul>
+			<div class="about clearfix">这世界上有两个我，一个假装快乐，一个真心难过。</div>
+			<div class="action-buttons">
+				<a data-urlname="s134270" title="关注红尘陌上" href="#"
+					onclick="return false;" class="followuser btn rbtn"><span
+					class="text"> 关注</span>
+				</a>
+			</div>
+			<div class="bindings">
+				<a href="http://blog.sina.com.cn/u/2080733282" title="访问红尘陌上的个人主页"
+					target="_blank" class="link"></a>
+			</div>
+			<div title="举报用户" class="report-user"></div>
+		</div>
+		<div class="side">
+		<!-- 
+			<h4>最多转采自</h4>
+			<a href="/crystalfantasy/" class="item x"><img
+				src="http://img.hb.aicdn.com/8c4ad8c473dda46df6c949db4861522dc3cbf7c010443-wsYmc3_sq75sf">水晶幻想
+			</a><a href="/xumei96/" class="item x"><img
+				src="http://img.hb.aicdn.com/cef3457f7d18bf73f1ae42243106b5b3445d8d3b4ccb-VD9Zka_sq75sf">徐慧
+			</a><a href="/yusxj5ps/" class="item x"><img
+				src="http://img.hb.aicdn.com/b727a8b7141e96d1f914cdd08ef73ffa2efedae61456-Fz95Xm_sq75sf">桥下
+			</a>
+			 -->
+		</div>
+		<div class="tabs">
+			<a href="/s134270/" class="tab active">70画板</a><a
+				href="/s134270/pins/" class="tab ">15840采集</a><a
+				href="/s134270/likes/" class="tab ">7喜欢</a><a
+				href="/s134270/commodities/" class="tab ">1商品</a>
+			<form id="people_search_item" action="/s134270/pins/"
+				class="searching-unit" data-regestered="regestered">
+				<input value="" name="q" placeholder="搜索TA的采集" autocomplete="off"><div
+						class="search-hint"></div>
+					<a onclick="return false;" class="go"></a>
+			</form>
+		</div>
+	</div>
+	#set($result=$service.readTopicsBy($context,$qCountry,$qPageNumber))
+	#set($items=$result.get("items"))
+	#set($totalCount=$result.getInt("totalCount"))
+	#set($remianCount=$result.getInt("remianCount"))
+	<div class="wrapper clearfix" style="width: 992px;">
+		#foreach($list in $items)
+		 #foreach($item in $list)
+		 #set($keyId=$item.getString('id'))
+		 #set($server=$item.getString('server'))
+		 #set($type=$item.getInt('type',2)) 
+		 #set($indexs=$item.getInt('reindex',1))
+		<div class="pinview-right">
+			 #if($type==2||$type==1 ||$type==3)
+			<div class="wt clearfix">
+				<div id="pin_action_buttons" style="display:block"
+					class="actions clearfix">
+					<!-- 
+					<span class="repin-button">
+						<div size="14"
+							onclick="app.requireLogin(function(){app.showDialog('repin', '153518100')}); return false"
+							class="repin btn rbtn">采集</div> </span> <a data-id="153518100" href="#"
+						onclick="return false;"
+						class="like-button btn-with-icon btn btn14"><i class="heart"></i><span
+						class="text"> 喜欢</span>
+						 -->
+					</a> <a id="zoomr_show" title="查看原图" class="btn wbtn"><i
+						class="zoomin"></i>
+					</a>
+					<div class="pin-view-share">
+						<a class="btn btn-with-icon share-btn"><span class="text">分享</span><i
+							id="share_icon"></i>
+						</a>
+						<div id="share-popout">
+							<div class="arr"></div>
+							<a data-to="weibo" title="新浪微博" target="_blank"
+								href="/pins/153518100/js-share/?to=weibo"
+								class="share-popout-item share-button"><i
+								id="share-item-weibo"></i>新浪微博</a> <a data-to="qzone" title="QQ空间"
+								target="_blank" href="/pins/153518100/js-share/?to=qzone"
+								class="share-popout-item share-button"><i
+								id="share-item-qqzone"></i>QQ空间</a> <a data-to="tqq" title="腾讯微博"
+								target="_blank" href="/pins/153518100/js-share/?to=tqq"
+								class="share-popout-item share-button"><i
+								id="share-item-qqweibo"></i>腾讯微博</a> <a data-to="qfriends"
+								title="QQ好友" target="_blank"
+								href="/pins/153518100/js-share/?to=qfriends"
+								class="share-popout-item share-button"><i
+								id="share-item-qqfriend"></i>QQ好友</a> <a data-to="douban" title="豆瓣"
+								target="_blank" href="/pins/153518100/js-share/?to=douban"
+								class="share-popout-item share-button"><i
+								id="share-item-douban"></i>豆瓣</a> <a data-to="renren" title="人人网"
+								target="_blank" href="/pins/153518100/js-share/?to=renren"
+								class="share-popout-item share-button"><i
+								id="share-item-renren"></i>人人网</a>
+						</div>
+					</div>
+				</div>
+				<div id="pin_img" data-id="153518100" data-media-type="0"
+					data-orig-source="null" class="pin-img clearfix">
+					<a href=""
+						target="_blank" rel="nofollow"
+						onclick=""
+						class="jd-link"><img
+						src=""
+						width="650" height="420" alt="黑白后现代卧室设计效果图—土拨鼠装饰设计...">
+					</a>
+					<div id="pin_view_arrows" style="top: 50%;">
+						<a href="/pins/153518126/" class="prev x self "></a> <a
+							href="/pins/153518064/" class="next x self "></a>
+					</div>
+				</div>
+				
+				<div class="pinDescription">$item.getString("content") </div>
+				<div id="pin_stats" class="clearfix">
+					<div class="stats">
+						<span class="comments-count count btn wbtn" keyId="$keyId"  server="$server"  userName="$user.userName" index="$indexs" onclick="popupReplyBox(this)" ><i></i>评论</span>
+						 <a href="javascript:void(0)" class="count likes-count btn">
+						 <i class="heart"></i>喜欢<span class="num"></span>
+						</a> <span data-target="#pin_action_buttons .repin"
+							class="repins-count count btn wbtn btn-with-icon"  id="$keyId" onclick="javascript:forumpack.show(this)" ><i></i>加入锦囊</span>
+					</div>
+				</div>
+			#if($item.getInt('replyCount',0)>1)
+			<div class="type-text-comment-count">
+				<a  onclick="reloadReplieshide(this,'$server','$keyId','$indexs')">$item.get('replyCount')条评论</a>
+				<a class ="replyCount" id="replyCount$indexs" style="display:none" server="$server" keyId="$keyId" index="$indexs" count="$item.get('replyCount')" >收起</a>
+				<i class="icon-arrow"></i>
+			</div>
+			#end
+				<div id="replys$indexs"></div>
+			#if($item.getInt('replyCount',0)>0)
+				<div id="replycontext$indexs">
+						<ul>
+							<li class="clearfix">
+								<div class="noavatar">
+								</div>
+								<dl>
+									<dt>
+										<strong>$item.getString('last_userName')</strong><span>$tool.dateDiff($item.getLong('last_timestamp'))</span>
+									</dt>
+									<dd>
+										$item.getString('last_content')
+										<!-- <button userName="$user.userName" index="$indexs"server="$server" keyId="$keyId"type="button" replyId="$item.getString('last_keyId')"; onclick="reply(this)">回复</button> -->
+									</dd>
+								</dl>
+							</li>
+						</ul>
+				</div>
+				#end
+			<div id="reply$indexs"></div>
+			</div>
+            #else
+			<div id="pin_comments_list" class="wt clearfix">
+				<div id="PinPinner">
+					<a id="PinnerImage" href="/yuan19916/" class="img"><img
+						src="">
+					</a>
+					<p id="PinnerName">
+						<a href="/yuan19916/">两行情书</a>
+					</p>
+					<div id="PinnerStats">
+						通过<a href=""
+							target="_blank" class="via">花瓣Chrome扩展</a>采集于<span
+							data-ts="1397038356" class="ts-words">9分钟前</span>
+					</div>
+				</div>
+				<div id="pin_comments">
+					<div id="pin_caption" class="pin-caption">
+						<div class="text">
+							<p class="replay">黑白后现代卧室设计效果图—土拨鼠装饰设计门户</p>
+						</div>
+					</div>
+				</div>
+				<div id="pin_stats" class="clearfix">
+					<div class="stats">
+						<span class="comments-count count btn wbtn"><i></i>评论</span> <a
+							data-id="153518100" class="count likes-count btn"><i
+							class="heart"></i>喜欢<span class="num"></span>
+						</a> <span data-target="#pin_action_buttons .repin"
+							class="repins-count count btn wbtn btn-with-icon"><i></i>采集</span>
+					</div>
+				</div>
+			</div>
+			#end
+		</div>
+		#end
+		#end
+		<!-- 
+		<div class="pinview-left">
+			<div id="pin_sources">
+				<div class="source board">
+					<h3>
+						<a href="/boards/13965841/" class="x">好眠卧室</a>
+					</h3>
+					<div class="arr"></div>
+					<span data-max="153519058" data-url="/boards/13965841/"
+						class="pins clearfix cst-scrollbar">
+						<div class="unit clearfix">
+							<a href="/pins/153520177/"
+								onclick="try{_gaq.push(['_trackEvent', 'Pin Source Board Link', '/pins/153520177/', '']);}catch(e){}"
+								class="x"><img
+								src="http://img.hb.aicdn.com/1a2297e40c7712ac0d580776173dce514cc4f98728796-Fz7vvc_fw78"
+								width="78" height="50">
+							</a> <a href="/pins/153520091/"
+								onclick="try{_gaq.push(['_trackEvent', 'Pin Source Board Link', '/pins/153520091/', '']);}catch(e){}"
+								class="x"><img
+								src="http://img.hb.aicdn.com/97e34af99f6f61a81dceb091c33a00cd10e79c6d2a57a-Jzfai6_fw78"
+								width="78" height="52">
+							</a> <a href="/pins/153519851/"
+								onclick="try{_gaq.push(['_trackEvent', 'Pin Source Board Link', '/pins/153519851/', '']);}catch(e){}"
+								class="x"><img
+								src="http://img.hb.aicdn.com/3ee258abd243525758933063e5531a1069c1d38129f82-pqdUq5_fw78"
+								width="78" height="50">
+							</a> <a href="/pins/153519730/"
+								onclick="try{_gaq.push(['_trackEvent', 'Pin Source Board Link', '/pins/153519730/', '']);}catch(e){}"
+								class="x"><img
+								src="http://img.hb.aicdn.com/92ef3c63fc63cd64ee6c74c3caa3c0ed713e782c282a1-3TUhbT_fw78"
+								width="78" height="109">
+							</a> <a href="/pins/153519435/"
+								onclick="try{_gaq.push(['_trackEvent', 'Pin Source Board Link', '/pins/153519435/', '']);}catch(e){}"
+								class="x "><img width="78" height="50.4"
+								src="http://img.hb.aicdn.com/dc03ed9fd7b4100f016b2f5a4a7ecb47d9e6ca19327d4-3hleyE_fw78">
+							</a> <a href="/pins/153519171/"
+								onclick="try{_gaq.push(['_trackEvent', 'Pin Source Board Link', '/pins/153519171/', '']);}catch(e){}"
+								class="x "><img width="78" height="108.83720930232558"
+								src="http://img.hb.aicdn.com/8f5096ab848a2cff5a51a94bc596b6ddadffc8b132503-8ehnFM_fw78">
+							</a>
+						</div>
+						<div class="unit clearfix">
+							<a href="/pins/153520151/"
+								onclick="try{_gaq.push(['_trackEvent', 'Pin Source Board Link', '/pins/153520151/', '']);}catch(e){}"
+								class="x"><img
+								src="http://img.hb.aicdn.com/d90d7c5f025e068c009c992b83baf1d2c21ac05629e31-AI0eNB_fw78"
+								width="78" height="50">
+							</a> <a href="/pins/153520059/"
+								onclick="try{_gaq.push(['_trackEvent', 'Pin Source Board Link', '/pins/153520059/', '']);}catch(e){}"
+								class="x"><img
+								src="http://img.hb.aicdn.com/6f501b11ca4136fcfdc1bc6ee2ee22f5781a47ef2cbe2-0UO4Dd_fw78"
+								width="78" height="50">
+							</a> <a href="/pins/153519784/"
+								onclick="try{_gaq.push(['_trackEvent', 'Pin Source Board Link', '/pins/153519784/', '']);}catch(e){}"
+								class="x"><img
+								src="http://img.hb.aicdn.com/eeb3dd4cb105321b9cba20b84458bd2594e69e17300a0-GIeG40_fw78"
+								width="78" height="50">
+							</a> <a href="/pins/153519702/"
+								onclick="try{_gaq.push(['_trackEvent', 'Pin Source Board Link', '/pins/153519702/', '']);}catch(e){}"
+								class="x"><img
+								src="http://img.hb.aicdn.com/6770ac688ee79d928f04dbaafb51243614d03648289ab-QhHrP5_fw78"
+								width="78" height="50">
+							</a> <a href="/pins/153519506/"
+								onclick="try{_gaq.push(['_trackEvent', 'Pin Source Board Link', '/pins/153519506/', '']);}catch(e){}"
+								class="x "><img width="78" height="50.4"
+								src="http://img.hb.aicdn.com/78fc0dd9a13c1e40750897890368094667ae20a529a6d-0p1H7b_fw78">
+							</a> <a href="/pins/153519463/"
+								onclick="try{_gaq.push(['_trackEvent', 'Pin Source Board Link', '/pins/153519463/', '']);}catch(e){}"
+								class="x "><img width="78" height="50.4"
+								src="http://img.hb.aicdn.com/366b339788dc98d48c38349be20ef00eea5fa9bf2e5df-PRIAn8_fw78">
+							</a> <a href="/pins/153519366/"
+								onclick="try{_gaq.push(['_trackEvent', 'Pin Source Board Link', '/pins/153519366/', '']);}catch(e){}"
+								class="x "><img width="78" height="50.4"
+								src="http://img.hb.aicdn.com/d29c4740adcca331ff5e0596b363593c776693582e2ac-you2AW_fw78">
+							</a> <a href="/pins/153519122/"
+								onclick="try{_gaq.push(['_trackEvent', 'Pin Source Board Link', '/pins/153519122/', '']);}catch(e){}"
+								class="x "><img width="78" height="108.83720930232558"
+								src="http://img.hb.aicdn.com/f5e8f850aeacd6c7c452b6016d8011f396bf116d317d6-chl2O1_fw78">
+							</a>
+						</div>
+						<div class="unit clearfix">
+							<a href="/pins/153520126/"
+								onclick="try{_gaq.push(['_trackEvent', 'Pin Source Board Link', '/pins/153520126/', '']);}catch(e){}"
+								class="x"><img
+								src="http://img.hb.aicdn.com/ffe3f310566e4df5a500b1cb570fb2df86fb002f26180-NEwQYl_fw78"
+								width="78" height="109">
+							</a> <a href="/pins/153519878/"
+								onclick="try{_gaq.push(['_trackEvent', 'Pin Source Board Link', '/pins/153519878/', '']);}catch(e){}"
+								class="x"><img
+								src="http://img.hb.aicdn.com/68d4dd04474ed4d5558cc00bf1aee6a0dbff7c2e2db31-1toZ2O_fw78"
+								width="78" height="50">
+							</a> <a href="/pins/153519750/"
+								onclick="try{_gaq.push(['_trackEvent', 'Pin Source Board Link', '/pins/153519750/', '']);}catch(e){}"
+								class="x"><img
+								src="http://img.hb.aicdn.com/1a8d530319b4707b167e9d282e4f1b88c8d82db92fad5-qTVCKt_fw78"
+								width="78" height="109">
+							</a> <a href="/pins/153519679/"
+								onclick="try{_gaq.push(['_trackEvent', 'Pin Source Board Link', '/pins/153519679/', '']);}catch(e){}"
+								class="x"><img
+								src="http://img.hb.aicdn.com/01d0363f48a24840285eeca22c81d194d6340b281f326-wCyPEL_fw78"
+								width="78" height="50">
+							</a> <a href="/pins/153519155/"
+								onclick="try{_gaq.push(['_trackEvent', 'Pin Source Board Link', '/pins/153519155/', '']);}catch(e){}"
+								class="x "><img width="78" height="51.599999999999994"
+								src="http://img.hb.aicdn.com/4bd8ea1598e70d0bd8bac6376f1e1776a7a171bf25dab-nouQx2_fw78">
+							</a> <a href="/pins/153519058/"
+								onclick="try{_gaq.push(['_trackEvent', 'Pin Source Board Link', '/pins/153519058/', '']);}catch(e){}"
+								class="x "><img width="78" height="50.4"
+								src="http://img.hb.aicdn.com/62ba82f4fc8f8d8da8cefc2cdf6e565dd57f22dc2b538-9WAcLA_fw78">
+							</a>
+						</div> </span> <a id="pin_sources_follow" data-id="13965841" href="#"
+						onclick="return false;" class="follow btn"><span class="text">
+							关注画板</span>
+					</a>
+				</div>
+			</div>
+ -->
+		</div>
+	</div>
+	<div class="msg_reply" id="templateReply" style="display:none">
+		      <div jsselect="$this.items">
+					<li class="clearfix">
+				<div class="noavatar">
+				</div>
+				<dl>
+					<dt>
+						<strong jscontent="$this.userName"></strong><span jscontent="dateDiff($this.timestamp)"></span>
+					</dt>
+					<dd jscontent="htmlToText($this.content,300)">
+					</dd>
+				</dl>
+			</li>
+			</div>
+		</div>
+	<div class="boards">
+		<div class="moreItemsContainer">
+			<button type="button" class="btn">
+				<span class="buttonText">See more boards</span>
+			</button>
+		</div>
+	</div>
+	<div class="replybox" id="replyBox" style="display:none">   
+			<textarea class="clear-input"  placeholder="添加评论"  name="caption"></textarea>
+			<div class="clear"></div>
+			<a href="javascript:void(0)" onclick="replyMessage(this)" class="follow btn" style="float:right;margin-right: 75px;">发表</a>
+	</div>
+		$context.readFooter(true)
+		$context.include('forum-pack') 
+		$context.includeJavaScript("","topic.js")
+		$context.includeJavaScript("","forum-pack.js")
+</body>
+</html>

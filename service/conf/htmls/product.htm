@@ -1,0 +1,450 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" class="mozilla">
+#set($shortId=$context.getParamByLong('id'))
+#set($activity=$service.readBy($shortId,0))
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+#if ($tool.isNull($activity))
+<title>海外产品留学生代购©$tool.seoTitle()</title> #else
+<title>$activity.getString('title')-海外产品留学生代购</title> #end
+$context.includeCss("","bubbles.css") $context.readHtmlHeader()
+</head>
+
+<body>
+	$context.readHeader() #if ($tool.isNull($activity) ||
+	($tool.byInt($activity,'state')!=2 &&
+	!$context.hasPageRight('guide',$activity.getLong('user_id')) &&
+	!$isSpider) )
+	<div id="container">
+		<div class="wrap">
+			<ul id="breadcrum">
+				<li><a href="/" class="home"> <span></span> <strong>主页</strong>
+				</a>
+				</li>
+			</ul>
+			#if ($tool.isNull($activity))
+			<h2 class="page-title">产品已经下线或者不存在。</h2>
+			#else
+			<h2 class="page-title">产品正在审核中，请稍候访问。</h2>
+			#end
+			<p>
+				联系我们： <a href="mailto:team@yiqihi.com">team@yiqihi.com</a>
+			</p>
+		</div>
+	</div>
+	#else #set($profile=$user.readProfile("",false))
+	<div id="container">
+		<div class="wrap">
+			<ul id="breadcrum">
+				<li><a href="/" class="home"> <span></span> <strong>主页</strong>
+				</a>
+				</li>
+				<li>/</li>
+				<li><a href="/searchtrip/c=$activity.getString('country')">$activity.getString('country')</a>
+				</li>
+			</ul>
+			<div class="detailhead">
+				<div style="margin:0;padding:0;display:inline">
+					<input type="hidden" value="$activity.getString('id')"
+						id="activityId" /><input type="hidden" value="$shortId"
+						id="shortId" /> <input type="hidden"
+						value="$activity.getInt('chargeWay')" id="chargeWay" /> <input
+						type="hidden" value="$activity.getInt('currency')" id="currency">
+						<input type="hidden" value="3" id="bizType" /> <input
+						type="hidden" value="" id="bizName" /> <input type="hidden"
+						value="0" id="catalog" /> <input type="hidden"
+						value="$profile.getString('bind_mobile')" id="bindMobile" /> <input
+						type="hidden" value="$profile.getString('mobile')" id="mobile" />
+						<input type="hidden" value="$activity.getLong('user_id')"
+						id="userId" /><span id="metaContent" style="display:none">$activity.getString('guide')</span>
+				</div>
+				<div class="detailtitle">
+					#if ($activity.getInt('state')!=2)
+					<p class="authno"></p>
+					#else
+					<p class="authyes"></p>
+					#end
+					<p class="text" id="title">$activity.getString('title')</p>
+				</div>
+				<div class="meta">
+					<p class="text">$activity.get('country')&mdash;海外产品留学生代购</p>
+					#set($comment=$service.readTotalComment($activity.getLong('user_id'),$shortId))
+					#set($scoreA=$tool.byInt($comment,'scoreA'))
+					#set($countA=$tool.byInt($comment,'countA'))
+					#set($scoreP=$tool.byInt($comment,'scoreP')) #if($scoreA==0)
+					#set($scoreA=2) #set($scoreP=2) #end <span class="rating"> <span
+						class="star #if($scoreA>=1) selected #end"></span> <span
+						class="star #if($scoreA>=2) selected #end"></span> <span
+						class="star #if($scoreA>=3) selected #end"></span> <span
+						class="star #if($scoreA>=4) selected #end"></span> <span
+						class="star #if($scoreA>=5) selected #end"></span>
+						#if($comment.containsField('countA')) <strong>$comment.get('countA')条评论</strong>
+						#end </span>
+					<div class="clear"></div>
+				</div>
+			</div>
+			$context.readConsole('guide')
+			<div class="leftbox">
+				<div class="detail">
+					<div class="detailbar">
+						<div class="detailbarl"></div>
+						<div class="detailbarm">
+							#set($photos=$activity.get("photos"))
+							<ul class="tabs">
+								<li><a tag="#photos-tab" href="javascript:void(0)"
+									class="selected"> <span class="text">产品照片</span> <span
+										class="num"><span>$photos.size()</span> </span> </a></li>
+							</ul>
+						</div>
+						<div class="detailbarr"></div>
+					</div>
+					<div class="detailbox">
+						<div id="photos-tab" class="tab current" tag="tab">
+							<div id="gallery" class="ad-gallery">
+								<div class="ad-image-wrapper"></div>
+								<div class="ad-nav">
+									<div class="ad-thumbs">
+										<ul class="ad-thumb-list">
+											#foreach($photo in $photos)
+											<li><a
+												href="http://image.yiqihi.com/pictures/$photo.getString('picture')">
+													<img width="85" height="85"
+													src="http://image.yiqihi.com/shots/$photo.getString('shot')"
+													class="image$velocityCount">
+											</a>
+											</li> #end
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div style="display:none" id="calendar-tab" class="tab" tag="tab">
+							<div style="clear:both;" id="rules"></div>
+						</div>
+					</div>
+				</div>
+				<div class="detailinfo redbar">
+					<dl>
+						<dt>
+							<strong>详细描述</strong> <span class="dot"> </span>
+						</dt>
+					</dl>
+				</div>
+				<div class="clear"></div>
+				<div class="detailattr">
+					<p>
+						<span>品牌：</span><font>$activity.getString("brand")</font>
+					</p>
+					<p>
+						<span>原产地：</span><font>$activity.getString("country")</font>
+					</p>
+					#set($url=$activity.getString("designer_url"))
+					#if(!$tool.isEmpty($url))
+					<p>
+						<span>官方网站链接：</span><a href="$url" target="_blank"><font>$url</font>
+						</a>
+					</p>
+					#end
+					<p>
+						<span>送货周期：</span><font>$tool.postTimeBy($activity.getInt("post_time"))</font>
+					</p>
+					</ul>
+				</div>
+				<div class="detaildesc">$tool.htmlBy($activity.getString('description'))</div>
+				<div class="clear"></div>
+				<div id="commentContent" style="display:none">$service.readComments($shortId,0,3).toString()</div>
+				<div class="comments" id="comments"></div>
+				<div id="commentPager" class="pagebar"></div>
+				<div class="clear"></div>
+			</div>
+			<div class="rightbox">
+				<div class="one">
+					<div class="tipbar1">
+						<span>设计师.商家.留学生推荐</span>
+					</div>
+					<div class="clear" style="height:20px;"></div>
+					<div style="padding:10px;">
+						<div class="left" style="width:110px;text-align:center;">
+							#set($hasDesigner=$activity.getString('designer_face').length()>0)
+							#if ($hasDesigner) <a href="$activity.getString('designer_url')"
+								target="_blank"> <img
+								src="$activity.getString('designer_face')" width="100"
+								height="100"><br> $activity.getString('designer') 
+							</a> #else <a href="/i/$activity.getString('user_id')"
+								target="_blank"> <img
+								src="/photo/faces/$activity.getString('user_id')" width="100"
+								height="100"><br> $activity.getString('user_name') 
+							</a> #end
+						</div>
+						<div class="right" style="width:190px;">
+							<span class="quotefirst"></span> #if ($hasDesigner)
+							$activity.get("designer_say") #else
+							我是留学生，在当地为您推荐我购买的一些非常棒的产品，我承诺：出售的商品一律提供海外运货单，通关单据(注:如果您的商品是随一批走的，我只能提供那批单据给您。)
+							#end <span class="quotelast"></span>
+						</div>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="two" style="position:relative">
+					<div class="box">
+						<div class="title">
+							<span id="callLoader"></span>
+						</div>
+						<div class="shadow"></div>
+						<div class="tipbar2">
+							<span>在线购买</span>
+						</div>
+						<div class="order form">
+							<div class="left" style="width:190px;">
+								<label class="subtitle">订购数量</label>
+								<div class="left" style="width:190px;height:110px">
+									<div>
+										<span class="inputholder"> <input type="text"
+											class="input numeric" style="width:173px" id="edtCount"
+											onchange="user.bookingChange($('#lblsum'))" /> </span>
+									</div>
+									<div>
+										<p class="left">
+											<label class="subtitle">尺寸规格 </label> <span
+												class="inputholder"><select id="edtModel" class="input"
+												style="width:85px;">
+													$tool.OptionsByDot($activity.getString("model"),",")
+											</select> </span>
+										</p>
+										<p class="right">
+											<label class="subtitle">颜色</label> <span class="inputholder"><select
+												class="input" id="edtColor" style="width:85px;">
+													$tool.OptionsByDot($activity.getString("color"),",")
+											</select> </span>
+										</p>
+									</div>
+								</div>
+							</div>
+							<div class="sidepricebox">
+								<div class="calc">
+									<div class="day">
+										<P class="price">
+											#set($currency=$tool.currencyNameBy($activity.getInt('currency')))
+											$currency<font id="price">$activity.getInt('price')</font>
+										</P>
+										<P class="label">
+											运费:$currency<font id="post">$activity.getInt('post')</font>
+										</P>
+									</div>
+									<div class="sum">
+										<P class="label">
+											<i id="lblsum">费用合计</i>
+										</P>
+										<P class="price">
+											$currency<font id="total-price">$tool.inc($activity.getInt('price'),$activity.getInt('post'))</font>
+										</P>
+									</div>
+									<div class="arrowd"></div>
+								</div>
+							</div>
+						</div>
+						<div class="clear"></div>
+						<div class="form">
+							<div>
+								<label class="subtitle"> 您的其他要求(请简洁描述)</label> <span
+									class="inputholder"> <textarea class="input"
+										style=" width:280px; height:80px;" id="edtContent"></textarea>
+								</span>
+							</div>
+
+						</div>
+					</div>
+					<div class="sidebtnbox">
+						<ul class="largeicon">
+							<li><a href="javascript:void(0)" onclick="user.callNow(1)"
+								style="width:108px;"><p class="help"
+										style="margin-bottom:2px;margin-left:30px;"></p>
+									<p class="label">免费咨询</p> </a>
+								<p class="line"></p></li>
+							<li><a href="javascript:void(0)" onclick="user.callNow(2)"
+								style="width:108px;"><p class="phone"
+										style="margin-bottom:2px;margin-left:30px;"></p>
+									<p class="label">立即通话</p> </a>
+								<p class="line"></p></li>
+							<li><a href="javascript:void(0)"
+								onclick="user.bookIt($shortId)" style="width:108px;"><p
+										class="order" style="margin-bottom:2px;margin-left:30px;"></p>
+									<p class="label">立即预订</p> </a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="three icons">
+					<dl>
+						<dt>
+							<span class="bao"></span>
+						</dt>
+						<dd>购买流程：由于我们需要先将钱打入物主账号，所以您必须先充值后，才能购买！我们一般会在你下订单的6小时后才进行转账，所以您可以在这6小时内取消订单。所充值的金额可以继续购买其他商品，或申请退还。</dd>
+					</dl>
+
+					<dl>
+						<dt>
+							<span class="zhi"></span>
+						</dt>
+						<dd>商品由留学生直接在当地购买，通过全球快递送达您的手中，时间最短3-7天，最长不超过3周。请您购买时注意时间，不要总是催促我们的客服！所有产品都提供海外送货单和海关相关单据。本站拒绝假货！</dd>
+					</dl>
+					<dl>
+						<dt>
+							<span class="call"></span>
+						</dt>
+						<dd>24小时，客服服务热线：010-56216655。</dd>
+					</dl>
+				</div>
+				<div class="clear"></div>
+				<div class="fourh">
+					<div class="four">
+						<div class="head">附加信息</div>
+						<div class="face">
+							<div class="left">
+								<a id="toUser" userId="$activity.getString('user_id')"
+									userName="$activity.getString('user_name')"
+									href="/i/$activity.getString('user_id')"> <img
+									src="/photo/faces/$activity.get('user_id')" /> </a><br>
+									#set($followUserId=$activity.getLong('user_id'))
+									#set($followUserName=$activity.getString('user_name'))
+									#set($followed=$user.checkFollow($followUserId))
+									#if($followed==false)
+									<button class="button grey left red-hover"
+										style="width:120px;margin:10px 0px 0px 20px;"
+										onclick="follow(this,'$followUserId','$followUserName')">
+										<span class="plus"></span>加关注
+									</button> #end 
+							</div>
+							<div class="right c2">
+								<ul>
+									<li><p class="p1">态度评分</p>
+										<p class="p2">
+											<span class="rating"> <strong></strong> <span
+												class="star #if($scoreP>=1) selected #end"></span> <span
+												class="star #if($scoreP>=2) selected #end"></span> <span
+												class="star #if($scoreP>=3) selected #end"></span> <span
+												class="star #if($scoreP>=4) selected #end"></span> <span
+												class="star #if($scoreP>=5) selected #end"></span> </span>
+										</p>
+									</li>
+									<li><p class="p1">能力评分</p>
+										<p class="p2">
+											<span class="rating"> <span
+												class="star #if($scoreA>=1) selected #end"></span> <strong></strong>
+												<span class="star #if($scoreA>=2) selected #end"></span> <span
+												class="star #if($scoreA>=3) selected #end"></span> <span
+												class="star #if($scoreA>=4) selected #end"></span> <span
+												class="star #if($scoreA>=5) selected #end"></span> </span>
+										</p>
+									</li>
+									<li><p class="p1">性别</p>
+										<p class="p2">$tool.sexBy($activity.getInt('sex'))</p></li>
+									<li><p class="p1">年龄</p>
+										<p class="p2">$tool.yearDiff($activity.getLong('birthday'))</p>
+									</li>
+									<li><p class="p1">身高</p>
+										<p class="p2">$activity.getInt('height')</p></li>
+									<li><p class="p1">星座</p>
+										<p class="p2">$tool.constellationBy($activity.getLong('birthday'))</p>
+									</li>
+								</ul>
+							</div>
+						</div>
+						<div class="clear"></div>
+						<div class="head2">
+							<p class="r"></p>
+							<p class="c">个人信息</p>
+						</div>
+						<div class="c3">
+							<ul>
+								<li><p class="p1">身材</p>
+									<p class="p2">$tool.buildBy($activity.getInt('build'))</p></li>
+								<li><p class="p1">血型</p>
+									<p class="p2">$tool.bloodBy($activity.getInt('blood'))</p></li>
+								<li><p class="p1">学历</p>
+									<p class="p2">$tool.by($activity,'guide','education')</p></li>
+								<li class="high"><p class="p1">人种民族</p>
+									<p class="p2">$tool.by($activity,'guide','ethnicity')</p></li>
+								<li><p class="p1">婚姻状态</p>
+									<p class="p2">$tool.marriageBy($activity.getInt('marriage'))</p>
+								</li>
+								<li><p class="p1">目前职业</p>
+									<p class="p2">$tool.by($activity,'guide','job')</p></li>
+								<li><p class="p1">工作年数</p>
+									<p class="p2">$activity.getInt('age_work')</p></li>
+							</ul>
+						</div>
+						<div class="clear"></div>
+						<div class="head2">
+							<p class="r"></p>
+							<p class="c">我接受/拒绝您的预订</p>
+						</div>
+						<div class="c4">
+							<ul>
+								<li><p class="smalluncheck"></p>
+									<p class="p1">发站内消息通知您</p></li>
+								<li><p class="smallcheck"></p>
+									<p class="p1">发手机短信通知您</p></li>
+								<li><p class="smallcheck"></p>
+									<p class="p1">发新浪微博私信通知您</p></li>
+								<li><p class="smallcheck"></p>
+									<p class="p1">发腾讯微博私信通知您</p></li>
+							</ul>
+						</div>
+						<div class="clear"></div>
+						<div class="head2">
+							<p class="r"></p>
+							<p class="c">投诉与建议</p>
+						</div>
+						<div class="c3">
+							如果发现该会员发布违法信息、提供虚假资料、使用了别人的照片等恶劣行为，请向我们投诉 点击 <a class="redlink"
+								href="mailto:team@yiqihi.com?subject=投诉会员$activity.get('user_id')&body=提供虚假资料guide/$shortId">立即投诉</a>，
+							我们将在3个工作日内受理！
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	$context.readCall($activity,3,0)
+	<div style="display:none">
+		<ol id="templateComment">
+			<li jsselect="$this.items">
+				<div class="avatar rounded">
+					<a target="_blank" jsvalues=".href:'/i/'+$this.userId"> <img
+						width="66" height="66"
+						jsvalues=".src:'/photo/faces/'+$this.userId">
+					</a>
+					<div class="tl"></div>
+					<div class="tr"></div>
+					<div class="bl"></div>
+					<div class="br"></div>
+				</div> <!-- /avatar -->
+				<div class="comment_content">
+					<p class="author">
+						<strong jscontent="$this.userName"></strong> <span
+							jseval="$time=longToDateTimeStr($this.timestamp)"
+							jscontent="$time"></span>
+					</p>
+					<div class="description">
+						<p jscontent="$this.comment"></p>
+					</div>
+					<!-- /description -->
+					<p class="clear">
+						<span class="rating"
+							jshtml="readCommentScoreByPerson($this.scoreP)"> </span> <span
+							class="rating" jshtml="readCommentScoreByActivity($this.scoreA)">
+						</span>
+					</p>
+				</div>
+			</li>
+		</ol>
+	</div>
+	#end $context.readFooter()
+	$context.includeJavaScript("","swfobject.js")
+	$context.includeJavaScript("","web_socket.js")
+	$context.includeJavaScript("jquery/","jquery.gallery.js")
+	$context.includeJavaScript("jquery/","jquery.calendar.js")
+	$context.includeJavaScript("","product.js")
+	$context.includeJavaScript("","user.js")
+</body>
+</html>

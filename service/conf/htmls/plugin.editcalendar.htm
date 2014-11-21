@@ -1,0 +1,72 @@
+<div class="clearfix dqDate">
+	<div class="step-4-c-date" id="calendar"></div>
+	<div class="pricedate">
+		<div class="form two clearfix">
+			<dl>
+				<dt>
+					<b>价格</b>
+				</dt>
+				<dd>
+					<span class="currency"><em>￥</em><input type="text"
+						id="edtPriceValue" class="input frame numeric"
+						style="width:210px;" /> </span>
+				</dd>
+			</dl>
+			<dl>
+				<dt>
+					<b>最多接纳多少人</b>
+				</dt>
+				<dd>
+					<input type="text" id="edtPricePerson" class="input frame numeric"
+						style="width:220px;" />
+				</dd>
+			</dl>
+		</div>
+		<h5>
+			特定价格<span>根据季节或个人时间安排设置指定日期范围内的价格</span>
+		</h5>
+		<div class="form two clearfix">
+			<dl>
+				<dt>预约日期从</dt>
+				<dd>
+					<input type="text" id="edtRangeStart" class="input frame" />
+				</dd>
+			</dl>
+			<dl>
+				<dt>至</dt>
+				<dd>
+					<input type="text" class="input frame" id="edtRangeStop" />
+				</dd>
+			</dl>
+			<dl>
+				<dt>预订状态为</dt>
+				<dd>
+					<select class="select frame" id="edtBookState">
+						<option value="1" selected="selected">可预订</option>
+						<option value="0">不可预订</option>
+					</select>
+				</dd>
+			</dl>
+			<dl>
+				<dt>价格</dt>
+				<dd>
+					<span class="currency"><em>￥</em><input type="text"
+						class="input frame" id="edtSpecialPrice" style="width:210px;" />
+					</span>
+				</dd>
+			</dl>
+		</div>
+		<div class="intro">
+			<h5>操作说明：</h5>
+			<p>修改可预订状态：用鼠标直接点击日期框，即可完成修改。</p>
+			<p>批量修改预订状态和价格：</p>
+			<p>输入起至日期和结束日期，修改价格即可立即更新。</p>
+			<div class="state clearfix">
+				<ul>
+					<li><i class="icon-not-reserve"></i>不可预订</li>
+					<li><i class="icon-reserve"></i>可预订</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>

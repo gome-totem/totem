@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" class="mozilla">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>账户明细©$tool.seoTitle()</title> $context.includeCss("","backend.css") $context.readHtmlHeader()
+<style>
+.account_item {
+	margin-left: 20px;
+	width: 230px;
+	display: block;
+	float: left;
+	border-bottom: 1px dashed #C6BEB3;
+}
+
+.account_item span {
+	float: right;
+}
+</style>
+</head>
+
+<body class="mon-compte">
+     $context.readHeader()
+     <div id="container">
+          <div class="wrap">
+               $context.readUserPanel() $context.clearReadTag()
+               <div class="w900 right">
+                    <div class="heading">
+                         <h2>账户充值，消费明细</h2>
+                         <div class="btn">
+                              <div id="spinner"></div>
+                              <div class="collapse" link="all"></div>
+                         </div>
+                    </div>
+                    #set($balance=$context.bill().readBalance($context))
+                    <div style="padding:20px;font-size:18px;">
+                         <span class="account_item"> <label style="color:#363636">现金账户余额</label> <span
+                              style="color:#288E00;">￥$balance.get("balance")</span> </span> <span class="account_item"> <label
+                              style="color:#363636">预计收入</label> <span style="color:#288E00;">￥$balance.get("income_total")</span>
+                         </span> <span class="account_item"> <label style="color:#363636">累计收入</label> <span
+                              style="color:#CC2A43;">￥$balance.get("withdraw_total")</span> </span>
+                    </div>
+                    <div class="clear"></div>
+                    <form class="form" id="steps">
+                         <fieldset id="billInfo">
+                              <div class="fieldset_title">
+                                   <div class="text">
+                                        <h6>
+                                             账户明细 <sup>*</sup>
+                                        </h6>
+                                        <em> 充值和消费的流水明细 </em>
+                                   </div>
+                                   <div class="collapse" link="billInfo"></div>
+                              </div>
+                              <div class="fieldset_content" id="bills"></div>
+                         </fieldset>
+                    </form>
+                    <div id="pager" class="pagebar"></div>
+               </div>
+          </div>
+     </div>
+
+     <div style="display:none">
+          <table id="templateBill" width="100%" cellspacing="0" cellpadding="0" border="0" class="table">
+               <tbody>
+                    <tr class="even">
+                         <th width="20%">交易时间</th>
+                         <th width="15%">类型</th>
+                         <th width="35%">描述</th>
+                         <th width="15%">交易额</th>
+                         <th width="15%">余额</th>
+                    </tr>
+               </tbody>
+               <tbody>
+                    <tr jsselect="$this.items">
+                         <td jscontent="longToTimeStr($this.timestamp)"></td>
+                         <td jscontent="readPayCode($this.code)"></td>
+                         <td jshtml="readDesc($this.code,$this.mode,$this.shortId,$this.orderId,$this.desc)"></td>
+                         <td jshtml="readAmount($this.mode,$this.amount)"></td>
+                         <td jscontent="$this.balance"></td>
+                    </tr>
+               </tbody>
+          </table>
+     </div>
+
+     $context.readFooter() $context.includeJavaScript("","rock.js") $context.includeJavaScript("","finance.js")
+
+</body>
+</html>

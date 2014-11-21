@@ -1,0 +1,109 @@
+#if ($showCloseBudget)
+<a href="javascript:void(0)" jsvalues=".day:$dayIndex;.itemIndex:$itemIndex" id="budget30_A"
+	onclick="closeBudget(this.day,this.itemIndex)" class="pass">
+</a>
+#end
+
+<div class="search-tong">
+	<div class="search-date">
+		<h1>增加想去的景点</h1>
+		<ul>
+			<li class="focus"><font>相关度<img src="/images/img37.gif" /></font></li>
+		</ul>
+		<p id="sightSearchResult" style="display:none">共搜索到<span id="sightSearchCount" class="orange"></span>条记录。</p>			
+	</div>
+
+	<div class="search-con">
+		<div class="z2">
+			<div class="z201" style="width:600px;">
+				<label class="text">在</label>
+				<input type="text" class="inputn filterInput"  id="sightLoc" placeholder="国家或城市或区域(不输入为全部)" size="30" />
+				<label class="text">找景点</label>
+				<input type="text" class="inputn filterInput"  id="sightKey"  placeholder="景点名称(不输入为全部)" size="23" />
+			</div>
+			<div class="z202">
+				<a class="submitBtnGreen" href="javascript:void(0)" id="filterButton" style="float: right;" onclick="doSearchSight(1,10)" /><span>重新搜索</span></a>
+				<a onclick="renderSightFilter(true)" id="sightFilter_a" href="javascript:void(0)" class="more">更多过滤</a>
+			</div>
+		</div>
+		<div class="more3" id="sightFilter" style="display:none" >
+			<a href="javascript:void(0)" onclick="renderSightFilter(false)" class="pass"></a>
+			<div class="glbq" id="sightTags" style="display:none">
+				<font>过滤标签：</font>
+				<span class="bq" jsselect="tags">
+					<span jscontent="$this"></span>
+					<a href="javascript:void(0)" jsvalues=".tag:$this" onclick="removeSightFilterTag(this.tag)"></a>
+				</span>
+			</div>
+		</div>
+	</div>
+
+	<div id="sightOutput" class="jing-list" jseval="$recIndex=0">
+	</div>
+	<div id="sightError" style="display:none;">
+		<h2>您可以直接在“闪图”下面输入景点名称即可.</h2>
+	</div>		
+	<div class="search-page"  id="sightPager"></div>
+</div>
+
+<div style="display:none">
+	<div class="jing-info" id="sightRecordTemplate"  jsselect="items" jseval="$recIndex++">
+	   <table width="100%" >
+		   <tr >
+			   <td width="130" style="text-align:left">
+					<div class="pic110 l">
+						<img class="img" jsvalues=".src:$this.snapshot" width="110" height="110" />
+					</div>	
+					<div style="margin-top:6px;">
+						#if ($callMode=='normal')
+							<a class="submitBtnOrange" jsvalues=".object:$this;" href="javascript:void(0)"	onclick="addSight(this.object,0)" ><span>增加该景点</span></a>
+						#else
+							<a class="submitBtnOrange" jsvalues=".object:$this;" href="javascript:void(0)"	onclick="doFlashCallback(this.object,0)" ><span>选择该景点</span></a>
+						#end
+					</div>	
+			   </td>
+			   <td style="text-align:left;line-height:23px" valign="top">
+					<h4 jseval="$content='&nbsp;'+$this.name+'&nbsp;'+$this.country+'&nbsp;'+$this.province+'&nbsp;'+$this.belong_city+'&nbsp;'+$this.area+'&nbsp;'+$this.star+'&nbsp;'" jshtml="$content">
+					</h4>
+					<font jshtml="$this.description">
+					</font>
+			   </td>
+		   </tr>
+		   <tr>
+			   <td></td>
+			   <td>
+					<div class="shantu2" jsdisplay="$this.priceCount>0">
+						<ul class="grzx" style="background:#f1f1f1;">
+							<li>
+								<span class="p1">报价网站</span><span class="p2">景点</span><span class="p2">门票类型</span><span class="p2">门市价(打折价)</span><span class="p2"></span>
+							</li>
+						</ul>
+						<ul class="grzx">						
+							<li jsselect="prices">
+								<span class="p1" ><a jsvalues=".href:$this.booking" jscontent="$this.site_name"></a></span>
+								<span class="p2" jscontent="$this.sight_name">
+								</span>	
+								<span class="p2" jscontent="$this.price_name">
+								</span>	
+								<span class="p2">
+									<font color="#ff2900" style=".textDecoration:underline" jscontent="$this.sale_price"></font>
+									(<font color="green" jscontent="$this.real_price"></font>)
+								</span>	
+								<span class="p2">
+									#if ($callMode=='normal')
+									<input jsvalues=".object:$this;.cost:$this.real_price;.priceObject:$this" 
+									type="button" class="btnGreen" value="增加门票" onclick="addSight(this.object,this.priceObject)" />
+									#else
+									<input jsvalues=".object:$this;.cost:$this.real_price" 
+									type="button" class="btnGreen" value="选择" onclick="doFlashCallback(this.object,this.cost)" />
+									#end
+								</span>	
+							</li>
+						</ul>
+					</div>
+			   </td>
+		   </tr>
+		</table>	
+	</div>
+
+</div>

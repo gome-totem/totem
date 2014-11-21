@@ -1,0 +1,237 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" class="mozilla">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+#set($profile=$user.readProfile($context.getParam("id"),true))
+<title>个人资料©$tool.seoTitle()</title>
+<link rel="shortcut icon" href="/images/hi.ico">
+	<link rel="icon" type="image/png" href="/images/hi.png" >
+		$context.readHtmlHeader() $context.includeCss("","backend.css")
+</head>
+
+<body>
+	$context.readHeader(false) $context.include("usertitle")
+	<div class="home">
+		$context.include("userinfo")
+		<div class="content clearfix">
+			$context.include("userpanel")
+			<div class="fieldset">
+				<div class="form">
+					<fieldset id="contactInfo">
+						<div class="title">
+							<div class="text">
+								<h6>
+									私人信息<sup>*</sup> <span class="protected-badge"
+										style="width:60px">&nbsp;保护<b></b> </span>
+								</h6>
+								<em> 只有您接受了客人预订后,才会分享你的私人信息。我们对别人隐藏这些细节</em>
+							</div>
+						</div>
+						<span id="profile" style="display:none">$profile.toString()</span>
+						<div class="four" >
+							<dl>
+								<dt>
+									目前居住国家 <em>*</em>
+								</dt>
+								<dd>
+									<input type="text" size="30" id="edtCountry" value=""
+										class="input frame" />
+								</dd>
+							</dl>
+							<dl>
+								<dt>
+									目前所居住的城市 <em>*</em>
+								</dt>
+								<dd>
+									<input type="text" id="edtCity" size="30" class="input frame" />
+								</dd>
+							</dl>
+							<dl>
+								<dt>
+									拿到驾照几年了 <em>*</em>
+								</dt>
+								<dd>
+									<input type="text" size="30" id="edtDriveAge" value=""
+										class="input frame numeric" />
+								</dd>
+							</dl>
+							<dl>
+								<dt>
+									身高(cm) <em>*</em>
+								</dt>
+								<dd>
+									<input type="text" id="edtHeight" size="30"
+										class="input numeric frame" />
+								</dd>
+							</dl>
+						</div>
+						<div class="four">
+							<dl>
+								<dt>
+									性别 <em>*</em>
+								</dt>
+								<dd>
+									<select class="select frame" id="edtSex">
+										<option value="0">保密</option>
+										<option value="1">男</option>
+										<option value="2">女</option>
+									</select>
+								</dd>
+							</dl>
+							<dl>
+								<dt>
+									出生年月日(1980-01-01) <em>*</em>
+								</dt>
+								<dd>
+									<input type="text" id="edtBirthday" class="input frame" />
+								</dd>
+							</dl>
+							<dl>
+								<dt>
+									体型 <em>*</em>
+								</dt>
+								<dd>
+									<select class="select frame" id="edtBuild">
+										<option value="0">保密</option>
+										<option value="1">苗条</option>
+										<option value="2">匀称</option>
+										<option value="3">健壮</option>
+										<option value="4">高大</option>
+										<option value="5">小巧</option>
+										<option value="6">丰满</option>
+										<option value="7">高挑</option>
+										<option value="8">较胖</option>
+										<option value="9">较瘦</option>
+										<option value="10">运动型</option>
+									</select>
+								</dd>
+							</dl>
+							<dl>
+								<dt>
+									血型 <em>*</em>
+								</dt>
+								<dd>
+									<select id="edtBlood" class="select frame">
+										<option value="0" selected>保密</option>
+										<option value="1">O型</option>
+										<option value="2">A型</option>
+										<option value="3">B型</option>
+										<option value="4">AB型</option>
+										<option value="5">稀有血型</option>
+									</select>
+								</dd>
+							</dl>
+						</div>
+						<div class="four">
+							<dl>
+								<dt>
+									真实姓名 <em>*</em>
+								</dt>
+								<dd>
+									<input type="text" id="edtPersonName" value=""
+										class="input frame" />
+								</dd>
+							</dl>
+							<dl>
+								<dt>
+									微信账号 <em>*</em>
+								</dt>
+								<dd>
+									<input type="text" id="edtMSN" class="input frame" />
+								</dd>
+							</dl>
+							<dl>
+								<dt>
+									QQ号码 <em>*</em>
+								</dt>
+								<dd>
+									<input type="text" id="edtQQ" class="input frame" />
+								</dd>
+							</dl>
+							<dl>
+								<dt>
+									联系电话 <em>*</em>
+								</dt>
+								<dd>
+									<input type="text" id="edtMobile" class="input frame" />
+								</dd>
+							</dl>
+						</div>
+					</fieldset>
+					<fieldset id="detailInfo" style="margin-top:20px;">
+						<div class="title" style="height:20px;padding:6px;">选择适合您的角色（可以多选）</div>
+						<div class="tag150 clearfix" style="padding:10px 0px 0px 20px;">
+							<ul>
+								<li><input type="checkbox"
+									state="$tool.iff($user.role.isTourist(),'checked','unchecked')"
+									id="Tourist" tag="role" /><label for="Tourist">旅行者</label></li>
+								<li><input type="checkbox"
+									state="$tool.iff($user.role.isGuider(),'checked','unchecked')"
+									id="Guider" tag="role" /><label for="Guider">导游</label>
+								</li>
+								<li><input type="checkbox"
+									state="$tool.iff($user.role.isLeader(),'checked','unchecked')"
+									id="Leader" tag="role" /><label for="Leader">领队</label>
+								</li>
+								<li><input type="checkbox"
+									state="$tool.iff($user.role.isTravelAgent(),'checked','unchecked')"
+									id="TravelAgent" tag="role" /><label for="TravelAgent">旅行社</label>
+								</li>
+								<li><input type="checkbox"
+									state="$tool.iff($user.role.isDriver(),'checked','unchecked')"
+									id="Driver" tag="role" /><label for="Driver">司机</label>
+								</li>
+								<li><input type="checkbox"
+									state="$tool.iff($user.role.isLandlord(),'checked','unchecked')"
+									id="Landlord" tag="role" /><label for="Landlord">客栈主或公寓房东</label>
+								</li>
+								<li><input type="checkbox"
+									state="$tool.iff($user.role.isHotel(),'checked','unchecked')"
+									id="Hotel" tag="role" /><label for="Hotel">私人酒店</label>
+								</li>
+							</ul>
+						</div>
+					</fieldset>
+					<fieldset id="detailInfo" style="margin-top:20px;">
+						<div class="title" style="height:20px;padding:6px;margin:0px;">关于我（您的爱好、兴趣、专长）</div>
+						<div>
+							<textarea rows="5" class="input frame"
+								style="width:935px;height:100px;padding:5px;font-size:18px;border-style:dashed "
+								id="edtDesc" placeholder="请输入个性化的描述"></textarea>
+						</div>
+					</fieldset>
+					<div>
+						<br />
+						<p class="right">
+							<button type="button" class="button red green-hover right w150"
+								id="btnNextStep" onclick="commit(this)"
+								style="margin-right:10px;">
+								<span class="tick"></span> 保存更新
+							</button>
+						</p>
+					</div>
+					<div class="clearfix"></div>
+					<fieldset>
+						<div class="title">
+							<div class="text">
+								<h6>
+									头像<sup>*</sup> <span class="public-badge" style="width:60px">&nbsp;公开<b></b>
+									</span>
+								</h6>
+								<em>第一步:上传或选择头像，第二步:点击剪切头像</em>
+							</div>
+						</div>
+					</fieldset>
+					$context.include("plugin.face")
+				</div>
+			</div>
+		</div>
+	</div>
+
+	$context.readFooter(true)
+	$context.includeJavaScript("jquery/","jquery.jcrop.js")
+	$context.includeJavaScript("","tinymce/tinymce.min.js")
+	$context.includeJavaScript("","rock.js")
+	$context.includeJavaScript("","profile.js")
+</body>
+</html>

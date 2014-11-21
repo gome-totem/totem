@@ -1,0 +1,742 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" class="mozilla">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>发布短期房屋出租服务©$tool.seoTitle()</title>
+	<link rel="shortcut icon" href="/images/hi.ico" >
+	<link rel="icon" type="image/gif" href="/images/hi.gif" >
+	$context.includeCss("","global.css")
+	$context.includeCss("","reset.css")
+	$context.includeCss("","backend.css")
+	$context.includeCss("","firefix.css")
+	$context.includeCss("jquery/","jquery.plugin.css")
+	$context.readHtmlHeader()
+</head>
+
+<body class="mon-compte" onload="initialize()">
+$context.readHeader()
+#set($shortId=$context.getParam('id'))
+#set($activity=$service.readByEdit($context,0,$shortId))
+<div id="container" shortId="$shortId" state="$activity.get('state')">
+    <div class="wrap">
+        <ul id="breadcrum">
+          <li>
+            <a href="/" class="home">
+              <span></span>
+              <strong>主页</strong>
+            </a>
+          </li>
+          <li>
+            /
+          </li>
+          <li>
+            用户中心
+          </li>
+        </ul>
+		$context.readUserPanel()
+		<div class="four_columns right" id="tip">
+            <h2 class="heading">我是房东,提供短期出租服务
+				<span style="float:right;display:block;margin-top:13px;margin-right:6px;"><span id="spinner"></span></span>
+				<div style="display:none" id="activityContent">
+					$activity.toString()
+				</div>
+			</h2>
+			<div id="steps" class="form offer_edit_form">
+				<fieldset id="mapInfo" style="margin:0px;">
+					<h6>房屋具体位置
+						<span class="public-badge" style="width:60px">&nbsp;公开<b></b></span>
+						<br>
+						<font style="font-size:12px;font-weight:normal;color:#808080">客人会通过地图搜索您的房屋，请在地图中标示出尽可能准确的位置</font>
+					</h6>
+					<div class="fieldset_content">
+						<p>
+							<span class="left">
+								<label for="">
+								  所在城市
+								  <em>*</em>
+								</label>
+								<span class="input_holder">
+								   <input type="text" size="30"  id="edtCity" value="$tool.by($activity,'city')" class="text half-wide">
+								</span>
+							</span>
+							<span class="right">
+								<label for="">
+								  详细的具体地址(输入后<b style="font-size:14px;">按回车键</b>,即可！)
+								  <em>*</em>
+								</label>
+								<span class="input_holder">
+								  <input type="text" size="30"  id="address" value="$tool.by($activity,'location','key')" class="text half-wide" >
+								</span>
+							</span>
+						</p>
+						<p>
+							<span id="process">
+								<font style="font-size:12px;font-weight:normal;color:#808080">如果地标位置错误,您可以拖动地图上的图标，并拖动到您认为最接近房屋的位置。</font>
+							</span>
+						</p>
+						<div class="map-st">
+						  <div class="map-st-l" >
+							<div class="stxp-st-l-pic">
+								<div id="mapCanvas" style="width:630px;height:250px;">
+								</div>
+							</div>
+						  </div>
+						</div>	
+					</div>			
+				</fieldset>
+				<fieldset id="baseInfo">
+					<h6>房屋房屋概况 <sup>*</sup></h6>
+					<div class="fieldset_content">
+						<p>
+							<label for="edtTitle">
+								标题名称(您的客栈或房屋名称，要吸引人，客人会通过标题的内容搜索)
+								<em>*</em>
+							</label>
+							<span class="input_holder">
+								<input type="text" size="30" id="edtTitle" class="text wide" >
+							</span>
+						</p>
+						<p>
+							<label id="lblDesc" for="edtDesc">
+								房屋描述和您要求客人遵守的条款和规则 
+								<em>*</em>
+							</label>
+							<span class="input_holder textarea">
+								<textarea rows="6" id="edtDesc" cols="40" class="wide"></textarea>
+							</span>
+						</p>
+						<p>
+							房屋全景和周边景观图片，第一张图片作为默认图片(最多12张)
+						</p>
+						<p>
+							<ol id="pictures" class="photo-gallery ui-sortable"></ol>
+						</p>
+						<div style="padding-bottom:10px">
+							<div id="uploader_container">
+								<a href="javascript:void(0)" id="selectImage"  onclick="selectPicture(this,true)" class="btn btn-pink">
+								  上传或选择图片
+								</a>
+							</div>
+							<small>
+								图片文件格式：jpg,jpeg；文件最大1M
+							</small>
+						</div>
+						<p style="padding-top:10px;border-top:1px #DDD solid">
+							<span class="four" style="width:160px;">
+								<label for="edtLodgeType">
+								  房屋类型
+								  <em>*</em>
+								</label>
+								<select id="edtLodgeType" style="width:150px;">
+									<option value ="castle">城堡</option>
+									<option value ="mcmansions">独栋别墅</option>
+									<option value ="luxuryhouse">豪宅</option>
+									<option value ="courtyard">四合院</option>
+									<option value ="tavern">客栈</option>
+									<option value ="loft">阁楼</option>
+									<option value ="apartment">公寓</option>
+									<option value ="seasidecottage">海边小屋</option>
+									<option value ="woodscottage">林间小屋</option>
+									<option value ="hotel">快捷酒店/旅馆</option>
+									<option value ="treehouse">树屋</option>
+									<option value ="cabin">船舱</option>
+									<option value ="carhouse">房车</option>
+									<option value ="icehouse">冰屋</option>
+									<option value ="house">民房</option>
+								</select>
+							</span>
+							<span class="four" style="width:160px;">
+								<label for="edtLeaseType">
+								  出租类型
+								  <em>*</em>
+								</label>
+								<select id="edtLeaseType" style="width:150px;">
+									<option value ="house">整租(整个出租)</option>
+									<option value ="apartment" >房间出租</option>
+									<option value ="mcmansions" >床位出租</option>
+								</select>
+							</span>
+							<span class="four" style="width:160px;">
+								<label for="edtToiletType">
+								  卫生间类型
+								  <em>*</em>
+								</label>
+								<select id="edtToiletType" style="width:150px;">
+									<option value ="0">公用卫生间</option>
+									<option value ="1">独立卫生间</option>
+								</select>
+							</span>
+							<span class="four">
+								<label for="edtSecurityDeposit">
+								  客人需交保证金
+								  <em>*</em>
+								</label>
+								<span class="input_holder">
+								  <input type="text" class="text half-wide" value="0" id="edtSecurityDeposit" size="30">
+								</span>
+							</span>														
+						</p>
+						<p>
+							<span class="four" style="width:160px;">
+								<label for="edtMinDay">入住最少天数限制</label>
+								<select id="edtMinDay" style="width:150px;">
+									<option value="1">1</option>
+									<option value="2">2</option>
+									<option value="3">3</option>
+									<option value="4">4</option>
+									<option value="5">5</option>
+									<option value="6">6</option>
+									<option value="7">一周</option>
+									<option value="8">8</option>
+									<option value="9">9</option>
+									<option value="10">10</option>
+									<option value="11">11</option>
+									<option value="12">12</option>
+									<option value="13">13</option>
+									<option value="14">二周</option>
+									<option value="15">15</option>
+									<option value="16">16</option>
+									<option value="17">17</option>
+									<option value="18">18</option>
+									<option value="19">19</option>
+									<option value="20">20</option>
+									<option value="21">三周</option>
+									<option value="22">22</option>
+									<option value="23">23</option>
+									<option value="24">24</option>
+									<option value="25">25</option>
+									<option value="26">26</option>
+									<option value="27">27</option>
+									<option value="28">28</option>
+									<option value="29">29</option>
+									<option value="30">一个月</option>
+								</select>
+							</span>	
+							<span class="four" style="width:160px;">
+								<label for="edtMaxDay">入住最多天数限制</label>
+								<select id="edtMaxDay" style="width:150px;">
+									<option value="0">没有要求</option>
+									<option value="1">1</option>
+									<option value="2">2</option>
+									<option value="3">3</option>
+									<option value="4">4</option>
+									<option value="5">5</option>
+									<option value="6">6</option>
+									<option value="7">一周</option>
+									<option value="8">8</option>
+									<option value="9">9</option>
+									<option value="10">10</option>
+									<option value="11">11</option>
+									<option value="12">12</option>
+									<option value="13">13</option>
+									<option value="14">二周</option>
+									<option value="15">15</option>
+									<option value="16">16</option>
+									<option value="17">17</option>
+									<option value="18">18</option>
+									<option value="19">19</option>
+									<option value="20">20</option>
+									<option value="21">三周</option>
+									<option value="22">22</option>
+									<option value="23">23</option>
+									<option value="24">24</option>
+									<option value="25">25</option>
+									<option value="26">26</option>
+									<option value="27">27</option>
+									<option value="28">28</option>
+									<option value="29">29</option>
+									<option value="30">一个月</option>
+									<option value="31">31</option>
+									<option value="32">32</option>
+									<option value="33">33</option>
+									<option value="34">34</option>
+									<option value="35">35</option>
+									<option value="36">36</option>
+									<option value="37">37</option>
+									<option value="38">38</option>
+									<option value="39">39</option>
+									<option value="40">40</option>
+									<option value="41">41</option>
+									<option value="42">42</option>
+									<option value="43">43</option>
+									<option value="44">44</option>
+									<option value="45">45</option>
+									<option value="46">46</option>
+									<option value="47">47</option>
+									<option value="48">48</option>
+									<option value="49">49</option>
+									<option value="50">50</option>
+									<option value="51">51</option>
+									<option value="52">52</option>
+									<option value="53">53</option>
+									<option value="54">54</option>
+									<option value="55">55</option>
+									<option value="56">56</option>
+									<option value="57">57</option>
+									<option value="58">58</option>
+									<option value="59">59</option>
+									<option value="60">二个月</option>
+								</select>
+							</span>	
+							<span class="four" style="width:160px;">
+								<label for="edtCheckin">入住时间限制</label>
+								<select  id="edtCheckin" style="width:150px;">
+									<option value="-1">灵活的</option>
+									<option value="0">12:00am (午夜)</option>
+									<option value="1">1:00am</option>
+									<option value="2">2:00am</option>
+									<option value="3">3:00am</option>
+									<option value="4">4:00am</option>
+									<option value="5">5:00am</option>
+									<option value="6">6:00am</option>
+									<option value="7">7:00am</option>
+									<option value="8">8:00am</option>
+									<option value="9">9:00am</option>
+									<option value="10">10:00am</option>
+									<option value="11">11:00am</option>
+									<option value="12">12:00pm (中午)</option>
+									<option value="13">1:00pm</option>
+									<option value="14">2:00pm</option>
+									<option value="15">3:00pm</option>
+									<option value="16">4:00pm</option>
+									<option value="17">5:00pm</option>
+									<option value="18">6:00pm</option>
+									<option value="19">7:00pm</option>
+									<option value="20">8:00pm</option>
+									<option value="21">9:00pm</option>
+									<option value="22">10:00pm</option>
+									<option value="23">11:00pm</option>
+								</select>
+							</span>	
+							<span class="four" style="width:160px;">
+								<label for="edtCheckout">
+								退房时间限制
+								</label>
+								<select id="edtCheckout" style="width:150px;">
+									<option value="-1">灵活的</option>
+									<option value="0">12:00am (午夜)</option>
+									<option value="1">1:00am</option>
+									<option value="2">2:00am</option>
+									<option value="3">3:00am</option>
+									<option value="4">4:00am</option>
+									<option value="5">5:00am</option>
+									<option value="6">6:00am</option>
+									<option value="7">7:00am</option>
+									<option value="8">8:00am</option>
+									<option value="9">9:00am</option>
+									<option value="10">10:00am</option>
+									<option value="11">11:00am</option>
+									<option value="12">12:00pm (中午)</option>
+									<option value="13">1:00pm</option>
+									<option value="14">2:00pm</option>
+									<option value="15">3:00pm</option>
+									<option value="16">4:00pm</option>
+									<option value="17">5:00pm</option>
+									<option value="18">6:00pm</option>
+									<option value="19">7:00pm</option>
+									<option value="20">8:00pm</option>
+									<option value="21">9:00pm</option>
+									<option value="22">10:00pm</option>
+									<option value="23">11:00pm</option>
+								</select>
+							</span>	
+						</p>
+						<p>
+							<span class="four" style="width:160px;">
+								<label for="edtCurrency">
+								  报价货币
+								  <em>*</em>
+								</label>
+								<span class="input_holder">
+									<select id="edtCurrency" style="width:150px;" onchange="currencyChange('#edtCurrency')">
+										<option value="0">人民币</option>
+										<option value="1" selected="selected">欧元</option>
+										<option value="2">美元</option>
+									</select>
+								</span>
+							</span>
+							<span class="four" style="width:160px;">
+								<label for="edtChargeWay">
+								  收费方式
+								  <em>*</em>
+								</label>
+								<span class="input_holder">
+									<select id="edtChargeWay" style="width:150px;" onchange="chargeWayChange('room','#edtChargeWay')">
+										<option value="0" selected="selected">按小时收费(每小时)</option>
+										<option value="4">按天收费</option>
+									</select>
+								</span>
+							</span>
+							<span class="four" style="width:310px;">
+								<label for="edtPolicyCancel">客人成功预订后,违约取消预订,需要遵循的条款</label>
+								<select id="edtPolicyCancel" style="width:310px;">
+									<option selected="selected" value="0">灵活模式：在预订日期凌晨零点以前取消预订,全额退款,否则不退。</option>
+									<option value="1">1天模式：1天以前取消预订,全额退款,否则不退。</option>
+									<option value="3">3天模式：3天以前取消预订,全额退款,否则不退。</option>
+									<option value="5">5天模式：5天以前取消预订,全额退款,否则不退。</option>
+									<option value="7">7天模式：7天以前取消预订,全额退款,否则不退。</option>
+								</select> 
+							</span>
+						</p>
+						<p>
+							<label>
+								服务设施
+								<em>*</em>
+							</label>
+							<ul class="items criteria" style="font-size:13px;height:150px;">
+								<li>
+									<input type="checkbox" value="发票"  tag="tag" id="tag0">
+									<label for="tag0">提供发票</label>
+								</li>
+								<li>
+									<input type="checkbox" value="吸烟"  tag="tag" id="tag1">
+									<label for="tag1">可以吸烟</label>
+								</li>
+								<li>
+									<input type="checkbox" value="宠物"  tag="tag" id="tag2">
+									<label for="tag2">可以携带宠物</label>
+								</li>
+								<li>
+									<input type="checkbox" value="电视"  tag="tag" id="tag3">
+									<label for="tag3">电视</label>
+								</li>
+								<li>
+									<input type="checkbox" value="有线"  tag="tag" id="tag4">
+									<label for="tag4">有线电视</label>
+								</li>
+								<li>
+									<input type="checkbox" value="网络" tag="tag" id="tag5">
+									<label for="tag5">网络</label>
+								</li>
+								<li>
+									<input type="checkbox" value="wifi"  tag="tag" id="tag6">
+									<label for="tag6">无线WIFI</label>
+								</li>
+								<li>
+									<input type="checkbox" value="取暖"  tag="tag" id="tag7">
+									<label for="tag7">取暖</label>
+								</li>
+								<li>
+									<input type="checkbox" value="热水"  tag="tag" id="tag8">
+									<label for="tag8">24小时热水</label>
+								</li>
+								<li>
+									<input type="checkbox" value="淋浴"  tag="tag" id="tag9">
+									<label for="tag9">淋浴</label>
+								</li>
+								<li>
+									<input type="checkbox" value="卫间"  tag="tag" id="tag9-1">
+									<label for="tag9-1">独立卫生间</label>
+								</li>
+								<li>
+									<input type="checkbox" value="空调"  tag="tag" id="tag10">
+									<label for="tag10">空调</label>
+								</li>
+								<li>
+									<input type="checkbox" value="浴缸"  tag="tag" id="tag11">
+									<label for="tag11">浴缸</label>
+								</li>
+								<li>
+									<input type="checkbox" value="冰箱"  tag="tag" id="tag12">
+									<label for="tag12">冰箱</label>
+								</li>
+								<li>
+									<input type="checkbox" value="洗衣"  tag="tag" id="tag13">
+									<label for="tag13">洗衣机</label>
+								</li>
+								<li>
+									<input type="checkbox" value="厨房"  tag="tag" id="tag14">
+									<label for="tag14">厨房</label>
+								</li>
+								<li>
+									<input type="checkbox" value="壁炉"  tag="tag" id="tag15">
+									<label for="tag15">室内壁炉</label>
+								</li>
+								<li>
+									<input type="checkbox" value="游泳"  tag="tag" id="tag17">
+									<label for="tag17">游泳池</label>
+								</li>
+								<li>
+									<input type="checkbox" value="健身"  tag="tag" id="tag18">
+									<label for="tag18">健身房</label>
+								</li>
+								<li>
+									<input type="checkbox" value="早餐" tag="tag" id="tag19">
+									<label  for="tag19">早餐</label>
+								</li>
+								<li>
+									<input type="checkbox" value="聚会"  tag="tag" id="tag20">
+									<label for="tag20">允许聚会</label>
+								</li>
+								<li>
+									<input type="checkbox" value="电梯"  tag="tag" id="tag16">
+									<label for="tag16">电梯</label>
+								</li>
+								<li>
+									<input type="checkbox" value="保安"  tag="tag" id="tag21">
+									<label for="tag21">保安</label>
+								</li>
+								<li>
+									<input type="checkbox" value="停车"  tag="tag" id="tag22">
+									<label for="tag22">停车位</label>
+								</li>
+								<li>
+									<input type="checkbox" value="无障"  tag="tag" id="tag23">
+									<label for="tag23">无障碍设施</label>
+								</li>
+								<li>
+									<input type="checkbox" value="门禁"  tag="tag" id="tag24">
+									<label for="tag24">对讲门禁系统</label>
+								</li>
+								<li>
+									<input type="checkbox" value="会议" tag="tag" id="tag25">
+									<label  for="tag25">商务会议</label>
+								</li>
+							</ul>
+						</p>	
+					</div>
+				</fieldset>
+				<fieldset id="roomInfo">
+					<h6>房间类型，房间价格及图片设置</h6>
+					<div class="fieldset_content ">
+						<p>
+							<label>
+								您的报价包含如下费用
+								<em>*</em>
+							</label>
+							<ul class="small">
+								<li>
+									<input type="checkbox" value="早餐" tag="priceTag" id="priceTag1">
+									<label for="priceTag1">早餐</label>
+								</li>
+								<li>
+									<input type="checkbox" value="午餐" tag="priceTag" id="priceTag2">
+									<label for="priceTag2">午餐</label>
+								</li>
+								<li>
+									<input type="checkbox" value="晚餐" tag="priceTag" id="priceTag3">
+									<label for="priceTag3">晚餐</label>
+								</li>
+								<li>
+									<input type="checkbox" value="桑拿" tag="priceTag" id="priceTag4">
+									<label for="priceTag4">桑拿服务</label>
+								</li>
+								<li>
+									<input type="checkbox" value="保健" tag="priceTag" id="priceTag5">
+									<label for="priceTag5">保健按摩</label>
+								</li>
+								<li>
+									<input type="checkbox" value="ktv" tag="priceTag" id="priceTag6">
+									<label for="priceTag6">卡拉OK包间</label>
+								</li>
+								<li>
+									<input type="checkbox" value="停车" tag="priceTag" id="priceTag7">
+									<label for="priceTag7">车的停车费</label>
+								</li>
+							</ul>	
+						</p>							
+						<p>	
+							<span class="input_holder left" style="width:500px;">
+								<input type="text" id="edtRoomName" placeholder="输入要增加的房间类型" style="width:470px;" class="text" >
+							</span>
+							<button class="btn btn-pink left" style="margin-top:6px;" onclick="return addRoom(valueBy('#edtRoomName'));">增加房间类型名称</button>
+						</p>
+						<p>
+							<div id="rooms" style="visibility:hidden;width:660px;height:500px;">
+								<div class="left" style="width:130px;">
+									<ul id="roomNames" class="jcarousel-skin-tango" style="height:500px;width:107px;">
+									</ul>
+								</div>
+								<div class="right" style="width:520px;display:none;color:#777" id="roomSetting" >
+									<div  style="float:left;width:520px;height:430px;padding-left:6px;">
+										<p>
+											<span class="four" style="width:125px;">
+												<label for="edtDayPrice">
+												  <font id="priceName">每天</font><font name="lblCurrency">￥</font>
+												  <em>*</em>
+												</label>
+												<span class="input_holder" style="width:125px;">
+												  <input type="text" size="30"  style="width:103px;" id="edtDayPrice" class="text half-wide" >
+												</span>
+											</span>
+											<span class="four" style="width:125px;">
+												<label for="edtWeekPrice">
+												  每周<font name="lblCurrency">￥</font>
+												  <em>*</em>
+												</label>
+												<span class="input_holder" style="width:125px;">
+												  <input type="text" size="30"  style="width:103px;" id="edtWeekPrice" class="text half-wide" >
+												</span>
+											</span>
+											<span class="four" style="width:125px;">
+												<label for="edtMonthPrice">
+												  每月<font name="lblCurrency">￥</font>
+												  <em>*</em>
+												</label>
+												<span class="input_holder" style="width:125px;">
+												  <input type="text" size="30"  style="width:103px;" id="edtMonthPrice" class="text half-wide" >
+												</span>
+											</span>
+											<span class="four" style="width:125px;">
+												<label for="edtRoomCount" >有几个这样的房间</label>
+												<span class="input_holder" style="width:125px;">
+												  <input type="text" size="30" style="width:103px;" id="edtRoomCount" class="text half-wide" >
+												</span>
+											</span>
+										</p>
+										<p style="width:500px; border-bottom:1px dashed #DDD;color:#aaa;font-size:12px;">
+											<span class="protip">每周定价建议:每天价格*7<em>再打8折</em>。</span>
+											<span class="protip">每月定价建议:每天价格*30<em>再打6折</em>。</span>
+										</p>
+										<p >
+											<span class="four" style="width:125px;">
+												<label for="edtBedType">
+												  床型
+												  <em>*</em>
+												</label>
+												<select id="edtBedType" style="width:116px;">
+													<option value ="double-max">大双人床</option>
+													<option value ="double-med">中双人床</option>
+													<option value ="double-small">小双人床</option>
+													<option value ="single">单人床</option>
+													<option value ="canopy">架子床</option>
+													<option value ="sofa">沙发床</option>
+													<option value ="tatami">榻榻米</option>
+													<option value ="airbed">气垫床</option>
+													<option value ="waterbed">水床</option>
+													<option value ="sexbed">情侣性爱床</option>
+												</select>
+											</span>
+											<span class="four" style="width:125px;">
+												<label for="edtToiletCount">
+												  有独立卫生间
+												  <em>*</em>
+												</label>
+												<span class="input_holder" style="width:125px;">
+													<select id="edtToiletCount" style="width:116px;">
+														<option value ="0">没有</option>
+														<option value ="1">有</option>
+													</select>
+												</span>
+											</span>
+											<span class="four" style="width:125px;">
+												<label for="edtMaxPersonCount">
+												  最多可住人数
+												  <em>*</em>
+												</label>
+												<span class="input_holder" style="width:125px;">
+												  <input type="text" size="30"  style="width:103px;" id="edtMaxPersonCount" class="text half-wide" >
+												</span>
+											</span>
+											<span class="four" style="width:125px;">
+												<label for="edtAreaCount">
+												  房间面积
+												  <em>*</em>
+												</label>
+												<span class="input_holder" style="width:125px;">
+												  <input type="text" size="30"  style="width:103px;" id="edtAreaCount" class="text half-wide" >
+												</span>
+											</span>
+										</p>
+										<p style="border-top:1px dashed #DDD;">
+											<ol id="roomPictures" class="photo-gallery ui-sortable"></ol>
+										</p>
+										<a id="selectRoomPicture" href="javascript:void(0)" class="btn btn-pink">
+										  上传或选择图片
+										</a>
+										<small>
+											图片文件格式：jpg,jpeg；文件最大1M
+										</small>
+									</div>
+								</div>
+							</div>
+						</p>
+					</div>
+					
+				  <!-- /fieldset_content -->
+				</fieldset>
+				<fieldset id="contactInfo">
+					<h6>联系信息
+					<span class="protected-badge" style="width:60px">&nbsp;保护<b></b></span><br>
+					<font style="font-size:12px;font-weight:normal;color:#808080">只有您接受了客人预订后,才会分享你的联系信息。我们对别人隐藏这些细节</font>
+					</h6>
+					<div class="fieldset_content">
+						<p>
+						  <span class="left">
+							<label for="">
+							  真实姓名
+							  <em>*</em>
+							  <span class="private"></span>
+							</label>
+							<span class="input_holder">
+							  <input type="text" size="30"  id="edtName" value="$tool.by($activity,'contact_person')" class="text half-wide">
+							</span>
+						  </span>
+						  <span class="right">
+							<label for="">
+							  手机号码
+							  <em>*</em>
+							  <span class="private"></span>
+							</label>
+							<span class="input_holder">
+							  <input type="text" size="30"  id="edtMobile" value="$tool.by($activity,'contact_mobile')" class="text half-wide">
+							</span>
+						  </span>
+						</p>
+						<p>
+						  <span class="left">
+							<label for="">
+							  腾讯QQ账号
+							  <span class="private"></span>
+							</label>
+							<span class="input_holder">
+							  <input type="text" size="30"  id="edtQQ" value="$tool.by($activity,'contact_qq')" class="text half-wide">
+							</span>
+						  </span>
+						  <span class="right">
+							<label for="">
+							  微信账号
+							  <span class="private"></span>
+							</label>
+							<span class="input_holder">
+							  <input type="text" size="30"  id="edtMSN" value="$tool.by($activity,'contact_msn')" class="text half-wide">
+							</span>
+						  </span>
+						</p>
+				  </div>				
+				  <!-- /fieldset_content -->
+				</fieldset>					
+				<br>
+				<p>
+				  <button type="button" class="btn right" id="btnNextStep" onclick="commit()" style="margin-left:6px;">
+					发布服务
+				  </button>
+				</p>
+				<p class="label">
+				  <sup>*</sup>必填字段
+				  <span class="private"></span>
+				  <span>私人保密信息</span>
+				</p>
+			</div>
+			
+        </div>
+
+
+	</div>
+	<div style="font: 0px/0px sans-serif;clear: both;display:block"></div>	
+</div>
+
+$context.readPictureBox()
+
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?v=3&sensor=false&libraries=geometry"></script>
+$context.readFooter()
+$context.includeJavaScript("","swfobject.js")
+$context.includeJavaScript("","kindeditor-min.js")
+$context.includeJavaScript("jquery/","jquery.jcarousel.js")
+$context.includeJavaScript("jquery/","jquery.uploadify.js")
+$context.includeJavaScript("","postcommon.js")
+$context.includeJavaScript("","postroom.js")
+
+
+</body>
+</html>

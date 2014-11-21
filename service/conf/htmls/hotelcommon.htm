@@ -1,0 +1,268 @@
+#if ($showCloseBudget)
+<div>
+	<a href="javascript:void(0)" jsvalues=".day:$dayIndex;.itemIndex:$itemIndex" id="budget2_A"
+		onclick="closeBudget(this.day,this.itemIndex)" class="pass">
+	</a>
+</div>
+#end
+<div class="search-tong">
+	<div class="search-date">
+		<h1>
+		<label class="checkLabel"> 
+			入住时间<br/>
+			<input type="text" class="date" style="font-weight:bold;border-bottom:1px solid #288E00;" id="hotelInDate" size="10" value="$tool.currentDateTime(1)"/> 
+		</label>
+		<span id="hotelAnchor"></span>
+		</h1>
+		<ul id="sort">
+			<li fieldName="room_price" fieldType="Int"  order="otAsc" comparator="sctDefault" class="focus"><font>价格<img src="/images/img36.gif" /></font></li>
+			<li fieldName="when_fitment" fieldType="Int" order="otAsc" comparator="sctDefault"><font>开业.装修时间<img src="/images/img36.gif" /></font></li>
+		</ul>
+		<p id="hotelSearchResult" style="display:none">共搜索到<span id="hotelSearchCount" class="orange"></span>条记录。</p>			
+	</div>
+	<div class="search-con">
+		<div class="z2">
+			<div class="z201">
+				<label class="text">在</label>
+				<input type="text" class="inputn filterInput" id="hotelLoc" placeholder="城市或区域(默认为全部)" size="10" />
+				<label class="text">&nbsp;找&nbsp;</label><input type="text" class="inputn filterInput"  id="hotelKey" value="" size="30" placeholder="酒店名称.地址.品牌等" />
+			</div>
+			<div class="z202">
+				<a class="submitBtnGreen" href="javascript:void(0)" id="filterButton" style="float: right;" onclick="doHotelFilter()" /><span>重新搜索</span></a>
+				<a onclick="renderHotelFilter(true)" id="moreFilter_a" href="javascript:void(0)" class="more">更多过滤</a>
+			</div>
+		</div>
+		<div class="more3" id="moreFilter" style="display:none" >
+			<a href="javascript:void(0)" onclick="renderHotelFilter(false)" class="pass"></a>
+			<p class="p1">价格范围：</p>
+			<p>
+				<label class="text"></label><input type="text" class="inputn filterInput" style="background-color:#FFF" id="fromPrice" value="" size="6" title="不输入,值为0"/>
+				<label class="text">至</label><input id="toPrice" type="text" class="inputn filterInput"  style="background-color:#FFF" value="" size="6" title="不输入,值为无限大" />
+			</p>
+			<p class="p1">星级</p>
+			<p>
+				<label><input tag="hotelStar" id="hotelStar"  name="hotelStar" type="checkbox"  value="3"  />3星</label>
+				<label><input tag="hotelStar" id="hotelStar"  name="hotelStar" type="checkbox"  value="4" />4星</label>
+				<label><input tag="hotelStar" id="hotelStar"  name="hotelStar" type="checkbox"  value="5" />5星</label>
+			</p>
+			<div class="glbq" id="filterTags" style="display:none">
+				<font>过滤标签：</font>
+				<span class="bq" jsselect="tags">
+					<span jscontent="$this"></span>
+					<a href="javascript:void(0)" jsvalues=".tag:$this" onclick="removeHotelFilterTag(this.tag)"></a>
+				</span>
+			</div>
+		</div>
+	</div>	
+	<div id="hotelOutput" jseval="$recIndex=0" class="jd-list" >
+
+	</div>
+	<div class="search-page"  id="hotelPager"></div>
+</div>
+
+<div style="display:none">
+	<div  id="hotelTemplate" >
+	    <div jsselect="items" jseval="$recIndex++" class="jd-info">
+			<table border="0" cellpadding="0" cellspacing="3" style="clear:both;" >
+			  <tr>
+				<td width="160" valign="top" rowspan="4" >
+					<div id="hotelImageContent" class="tu3"></div>
+				</td>
+				<td valign="top">
+				  <a jsvalues=".href:'#'+$this.id"><b class="hotelTitle" jshtml="$this.hotel_name"></b></a>
+				  <span jseval="$info1=repeatImage('','/images/img40.gif',$this.hotel_star)" jshtml="$info1"></span>
+				  <p style="padding-top:6px">
+					  <a  href="javascript:void(0)" jsvalues=".hotelId:$this.id;.index:$recIndex" onclick="loadHotelComment(this,this.index,this.hotelId)">
+						 最近10条评价 
+					  </a>
+					  <b style="color:#2A65A1">&nbsp;|&nbsp;</b>
+					  <a  href="javascript:void(0)" jsvalues=".cityName:$this.city_name;.hotelName:$this.hotel_name;.hotelAddr:$this.hotel_address;.index:$recIndex" onclick="loadHotelMap(this,this.index,this.cityName,this.hotelName,this.hotelAddr)">
+					     地图
+					  </a>
+					  <b style="color:#2A65A1">&nbsp;|&nbsp;</b>
+					   <a  href="javascript:void(0)" jsvalues=".hotelId:$this.id;.index:$recIndex" onclick="loadHotelService(this,this.index,this.hotelId)">
+					     酒店服务
+					  </a>
+				  </p>
+				</td>
+				<td width="90" valign="top" align="center" class="price">
+					<p class="fee">￥<span jscontent="$this.room_price"></span>起</p>
+				</td>
+			  </tr>
+			  <tr>
+				<td colspan="2" valign="top">
+				</td>
+			  </tr>
+			  <tr>
+				<td colspan="2" jsvalues=".id:'hotelInfo_'+$recIndex" valign="top" style="line-height:23px"  >
+				   <div tag="desc" >
+						<font jseval="$content=splitTextByPos($this.hotel_desc,300)" jshtml="$content[0]"></font>
+						<font tag="hotelFullDesc" jsvalues=".id:'hotelFullDesc_'+$recIndex" jseval="$content1=$content.length>=2?$content[1]:''" jshtml="$content1">
+						</font>
+						<a href="javascript:void(0)" jsvalues=".index:$recIndex" jsdisplay="$content.length>=2" onclick="showFullDesc(this,this.index)">>>></a>
+						<font style="float:right" jshtml="$this.hotel_address"></font>
+				   </div>
+				   <div tag="dynamic">
+				   </div>
+				</td>
+			  </tr>
+			  <tr>
+				<td colspan="2">
+					<div class="kongqi">
+						<ul class="biaoqian" jseval="$tagIndex=0">	
+							<li jsselect="tags" jseval="$class=$tagIndex==0?'first':''">
+								<a jseval="$tagIndex++" href="javascript:void(0)" onclick="addHotelFilterTag(this)" >
+									<em jsvalues="class:$class"></em>
+									<label jshtml="$this"></label>
+								</a>								</li>
+						</ul>
+				  </div>
+				</td>
+			  </tr>
+			</table>
+			<table class="jd-fx" width="100%" cellspacing="0" style="padding-top:6px" >
+				<tr style="font-size:14px;" height="30px">
+					<td class="headCell" width="200px">房型</td>
+					<td class="headCell" width="100px" align="center">含早</td>
+					<td class="headCell" width="100px" align="center">宽带</td>
+					<td class="headCell" width="100px" align="center">门市价</td>
+					<td class="headCell">
+					<input type="text" jsvalues=".id:'hotelInDate_'+$recIndex;.value:$checkInDate;index:$recIndex;hotelId:$this.id" class="date" tag="checkInDate"  size="13" /> 
+					<span style="float:right">
+					  <i style="font-size:10px;color:"jsvalues=".id:'timestamp_'+$recIndex" jseval="$content3=dateDiff($this.timestamp)" jscontent="$content3"></i>
+					  <input type="button" class="buttonUpdate" jsdisplay="$content3.length>0" jsvalues=".id:'hotelUpdate'+$recIndex;.index:$recIndex;.hotelId:$this.id" onclick="doSearchHotelPrices(this.hotelId,this.index)" value="立即更新">
+					</span>
+					</td>
+				</tr>
+			</table>	
+			<div jsvalues=".id:'hotelRoom'+$recIndex">
+			</div>
+		</div>
+	</div>
+
+	<div id="hotelRoom">
+		<table class="jd-fx"  width="100%" jsvalues=".id:'priceTable'+$recIndex" cellspacing="0">
+		<tr jsdisplay="$roomCount>0" height="35px" jsselect="rooms" jseval="$roomIndex++" jsvalues="tag:'rooms';roomIndex:$roomIndex"  style="background:none repeat scroll 0 0 #F9F9F9">
+			<td class="cell" width="200px" >
+				<font jscontent="$this.roomName"></font>
+				<img src="/images/img02.gif" jsdisplay="$this.roomName==$roomName">
+			</td>
+			<td class="cell" width="100px" align="center" jscontent="$this.hasBreakfast"></td>
+			<td class="cell" width="100px" align="center" jscontent="$this.hasInternetAccess"></td>
+			<td class="cell" width="100px" align="center" jscontent="$this.salePrice"></td>
+			<td class="cell" jseval="$room=$this">
+				<span jseval="$priceClass=!isNumeric($this.price)?'disableSite':$defaultSite==$this.site?'jd-fx-xz':'site'" jsselect="prices">
+					#if ($callMode=='normal')
+					<div  jsvalues="class:$priceClass;.siteName:$this.siteName;.mapping:$mapping;.room:$room;.index:$recIndex;.priceObject:$this;.hotel:$hotel" onclick="doSelectPrice2(this.siteName,this.hotel,this.room,this.priceObject,this.mapping,this.index)">
+					#else
+					<div  jsvalues="class:$priceClass;.siteName:$this.siteName;.mapping:$mapping;.room:$room;.index:$recIndex;.priceObject:$this;.hotel:$hotel" onclick="doFlashCallback(this.siteName,this.hotel,this.room,this.priceObject,this.mapping,this.index)">
+					#end
+					   <font style="font-size:11px" jscontent="$this.siteName"></font>
+					   <font style="font-size:11px" jsdisplay="$this.returnPrice>0" jseval="$content2='-'+$this.returnPrice" jscontent="$content2"></font>
+					   <br>
+					   <p style="padding-top:2px">
+							<b><font style="font-size:15px" jscontent="$this.price"></font></b>
+					   </p>
+					</div>
+				</span>
+			</td>
+		</tr>
+		<tr height="35px" jsdisplay="$this.rooms.length>3">
+			<td colspan="5" align="right" valign="top" >
+			  <a href="javascript:void(0)" jsvalues=".id:'expandRoom_'+$recIndex;.index:$recIndex" onclick="expandRoom(this,this.index)">
+				查看全部房型
+			  </a>
+			</td>
+		</tr>
+		</table>
+	</div>
+	
+	<div id="hotelComment">
+		<div class="htan" jseval="$cIndex=0">
+			<div class="htanhs">
+			  <a href="javascript:void(0)" jsvalues=".index:$recIndex" onclick="closeHotelInfo(this.index)" class="pass"></a>
+			  用户满意度&nbsp;<b style="color:#2A65A1" jscontent="$this.score"></b>&nbsp;&nbsp;
+			  好评&nbsp;<b style="color:#2A65A1" jscontent="$this.good"></b>&nbsp;&nbsp;
+			  中评&nbsp;<b style="color:#2A65A1" jscontent="$this.usually"></b>&nbsp;&nbsp;
+			  差评&nbsp;<b style="color:#2A65A1" jscontent="$this.bad"></b>
+			</div>
+			<div jseval="$class1=$cIndex % 2 ==0?'htanh':'htanh ptbj'"  jsselect="items">
+				<div jsvalues="class:$class1">
+					<div class="zb">
+					    <font style="color:#2A65A1" jscontent="$this.roomName"></font>
+						<font jscontent="$this.content"></font>
+					</div>
+					<div class="yb"  jseval="$cIndex++">
+					  	<i>
+							<font jscontent="$this.siteName"></font>&nbsp;
+							<font jseval="$content=dateDiff($this.createDate)" jscontent="$content"></font>
+						</i>
+					</div>
+				</div>
+			</div>
+		</div>
+    </div>
+
+	<div id="hotelMap" >
+		<div class="htan">
+		    <div class="htanhs" style="padding-left:5px;margin-top:-15px;">
+	         <a href="javascript:void(0)" jsvalues=".index:$recIndex" onclick="closeHotelInfo(this.index)" class="pass"></a>
+			 </div>
+			<div tag="map" style="height:200px">
+			</div>
+		</div>
+    </div>
+	
+	<div id="hotelService">
+		<div class="htan" jseval="$cIndex=0">
+			<div class="htanhs">
+			  <a href="javascript:void(0)" jsvalues=".index:$recIndex" onclick="closeHotelInfo(this.index)" class="pass"></a>
+			  <font jsselect="tags">
+			     <font style="color:#2A65A1" jscontent="$this.name"></font><font  jscontent="$this.desc"></font>&nbsp;&nbsp;
+			  </font>
+			</div>
+			<div jseval="$class1=$cIndex % 2 ==0?'htanh':'htanh ptbj'"  jsselect="services">
+				<div jsvalues="class:$class1">
+					<div class="zb" jseval="$cIndex++">
+					    <font style="color:#2A65A1" jscontent="$this.name"></font>
+						<font jscontent="$this.desc"></font>
+					</div>
+				</div>
+			</div>
+		</div>
+    </div>
+
+	<div id="hotelImages">
+		<div class="ppy ppy3" tag="hotelImages">
+			<ul class="ppy-imglist">
+					<li jsselect="images">
+						<a jsvalues=".href:$this.normal">
+						<img class="img"  jsvalues=".src:$this.snapshot"/>
+						</a>
+						<span class="ppy-extcaption">
+							<strong jscontent="$this.name"></strong>
+						</span>
+					</li>
+			</ul>
+			<div class="ppy-outer">
+				<div class="ppy-stage">
+					<div class="ppy-nav">
+						<div class="nav-wrap">
+							<a class="ppy-prev" title="Previous image">Previous image</a>
+							<a class="ppy-switch-enlarge" title="Enlarge">Enlarge</a>
+							<a class="ppy-switch-compact" title="Close">Close</a>
+							<a class="ppy-next" title="Next image">Next image</a>
+						</div>
+					</div>
+					<div class="ppy-counter">
+						<strong class="ppy-current"></strong> / <strong class="ppy-total"></strong> 
+					</div>
+
+				</div>
+				<div class="ppy-caption">
+					<span class="ppy-text"></span><font>用鼠标滚动图片</font>
+				</div>
+			</div>
+		</div>
+    </div>
+</div>

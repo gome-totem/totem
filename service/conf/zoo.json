@@ -1,0 +1,667 @@
+[
+	{
+		"type":"server",
+		"id":"localhost",
+		"ip":"127.0.0.1"
+	},
+	{
+		"type":"server",
+		"id":"dict",
+		"ip":"116.90.86.68",
+		"encrypt":true,
+		"mysql":{
+			"user":"5eN4q7e9ORGvZJyRmJqWEGlpNcAPJc/D",
+			"password":"hmln0xF3bMJNaRxR4qLgSUgrle7OBRkdF5/OpB5dNMA="
+		},
+		"mongo":{
+			"user":"7C/Mk1qdOed+3C052AC1pg==",
+			"password":"50/R9ecxsR7Rr70KJ/EvVYtLBFfy+MZBgpFSrbBKaEg="
+		},
+		"redis":{
+			
+		},
+		"tags":[
+			"redis",
+			"mongo"
+		]
+		
+	},
+	{
+		"type":"server",
+		"id":"image",
+		"ip":"116.90.86.66",
+		"encrypt":true,
+		"mysql":{
+			"user":"HMGV1iMwg9jelVNWOAalSEl6pNoR6hZ3",
+			"password":"67hInqtf5um0mAlVpe65Wfm/CIcST3GfNgevNDU9I9k="
+		},
+		"mongo":{
+			"user":"ecSILsR/WQ0Y95U4GzTrNw==",
+			"password":"YFjjQbmFUsf/wnftSMSymSNizXFksrZjqlD7/iN7e20="
+		},
+		"tags":[
+			
+		]
+		
+	},
+	{
+		"type":"server",
+		"id":"x1",
+		"ip":"116.90.86.66",
+		"encrypt":true,
+		"mysql":{
+			"user":"HMGV1iMwg9jelVNWOAalSEl6pNoR6hZ3",
+			"password":"67hInqtf5um0mAlVpe65Wfm/CIcST3GfNgevNDU9I9k="
+		},
+		"mongo":{
+			"user":"ecSILsR/WQ0Y95U4GzTrNw==",
+			"password":"YFjjQbmFUsf/wnftSMSymSNizXFksrZjqlD7/iN7e20="
+		},
+		"tags":[
+			"mongo",
+			"mysql"
+		]
+		
+	},
+	{
+		"type":"server",
+		"id":"x2",
+		"ip":"116.90.86.67",
+		"encrypt":true,
+		"mysql":{
+			"user":"JGUeFQIRaMs/0gTaIzPjjR150lFC/JX9",
+			"password":"NqRHEmgQiIrJ1s8o83iqa3k/tnoIOtA0hx0IVFr43wo="
+		},
+		"mongo":{
+			"user":"JddIq+1mF0FbcqQt784C1g==",
+			"password":"60KeD6N9PuSzNZq6sMM4A67qit72RkkhlNJicZo08Qk="
+		},
+		"tags":[
+			"mongo",
+			"mysql"
+		]
+		
+	},
+	{
+		"type":"redispool",
+		"id":"default",
+		"servers":[
+			"x1",
+			"x2"
+		]
+		
+	},
+	{
+		"type":"redispool",
+		"id":"dict",
+		"servers":[
+			"dict"
+		]
+		
+	},
+	{
+		"type":"page",
+		"id":"service",
+		"auth":false
+	},
+	{
+		"type":"page",
+		"id":"index",
+		"auth":false
+	},
+	{
+		"type":"page",
+		"id":"messages",
+		"auth":true
+	},
+	{
+		"type":"page",
+		"id":"offers",
+		"auth":true
+	},
+	{
+		"type":"page",
+		"id":"trips",
+		"auth":true
+	},
+	{
+		"type":"page",
+		"id":"requires",
+		"auth":true
+	},
+	{
+		"type":"page",
+		"id":"follow",
+		"auth":true
+	},
+	{
+		"type":"page",
+		"id":"profile",
+		"auth":true
+	},
+	{
+		"type":"page",
+		"id":"face",
+		"auth":true
+	},
+	{
+		"type":"page",
+		"id":"alipay",
+		"action":"remove",
+		"auth":true
+	},
+	{
+		"type":"page",
+		"id":"pay",
+		"auth":true,
+		"instances":[
+			{
+				"name":"order",
+				"module":"triporder"
+			},
+			{
+				"name":"bill",
+				"module":"bill"
+			}
+		]
+		
+	},
+	{
+		"type":"page",
+		"id":"passwd",
+		"auth":true
+	},
+	{
+		"type":"page",
+		"id":"i",
+		"auth":false,
+		"instances":[
+			{
+				"name":"service",
+				"module":"activity"
+			}
+			
+		]
+		
+	},
+	{
+		"type":"page",
+		"id":"answers",
+		"auth":false,
+		"instances":[
+			{
+				"name":"service",
+				"module":"activity"
+			}
+			
+		]
+		
+	},
+	{
+		"type":"page",
+		"id":"auth",
+		"auth":true
+	},
+	{
+		"type":"page",
+		"id":"charge",
+		"auth":true
+	},
+	{
+		"type":"page",
+		"id":"finance",
+		"auth":true
+	},
+	{
+		"type":"page",
+		"id":"accounter",
+		"auth":true
+	},
+	{
+		"type":"page",
+		"id":"checkoffers",
+		"auth":true
+	},
+	{
+		"type":"page",
+		"id":"checkcomments",
+		"auth":true
+	},
+	{
+		"type":"page",
+		"id":"checkappoints",
+		"auth":true
+	},
+	{
+		"type":"page",
+		"id":"checktrips",
+		"auth":true
+	},
+	{
+		"type":"page",
+		"id":"editservice",
+		"auth":true,
+		"instances":[
+			{
+				"name":"root",
+				"module":"root"
+			}
+			
+		]
+		
+	},
+	{
+		"type":"page",
+		"id":"postguide",
+		"auth":true,
+		"instances":[
+			{
+				"name":"service",
+				"module":"trip"
+			}
+			
+		]
+		
+	},
+	{
+		"type":"page",
+		"id":"posttrip",
+		"auth":true,
+		"instances":[
+			{
+				"name":"service",
+				"module":"trip"
+			}
+			
+		]
+		
+	},
+	{
+		"type":"page",
+		"id":"postactivity",
+		"auth":true,
+		"instances":[
+			{
+				"name":"service",
+				"module":"trip"
+			}
+		]
+	},
+	{
+		"type":"page",
+		"id":"postcar",
+		"auth":true,
+		"instances":[
+			{
+				"name":"service",
+				"module":"car"
+			}
+			
+		]
+		
+	},
+	{
+		"type":"page",
+		"id":"postroom",
+		"auth":true,
+		"instances":[
+			{
+				"name":"service",
+				"module":"room"
+			}
+			
+		]
+		
+	},
+	{
+		"type":"page",
+		"id":"postreq",
+		"auth":true,
+		"instances":[
+			{
+				"name":"service",
+				"module":"require"
+			}
+			
+		]
+		
+	},
+	{
+		"type":"page",
+		"id":"posttopic",
+		"auth":true
+	},
+	{
+		"type":"page",
+		"id":"postproduct",
+		"auth":true,
+		"instances":[
+			{
+				"name":"service",
+				"module":"product"
+			}
+			
+		]
+		
+	},
+	{
+		"type":"page",
+		"id":"page",
+		"auth":false,
+		"instances":[
+			{
+				"name":"service",
+				"module":"push"
+			}
+			
+		]
+		
+	},
+	{
+		"type":"page",
+		"id":"tuiba",
+		"auth":true,
+		"instances":[
+			{
+				"name":"service",
+				"module":"push"
+			}
+			
+		]
+		
+	},
+	{
+		"type":"page",
+		"id":"tuibaconfig",
+		"auth":true,
+		"instances":[
+			{
+				"name":"service",
+				"module":"push"
+			}
+			
+		]
+		
+	},
+	{
+		"type":"page",
+		"id":"tuibalicence",
+		"auth":true,
+		"instances":[
+			{
+				"name":"service",
+				"module":"push"
+			}
+			
+		]
+		
+	},
+	{
+		"type":"page",
+		"id":"tuibadoc",
+		"auth":true,
+		"instances":[
+			{
+				"name":"service",
+				"module":"push"
+			}
+			
+		]
+		
+	},
+	{
+		"type":"page",
+		"id":"tuibadev",
+		"auth":true,
+		"instances":[
+			{
+				"name":"service",
+				"module":"push"
+			}
+			
+		]
+		
+	},
+	{
+		"type":"page",
+		"id":"tuibatrace",
+		"auth":true,
+		"instances":[
+			{
+				"name":"service",
+				"module":"push"
+			}
+			
+		]
+		
+	},
+	{
+		"type":"page",
+		"id":"login",
+		"auth":false
+	},
+	{
+		"type":"page",
+		"id":"book",
+		"auth":true
+	},
+	{
+		"type":"page",
+		"id":"register",
+		"auth":false
+	},
+	{
+		"type":"page",
+		"id":"help",
+		"auth":false
+	},
+	{
+		"type":"page",
+		"id":"terms",
+		"auth":false
+	},
+	{
+		"type":"page",
+		"id":"guide",
+		"auth":false,
+		"instances":[
+			{
+				"name":"service",
+				"module":"trip"
+			},
+			{
+				"name":"tips",
+				"module":"tips"
+			}
+			
+		]
+		
+	},
+	{
+		"type":"page",
+		"id":"trip",
+		"auth":false,
+		"instances":[
+			{
+				"name":"service",
+				"module":"trip"
+			}
+			
+		]
+		
+	},
+	{
+		"type":"page",
+		"id":"car",
+		"auth":false,
+		"instances":[
+			{
+				"name":"service",
+				"module":"car"
+			}
+			
+		]
+		
+	},
+	{
+		"type":"page",
+		"id":"product",
+		"auth":false
+	},
+	{
+		"type":"page",
+		"id":"forum",
+		"auth":false,
+		"instances":[
+			{
+				"name":"service",
+				"module":"topic"
+			}
+			
+		]
+		
+	},
+	{
+		"type":"page",
+		"id":"topic",
+		"auth":false,
+		"instances":[
+			{
+				"name":"service",
+				"module":"topic"
+			}
+			
+		]
+		
+	},
+	{
+		"type":"page",
+		"id":"checkmail",
+		"auth":false
+	},
+	{
+		"type":"page",
+		"id":"searchtrip",
+		"auth":false
+	},
+	{
+		"type":"page",
+		"id":"portal",
+		"auth":false,
+		"instances":[
+			{
+				"name":"service",
+				"module":"push"
+			}
+			
+		]
+		
+	},
+	{
+		"type":"page",
+		"id":"callback",
+		"auth":false,
+		"instances":[
+			{
+				"name":"quicklogin",
+				"module":"quicklogin"
+			}
+			
+		]
+		
+	}
+	,
+	{
+		"type":"page",
+		"id":"order",
+		"auth":true,
+		"instances":[
+			{
+				"name":"travelorder",
+				"module":"triporder"
+			}
+			
+		]
+		
+	}
+	,
+	{
+		"type":"page",
+		"id":"createorder",
+		"auth":true,
+		"instances":[
+			{
+				"name":"travelorder",
+				"module":"triporder"
+			}
+			
+		]
+		
+	}
+	,
+	{
+		"type":"page",
+		"id":"orders",
+		"auth":true,
+		"instances":[
+			{
+				"name":"travelorder",
+				"module":"triporder"
+			}
+			
+		]
+		
+	}
+	,
+	{
+		"type":"page",
+		"id":"manageorders",
+		"auth":true,
+		"instances":[
+			{
+				"name":"travelorder",
+				"module":"triporder"
+			}
+			
+		]
+		
+	},
+	{
+		"type":"page",
+		"id":"bbs",
+		"auth":false,
+		"instances":[
+			{
+				"name":"service",
+				"module":"require"
+			}
+			
+		]
+		
+	},
+	{
+		"type":"page",
+		"id":"hi",
+		"auth":false,
+		"instances":[
+			{
+				"name":"service",
+				"module":"talk"
+			}
+			
+		]
+		
+	}
+	,
+	{
+		"type":"page",
+		"id":"managereceipts",
+		"auth":true,
+		"instances":[
+			{
+				"name":"service",
+				"module":"bill"
+			}
+		]
+	}
+]

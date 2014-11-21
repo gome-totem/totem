@@ -1,0 +1,96 @@
+#set($reqUser=$context.reqUserBy())
+<div class="user">
+	<div class="shadow2"></div>
+	<div class="shadow1"></div>
+	<div class="profile">
+		<div class="face">
+			<img src="/photo/faces/$reqUser.get('user_id')" width="160"
+				height="160" />
+		</div>
+		<div class="summary">
+			<ul class="clearfix">
+				<li><p>$reqUser.get('service_count')</p>服务</li>
+				<li class="c"><p>$reqUser.get('req_count')</p>需求</li>
+				<li><p>$reqUser.get('topic_count')</p>贴士</li>
+			</ul>
+		</div>
+		<div class="shadow"></div>
+	</div>
+	<div class="detail">
+		<div class="popbox popbox-sm" style="right:0px;top:60px;display:none"
+			id="boxQuestion">
+			<span class="angle"></span>
+			<table>
+				<tr>
+					<td><input type="text" placeholder="标题,如：想去巴黎有问题请教"
+						id="edtQTitle" /></td>
+				</tr>
+				<tr>
+					<td><textarea placeholder="内容，如：我想在巴黎呆5天，怎么安排好呢？"
+							id="edtQContent"></textarea></td>
+				</tr>
+				<tr>
+					<td><a class="button green  w90" href="javascript:void(0)"
+						id="btnQ">提交</a></td>
+				</tr>
+			</table>
+		</div>
+		<h2>
+			<a class="click green" id="btnQuestion" href="javascript:void(0)">
+				<b class="question"></b>向TA提问</a> #if ($user.role.isCustomerService()) <a
+				class="click" href="/posttrip/name=plan">创建行程单</a> <a class="click"
+				href="/createorder">创建订单</a> #end #if (!$user.completeProfile()) <a
+				class="click"
+				href="/profile">完善个人资料</a> #end #if($reqUser.getInt('sex',0)==1) <em class="man">♂</em> #else
+			<em class="women">♀</em> #end $reqUser.get('user_name')
+			<!-- <em class="jp">金牌导游</em> -->
+		</h2>
+		<p>
+			<span>所在国家<strong>$reqUser.get('country')</strong> </span> <span>居住城市<strong>$reqUser.get('city')</strong>
+			</span>
+		</p>
+		<p style="height:40px;">$tool.extractText($reqUser.get('description'),130)</p>
+	</div>
+</div>
+
+#if ($user.isOwner())
+<div class="activebox">
+	<div class="ad_tips"></div>
+	#if($user.bindQQ==0 || $user.bindSina==0 || $user.bindMobile==0 ||
+	$user.bindMail==0) #end
+	<ul class="clearfix">
+		<li onclick="userPortal.selectAuth('email')"
+			class="$tool.iff($tool.equals($user.bindMail,1),'active','not-active')"><em
+			class="mail" style="margin-top: 17px;width: 25px;"></em>激活邮箱<a
+			href="javascript:void(0)"></a></li>
+		<li onclick="userPortal.selectAuth('mobile')"
+			class="$tool.iff($tool.equals($user.bindMobile,1),'active','not-active')"><em
+			class="mobile" style="width:20px;"></em>激活手机<a
+			href="javascript:void(0)"></a></li>
+		<li onclick="userPortal.selectAuth('social')"
+			class="$tool.iff($tool.equals($user.bindQQ,1),'active','not-active')"><em
+			class="qq" style="width:32px;"></em>激活QQ<a href="javascript:void(0)"></a>
+		</li>
+		<li onclick="userPortal.selectAuth('social')"
+			class="$tool.iff($tool.equals($user.bindWeixin,1),'active','not-active')"><em
+			class="wx"></em>激活微信<a href="javascript:void(0)"></a></li>
+		<li onclick="userPortal.selectAuth('social')"
+			class="$tool.iff($tool.equals($user.bindSina,1),'active','not-active')"><em
+			class="wb"></em>激活微博<a href="javascript:void(0)"></a>
+		</li>
+		<!--
+		<li><p>
+				<em class="browse"></em><a href="javascript:void(0)"></a>
+			</p> <a href="javascript:void(0)">浏览次数</a>
+		</li>
+		 -->
+	</ul>
+</div>
+#end
+<div class="clear"></div>
+<div class="tab">
+	<ul class="clearfix">
+		$tool.readUserBar($context.reqUserId(),$user.isOwner(),$context.pageName)
+	</ul>
+</div>
+

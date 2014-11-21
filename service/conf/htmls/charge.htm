@@ -1,0 +1,200 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" class="mozilla">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>账户充值©$tool.seoTitle()</title>
+<link rel="shortcut icon" href="/images/hi.ico">
+	<link rel="icon" type="image/png" href="/images/hi.png" >
+		$context.readHtmlHeader() $context.includeCss("","backend.css")
+</head>
+
+<body>
+	$context.readHeader(false) $context.include("usertitle")
+	<div class="home">
+		$context.include("userinfo")
+		<div class="content clearfix">
+			$context.include("userpanel")
+			<div class="fieldset">
+				#set($balance=$context.bill().readBalance($context))
+				<div style="padding:20px;font-size:18px;">
+					#if($balance.getBoolean("xeach")==true)
+					<div class="tile-stats tile-red">
+						<div class="num">￥$balance.get("balance")</div>
+						<p>账户余额</p>
+					</div>
+					<div class="tile-stats tile-blue">
+						<div class="num">￥$balance.get("income_total")</div>
+						<p>预计收入</p>
+					</div>
+					<div class="tile-stats tile-green">
+						<div class="num">￥$balance.get("withdraw_total")</div>
+						<p>累计收入</p>
+					</div>
+					#else
+					<div class="tile-stats tile-red">
+						<div class="num">账户状态异常</div>
+						<p>
+							<a
+								href="mailto:team@yiqihi.com?body=我的用户ID:$user.userId错误代码$balance.get('state')&subject=我的财务账户不正常,请检查">请点击此处,立即联系我们</a>
+						</p>
+					</div>
+					#end
+				</div>
+				<div class="clear"></div>
+				<form class="form">
+					<fieldset id="payInfo">
+						<div class="title">
+							<div class="text">
+								<h6 style="font-size:16px">
+									账户清单<sup>*</sup>
+								</h6>
+								<em> 记录您账户消费的流水账</em>
+							</div>
+						</div>
+						<div class="i_server_msg">
+							<div class="i_server_box" id="bills">
+								#set($days=$user.readBills()) 
+								#foreach($day in $days)
+								#if($day.getInt("totalCount")>0)
+								<div class="$day.get('className') line2"
+										id="d$day.get('dayIndex')"
+										totalCount="$day.getInt('totalCount')">$day.get("dayName")</div>
+								<div id="c$day.get('dayIndex')">
+										#set($items=$day.get("items")) 
+										#foreach($item in $items)
+										#set($mode=$item.getInt("mode",0)) 
+										#set($class="") 
+										#set($op="")
+										#set($opName="") 
+										#if($mode==2) 
+											#set($op="-")
+											#set($class="i_new_msg ") 
+										#elseif($mode==1) #set($op="+")
+											#set($class="i_import_msg ") 
+											#set($opName="[已完成]")
+										#elseif($mode==0) 
+											#set($op="+") #set($class="")
+											#set($opName="[未完成]") 
+										#end
+										<div class="i_server_one $class clearfix">
+											<div class="i_server_one_msg fl" style="width:600px">
+												<s class="icon_sms"></s> <strong>$item.get('desc')
+													$opName</strong>
+												<div class="i_time">
+													<span>$item.get('date')</span>，$item.get('ago')
+												</div>
+											</div>
+											<div class="i_server_one_msg fl" style="width:60px">
+												<strong>$op $item.get('amount')</strong>
+											</div>
+											<div class="i_server_one_msg fl" style="width:60px">
+												<strong>$item.get('balance')</strong>
+											</div>
+										</div>
+										#end
+										<!-- end for each items -->
+									</div>
+									#end
+									<!-- end if totalcount --> 
+									#end
+									<!-- end for each days -->
+								<div id="pager" class="pagebar"></div>
+							</div>
+						</div>
+						<div class="title">
+							<div class="text">
+								<h6>
+									即时到账充值：在线充值，通过<b>支付宝、财付通、快钱、银行储蓄卡、信用卡等</b>在线充值<sup>*</sup>
+								</h6>
+								<em>充值后，您的账户余额会立即更新</em>
+							</div>
+						</div>
+						<div style="padding:20px;">
+							<div>
+								<p>
+									<input type="text" size="30" id="edtRecharge"
+										class="input numeric frame" minValue="30"
+										placeholder="请输入充值金额，最低不少于30元" style="width:300px" />
+								</p>
+							</div>
+							<div class="clear"></div>
+							<div>
+								<p>
+									<a class="button grey red-hover w90" href="javascript:void(0)"
+										onclick="recharge()"
+										style="text-decoration:none;text-align:center;">立即充值</a>
+								</p>
+							</div>
+						</div>
+						<div class="clearfix" style="height:60px;"></div>
+						<div class="title">
+							<div class="text">
+								<h6>
+									12小时到账充值：个人银行账户对下面的账号直接打款，并上传打款单据 <sup>*</sup>
+								</h6>
+								<em> 充值后，您的账户余额会在1个工作日内由财务审核后，才能更新</em>
+							</div>
+						</div>
+						<div style="padding:20px;">
+							<div>
+								<p>
+									<b
+										style="color: #BE4C39;font-size: 23px;font-style: italic;padding-right: 3px;">1.</b>
+									上传本次转账的支付证据截图
+								</p>
+								<p id="uploadReceipt">
+									<a href="javascript:void(0)"
+										class="btn btn-arrow-right btn-red xl" id="btnUpload"><b></b>点击上传</a>
+								</p>
+								<p >
+									<b
+										style="color: #BE4C39;font-size: 23px;font-style: italic;padding-right: 3px;">2.</b>输入本次转账金额
+								</p>
+								<p>
+									<input type="text" size="30" id="transferAmount"
+										class="input numeric frame" style="width:300px" minValue="1"/>
+								</p>
+
+							</div>
+							<div class="clear"></div>
+							<div>
+								<p>
+									<a class="button grey red-hover w90" href="javascript:void(0)"
+										onclick="checkTransferAmount()"
+										style="text-decoration:none;text-align:center;">提交财务审核</a>
+								</p>
+							</div>
+						</div>
+					</fieldset>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div stye="display:none">
+		<div id="templateBill" jsselect="$this.items" style="display:none">
+			<div jseval="setClassName($this,this)" class="">
+				<div class="i_server_one_msg fl" style="width:500px">
+					<s class="icon_sms"></s> <strong jshtml="$this.desc"></strong><strong
+						jscontent="getOpName($this)"></strong>
+					<div class="i_time">
+						<span jscontent="$this.date"></span>，<span jscontent="$this.ago"></span>
+					</div>
+				</div>
+				<div class="i_server_one_msg fl" style="width:60px">
+					<strong jscontent="getOp($this)"></strong><strong
+						jscontent="$this.amount"></strong>
+				</div>
+				<div class="i_server_one_msg fl" style="width:60px">
+					<strong jscontent="$this.balance"></strong>
+				</div>
+				<div class="i_opts_box fr"></div>
+			</div>
+		</div>
+	</div>
+
+	$context.readFooter() $context.includeJavaScript("","rock.js")
+	$context.includeJavaScript("jquery/","jquery.uploader.js")
+	$context.includeJavaScript("","charge.js")
+</body>
+</html>

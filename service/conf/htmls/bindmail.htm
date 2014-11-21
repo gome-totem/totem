@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" class="mozilla">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>绑定账号©$tool.seoTitle()</title>
+	<link rel="shortcut icon" href="/images/hi.ico" >
+	<link rel="icon" type="image/gif" href="/images/hi.gif" >
+    $context.readHtmlHeader()
+</head>
+
+<body>
+$context.readHeader()
+
+<div id="container">
+    <div class="wrap">
+        <ul id="breadcrum">
+          <li>
+            <a href="/en" class="home">
+              <span></span>
+              <strong>主页</strong>
+            </a>
+          </li>
+        </ul>
+        
+        <h1 class="page-title">绑定用户</h1>
+        <div class="left three_columns">
+          <form method="post" id="user_new" class="user_new" accept-charset="UTF-8">
+            <input type="hidden" value="en" name="user[prefered_language]" id="user_prefered_language">
+            <div id="mot-de-passe-outblie" class="form">
+              <!-- form elements -->
+              <p>
+                <label for="userName">
+                  用户昵称
+                  <em>*</em>
+                  
+                </label>
+                <span class="input_holder">
+                  <input type="text" size="30" value="$user.userName" id="userName" class="text autofocus">
+                </span>
+                <!-- /input_holder -->
+              </p>
+              <p>
+                <label for="email">
+                  邮件地址
+                  <em>*</em>
+                </label>
+                <span class="input_holder">
+                  <input type="text" value="" size="30"  id="email" class="text" gtbfieldid="7">
+                </span>
+                <!-- /input_holder -->
+              </p>
+              <p>
+                <label for="password">
+                  登录密码
+                  <em>*</em>
+                  
+                </label>
+                <span class="input_holder">
+                  <input type="password" size="30" id="password" class="text">
+                </span>
+                <!-- /input_holder -->
+                <small>最少6位</small>
+              </p>
+              <p>
+                <label for="password2">
+                  确认登录密码
+                  <em>*</em>
+                  
+                </label>
+                <span class="input_holder">
+                  <input type="password" size="30" id="password2" class="text">
+                </span>
+                <!-- /input_holder -->
+              </p>
+			  
+			  <p>
+                <label for="code">
+                  输入验证码
+                  <em>*</em>
+                </label>
+                <span class="input_holder">
+                  <input type="text" size="30" id="code" class="text">
+                </span>
+                <span class="input_holder">
+					<input type="hidden" value="$context.getParam('id')" id="userType">
+					<img onclick="changeImage(this)" src="/captcha.jpg" style="cursor:pointer" id="imageCode"/>
+				    <span class="checkbox">
+						<input type="checkbox" value="1" id="terms">
+						<label for="user_terms_of_services">
+							我接受<a class="underline" href="/terms">yiqihi免责服务条款</a>
+						</label>
+					</span>
+                </span>
+                <button id="btnBind" onclick="commit(0)" class="button" type="button">立即绑定</button>
+              </p>
+            </div>
+          </form>
+        </div>
+        <!-- /left three_columns -->
+        <div class="right three_columns">
+          <div class="big_yellow_box">
+            <p>
+              感谢您使用yiqihi服务<br>请您花10秒的时间绑定一下您的账号</a> 
+            </p>
+          </div>
+        </div>
+      </div>
+	<div style="font: 0px/0px sans-serif;clear: both;display:block"></div>	
+</div>
+
+$context.readFooter()
+$context.includeJavaScript("","bindmail.js")
+
+</body>
+</html>

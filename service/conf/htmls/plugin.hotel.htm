@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" href="/images/hi.ico" >
+<link rel="icon" type="image/gif" href="/images/hi.gif" >
+$context.includeCss("","common.css")
+$context.includeCss("","piao.common.css")
+$context.includeCss("jquery/","jquery.plugin.css")
+<link rel="stylesheet" type="text/css" href="/jquery/css/jquery.popeye.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="/jquery/css/jquery.popeye.style.css" media="screen" />
+<style>
+ html { overflow-x:hidden; }
+</style>
+<script>
+ function initHeader(){searchHeaderVisible=false;};
+</script>
+</head>
+
+<body>
+	<div class="pl-tong" style="width:750px;padding:6px;">
+		<div class="pl-tong-con">
+			<div>
+				$context.readHotelCommon(false,$tool.createKeyValue('callMode','flash'))					
+			</div>
+		</div>
+	</div> 
+</body>
+
+$context.includeJavaScript("jquery/","jquery-1.8.3.min.js")
+$context.includeJavaScript("jquery/","jquery-ui.1.9.2.min.js")
+$context.includeJavaScript("jquery/","jquery.lang.js")
+$context.includeJavaScript("jquery/","jquery.pager.js")
+$context.includeJavaScript("jquery/","jquery.watermark.js")
+$context.includeJavaScript("jquery/","jquery.dateinput.js")
+$context.includeJavaScript("jquery/","jquery.popeye-2.0.4.js")
+$context.includeJavaScript("","yiqihi.common.js")
+$context.includeJavaScript("","header.js")
+$context.includeJavaScript("","json2.js")
+$context.includeJavaScript("","util.js")
+$context.includeJavaScript("","template.js")
+$context.includeJavaScript("","hotelcommon.js")
+$context.includeJavaScript("","plugin.hotel.js")
+<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=ABQIAAAACqlenZsAuviR48wcB9zJ6xR6JYo_q9UDbl_IqCzG9eI1S1wmuRSk0tPUYakmHPxuH8Q4f99Z8ODS2g" type="text/javascript"></script>
+
+</html>

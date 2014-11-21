@@ -1,0 +1,718 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" class="mozilla">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>$tool.seoTitle()</title> $context.readHtmlHeader()
+$context.includeCss("","trip.css")
+</head>
+#set($shortId=$context.getParam('id'))
+#set($bizName=$context.getParam('name',''))
+#if ($bizName=="plan")
+	#set($activity=$service.readByEdit($context,2,$shortId))
+	$service.decodeCustomer($context,$activity) 
+#else
+	#set($activity=$service.readByEdit($context,1,$shortId)) 
+#end
+<body>
+	$context.readHeader()
+	<!-- travel wraper s -->
+	<div id="p" shortId="$shortId">
+		<div style="display:none">
+			<span id="activityContent">$activity.toString()</span> <span
+				id="bizName">$bizName</span>
+		</div>
+		<!-- p-header s -->
+		<div class="p-header">
+			<div class="p-header-left">
+				<h3>线路类型</h3>
+				<div class="p-header-type">
+					<label><input type="radio" name="type" value="0" />私人定制</label> <label><input
+						type="radio" name="type" value="1" checked />自由行</label> <label><input
+						type="radio" name="type" value="2" />一日游</label> <label><input
+						type="radio" name="type" value="3" />家庭亲子</label> <label><input
+						type="radio" name="type" value="4" />AA定制</label>
+				</div>
+				<h3 style="margin:10px 0px 5px 0px;">线路标题</h3>
+				<h1 class="p-header-title-edit" id="title"></h1>
+				<div class="p-header-tag" style="margin:15px 0px 5px 0px;">
+					<h3>线路个性化标签(输入每个标签后，按回车键)</h3>
+					<ul class="clearfix" id="tags">
+					</ul>
+				</div>
+				<div class="p-header-guide clearfix"
+					style="margin:15px 0px 5px 0px;">
+					<h3>行程亮点描述或推荐理由</h3>
+					<div class="p-header-guide">
+						<div class="guide-reason"
+							style="height:130px;padding:3px;border:1px solid #C5C5C5;color:#333;font-size:16px;overflow:hidden"></div>
+					</div>
+				</div>
+				<div class="p-header-guide clearfix" style="margin-top:10px;">
+					<h3>
+						联系信息&nbsp;&nbsp;<span class="protected-badge">&nbsp;保护<b></b>
+						</span>
+					</h3>
+				</div>
+
+				<div style="width:790px;">
+					<div class="contact clearfix">
+						<dl>
+							<dt>
+								真实姓名<b>*</b>
+							</dt>
+							<dd>
+								<input type="text" id="edtName" class="input frame" />
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								手机号码<b>*</b>
+							</dt>
+							<dd>
+								<input type="text" id="edtMobile" class="input frame numeric" />
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								腾讯QQ账号<b>*</b>
+							</dt>
+							<dd>
+								<input type="text" id="edtQQ" class="input frame numeric" />
+							</dd>
+						</dl>
+						<dl>
+							<dt>
+								微信号<b>*</b>
+							</dt>
+							<dd>
+								<input type="text" id="edtMSN" class="input frame" />
+							</dd>
+						</dl>
+					</div>
+				</div>
+			</div>
+
+			<div class="p-header-right">
+				#if ($bizName=="plan")
+				<h3>客人联系方式</h3>
+				#else
+				<h3>档期设置</h3>
+				#end
+				<div class="p-reserve-con">
+					#if ($bizName=="plan")
+					<div class="p-reserve-item" style="padding-left:10px">
+						<div class="invite-friends">
+							<dl class="clearfix">
+								<dt>出发日期</dt>
+								<dd>
+									<input id="edtCustomerDate" class="input frame" type="text"
+										value="$tool.formatDate($activity.getLong('customer_date',$tool.currentTimeMillis(2)),'yyyy-MM-dd')" />
+								</dd>
+							</dl>
+							<dl class="clearfix">
+								<dt>客人用户名</dt>
+								<dd>
+									<input id="edtCustomerUserName"
+										userId="$activity.get('customer_userId')"
+										class="numeric frame" type="text"
+										value="$activity.get('customer_userName')" />
+								</dd>
+							</dl>
+							<dl class="clearfix">
+								<dt>客人姓名</dt>
+								<dd>
+									<input id="edtCustomerName" class="frame" type="text"
+										value="$activity.get('customer_name')" />
+								</dd>
+							</dl>
+							<dl class="clearfix">
+								<dt>性别</dt>
+								<dd>
+									<select class="select frame" id="edtCustomerSex"
+										data-value="$activity.get('customer_sex')">
+										<option value="0">保密</option>
+										<option value="1">男</option>
+										<option value="2">女</option>
+									</select>
+								</dd>
+							</dl>
+							<dl class="clearfix">
+								<dt>年龄</dt>
+								<dd>
+									<input id="edtCustomerAge" class="numeric frame" type="text"
+										value="$activity.getInt('customer_age',0)" />
+								</dd>
+							</dl>
+							<dl class="clearfix">
+								<dt>所在城市</dt>
+								<dd>
+									<input id="edtCustomerCity" class="frame" type="text"
+										value="$activity.get('customer_city')" />
+								</dd>
+							</dl>
+							<dl class="clearfix">
+								<dt>邮件地址</dt>
+								<dd>
+									<input id="edtCustomerEmail" class="frame" type="text"
+										value="$activity.get('customer_email')" />
+								</dd>
+							</dl>
+							<dl class="clearfix">
+								<dt>手机号码</dt>
+								<dd>
+									<input id="edtCustomerMobile" class="numeric frame" type="text"
+										value="$activity.get('customer_mobile')" />
+								</dd>
+							</dl>
+							<dl class="clearfix">
+								<dt>QQ号</dt>
+								<dd>
+									<input id="edtCustomerQQ" class="numeric frame" type="text"
+										value="$activity.get('customer_qq')" />
+								</dd>
+							</dl>
+							<dl class="clearfix">
+								<dt>微信号</dt>
+								<dd>
+									<input id="edtCustomerMsn" class="frame" type="text"
+										value="$activity.get('customer_msn')" />
+								</dd>
+							</dl>
+						</div>
+					</div>
+					#else
+					<div class="p-reserve-item" style="padding-left:10px">
+						<div id="calendar"></div>
+						<div class="form two clearfix">
+							<dl>
+								<dt>预约日期</dt>
+								<dd>
+									<input type="text" id="edtRangeStart" style="width:130px;"
+										class="input frame" />
+								</dd>
+							</dl>
+							<dl>
+								<dt>截止日期</dt>
+								<dd>
+									<input type="text" class="input frame" style="width:130px;"
+										id="edtRangeStop" />
+								</dd>
+							</dl>
+							<dl>
+								<dt>预订状态为</dt>
+								<dd>
+									<select class="select frame" style="width:137px;"
+										id="edtBookState">
+										<option value="1" selected="selected">可预订</option>
+										<option value="0">不可预订</option>
+									</select>
+								</dd>
+							</dl>
+							<dl>
+								<dt>价格（起）</dt>
+								<dd>
+									<span class="currency"><em>￥</em><input type="text"
+										class="input frame numeric"
+										style="width:115px;padding-left:20px" id="edtSpecialPrice" />
+									</span>
+								</dd>
+							</dl>
+						</div>
+					</div>
+					#end
+				</div>
+			</div>
+
+		</div>
+		<!-- p-header e -->
+
+		<div class="clear"></div>
+
+		<!-- p-content s -->
+		<div class="p-content clearfix">
+			<div class="o-ti-nav clearfix" style="padding-bottom:10px;">
+				<div class="o-ti-tit">
+					<span class="icon-tools"></span>行程单
+				</div>
+				<div class="o-ti-tab">
+					<div class="tripexp">
+						<div class="head">
+							<div class="title">体验评分</div>
+							<div class="value">
+								<select id="edtLevel">
+									<option selected value="1">1星</option>
+									<option value="2">2星</option>
+									<option value="3">3星</option>
+									<option value="4">4星</option>
+									<option value="5">5星</option>
+								</select>
+							</div>
+						</div>
+						<div class="head">
+							<div class="title">选择报价货币</div>
+							<div class="value">
+								<select id="edtCurrency">
+									$context.include("plugin.currency")
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="o-ti-menu">
+				<div class="o-ti-menu-l"></div>
+				<div class="o-ti-menu-con">
+				<ul class="left">
+						<li><a class="icon-ti-1 active" href="javascript:void(0)"><em></em><font>编辑模式</font></a>
+						</li>
+					</ul>
+					<div class="guide-btns">
+						<span> <a class="btn-free-down"
+							href="/file/trip?id=$!{shortId}&name=$name"> <span
+								class="icon-down"></span> <span class="btn-name">免费下载</span> </a> </span>
+						<span><a
+							class="btn-post" href="javascript:void(0)"
+							onclick="sendMailTo(this,$shortId)"><span class="icon-post"></span>
+								<span class="btn-name">发送给客人</span> </a> </span>
+					</div>
+				</div>
+				<div class="o-ti-menu-r"></div>
+			</div>
+			<div class="clearfix"></div>
+
+			<div class="p-content-left">
+				<div class="log-flow" id="days">
+					<div class="log-flow-item">
+						<div class="log-flow-item-wrap">
+							<div class="log-flow-icon">
+								<div class="icon-ready"></div>
+							</div>
+							<div class="log-flow-content">
+								<div class="log-flow-title">行前准备</div>
+								<div class="log-flow-intro">签证，保险，酒店，机票</div>
+							</div>
+						</div>
+					</div>
+					<div class="content">
+						<ul>
+						</ul>
+						<div class="add">
+							<span class="icon-add-day"></span> <span
+								class="log-flow-add-text">添加一天</span>
+						</div>
+					</div>
+				</div>
+				<div class="clear"></div>
+			</div>
+
+			<div class="p-content-edit">
+				<div class="days-item">
+					<div class="days-options" id="daylist">
+						<div class="prev"></div>
+						<div class="days-options-con">
+							<div class="scroller">
+								<ul class="clearfix">
+								</ul>
+								<div class="add">
+									<p>﹢</p>
+									<p>增加一天</p>
+								</div>
+							</div>
+						</div>
+						<div class="next"></div>
+					</div>
+					<div class="clear" style="height:50px"></div>
+					<div id="schedule"></div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<div style="display:none">
+		<div id="templateSchedule">
+			<dl class="n-log-item" data-id="guider">
+				<dt class="n-log-item-hd daoyou">
+					<a class="exp"><em class="open"></em> </a>
+					<div data-id="info"></div>
+					<em class="icon"><i class="dy"></i> </em> <b class="tit">导游：</b> <a
+						href="javascript:void(0)" class="add" data-tag="add"
+						data-index="0">添加一个导游<font data-id="guiderCount"></font> </a>
+				</dt>
+				<dd class="n-log-item-bd itemShow">
+					<table width="100%" cellspacing="1" border="0"
+						class="log-guide-table" data-id="content">
+					</table>
+					<div class="save">
+						<a class="btncancel" href="javascript:void(0)">取消关闭</a><a
+							class="btnsave" href="javascript:void(0)">保存更新</a>
+					</div>
+				</dd>
+			</dl>
+			<dl class="n-log-item" data-id="price">
+				<dt class="n-log-item-hd jiaotong">
+					<a class="exp"><em class="open"></em> </a> <em class="icon"><i
+						class="fee"></i> </em><b class="tit">费用：</b> <a
+						href="javascript:void(0)" class="add" data-tag="add"
+						data-index="0">添加自定义费用<font data-id="priceCount"></font> </a>
+				</dt>
+				<dd class="n-log-item-bd itemShow">
+					<table width="100%" cellspacing="0" border="0"
+						class="log-guide-table" data-id="content">
+					</table>
+					<div class="save">
+						<a class="btncopy" href="javascript:void(0)">复制上一天</a><a
+							class="btncancel" href="javascript:void(0)">取消关闭</a><a
+							class="btnsave" href="javascript:void(0)">保存更新</a>
+					</div>
+				</dd>
+			</dl>
+			<dl class="n-log-item" data-id="jiaotong">
+				<dt class="n-log-item-hd jiaotong">
+					<a class="exp"><em class="open"></em> </a> <em class="icon"><i
+						class="jt"></i> </em><b class="tit">交通：</b> <a
+						href="javascript:void(0)" class="add" data-tag="add"
+						data-index="0">添加直飞航班<font data-id="planeCount"></font> </a> <a
+						href="javascript:void(0)" class="add" data-tag="add"
+						data-index="1">添加中转航班<font data-id="plane2Count"></font> </a> <a
+						href="javascript:void(0)" class="add" data-tag="add"
+						data-index="2">添加火车<font data-id="trainCount"></font> </a>
+				</dt>
+				<dd class="n-log-item-bd itemEdit">
+					<div data-id="content"></div>
+					<div class="save">
+						<a class="btncopy" href="javascript:void(0)">复制上一天</a><a
+							class="btncancel" href="javascript:void(0)">取消关闭</a><a
+							class="btnsave" href="javascript:void(0)">保存更新</a>
+					</div>
+				</dd>
+			</dl>
+			<dl class="n-log-item" data-id="hotel">
+				<dt class="n-log-item-hd jiudian">
+					<a class="exp"><em class="open"></em> </a> <em class="icon"><i
+						class="jd"></i> </em><b class="tit">酒店：</b> <a
+						href="javascript:void(0)" class="add" data-tag="add"
+						data-index="0">添加自定义酒店<font data-id="hotelCount"></font> </a>
+				</dt>
+				<dd class="n-log-item-bd itemEdit">
+					<div data-id="content"></div>
+					<div class="save">
+						<a class="btncopy" href="javascript:void(0)">复制上一天</a><a
+							class="btncancel" href="javascript:void(0)">取消关闭</a><a
+							class="btnsave" href="javascript:void(0)">保存更新</a>
+					</div>
+				</dd>
+			</dl>
+			<dl class="n-log-item" data-id="trip">
+				<dt class="n-log-item-hd jiudian">
+					<a class="exp"><em class="open"></em> </a> <em class="icon"><i
+						class="see"></i> </em><b class="tit">行程：</b> <a
+						href="javascript:void(0)" class="add" data-tag="add"
+						data-index="0">添加行程<font data-id="tripCount"></font> </a>
+				</dt>
+				<dd class="n-log-item-bd itemEdit">
+					<div data-id="content"></div>
+					<div class="save">
+						<a class="btncopy" href="javascript:void(0)">复制上一天</a><a
+							class="btncancel" href="javascript:void(0)">取消关闭</a><a
+							class="btnsave" href="javascript:void(0)">保存更新</a>
+					</div>
+				</dd>
+			</dl>
+			<div class="log-guide-tips clearfix">
+				<div class="log-guide-tips-title">
+					行程<br />必读
+				</div>
+				<div class="log-guide-tips-content">
+					<textarea tag="policy" class="log-intro-textarea"></textarea>
+				</div>
+			</div>
+		</div>
+
+		<ul class="content" id="templateGuiderHead" jseval="$index=0;">
+			<li class="nowyou"><p>当前导游</p>(点击勾选)</li>
+			<li tag="a" jsselect="$this" jsvalues="index:$index"><em
+				jseval="trip.setGuiderHeadClass(this,$index)"></em><img
+				jsvalues=".src:'/photo/faces/'+$this.userId;title:$this.userName"
+				jseval="$index++" /></li>
+		</ul>
+
+		<table>
+			<tbody id="templateGuider" jseval="$index=0;">
+				<tr>
+					<th width="30%">用户名</th>
+					<th width="15%">姓名</th>
+					<th width="15%">性别</th>
+					<th width="20%">所在城市</th>
+					<th width="20%">操作</th>
+				</tr>
+				<tr jsselect="$this" jsvalues="index:$index">
+					<td class="tal"><input type="text" class="w200 border"
+						tag="userName" jsvalues="value:$this.userName;index:$index" />
+					</td>
+					<td jscontent="$this.name"></td>
+					<td jscontent="getSexTitle($this.sex)"></td>
+					<td jscontent="$this.city"></td>
+					<td><a class="log-intro-btn" href="javascript:void(0)"
+						onclick="trip.removeGuider(this)">删除</a> <span jseval="$index++"></span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<table class="jiaotong-lists" id="templateTransport"
+			jseval="$index=0;" width="100%">
+			<tr jsselect="$this.transports">
+				<td width="100" style="text-align:center"><div
+						class="n-list-nums">
+						<b jscontent="$index+1"></b>
+					</div>
+				</td>
+				<td width="725">
+					<ul class="lists" jsvalues="index:$index"
+						jseval="trip.refreshTransport(this,$this)">
+						<li class="planes" tag="one">
+							<p class="s-time">
+								<b><input type="text" class="jiaotong-input"
+									placeholder="出发时间" tag="deptTime" /> </b><input type="text"
+									class="jiaotong-input" placeholder="出发机场" tag="deptPort" />
+							</p>
+							<p class="m-time">
+								<input type="text" class="jiaotong-input" placeholder="航班号"
+									tag="no" />
+							</p>
+							<p class="e-time">
+								<b><input type="text" class="jiaotong-input"
+									placeholder="到达时间" tag="arriveTime" /> </b><input type="text"
+									class="jiaotong-input" placeholder="到达机场" tag="arrivePort" />
+							</p>
+						</li>
+						<li class="transe" tag="two">
+							<p class="no">
+								<input type="text" class="jiaotong-input" placeholder="航班号"
+									tag="lastNo" />
+							</p>
+							<p>
+								<b> <input type="text" class="jiaotong-input"
+									placeholder="到达时间" tag="lastArriveTime" /> </b><input type="text"
+									placeholder="到达机场" class="jiaotong-input" tag="lastArrivePort" />
+							</p></li>
+					</ul></td>
+				<td width="100" class="opt"><a href="javascript:void(0)"
+					jsvalues="index:$index" jseval="$index++"
+					onclick="trip.removeTransport(this)">删除</a></td>
+			</tr>
+		</table>
+
+		<ul class="jiudian-lists" id="templateHotel" jseval="$index=0;">
+			<li jsselect="$this.hotels" jsvalues="index:$index">
+				<div class="log-hotel clearfix">
+					<div class="log-hotel-search clearfix">
+						<div class="ppy">
+							<div class="ppy-outer">
+								<div class="ppy-stagewrap">
+									<div class="ppy-stage">
+										<div class="ppy-nav">
+											<a class="ppy-prev" title="上一张"></a> <a
+												class="ppy-switch-enlarge" title="放大显示"></a> <a
+												class="ppy-switch-compact" title="正常显示"></a> <a
+												class="ppy-next" title="下一张"></a> <a title="增加图片"
+												class="ppy-add">&nbsp;</a> <a title="删除图片"
+												class="ppy-delete">&nbsp;</a>
+										</div>
+										<div class="ppy-counter">
+											<strong class="ppy-current">0</strong>/<strong
+												class="ppy-total">0</strong>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="left" style="width:500px;margin:5px 0px 0px 15px;"
+							jseval="trip.setHotelItem(this,$this)">
+							<dl class="clearfix">
+								<dt>酒店名称</dt>
+								<dd class="w230">
+									<input type="text" class="log-hotel-input" tag="name"
+										jsvalues="value:$this.name" />
+								</dd>
+							</dl>
+							<dl class="clearfix">
+								<dt>酒店星级</dt>
+								<dd class="w150">
+									<select class="log-hotel-input" tag="star">
+										<option value="2">二星级</option>
+										<option value="3">三星级</option>
+										<option value="4">四星级</option>
+										<option value="5">五星级</option>
+									</select>
+								</dd>
+							</dl>
+							<dl class="clearfix">
+								<dt>酒店网址</dt>
+								<dd class="w230">
+									<input type="text" class="log-hotel-input" tag="url"
+										jsvalues="value:$this.url" />
+								</dd>
+							</dl>
+							<dl class="clearfix">
+								<dt>报价货币</dt>
+								<dd class="w150">
+									<select class="log-hotel-input" tag="currency">
+										$context.include("plugin.currency")
+									</select>
+								</dd>
+							</dl>
+							<dl class="clearfix">
+								<dt>房间类型</dt>
+								<dd class="w230">
+									<input type="text" class="log-hotel-input" tag="room"
+										jsvalues="value:$this.room" />
+								</dd>
+							</dl>
+							<dl class="clearfix">
+								<dt>价格/天</dt>
+								<dd class="w150">
+									<input type="text" class="log-hotel-input" tag="price"
+										jsvalues="value:$this.price" />
+								</dd>
+							</dl>
+							<dl class="clearfix">
+								<dt>酒店地址</dt>
+								<dd class="w410">
+									<input type="text" class="log-hotel-input" tag="addr"
+										jsvalues="value:$this.addr" />
+								</dd>
+							</dl>
+						</div>
+						<div class="right n-list-opt" style="padding:70px 5px;width:90px">
+							<a href="javascript:void(0)" jsvalues="index:$index"
+								onclick="trip.removeHotel(this)">删除</a> <span jseval="$index++"></span>
+						</div>
+					</div>
+				</div>
+			</li>
+		</ul>
+
+		<table>
+			<tbody id="templatePrice" jseval="$priceIndex=0;">
+				<tr>
+					<th width="30%">费用名称</th>
+					<th width="15%">单价</th>
+					<th width="15%">数量</th>
+					<th width="15%">小计</th>
+					<th width="10%">是否必选</th>
+					<th width="15%">操作</th>
+				</tr>
+				<tr jsselect="$this.prices" jsvalues="index:$priceIndex">
+					<td class="tal"><input type="text" class="w200 border"
+						tag="name" jsvalues="value:$this.name" />
+					</td>
+					<td><input type="text" class="w100  border numeric"
+						tag="price" jsvalues="value:$this.price" />
+					</td>
+					<td><input type="text" class="w100  border numeric" tag="qty"
+						jsvalues="value:$this.qty" /></td>
+					<td tag="subTotal"
+						jscontent="trip.calcSubTotal($this.price,$this.qty)"></td>
+					<td>
+						<div jseval="trip.readSelectedClass($this.selected,this)"
+							tag="selected"></div></td>
+					<td><a class="log-intro-btn" href="javascript:void(0)"
+						onclick="trip.addDayPrice(this)">增加</a> <a class="log-intro-btn"
+						href="javascript:void(0)" onclick="trip.removeDayPrice(this)">删除</a>
+						<span jseval="$priceIndex++"></span></td>
+				</tr>
+			</tbody>
+		</table>
+
+		<div class="log-scenic clearfix" id="templateTrip" jseval="$index=0;"
+			style="padding:20px 0 10px 20px">
+			<div jsselect="$this.trips" jsvalues="index:$index" class="clearfix"
+				tag="trip" style="margin:25px 0px;">
+				<div class="ppy">
+					<div class="ppy-outer">
+						<div class="ppy-stagewrap">
+							<div class="ppy-stage">
+								<div class="ppy-nav">
+									<a class="ppy-prev" title="上一张"></a> <a
+										class="ppy-switch-enlarge" title="放大显示"></a> <a
+										class="ppy-switch-compact" title="正常显示"></a> <a
+										class="ppy-next" title="下一张"></a> <a title="增加图片"
+										class="ppy-add">&nbsp;</a> <a title="删除图片" class="ppy-delete">&nbsp;</a>
+								</div>
+								<div class="ppy-counter">
+									<strong class="ppy-current">0</strong>/<strong
+										class="ppy-total">0</strong>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="log-scenic-right"
+					style="width:500px;float:left;">
+					<div class="log-scenic-other"
+						style="border-bottom:0px;margin-bottom:0px;padding-bottom:0px;">
+						<ul class="clearfix">
+							<li>
+								<p>行程类型</p>
+								<p>
+									<select jsvalues="name:'type'+$index" tag="type">
+										<option selected value="0">当地美食</option>
+										<option value="1">好玩的活动</option>
+										<option value="2">景点</option>
+										<option value="3">人文历史</option>
+										<option value="4">购物</option>
+										<option value="5">情色场所</option>
+									</select>
+								</p></li>
+							<li>
+								<p>
+									<span class="icon-time"></span>参观时间
+								</p>
+								<p>
+									<input type="text" class="w150 border" tag="time"
+										jsvalues=".value:$this.time" />
+								</p></li>
+							<li>
+								<p>
+									<span class="icon-city"></span>目的地
+								</p>
+								<p>
+									<input type="text" class="w150 border" tag="location"
+										jsvalues=".value:$this.location" />
+								</p></li>
+						</ul>
+						<div class="clearfix">
+							<input type="text" class="border" style="width:470px" tag="title"
+								jsvalues=".value:$this.title" />
+						</div>
+						<div style="padding:10px 0px 0px 0px">
+							<textarea tag="desc" cols="30" rows="5"
+								class="log-scenic-textarea" 
+								jsvalues=".value:$this.content"></textarea>
+						</div>
+					</div>
+				</div>
+				<div class="right n-list-opt" style="padding:70px 5px;width:90px">
+					<a href="javascript:void(0)" jsvalues="index:$index"
+						onclick="trip.removeTrip(this)">删除</a> <span jseval="$index++"></span>
+				</div>
+			</div>
+		</div>
+
+
+
+	</div>
+
+
+	$context.readFooter(true) $context.includeJavaScript("","rock.js")
+	$context.includeJavaScript("jquery/","jquery.tagit.js")
+	$context.includeJavaScript("jquery/","jquery.popeye.js")
+	$context.includeJavaScript("jquery/","jquery.clockpicker.js")
+	$context.includeJavaScript("jquery/","jquery.calendar.js")
+	$context.includeJavaScript("","tinymce/tinymce.min.js")
+	$context.includeJavaScript("","tripcommon.js")
+	$context.includeJavaScript("","posttrip.js")
+</body>
+</html>

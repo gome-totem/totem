@@ -1,0 +1,50 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>推荐管理</title>
+<link rel="shortcut icon" href="/images/hi.ico">
+<link rel="icon" type="image/png" href="/images/hi.png" >
+$context.readHtmlHeader() $context.includeCss("","backend.css")
+$context.includeCss("","datatable.css")
+</head>
+<body>
+	$context.readHeader(false) $context.include("usertitle")
+	<div class="home">
+		$context.include("userinfo")
+		<div class="content clearfix">
+			$context.include("userpanel")
+			<div class="fieldset">
+				<div class="left" style="width:230px">放TreeView</div>
+				<div class="right" style="width:700px;height:100%">
+					<ul class="listbox" style="border:0;margin-bottom:10px;">
+						<li style="float:left;margin-right:10px;"><a
+							href="javascript:void(0)" id="addBlock" class="iconbtn"><span
+								class="add"></span>增加数据块</a></li>
+						<li style="float:left;margin-right:10px;"><a
+							href="javascript" id="deleteBlock" class="iconbtn"><span
+								class="remove"></span>删除数据块</a></li>
+					</ul>
+					<table id="block" class="display clearfix" cellspacing="0"
+						width="100%">
+						<thead>
+							<tr>
+								<th></th>
+								<th>页面名称</th>
+								<th>数据块名称</th>
+								<th>数据来源</th>
+								<th>数据集合</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	$context.readFooter(true)
+</body>
+
+$context.includeJavaScript("jquery/","jquery.datatables.js")
+$context.includeJavaScript("","rock.js")
+$context.includeJavaScript("","recommends.js")
+</html>

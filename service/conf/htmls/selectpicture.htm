@@ -1,0 +1,55 @@
+<div id="selectPictureBox" style="z-index: 100;text-align: center;position: absolute;display:none">
+	<div class="dialog-container shown">
+		<div class="dialog-container-front">
+			<div class="dialog" style="width:736px;">
+				<div class="dialog-head">
+					<h1>上传图片(文件最大1M) 或 <b>直接点击图片</b>选择</h1>
+					<div  onclick="$('#selectPictureBox').hide()" class="dialog-btn-close"><b></b></div>
+				</div>
+				<div class="dialog-content">
+					<div class="form rounded" style="padding:20px;">
+						<fieldset style="background:#FFF;margin:0px;">
+							<div class="item" style="height:50px;">
+								  <label for="title_" style="display:block;float:left;margin-top:13px;margin-right:6px;">
+									 按图片分类搜索
+								  </label>
+								  <span class="input_holder" style="display:block;float:left">
+									  <input type="text" class="text" style="width:360px;" id="searchPicTag"  placeHolder="输入后，按回车键开始搜索">
+								  </span>
+								  <input  style="width:110px;margin-top:6px;float:left" type="file" id="uploadImageFile"/>              
+								  <img id="imageProcess" class="process" style="display:none;float:right;margin-right:9px;margin-top:9px;" src="/images/process.gif"/>									
+							</div>
+							<div class="item" id="files">
+							</div>
+							<div class="item" style="height:170px;width:630px;">
+								<ul id="images" class="jcarousel-skin-tango" ></ul>
+							</div>
+							<div class="item fieldset_content" style="background:#FAFAFA;height:110px;padding:3px;border:1px solid #F0F0EE;">
+								<p style="margin:0;padding-left:20px;">
+									<span class="middle" style="width:260px;">
+										<label>修改图片分类</label>	
+										<span class="input_holder" style="float:left;width:250px;">
+											<input type="text" id="editPicTag" class="text13" style="width:226px;" placeHolder="如果为空，则不会更新图片分类">
+										</span>
+									</span>
+									<span class="middle" style="width:260px;">
+										<label>修改图片标题</label>	
+										<span class="input_holder" style="float:left;width:250px;">
+											<input type="text" id="editPicTitle" class="text13" style="width:226px;" placeHolder="如果为空，则不会更新图片标题">
+										</span>
+									</span>
+									<span class="four" style="width:100px;padding-top:30px;">
+										<button class="btn btn-pink" onclick="editPicture()">立即更新</button>
+									</span>
+								</p>
+								<p style="width:630px;float:left;padding-left:20px;tmargin:0px;">
+									①如果要批量修改图片的分类或标题,请打钩选择图片。②图片太大，点击<a class="link" href="http://ftp.pconline.com.cn/593492cf4626bc82084afb5be1b75d3f/pub/download/200706/jpopt3_PConline.exe">此处下载压缩工具</a>
+								</p>
+							</div>
+						</fieldset>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

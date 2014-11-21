@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>应用程序管理©$tool.seoTitle()</title>$context.includeCss("","backend.css")
+$context.includeCss("","tuiba.css") $context.readHtmlHeader()
+</head>
+<body>
+	$context.readHeader()
+	<div id="container">
+		<div class="wrap">
+			$context.readUserTitle() $context.readUserPanel()
+			<div class="w900 right">
+				<div class="heading">
+					<h2>应用程序管理</h2>
+					<div class="btn">
+						<div id="spinner"></div>
+						<div class="collapse" link="all"></div>
+					</div>
+				</div>
+				<div class="htx">
+					<div class="per_st">
+						<div class="per_set01">
+							管理①<br /> <a href="javascript:void(0)" class="per_gg"></a>
+						</div>
+						<div class="per_set02">
+							<p class="per_wz01">应用程序同步</p>
+							<p class="per_wz03">应用程序必须和服务器的镜像副本一致</p>
+						</div>
+						<span class="per_sub"> <a class="submitBtnGreen"
+							href="javascript:void(0)" onclick="bindCurrent()"><span>同步副本</span>
+						</a> </span>
+					</div>
+					<div class="per_yx" id="binds">
+						<table width="755" border="0" cellspacing="0" cellpadding="0"
+							class="tytb2">
+							<tr>
+								<td class="b">应用程序副本</td>
+								<td class="b" width="120">同步日期</td>
+								<td class="b" width="120">副本编号</td>
+								<td class="b" width="120">操作</td>
+							</tr>
+							#set($instances=$service.readUserInstances($context)) #foreach($instance
+							in $instances)
+							<tr>
+								<td>$instance.getString("cpu_id")</td>
+								<td>$tool.formatDate($instance.getLong("timestamp"),"yyyy-MM-dd")</td>
+								<td>$instance.getString("hwnd")</td>
+								<td><a href="javascript:void(0)"
+									onclick='unbind(this,"${instance.getString("cpu_id")}","${instance.getString("hwnd")}")'>删除该副本</a>
+								</td>
+							</tr>
+							#end
+						</table>
+					</div>
+					<div class="per_st">
+						<div class="per_set01">
+							管理②<br /> <a href="javascript:void(0)" class="per_gg"></a>
+						</div>
+						<div class="per_set02">
+							<p class="per_wz01">应用程序服务状态</p>
+							<p class="per_wz03">管理应用程序的服务有效期、能同时运行的应用程序副本数</p>
+						</div>
+					</div>
+					<div class="per_yx" id="licenceInfo">
+						<table width="755" border="0" cellspacing="0" cellpadding="0"
+							class="tytb2">
+							<tr>
+								<td class="b">购买的服务名称</td>
+								<td class="b" width="240">服务状态</td>
+								<td class="b" width="120">操作</td>
+							</tr>
+							#set($licences=$service.readLicences($context,$user.userId))
+							#foreach($licence in $licences)
+							<tr>
+								<td>$licence.getString("name")</td>
+								<td>$licence.getString("value")</td>
+								<td><a href="/charge">购买</a>
+								</td>
+							</tr>
+							#end
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div style="display:none">
+		<table id="templateBind" width="755" border="0" cellspacing="0"
+			cellpadding="0" class="tytb2">
+			<tr>
+				<td class="b">应用程序副本</td>
+				<td class="b" width="120">同步日期</td>
+				<td class="b" width="120">副本编号</td>
+				<td class="b" width="120">操作</td>
+			</tr>
+			<tr jsselect="items">
+				<td jscontent="$this.cpu_id"></td>
+				<td jseval="$content=longToDateStr($this.timestamp)"
+					jscontent="$content"></td>
+				<td jscontent="$this.hwnd"></td>
+				<td><a jsvalues=".mac:$this.cpu_id;.hwnd:$this.hwnd"
+					href="javascript:void(0)" onclick="unbind(this,this.mac,this.hwnd)">删除该副本</a>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+	$context.readFooter() $context.includeJavaScript("","rock.js")
+	$context.includeJavaScript("","tuibalicence.js")
+</body>
+</html>

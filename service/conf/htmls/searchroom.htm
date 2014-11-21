@@ -1,0 +1,378 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" class="mozilla">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>特色度假房间©$tool.seoTitle()</title>
+	<link rel="shortcut icon" href="/images/hi.ico" >
+	<link rel="icon" type="image/gif" href="/images/hi.gif" >
+	<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?v=3&sensor=false&libraries=geometry"></script>
+	$context.includeCss("","global.css")
+	$context.includeCss("","reset.css")
+	$context.includeCss("","firefix.css")
+	$context.includeCss("jquery/","jquery.plugin.css")	
+    $context.readHtmlHeader()
+	<style>
+		ul li span{float:left;height:20px;}
+		ul li span.price{width:100px;}
+		ul li span.name{width:200px;overflow:hidden}
+		ul li span.header{background:#CC2A43;height:20px;}
+		#areas li{float:left;height:20px;}
+	</style>
+</head>
+#set($from=$tool.decode($context.getParam('city')))
+#set($country=$tool.decode($context.getParam('c')))
+#set($day=$tool.decode($context.getParam('day')))
+#set($date=$context.getParam('d'))
+#set($city=$context.getCity())
+ <body>
+	$context.readHeader()
+	<div id="container">
+		<div class="wrap">
+        <ul id="breadcrum">
+          <li>
+            <a href="/" class="home">
+              <span></span>
+              <strong>主页</strong>
+            </a>
+          </li>
+          <li>
+            /
+          </li>
+          <li>
+            特色度假房间
+          </li>
+        </ul>
+
+        <div class="four_columns left">
+			<div class="search-bar">
+				<h1>排序方式</h1>
+				<ul id="sort">
+					<li sort="desc" fieldName="score" sortable="false" class="focus"><span>按相关度</span></li>
+					<li sort=""     fieldName="price" sortable="true"><span>按价格</span><font></font></li>
+				</ul>
+				<p>
+					<a href="javascript:void(0)" class="icon2"></a>
+					<a href="javascript:void(0)" class="icon1"></a>
+				</p>  
+			</div>	
+			<div class="search-filter">
+				<label>目的城市</label>
+				#if($tool.isEmpty($country))
+					#set($country="中国")
+				#end
+				<span class="input_holder" style="display:inline-block;">
+                    <input type="text" placeholder="比如 北京,上海" id="city" country="$country" style="width:100px" value="$from">
+                 </span>
+				<span id="zlv"></span>
+				<span class="input_holder" style="display:inline-block;">
+                    <input type="text" placeholder="什么位置附近"  id="location" style="width:130px" value="">
+                 </span>
+				<span id="zc"></span>
+				<span class="input_holder" style="display:inline-block;">
+                    <input type="text" placeholder="对设施要求或房屋要求描述"  id="key" style="width:190px" value="">
+                 </span>
+				 <a class="btn" onclick="searchRoom()" style="margin-top:3px;float:right" href="javascript:void(0)">搜索</a>
+				 <div class="info" id="searchInfo" style="display:none">
+					<a class="close" href="javascript:void(0)" onclick="$('#searchInfo').hide()"></a>
+					<div class="left">
+						<p id="job1"></p>
+						<p id="job2"></p>
+						<p id="job3"></p>
+					</div>
+					<div class="right" style="margin-right:10px;">
+					  <h2></h2>
+					</div>
+				</div> 
+			</div>			
+		
+          <div class="search-results form clear" id="results" jseval="$recIndex=0"></div>
+          <!-- /search-results -->
+          <div class="pagebar" id="pager">
+		  </div>
+          <!-- /pagination -->
+        </div>
+        <!-- /four_columns left -->
+        <div class="two_columns_no_grid right">
+			<div>
+			<div class="search-options" id="searchOption"  style="position:relative;width:326px">
+            <form class="form">
+              <a href="javascript:void(0);" class="trigger">
+                分类标签&nbsp;[点击可过滤,再次点击即可取消]
+                <span></span>
+              </a>
+			  <div class="box" style="display: block;">
+				<ul id="areas" style="margin-top:0px;">
+				#set($tags=$service.readRoomCountryTags($country).get('items'))
+				#foreach($tag in $tags)
+					<li class="selectbox">
+						<a tag="country" href="javascript:void(0)" catalog="$tag.get('catalog')" onclick="selectCatalog(this)">
+							<span class="tag_level_$tag.get('level')">$tag.getString('name')</span>
+							<em>$tag.getString('count')</em>
+						</a>
+					</li>
+				#end
+				</ul>
+			  </div>
+			  <!--
+              <a href="javascript:void(0);" class="trigger">
+                地图搜索半径（公里数）
+                <span></span>
+              </a>			  
+              <div class="box" id="mapBox">
+                <div id="distanceSlider" class="slider" style="width:296px;margin-left:9px;"></div>
+			    <div id="mapCanvas" style="height:360px;padding:1px;"><img style="margin:100px;" src="/images/loading.gif"/></div>
+              </div>
+			  -->
+              <a href="javascript:void(0);" class="trigger">
+                过滤条件
+                <span></span>
+              </a>
+			  <div class="box" style="display: block;">
+                <div class="range">
+                  <input type="hidden" value="70" name="price_min" id="price_min">
+                  <input type="hidden" value="500" name="price_max" id="price_max">
+                  <span class="right">最高价</span>
+                  <span>最低价</span>
+                </div>
+                <!-- /range -->
+                <div id="priceSlider" class="slider" style="width:296px;margin-left:9px;"></div>
+              </div>              
+			  <div class="box" style="display: block;">
+				<!--
+                <div class="range">
+                  <span class="right">至</span>
+                  <span>出发日期范围从</span>
+                </div>
+                <div id="dateSlider" class="slider" style="width:296px;margin-left:9px;"></div>
+				-->
+                <div class="block left">
+                  <label for="edtLodgeType" style="display:block">房屋类别</label>
+                  <select id="edtLodgeType" style="width:150px;"  onchange="filterChanged(this)">
+					    <option value="none">无要求</option>
+						<option value ="house">民房</option>
+						<option value ="apartment">公寓</option>
+						<option value ="mcmansions">独栋别墅</option>
+						<option value ="hotel">快捷酒店/旅馆</option>
+						<option value ="tavern">客栈</option>
+						<option value ="loft">阁楼</option>
+						<option value ="courtyard">四合院</option>
+						<option value ="seasidecottage">海边小屋</option>
+						<option value ="dormitory">集体宿舍</option>
+						<option value ="woodscottage">林间小屋</option>
+						<option value ="luxuryhouse">豪宅</option>
+						<option value ="castle">城堡</option>
+						<option value ="treehouse">树屋</option>
+						<option value ="cabin">船舱</option>
+						<option value ="carhouse">房车</option>
+						<option value ="icehouse">冰屋</option>
+				  </select>
+                </div>
+                <!-- /block -->
+                <div class="block right">
+                  <label for="edtLeaseType" style="display:block">出租类别</label>
+                  <select id="edtLeaseType" style="width:150px;" onchange="filterChanged(this)">
+					  <option value="none">无要求</option>
+					  <option value ="house">整租</option>
+					  <option value ="apartment" >单间出租</option>
+					  <option value ="mcmansions" >床位出租</option>
+				  </select>
+                </div>
+                <br class="clear">
+              </div>      		 
+              <!-- /box -->
+              <a href="javascript:void(0);" class="trigger">
+                服务设施
+                <span></span>
+              </a>
+              <div class="box" style="display:block">
+				<div id="tagBox" style="height:330px;">
+				    <div class="scrollBox">
+					  <div class="container">
+						 <div class="content">
+							<div>
+								<a style="margin-bottom:9px;" class="fulltitle" href="javascript:void(0)">服务设施</a>
+								<p class="list">
+									<span style="display:inline-block;width:140px">
+										<input type="checkbox" id="tag01"  value="吸烟" onchange="onTagChange(this)">
+										<label for="tag01">可以吸烟</label>
+									</span>
+									<span style="display:inline-block;width:140px">
+										<input type="checkbox" id="tag02"  value="宠物" onchange="onTagChange(this)">
+										<label for="tag02">可以携带宠物</label>
+									</span>
+									<span style="display:inline-block;width:140px">
+										<input type="checkbox" id="tag03"  value="电视" onchange="onTagChange(this)">
+										<label for="tag03">电视</label>
+									</span>
+									<span style="display:inline-block;width:140px">
+										<input type="checkbox" id="tag04"  value="有线" onchange="onTagChange(this)">
+										<label for="tag04">有线电视</label>
+									</span>
+									<span style="display:inline-block;width:140px">
+										<input type="checkbox" id="tag05"  value="网络" onchange="onTagChange(this)">
+										<label for="tag05">网络</label>
+									</span>
+									<span style="display:inline-block;width:140px">
+										<input type="checkbox" id="tag06"  value="无线WIFI" onchange="onTagChange(this)">
+										<label for="tag06">无线WIFI</label>
+									</span>
+									<span style="display:inline-block;width:140px">
+										<input type="checkbox" id="tag07"  value="取暖" onchange="onTagChange(this)">
+										<label for="tag07">取暖</label>
+									</span>
+									<span style="display:inline-block;width:140px">
+										<input type="checkbox" id="tag08"  value="热水" onchange="onTagChange(this)">
+										<label for="tag08">24小时热水</label>
+									</span>
+									<span style="display:inline-block;width:140px">
+										<input type="checkbox" id="tag09"  value="淋浴" onchange="onTagChange(this)">
+										<label for="tag09">淋浴</label>
+									</span>
+									<span style="display:inline-block;width:140px">
+										<input type="checkbox" id="tag10"  value="卫间" onchange="onTagChange(this)">
+										<label for="tag10">独立卫生间</label>
+									</span>
+									<span style="display:inline-block;width:140px">
+										<input type="checkbox" id="tag11"  value="空调" onchange="onTagChange(this)">
+										<label for="tag11">空调</label>
+									</span>
+									<span style="display:inline-block;width:140px">
+										<input type="checkbox" id="tag12"  value="浴缸" onchange="onTagChange(this)">
+										<label for="tag12">浴缸</label>
+									</span>
+									<span style="display:inline-block;width:140px">
+										<input type="checkbox" id="tag13"  value="冰箱" onchange="onTagChange(this)">
+										<label for="tag13">冰箱</label>
+									</span>
+									<span style="display:inline-block;width:140px">
+										<input type="checkbox" id="tag14"  value="洗衣" onchange="onTagChange(this)">
+										<label for="tag14">洗衣机</label>
+									</span>
+									<span style="display:inline-block;width:140px">
+										<input type="checkbox" id="tag15"  value="浴缸" onchange="onTagChange(this)">
+										<label for="tag15">浴缸</label>
+									</span>
+									<span style="display:inline-block;width:140px">
+										<input type="checkbox" id="tag16"  value="厨房" onchange="onTagChange(this)">
+										<label for="tag16">厨房</label>
+									</span>
+									<span style="display:inline-block;width:140px">
+										<input type="checkbox" id="tag17"  value="壁炉" onchange="onTagChange(this)">
+										<label for="tag17">室内壁炉</label>
+									</span>
+									<span style="display:inline-block;width:140px">
+										<input type="checkbox" id="tag18"  value="游泳" onchange="onTagChange(this)">
+										<label for="tag18">游泳池</label>
+									</span>
+									<span style="display:inline-block;width:140px">
+										<input type="checkbox" id="tag19"  value="健身" onchange="onTagChange(this)">
+										<label for="tag19">健身房</label>
+									</span>
+									<span style="display:inline-block;width:140px">
+										<input type="checkbox" id="tag20"  value="早餐" onchange="onTagChange(this)">
+										<label for="tag20">早餐</label>
+									</span>
+									<span style="display:inline-block;width:140px">
+										<input type="checkbox" id="tag21"  value="聚会" onchange="onTagChange(this)">
+										<label for="tag21">允许聚会</label>
+									</span>
+									<span style="display:inline-block;width:140px">
+										<input type="checkbox" id="tag22"  value="电梯" onchange="onTagChange(this)">
+										<label for="tag22">电梯</label>
+									</span>
+									<span style="display:inline-block;width:140px">
+										<input type="checkbox" id="tag23"  value="保安" onchange="onTagChange(this)">
+										<label for="tag23">保安</label>
+									</span>
+									<span style="display:inline-block;width:140px">
+										<input type="checkbox" id="tag24"  value="停车" onchange="onTagChange(this)">
+										<label for="tag24">停车位</label>
+									</span>
+									<span style="display:inline-block;width:140px">
+										<input type="checkbox" id="tag25"  value="无障" onchange="onTagChange(this)">
+										<label for="tag25">无障碍设施</label>
+									</span>
+									<span style="display:inline-block;width:140px">
+										<input type="checkbox" id="tag26"  value="电梯" onchange="onTagChange(this)">
+										<label for="tag26">电梯</label>
+									</span>
+									<span style="display:inline-block;width:140px">
+										<input type="checkbox" id="tag27"  value="门禁" onchange="onTagChange(this)">
+										<label for="tag27">对讲门禁系统</label>
+									</span>
+									<span style="display:inline-block;width:140px">
+										<input type="checkbox" id="tag28"  value="会议" onchange="onTagChange(this)">
+										<label for="tag28">商务会议</label>
+									</span>
+								</p>
+						    </div>
+						</div>
+					  </div>
+					  <div class="dragger_container" style="display: block;margin-top:260px;height:20%">
+						  <div class="dragger ui-draggable" style="display: block;"></div>
+					  </div>
+					</div>
+				</div>
+              </div>
+            </form>
+          </div>
+				<!-- /search-options -->
+			</div>
+		</div>
+        <!-- /two_columns right -->
+      </div>
+		<div style="font: 0px/0px sans-serif;clear: both;display:block"></div>	
+    </div>
+
+	<div style="display:none">
+	
+		<li id="templateCountry" class="selectbox" jsselect="$this.items">
+			<a tag="country" href="javascript:void(0)" jsvalues="catalog:$this.catalog;" onclick="selectCatalog(this)">
+				<span jsvalues="class:'tag_level_'+$this.level" jscontent="$this.name"></span>
+				<em jscontent="$this.count"></em>
+			</a>
+		</li>
+
+	   
+		<div id="templateResult"  class="result" jsselect="$this.items" jsvalues="index:$recIndex">
+			<div class="image pic100">
+				<a target="_blank" jsvalues=".href:'/room/'+$this.short_id">
+					<img width="100" height="100" jsvalues=".src:'http://image.yiqihi.com/shots/'+$this.snapshot">
+				</a>
+			</div>
+			<div class="caption" style="width:530px;" tag="caption">
+				<div class="content">
+					<div class="info" style="width:100%" >
+						<h3>
+							<a target="_blank" jsvalues=".href:'/room/'+$this.short_id" jscontent="$this.title"></a>
+							<span class="rating" jshtml="readSearchResultScore($this)"></span>
+						</h3>
+						<p style="color:#999999">
+							<span jshtml="readSearchResultContent($this)"></span>
+						</p>
+						<ul jsdisplay="$this.rooms.length>0">
+							<li>
+								<span class="name header" style="color:#FFF">房间</span>
+								<span class="price header"style="color:#FFF">每天</span>
+								<span class="price header" style="color:#FFF">每周</span>
+								<span class="price header" style="color:#FFF">每月</span>
+							</li>
+							<li jsselect="rooms">
+								<span class="name" jscontent="$this.name"></span>
+								<span class="price" jscontent="$this.price"></span>
+								<span class="price" jscontent="$this.weekPrice"></span>
+								<span class="price" jscontent="$this.monthPrice"></span>
+							</li>	
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	
+	</div>
+	
+	$context.readFooter()
+	$context.includeJavaScript("jquery/","jquery.rangeslider.js")
+	$context.includeJavaScript("","searchroom.js")
+</body>
+</html>

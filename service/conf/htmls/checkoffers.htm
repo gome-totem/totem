@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" class="mozilla">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>审核服务©$tool.seoTitle()</title>
+<link rel="shortcut icon" href="/images/hi.ico">
+	<link rel="icon" type="image/png" href="/images/hi.png" >
+		$context.readHtmlHeader() $context.includeCss("","page.css")
+		$context.includeCss("","backend.css")
+</head>
+
+<body>
+	$context.readHeader(false) $context.include("usertitle")
+	<div class="home">
+		$context.include("userinfo")
+		<div class="content clearfix">
+			$context.include("userpanel")
+			<div class="fieldset">
+				<div class="service" id="container" catalog="$catalog">
+					#set($record=$context.readToCheckCount())
+					<div class="service-c">
+						<div id="form-wizard" class="wizard clearfix">
+							<ul class="steps">
+								<li class="active" data-target="6"><span class="none"></span>
+									<b>$record.get('tripCount')</b>导游服务</li>
+								<li data-target="5"><span class="none"></span> <b>$record.get('carCount')</b>租车</li>
+								<ii style="padding-top:20px;"> <span id="spinner"
+									style="float:left;display:block;"></span></ii>
+							</ul>
+						</div>
+						<div class="step-content" id="step6" jseval="$recIndex=0"></div>
+						<div class="step-content" id="step5" style="display:none"
+							jseval="$recIndex=0"></div>
+						<div class="clear"></div>
+						<div id="pager" class="pagebar"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div style="display:none">
+		<div id="checkTemplate" style="padding:10px;">
+			<div class="result" jsselect="items" jseval="$recIndex++"
+				jsvalues=".id:'result'+$recIndex">
+				<div class="image left">
+					<a target="_blank" jsvalues=".href:readOfferUrl($this)"> <img
+						width="100" height="100"
+						jsvalues=".src:'http://image.yiqihi.com/shots/'+$this.snapshot+'.jpg'" />
+						<br /> <i jscontent="dateDiff($this.last_modified)"></i> </a>
+				</div>
+				<!-- /image -->
+				<div class="right" style="width:800px;">
+					<div>
+						<div class="info wide">
+							<h3>
+								<a target="_blank" jsvalues=".href:readOfferUrl($this)"
+									jscontent="$this.title"></a>
+							</h3>
+							<p style="font-size:13px;padding:6px;">
+								<font jscontent="htmlToText($this.description)"></font> <br>
+									<span jshtml="readOfferAttr($this)"></span>
+							</p>
+							<p style="font-size:13px;padding:6px;">
+								<a class="grnlink" target="_blank"
+									jsvalues=".href:readEditHref($this)"><span class="edit"></span>编辑服务内容</a>
+								<a class="grnlink" href="javascript:void(0)"
+									jsvalues="recIndex:$recIndex;" onclick="check(this,4)"><span
+									class="sup"></span>删除该帖</a> <a class="grnlink"
+									href="javascript:void(0)" jsvalues="recIndex:$recIndex"
+									onclick="check(this,100)"><span class="sup"></span>删除用户</a> <a
+									class="grnlink" href="javascript:void(0)"
+									jsvalues="recIndex:$recIndex;" onclick="check(this,1)"><span
+									class="sup"></span>审核拒绝</a> <a class="grnlink"
+									href="javascript:void(0)" jsvalues="recIndex:$recIndex"
+									onclick="check(this,2)"><span class="edit"></span>审核通过</a> 
+									<span jsvalues=".id:'item_'+$bizType+'_'+$recIndex;shortId:$this.short_id;userId:$this.user_id;recIndex:$recIndex"></span>
+									<a class="redlink" jsvalues="recIndex:$recIndex;.href:'/i/'+$this.user_id" target="_blank" jshtml="readCheckUserName($this)"></a> 
+									<a href="javascript:void(0)" class="redlink" onclick="setTextArea(this,0)">完善资料</a> 
+									<a class="redlink" href="javascript:void(0)" onclick="setTextArea(this,1)">绑定手机</a>
+							</p>
+							<p>
+								<textarea style="width:100%;height:100px;"
+									jsvalues=".id:'edit_'+$bizType+'_'+$recIndex;" jscontent="$this.message"></textarea>
+							</p>
+							<p class="hr"></p>
+						</div>
+					</div>
+					<!-- /content -->
+				</div>
+				<!-- /right -->
+			</div>
+			<div class="clear"></div>
+		</div>
+	</div>
+
+	$context.readFooter(false)
+	$context.includeJavaScript("","checkoffers.js")
+	$context.includeJavaScript("","rock.js")
+</body>
+</html>

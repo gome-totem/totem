@@ -1,0 +1,67 @@
+<div class="clear"></div>
+<div style="display:none">
+	<div id="dlgpicture" style="z-index:999;">
+		<div style="height:450px;width:770px;">
+			<div class="menu" style="float:left;height:430px;width:130px;">
+				<p>
+					<a href="javascript:void(0)" link="uploader">上传照片</a> <a
+						href="javascript:void(0)" link="files">我的照片集</a>
+				</p>
+				<p class="desc" style="margin-top:130px;">
+					<span>从照片集中选择</span> <font>点击你要加入的照片，点击“确定”按钮即可，如果点击取消则本次操作无效</font>
+				</p>
+				<p class="desc">
+					<span>修改相册名</span> <font>点击你要归类的照片，在编辑框输入相册名,然后点击修改相册名按钮</font>
+				</p>
+				<p class="desc">
+					<span>删除照片</span> <font>点击你要要删除的照片，然后点击删除照片按钮</font>
+				</p>
+			</div>
+			<div class="tab"
+				style="float:left;width:620px;height:430px;padding:10px 6px 6px 12px;">
+				<div tag="uploader" class="scroller">
+					<div id="uploaderControl"></div>
+					<div class="scrollbar">
+						<div class="track">
+							<div class="thumb">
+								<div class="end"></div>
+							</div>
+						</div>
+					</div>
+					<div class="viewport">
+						<div class="overview">
+							<div class="fileHolder"></div>
+						</div>
+					</div>
+				</div>
+				<div tag="files" class="form" style="display:none">
+					<div style="height:50px;width:620px;">
+						<select class="select frame" id="dlgPicTag"
+							style="width:210px;font-size:14px;float:left;margin-right:10px;">
+							<option value="all">全部照片(可选择相册过滤)</option>
+						</select><input type="text" class="input frame"
+							style="width:170px;float:left;margin-right:10px;font-size:14px;"
+							id="edtPicTag" placeholder="给选择的照片设置相册名">
+						<button id="editPicture" class="button grey red-hover right"
+							style="width:110px;margin:3px 0px 0px 5px;">修改相册名</button>
+						<button id="removePicture" class="button grey red-hover right"
+							style="width:90px;margin:3px 0px 0px 5px;">删除照片</button>
+					</div>
+					<div class="items" style="height:330px;width:620px;overflow:hidden">
+						<ul>
+						</ul>
+					</div>
+					<div style="height:50px;width:620px;">
+						<div style="float:left">
+							<span id="dlgPicLoading"></span>
+						</div>
+						<div style="float:right">
+							<div class="pagebar" style="float:right;"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="clear"></div>

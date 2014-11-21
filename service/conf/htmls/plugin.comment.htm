@@ -1,0 +1,46 @@
+<div class="comment clearfix">
+	<div class="nav clearfix">
+		<div class="head">
+			<span class="icon"></span>最新评论
+		</div>
+	</div>
+	<div class="post clearfix">
+		<div class="avatar-info">
+			<img class="face" src="/photo/faces/$user.userId"> <span>$user.userName</span>
+		</div>
+		<div class="post-wrap">
+			<textarea rows="5" class="post-textarea" id="edtComment"
+				placeholder="发表您的评价"></textarea>
+			<div class="post-button">
+				<select class="select" id="edtCommentScore">
+					<option value="1">对服务评价-1颗星</option>
+					<option value="2" selected>对服务评价-2颗星</option>
+					<option value="3">对服务评价-3颗星</option>
+					<option value="4">对服务评价-4颗星</option>
+					<option value="5">对服务评价-5颗星</option>
+				</select> <a href="javascript:void(0)" onclick="user.postComment(this)">发表评论</a>
+			</div>
+		</div>
+	</div>
+	<div class="content" id="comments"></div>
+
+	<div class="pagebar"></div>
+	
+	<div style="display:none">
+		<div id="templateComment">
+			<div class="item clearfix" jsselect="$this.items">
+				<div class="item-avatar">
+					<img class="face" jsvalues="src:'/photo/faces/'+$this.userId">
+				</div>
+				<div class="item-info">
+					<div class="item-title">
+						<span class="item-time" jscontent="$this.timestamp"></span>
+						<a  target="_blank" jsvalues="href:'/i/'+$this.userId" jscontent="$this.userName"></a>
+						<span jshtml="readStar($this.score)"></span>
+					</div>
+					<div class="item-intro" jshtml="$this.content"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

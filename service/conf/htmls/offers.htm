@@ -1,0 +1,221 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" class="mozilla">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>我发布的服务©$tool.seoTitle()</title>
+<link rel="shortcut icon" href="/images/hi.ico">
+	<link rel="icon" type="image/png" href="/images/hi.png" >
+		$context.readHtmlHeader() $context.includeCss("","backend.css")
+</head>
+
+<body>
+	$context.readHeader(false) $context.include("usertitle")
+	<div class="home">
+		$context.include("userinfo")
+		<div class="content clearfix">
+			$context.include("userpanel")
+			<div class="fieldset">
+				<div class="content" id="offers" jseval="$args.index=0"></div>
+				<div id="pager" class="pagebar"></div>
+			</div>
+		</div>
+	</div>
+
+	<div style="display:none">
+		<div id="offerTemplate">
+			<div jsselect="trip">
+				<div class="listbox" jsselect="items" jseval="$args.index++"
+					jsvalues=".id:'result'+$args.index">
+					<dl>
+						<dt>
+							<a target="_blank" jsvalues=".href:readTripLink($this)">
+									<img class="shot"
+								jsvalues=".src:'http://image.yiqihi.com/shots/'+$this.snapshot+'.jpg'" />
+							</a>
+						</dt>
+						<dd>
+							<ul>
+								<li><span class="markcolor" jshtml="readMark($this,6)"></span><strong><span
+										jshtml="readStateHtml($this,$args.index,6)"
+										class="state"></span><a class="title"
+										target="_blank" jsvalues=".href:readTripLink($this)"
+										jscontent="htmlToText($this.title,180)"></a> </strong>
+								</li>
+								<li><p jscontent="htmlToText($this.description,180)"></p>
+								</li>
+								<li><p>
+										<span>接待城市：<span jshtml="readLocation($this)"></span> </span>
+										<span>定价: <font
+											jscontent="getCurrencyName($this.currency)"></font> <font
+											jscontent="$this.price"></font> </span><span
+											jsvalues=".id:'loading'+$args.index"></span>
+									</p>
+									<p class="check_msgbox" jsdisplay="readCheckVisible($this)"
+										jshtml="readCheckMessage($this,6)"></p></li>
+							</ul>
+						</dd>
+					</dl>
+
+					<ul class="pnl"
+						jsvalues=".id:'item'+$args.index;shortId:$this.short_id;">
+						<li><a class="iconbtn" href="javascript:void(0)"
+							jsvalues=".href:readTripEditLink($this)"><span class="edit"></span>编辑服务</a>
+							</a>
+						</li>
+						<li><a class="iconbtn" href="javascript:void(0)"
+							jsvalues=".recIndex:$args.index;"
+							onclick="deleteOffer(this.recIndex,6)"><span class="remove"></span>删除服务</a>
+						</li>
+						<li><a class="iconbtn" class="sup" href="javascript:void(0)"
+							jsvalues=".record:$this;.recIndex:$args.index;"
+							onclick="openSetting(this.record,this.recIndex,6)"><span
+								class="cale"></span>价格策略</a>
+						</li>
+					</ul>
+					<div class="clear"></div>
+					<div class=embox jsvalues=".id:'setting'+$args.index"
+						style="display:none">
+						<div class="emboxlt">
+							<span></span>
+						</div>
+						<div class="emboxh">
+							<div class="emboxrt">
+								<a class="close" href="javascript:void(0)"
+									jsvalues=".recIndex:$args.index"
+									onclick="return closeSetting(this.recIndex);"><em></em> </a>
+							</div>
+							<strong>价格策略</strong>
+						</div>
+						<div class="emboxcontent" tag="content"></div>
+					</div>
+				</div>
+			</div>
+
+			<div jsselect="car">
+				<div class="listbox" jsselect="items" jseval="$args.index++"
+					jsvalues=".id:'result'+$args.index">
+					<dl>
+						<dt>
+							<a target="_blank" jsvalues=".href:'/car/'+$this.short_id"><img class="shot"
+								jsvalues=".src:'http://image.yiqihi.com/shots/'+$this.snapshot+'.jpg'" />
+							</a>
+						</dt>
+						<dd>
+							<ul>
+								<li><span class="markcolor" jshtml="readMark($this,5)"></span><span class="state"
+									jshtml="readStateHtml($this,$args.index,5)"></span><strong><a class="title"
+										target="_blank" jsvalues=".href:'/car/'+$this.short_id"
+										jscontent="$this.title"></a> </strong>
+								</li>
+								<li><p jscontent="htmlToText($this.description,180)"></p>
+								</li>
+								<li><p>
+										<span>接待城市：<span jshtml="readLocation($this)"></span> </span>
+										<span>车型：
+										<font jscontent="$this.car_brand"></font>~<font
+											jscontent="$this.car_model"></font> </span><span>定价: <font
+											jscontent="getCurrencyName($this.currency)"></font> <font
+											jscontent="$this.price"></font> </span> <span
+											jsvalues=".id:'loading'+$args.index"></span>
+									</p>
+									<p class="check_msgbox" jsdisplay="readCheckVisible($this)"
+										jshtml="readCheckMessage($this,5)"></p></li>
+							</ul>
+						</dd>
+					</dl>
+
+					<ul class="pnl"
+						jsvalues=".id:'item'+$args.index;shortId:$this.short_id;">
+						<li><a class="iconbtn" href="javascript:void(0)"
+							jsvalues=".href:'/postcar/'+$this.short_id"><span
+								class="edit"></span>编辑服务</a> </a>
+						</li>
+						<li><a class="iconbtn" href="javascript:void(0)"
+							jsvalues=".recIndex:$args.index;"
+							onclick="deleteOffer(this.recIndex,5)"><span class="remove"></span>删除服务</a>
+						</li>
+						<li><a class="iconbtn" class="sup" href="javascript:void(0)"
+							jsvalues=".record:$this;.recIndex:$args.index;"
+							onclick="openSetting(this.record,this.recIndex,5)"><span
+								class="cale"></span>价格策略</a>
+						</li>
+					</ul>
+					<div class="clear"></div>
+					<div class=embox jsvalues=".id:'setting'+$args.index"
+						style="display:none">
+						<div class="emboxlt">
+							<span></span>
+						</div>
+						<div class="emboxh">
+							<div class="emboxrt">
+								<a class="close" href="javascript:void(0)"
+									jsvalues=".recIndex:$args.index"
+									onclick="return closeSetting(this.recIndex);"><em></em> </a>
+							</div>
+							<strong>价格策略</strong>
+						</div>
+						<div class="emboxcontent" tag="content"></div>
+					</div>
+				</div>
+
+			</div>
+
+			<div jsselect="product">
+				<div class="listbox" jsselect="items" jseval="$args.index++"
+					jsvalues=".id:'result'+$args.index">
+					<dl>
+						<dt>
+							<span jcontent="$this.snapshot"></span> <a target="_blank"
+								jsvalues=".href:'/product/'+$this.short_id"><img
+								class="shot"
+								jsvalues=".src:'http://image.yiqihi.com/shots/'+$this.snapshot+'.jpg'">
+							</a>
+						</dt>
+						<dd>
+							<ul>
+								<li><span class="markcolor" jshtml="readMark($this,3)"></span><span
+									class="state" jshtml="readStateHtml($this,$args.index,3)"></span><strong><a
+										class="title" target="_blank"
+										jsvalues=".href:'/product/'+$this.short_id"
+										jscontent="$this.title"></a> </strong>
+								</li>
+								<li><p jscontent="htmlToText($this.description,180)"></p>
+								</li>
+								<li><p>
+										<span jscontent="$this.brand"></span>~<span
+											jscontent="$this.model"></span> <span>定价: <font
+											jscontent="getCurrencyName($this.currency)"></font> <font
+											jscontent="$this.price"></font> </span> <span
+											jsvalues=".id:'loading'+$args.index"></span>
+									</p>
+									<p class="check_msgbox" jsdisplay="readCheckVisible($this)"
+										jshtml="readCheckMessage($this,3)"></p></li>
+							</ul>
+						</dd>
+					</dl>
+
+					<ul class="pnl"
+						jsvalues=".id:'item'+$args.index;shortId:$this.short_id;">
+						<li><a class="iconbtn" href="javascript:void(0)"
+							jsvalues=".href:'/postproduct/'+$this.short_id"><span
+								class="edit"></span>编辑产品</a> </a>
+						</li>
+						<li><a class="iconbtn" href="javascript:void(0)"
+							jsvalues=".recIndex:$args.index;"
+							onclick="deleteOffer(this.recIndex,3)"><span class="remove"></span>删除产品</a>
+						</li>
+					</ul>
+					<div class="clear"></div>
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+
+	$context.include('offercommon') $context.readFooter(false)
+	$context.includeJavaScript("jquery/","jquery.calendar.js")
+	$context.includeJavaScript("","rock.js")
+	$context.includeJavaScript("","offers.js")
+</body>
+</html>

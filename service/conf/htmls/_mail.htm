@@ -1,0 +1,49 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<title>网站维护~邮件账号管理</title>
+		<link rel="shortcut icon" href="/images/hi.ico" >
+		<link rel="icon" type="image/gif" href="/images/hi.gif" >
+		<style type="text/css" title="currentStyle">
+			@import "/jquery/css/datatable/page.css";
+			@import "/jquery/css/datatable/table.css";
+		</style>
+	</head>
+	<body id="dt_example">
+		<div id="container">
+			<div class="full_width big">
+				邮件账号管理
+			</div>
+			
+			<h1>操作说明</h1>
+		   <ul>
+		   <li>录入邮件的账号</li>
+		   </ul>
+			<p>
+			<a href="javascript:void(0)" onclick="addRecord(this,'mail_account')">增加邮件账号</a></p>
+			<div id="demo_trident">
+				<table cellpadding="0" cellspacing="0" border="0" class="display dataTable" id="mail_account">
+					<thead>
+						<tr id="mail_account_header">
+							<th>用户名</th>
+							<th>密码</th>
+							<th>邮件名称</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+			</div>
+			<div class="clear" id="test"></div>
+			<div id="footer" style="text-align:center;">
+				$context.readFooter()
+			</div>
+		</div>
+	</body>
+
+	$context.includeJavaScript("jquery/","jquery.dataTables.js")
+	$context.includeJavaScript("","datatable_common.js")
+	$context.includeJavaScript("","datatable_mail.js")
+</html>

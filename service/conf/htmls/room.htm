@@ -1,0 +1,671 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" class="mozilla">
+#set($shortId=$context.getParamByLong('id'))
+#set($activity=$service.readBy($shortId))
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	#if ($tool.isNull($activity))
+    <title>客栈别墅出租©$tool.seoTitle()</title>
+	#else
+    <title>$activity.getString('title')-客栈别墅出租</title>
+	#end
+	<link rel="shortcut icon" href="/images/hi.ico" >
+	<link rel="icon" type="image/gif" href="/images/hi.gif" >
+	$context.includeCss("","global.css")
+	$context.includeCss("","reset.css")
+	$context.includeCss("","firefix.css")
+	$context.includeCss("","bubbles.css")	
+	$context.includeCss("jquery/","jquery.plugin.css")	
+    $context.readHtmlHeader()
+	<style>
+		.jcarousel-skin-tango .jcarousel-container-horizontal{padding: 20px 30px 10px 30px;}
+		.jcarousel-skin-tango .jcarousel-item {height: 139px;width: 135px;}
+		.pic100 label{color:#CC2A43;};
+	</style>	
+</head>
+
+<body class="mon-compte" >
+$context.readHeader()
+#if ($tool.isNull($activity) || ($tool.byInt($activity,'state')!=2 && !$context.hasPageRight('room',$activity.getLong('user_id'))))
+<div id="container">
+    <div class="wrap">
+        <ul id="breadcrum">
+          <li>
+            <a href="/" class="home">
+              <span></span>
+              <strong>主页</strong>
+            </a>
+          </li>
+        </ul>
+		#if ($tool.isNull($activity))
+        <h2 class="page-title">服务已经下线或者不存在。</h2>
+		#else
+        <h2 class="page-title">服务正在审核中，请稍候访问。</h2>
+		#end
+        <p>
+          联系我们: <a href="mailto:team@yiqihi.com">team@yiqihi.com</a>
+        </p>
+      </div>
+	<div style="font: 0px/0px sans-serif;clear: both;display:block"></div>	
+</div>
+#else
+#set($rooms=$activity.get("rooms"))
+#set($profile=$user.readProfile("",false))
+<div id="container">
+      <div class="wrap">
+        <ul id="breadcrum">
+          <li>
+            <a href="/" class="home">
+              <span></span>
+              <strong>主页</strong>
+            </a>
+          </li>
+          <li>
+            /
+          </li>
+          <li>
+            <a href="/searchroom/city=$activity.getString('city')" id="city">$activity.getString('city')</a>
+          </li>
+        </ul>
+		
+		<div class="detailhead">
+			<div style="margin:0;padding:0;display:inline">
+				<span id="lat" style="display:none">$tool.by($activity,'location','lat')</span>
+				<span id="lng" style="display:none">$tool.by($activity,'location','lng')</span>
+				<span id="rooms" style="display:none">$rooms.toString()</span>
+				<input type="hidden" value="$activity.getString('id')" id="activityId">
+				<input type="hidden" value="$shortId" id="shortId">
+				<input type="hidden" value="$activity.getLong('user_id')" id="userId">
+				<input type="hidden" value="7" id="bizType">
+				<input type="hidden" value="$activity.getInt('chargeWay')" id="chargeWay">
+				<input type="hidden" value="$activity.getInt('currency')" id="currency">
+				#if($rooms.size()>0)
+				<input type="hidden" value="$rooms.get(0).get('name')" id="bizName">
+				#else
+				<input type="hidden" value="" id="bizName">
+				#end
+				<input type="hidden" value="$activity.getString('catalog')" id="catalog">
+				<input type="hidden" value="$profile.getString('bind_mobile')" id="bindMobile">
+				<input type="hidden" value="$profile.getString('mobile')" id="mobile">
+				<span id="metaContent" style="display:none">{}</span>
+			</div>
+			<div class="detailtitle">
+				<p class="authyes"></p>
+				<p class="text" id="title">$activity.getString('title')</p>
+			</div>
+			<div class="meta">
+				<p class="text">$tool.by($activity,'location','address')&mdash;<label id="lodgeType" val="$activity.get('lodge_type')"></label></p>
+				#set($comment=$service.readTotalComment($activity.getLong('user_id'),$shortId))
+				#set($scoreA=$tool.byInt($comment,'scoreA'))	
+				#set($countA=$tool.byInt($comment,'countA'))	
+				#set($scoreP=$tool.byInt($comment,'scoreP'))	
+				#if ($countA==0)
+				<span class="rating">
+				<span class="star"></span>
+				<span class="star"></span>
+				<span class="star"></span>
+				<span class="star"></span>
+				<span class="star"></span>
+				</span>
+				#else
+				<span class="rating">
+				<span class="star #if($scoreA>=1) selected #end"></span>
+				<span class="star #if($scoreA>=2) selected #end"></span>
+				<span class="star #if($scoreA>=3) selected #end"></span>
+				<span class="star #if($scoreA>=4) selected #end"></span>
+				<span class="star #if($scoreA>=5) selected #end"></span>
+				<strong>$comment.get('countA')条评论</strong>
+				</span>
+				#end
+				<div class="clear"></div>   
+			</div>
+		</div>
+		$context.readConsole('room')
+		<div class="leftbox">
+			<div class="detail">
+				<div class="detailbar">
+					<div class="detailbarl"></div>
+					<div class="detailbarm">
+						#set($photos=$activity.get("photos"))
+						<ul class="tabs">
+							<li>
+								<a tag="#photos-tab" href="javascript:void(0)" class="selected">
+									<span class="text">房屋全景</span>
+									<span class="num"><span>$photos.size()</span></span>
+								</a>
+							</li>
+							<li>
+								<a tag="#room-tab" href="javascript:void(0)">
+									<span class="text">房间类型</span>
+									<span class="num"><span>$rooms.size()</span></span>
+								</a>
+							</li>
+							<li>
+								<a tag="#map-tab" href="javascript:void(0)">
+									<span class="text">地图位置</span>
+								</a>
+							</li>
+						</ul>
+					</div>
+					<div class="detailbarr"></div>
+				</div>
+				<div class="detailbox">
+					<div id="photos-tab" class="tab current" tag="tab">
+						<div id="gallery" class="ad-gallery">
+							<div class="ad-image-wrapper"></div>
+							<div class="ad-nav">
+								<div class="ad-thumbs">
+									<ul class="ad-thumb-list">
+									#foreach($photo in $photos)					
+										<li>
+										<a href="http://image.yiqihi.com/pictures/$photo.getString('picture')">
+											<img width="85" height="85" src="http://image.yiqihi.com/shots/$photo.getString('shot')" class="image$velocityCount">
+										</a>
+										</li>
+									#end
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div id="map-tab"  class="tab" tag="tab">
+						<div id="map_canvas" class="rounded">
+						</div>
+					</div>
+					<div id="room-tab" class="tab" tag="tab" style="padding-bottom:10px;">
+						<div class="ad-gallery">
+							<div class="ad-image-wrapper" style="height:380px;">
+								<div class="ad-image" >
+									<img id="roomPicture"/>
+									<img id="preloading" src="/images/process.gif"   style="left: -200px;position: relative;top: -100px;"/>
+								</div>
+							</div>
+							<div style="height:30px;text-align:center;margin-top:5px;font-weight:bold;color:#999">
+								<label id="pictureTitle">标题</label>
+								<div class="trigger-bar" style="margin-top:5px;">
+									<a class="next" onclick="changePic(1)"  title="下一张图片"  href="javascript:void(0)"></a>
+									<a class="prev" onclick="changePic(-1)" title="上一张图片" href="javascript:void(0)"></a>
+									<div class="scrollable-trigger" id="trigger">
+									</div>
+								</div>									
+							</div>
+						</div>
+						<div style="border-top:1px #CCC dashed;padding:10px;">
+							<ul id="roomNames"  class="jcarousel-skin-tango">
+							</ul>							
+						</div>								
+						<div style="clear:both;margin-top:30px;font-size:13px;" id="rules" >
+						</div>
+					</div>  
+					<div style="font: 0px/0px sans-serif;clear: both;display:block"></div>	
+				</div>
+			</div>
+			<div>
+				<div class="detailinfo">
+					<p class="detailinfol">详细描述</p>
+					<p class="detailinfor"></p>
+				</div>
+				<div class="detaildesc">
+					$tool.htmlBy($activity.getString('description'))
+				</div>
+				<div class="detailtags" style="height:180px;">
+					<ul>
+                        <li>
+							<p class="$tool.iff($service.hasTag('吸烟'),'yesimg','noimg')"></p>
+							<p class="caption">可以吸烟</p>
+                        </li>
+                        <li>
+							<p class="$tool.iff($service.hasTag('宠物'),'yesimg','noimg')"></p>
+							<p class="caption">携带宠物</p>
+                        </li>
+                        <li>
+							<p class="$tool.iff($service.hasTag('电视'),'yesimg','noimg')"></p>
+							<p class="caption">电视</p>
+                        </li>
+                        <li>
+							<p class="$tool.iff($service.hasTag('有线'),'yesimg','noimg')"></p>
+							<p class="caption">有线电视</p>
+                        </li>
+                        <li>
+							<p class="$tool.iff($service.hasTag('网络'),'yesimg','noimg')"></p>
+							<p class="caption">网络</p>
+                        </li>
+                        <li>
+							<p class="$tool.iff($service.hasTag('wifi'),'yesimg','noimg')"></p>
+							<p class="caption">无线WIFI</p>
+                        </li>
+                        <li>
+							<p class="$tool.iff($service.hasTag('取暖'),'yesimg','noimg')"></p>
+							<p class="caption">取暖</p>
+                        </li>
+                        <li>
+							<p class="$tool.iff($service.hasTag('热水'),'yesimg','noimg')"></p>
+							<p class="caption">24小时热水</p>
+                        </li>
+                        <li>
+							<p class="$tool.iff($service.hasTag('淋浴'),'yesimg','noimg')"></p>
+							<p class="caption">淋浴</p>
+                        </li>
+                        <li>
+							<p class="$tool.iff($service.hasTag('卫间'),'yesimg','noimg')"></p>
+							<p class="caption">独立卫生间</p>
+                        </li>
+                        <li>
+							<p class="$tool.iff($service.hasTag('空调'),'yesimg','noimg')"></p>
+							<p class="caption">空调</p>
+                        </li>
+                        <li>
+							<p class="$tool.iff($service.hasTag('浴缸'),'yesimg','noimg')"></p>
+							<p class="caption">浴缸</p>
+                        </li>
+                        <li>
+							<p class="$tool.iff($service.hasTag('冰箱'),'yesimg','noimg')"></p>
+							<p class="caption">冰箱</p>
+                        </li>
+                        <li>
+							<p class="$tool.iff($service.hasTag('洗衣'),'yesimg','noimg')"></p>
+							<p class="caption">洗衣机</p>
+                        </li>
+                        <li>
+							<p class="$tool.iff($service.hasTag('厨房'),'yesimg','noimg')"></p>
+							<p class="caption">厨房</p>
+                        </li>
+                        <li>
+							<p class="$tool.iff($service.hasTag('壁炉'),'yesimg','noimg')"></p>
+							<p class="caption">室内壁炉</p>
+                        </li>
+                        <li>
+							<p class="$tool.iff($service.hasTag('游泳'),'yesimg','noimg')"></p>
+							<p class="caption">游泳池</p>
+                        </li>
+                        <li>
+							<p class="$tool.iff($service.hasTag('健身'),'yesimg','noimg')"></p>
+							<p class="caption">健身房</p>
+                        </li>
+                        <li>
+							<p class="$tool.iff($service.hasTag('早餐'),'yesimg','noimg')"></p>
+							<p class="caption">早餐</p>
+                        </li>
+                        <li>
+							<p class="$tool.iff($service.hasTag('聚会'),'yesimg','noimg')"></p>
+							<p class="caption">允许聚会</p>
+                        </li>
+                        <li>
+							<p class="$tool.iff($service.hasTag('电梯'),'yesimg','noimg')"></p>
+							<p class="caption">有电梯</p>
+                        </li>
+                        <li>
+							<p class="$tool.iff($service.hasTag('保安'),'yesimg','noimg')"></p>
+							<p class="caption">有保安</p>
+                        </li>
+                        <li>
+							<p class="$tool.iff($service.hasTag('停车'),'yesimg','noimg')"></p>
+							<p class="caption">有停车位</p>
+                        </li>
+                        <li>
+							<p class="$tool.iff($service.hasTag('无障'),'yesimg','noimg')"></p>
+							<p class="caption">无障碍设施</p>
+                        </li>
+                        <li>
+							<p class="$tool.iff($service.hasTag('门禁'),'yesimg','noimg')"></p>
+							<p class="caption">对讲门禁</p>
+                        </li>
+                        <li>
+							<p class="$tool.iff($service.hasTag('商务'),'yesimg','noimg')"></p>
+							<p class="caption">商务服务</p>
+                        </li>
+					</ul>
+				</div>
+			</div>
+			<div>
+				<div class="detailinfo">
+					<p class="detailinfol">$activity.getString('country')&mdash;社区，告诉你怎么玩，怎么吃...</p>
+					<p class="detailinfor"></p>
+				</div>
+				<div class="detaillist">
+					#set($topics=$service.readTopicsBy($activity.getString('country'),$activity.getString('city')))
+					#foreach($topic in $topics)
+						#set($photo=$topic.get('snapshot'))
+						#if($tool.isEmpty($photo))
+							#set($photo='/photo/faces/'+$topic.get('userId'))
+						#else
+							#set($photo='http://image.yiqihi.com/shots/'+$topic.get('snapshot'))
+						#end
+						<div class="item">
+							<ul>
+								<li class="pic">
+									<a href="/topic/$topic.getString('id')&s=$topic.getString('server')"><img src="$photo"/></a>
+								</li>
+								<li class="content">
+									<p class="title">
+										#if($topic.getInt('readMode')==1)
+										<span class="protected-badge" style="width:60px">&nbsp;私密<b></b></span>
+										#end
+										<a class="link" target="_blank" href="/topic/$topic.getString('_id')&s=$topic.getString('server')">
+											$topic.getString('title')
+										</a>
+									</p>
+									<p class="desc">$topic.getString('content')</p>
+									#if($topic.getInt('last_timestamp')!=0)	
+									<p style="width:460px;" class="quote">
+										<span class="begin"></span>
+										$tool.abbreviate($topic.get('last_content'),130)
+										<span class="end"></span>
+										&mdash;$topic.get('last_userName') $tool.dateDiff($topic.getLong('last_timestamp'))
+									</p>
+									#end
+								</li>
+							</ul>
+						</div>
+					#end	
+					<div class="more_xqy">
+						<a class="link" target="_blank" href="/forum/c=$activity.getString('country')" >
+							进入$activity.getString('country')旅行社区，获取更多信息>>
+						</a>
+					</div>
+				</div>
+			</div>
+			#if ($countA>0)
+			<h4 class="title">
+				<a style="font-size:20px;" name="comments-section"><b>评论</b></a>
+				<span class="rating-content">
+				<span class="rating">
+				<span class="star #if($scoreP>=1) selected #end"></span>
+				<span class="star #if($scoreP>=2) selected #end"></span>
+				<span class="star #if($scoreP>=3) selected #end"></span>
+				<span class="star #if($scoreP>=4) selected #end"></span>
+				<span class="star #if($scoreP>=5) selected #end"></span>
+				<strong>房东评分</strong>
+				</span>
+				<span class="rating">
+				<span class="star #if($scoreA>=1) selected #end"></span>
+				<span class="star #if($scoreA>=2) selected #end"></span>
+				<span class="star #if($scoreA>=3) selected #end"></span>
+				<span class="star #if($scoreA>=4) selected #end"></span>
+				<span class="star #if($scoreA>=5) selected #end"></span>
+				<strong>活动评分</strong>
+				</span>
+				</span>
+			</h4>
+			#end
+			<div id="commentContent" style="display:none">$service.readComments($shortId,0,3).toString()</div>
+			<div class="comments" id="comments"></div>
+			<div id="commentPager" class="pagebar"></div>			  
+		</div>
+		<div class="rightbox">
+			<div id="roomTitle" class="detailcale">
+				<div class="c">
+					<div class="obar" id="roomName"></div>
+					<div id="calendar" style="margin:10px 0px 0px 10px" ></div>
+				</div>
+			</div>
+			<div class="sidebox" style="height:320px;">
+				<div class="sideboxl"></div>
+				<div class="sideboxr" style="height:320px;">
+					<div class="sideinputbox">
+						<div>
+							<p class="sideinputlabel">入住日期<span id="lblDate"></span></p>
+							<div class="sideinputitem"><input type="text" id="edtCheckinDate"  onchange="bookingChange($('#lblsum'))"/></div>
+							<div class="sideinputlabel"><span>客人数</span><span id="timeName" style="margin-left:30px;">$tool.chargeWayName($activity.getInt('chargeWay'),7)</span><span style="margin-left:20px;">房间数</span></div>
+							<div class="sideselectitem">
+								<select id="edtPersonCount" onchange="bookingChange($('#lblsum'))" style="width:55px;">
+									$tool.personOptions(30)
+								</select>
+								<select id="edtTime" onchange="bookingChange($('#lblsum'))"  style="width:55px;">
+									$tool.timeOptions($activity.getInt('chargeWay'))
+								</select>
+								<select id="edtCount" onchange="bookingChange($('#lblsum'))"  style="width:55px;">
+									$tool.roomOptions(11)
+								</select>
+							</div>
+							#if($activity.getInt('chargeWay')==4)
+							<ul style="display: block;">
+							  <li>
+								<strong style="width:26px">每周</strong>
+								$tool.currencyNameBy($activity.getInt('currency'))<font id="weekPrice"></font>
+							  </li>
+							  <li>
+								<strong style="width:26px">每月</strong>
+								$tool.currencyNameBy($activity.getInt('currency'))<font id="monthPrice"></font>
+							  </li>
+							</ul>
+							#end
+						</div>
+					</div>
+					<div class="sidepricebox">
+						<div class="calc">
+							<div class="day">
+								<P class="price">$tool.currencyNameBy($activity.getInt('currency'))<font id="price"></font></P>
+								<P class="label">$tool.chargeWayBy($activity.getInt('chargeWay'))</P>
+							</div>
+							<div class="sum">
+								<P class="label"><i id="lblsum">费用合计</i></P>
+								<P class="price">$tool.currencyNameBy($activity.getInt('currency'))<font id="total-price"></font></P>
+							</div>
+							<div class="arrowd"></div>
+						</div>
+					</div>
+					<div style="font: 0px/0px sans-serif;clear: both;display:block"></div>	
+					<div class="sidepriced">
+						<ul>
+							<li><p class="label">早餐</p><p class="$tool.iff($service.hasPriceTag('早餐'),'check','uncheck')"></p></li>
+							<li><p class="label">午餐</p><p class="$tool.iff($service.hasPriceTag('午餐'),'check','uncheck')"></p></li>
+							<li><p class="label">晚餐</p><p class="$tool.iff($service.hasPriceTag('晚餐'),'check','uncheck')"></p></li>
+							<li><p class="label">桑拿服务</p><p class="$tool.iff($service.hasPriceTag('桑拿'),'check','uncheck')"></p></li>
+							<li><p class="label">保健按摩</p><p class="$tool.iff($service.hasPriceTag('保健'),'check','uncheck')"></p></li>
+							<li><p class="label">卡拉OK包间</p><p class="$tool.iff($service.hasPriceTag('ktv'),'check','uncheck')"></p></li>
+							<li><p class="label">车的停车费</p><p class="$tool.iff($service.hasPriceTag('停车'),'check','uncheck')"></p></li>
+						</ul>
+					</div>
+					<div class="sidebtnbox">
+						<ul class="icons">
+							<li><a href="javascript:void(0)" onclick="appointNow($shortId)" ><p class="time"></p><p class="label">提前预约</p></a><p class="sidebtnline"></p></li>
+							<li><a href="javascript:void(0)" onclick="callNow()"><p class="help" style="margin-bottom:2px;"></p><p class="label">免费咨询</p></a><p class="sidebtnline"></p></li>
+							<li><a href="javascript:void(0)" onclick="bookIt($shortId)" style="width:100px;"><p class="order"></p><p class="label">立即预订</p></a></li>
+						</ul>
+					</div>
+				   <div class="bar_rlo">费用包含</div>
+				</div>
+			</div>
+			<div class="detailrule">
+				<div class="c1" style="height:20px;"><span class="tipimg"></span>支付结算都按照实时汇率以<span>人民币结算</span>
+				</div>
+				<div class="c1" style="height:40px;"><span class="tipimg"></span>预约支付只需要支付30元，一起嗨的会员能<span>免费预约</span>本站所有房间</div>
+				<div class="c1" style="height:60px;"><span class="tipimg"></span><span>提前预约享有服务：</span>免费为您提前确认并保留房间48小时(会员保留7天)，通过电话直接回答您各种问题</div>
+				<div class="c1" style="height:90px;"><span class="tipimg"></span><span>在线预订享有服务：</span>只需要支付订单总额的20%,就能完成预订，享有一起嗨全程旅行安全风险保障,7*24小时客服协调服务，入住保障等服务。</div>
+			</div>
+			<div class="sidebox">
+				<div class="sideboxl"></div>
+				<div class="sideboxr">
+					<div class="username">$activity.getString('user_name')</div>
+					<div class="user">
+						<div class="face">
+							<a id="toUser" userId="$activity.getString('user_id')" userName="$activity.getString('user_name')" href="/i/$activity.getString('user_id')">
+								<img src="/photo/faces/$activity.get('user_id')"/>
+							</a>
+						</div>
+						<div class="info">
+							<div class="online">
+								<p class="yes"></p>
+								<p class="label">我现在在线<span id="yunLoader"></span></p>
+							</div>
+							#set($counter=$user.readUserCounter($activity.getLong('user_id')))
+							<div class="num">
+								<ul>
+									<li style="border-right:1px dotted  #ECECEC"><p class="d"><a target="_blank" href="/i/$activity.getLong('user_id')">$counter.get('service_count')</a></p><p class="t"><a  target="_blank" href="/i/$activity.getLong('user_id')">导游</a></p></li>
+									<li style="border-right:1px dotted  #ECECEC"><p class="d"><a target="_blank" href="/i/$activity.getLong('user_id')">0</a></p><p class="t"><a htarget="_blank" href="/i/$activity.getLong('user_id')">车辆</a></p></li>
+									<li><p class="d"><a target="_blank" href="/i/$activity.getLong('user_id')">$counter.get('topic_count')</a></p><p class="t"><a target="_blank" href="/i/$activity.getLong('user_id')">客栈</a></p></li>
+								</ul>
+							</div>
+							<div class="num" style="border-top:1px dotted  #ECECEC">
+								<ul>
+									<li style="border-right:1px dotted  #ECECEC"><p class="d"><a target="_blank" href="/i/$activity.getLong('user_id')">$counter.get('service_count')</a></p><p class="t"><a  target="_blank" href="/i/$activity.getLong('user_id')">线路</a></p></li>
+									<li style="border-right:1px dotted  #ECECEC"><p class="d"><a target="_blank" href="/topics/$activity.getLong('user_id')">0</a></p><p class="t"><a htarget="_blank" href="/topics/$activity.getLong('user_id')">代购</a></p></li>
+									<li><p class="d"><a target="_blank" href="/topics/$activity.getLong('user_id')">0</a></p><p class="t"><a htarget="_blank" href="/topics/$activity.getLong('user_id')">帖子</a></p></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="sidebtnbox" style="height:80px;">
+						<ul class="icons">
+							<li>
+								#set($followUserId=$activity.getLong('user_id'))
+								#set($followUserName=$activity.getString('user_name'))
+								#set($followed=$user.checkFollow($followUserId))
+								<a id="lbl_follow" href="javascript:void(0)" onclick="follow(this,'$followUserId','$followUserName')">
+									<p class="smile"></p>
+									#if($followed==true)
+									<p class="label" style="padding-left:18px;">
+										<span class="followimg"></span>
+										<font>已经关注</font>
+									</p>
+									#else
+									<p class="label">
+										<span class="followimg" style="display:none"></span>
+										<font>关注我</font>
+									</p>
+									#end
+								</a>
+								<p class="sidebtnline"></p>
+							</li>
+							 <li><a href="javascript:void(0)" onclick="callNow()"><p class="help"></p><p class="label">免费咨询</p></a><p class="sidebtnline"></p></li>
+							 <li><a href="javascript:void(0)" onclick="callback()" style="width:100px;"><p class="phone"></p><p class="label">联系@我</p></a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="detailrule">
+				<div class="c1" style="height:40px;"><span class="infoimg"></span><span>云呼叫系统:</span>本站采用云呼叫通讯系统，让您能马上联系到导游本人</div>
+				<div class="c1" style="height:80px;"><span class="infoimg"></span><span>什么是云呼叫：</span>您只要在网站上点击一下，就能直接呼叫对方手机，通话时您的手机是免费接听状态！双方手机均显示客服号码01056216655</div>
+			</div>
+			<div class="detailotherh">
+				<div class="detailother">
+					<div class="head">附加信息</div>
+					<div class="head2">
+						<p class="r"></p>
+						<p class="c">违约取消条款(当您预订成功后，要取消预订)</p>
+					</div>
+					<div class="c1">$tool.policyCancelBy($activity.getInt('policyCancel'))</div>
+					<div class="head2"><p class="r"></p><p class="c">房间信息</p></div>
+					<div class="c3">
+						<ul>
+							<li><p class="p1">房屋类型</p><p class="p2" id="lodge_type" val="$activity.get('lodge_type')"></p></li>
+							<li><p class="p1">出租类型</p><p class="p2" id="lease_type" val="$activity.get('lease_type')"></p></li>
+							<li><p class="p1">卫生间类型</p><p class="p2" id="toilet_type" val="$activity.get('toilet_type')"></p></li>
+							<li class="high"><p class="p1">最少住几天</p><p class="p2">$activity.get('minDay')天</p></li>
+							<li><p class="p1">最多住几天</p><p class="p2">#if($activity.getInt('maxDay')==0) 不限制 #else $activity.getInt('maxDay')天	#end</p></li>
+							<li><p class="p1">入住时间限制</p><p class="p2">#if($activity.getInt('checkIn')==-1)灵活的，随时 #elseif ($activity.getInt('checkIn')<=12) 上午$activity.getInt('checkIn')点前	#else 下午$activity.getInt('checkIn')点前 #end </p></li>
+							<li><p class="p1">退房时间限制</p><p class="p2">#if($activity.getInt('checkOut')==-1)灵活的，随时 #elseif ($activity.getInt('checkOut')<=12)上午$activity.getInt('checkOut')点前 #else 下午$activity.getInt('checkOut')点前 #end </p></li>
+						</ul>
+					</div>
+					<div class="head2"><p class="r"></p><p class="c">我接受/拒绝您的预订</p></div>
+					<div class="c4">
+						<ul>
+							<li><p class="smalluncheck"></p><p class="p1">发站内消息通知您</p></li>
+							<li><p class="smallcheck"></p><p class="p1">发手机短信通知您</p></li>
+							<li><p class="smallcheck"></p><p class="p1">发新浪微博私信通知您</p></li>
+							<li><p class="smallcheck"></p><p class="p1">发腾讯微博私信通知您</p></li>
+						</ul>
+					</div>
+					<div class="head2"><p class="r"></p><p class="c">投诉与建议</p></div>
+					<div class="c2">
+						如果发现该会员发布违法信息、提供虚假资料、使用了别人的照片等恶劣行为，请向我们投诉 点击
+						<a href="mailto:team@yiqihi.com?subject=投诉会员$activity.get('user_id')&body=提供虚假资料guide/$shortId">立即投诉</a>， 我们将在3个工作日内受理！
+					</div>
+				</div>
+			</div>
+			<div class="detailotherh">
+				<div class="detailother">
+					<div class="head">最新更新</div>
+					#set($relateds=$service.readRelateds($activity.getString('country'),1,3))
+					#foreach($related in $relateds)	
+					<div class="itemb">
+						<div class="c5"><a href="/room/$related.get('short_id')" target="_blank">$related.get('title')</a></div>
+						<div class="c6">
+							<p class="link">
+								<a href="/room/$related.get('short_id')" target="_blank">
+									<img src="http://image.yiqihi.com/shots/$related.get('snapshot')"/>
+								</a>
+							</p>
+							<p>$related.get('description')</p>
+						</div>
+					</div>
+					#end
+				</div>
+			</div>
+		</div>
+    </div>
+	<div style="font: 0px/0px sans-serif;clear: both;display:block"></div>	
+</div>	
+
+$context.readYuncall($activity,7,$activity.getInt('catalog'))
+$context.readAppoint($activity,7)
+<div style="display:none">
+	<table id="templateRules"  width="100%" cellspacing="0" cellpadding="0" border="0" class="table" jseval="$recIndex=0">
+		<tbody>
+		<tr class="even" jseval="$bizType=$this.bizType">
+			<th width="70%" scope="col">价格策略</th>
+			<th width="30%" scope="col">加价/优惠</th>
+		</tr>
+		</tbody>
+		<tbody >
+			<tr jseval="$recIndex++" jsselect="rules">
+				<td scope="col">
+				    <span class="action_icon_calendar"></span>
+					<span jshtml="readRuleContent($bizType,$this)"></span>
+				</td>
+				<td scope="col" jshtml="readRuleAmount($this)"></td>
+			</tr>
+		</tbody>
+	</table>						
+	
+	
+	<ol id="templateComment">
+	  <li jsselect="$this.items">
+		<div class="avatar rounded">
+		  <a target="_blank" jsvalues=".href:'/i/'+$this.userId">
+			<img width="66" height="66" jsvalues=".src:'/photo/faces/'+$this.userId">
+		  </a>
+		  <div class="tl"></div><div class="tr"></div><div class="bl"></div><div class="br"></div>
+		</div>
+		<!-- /avatar -->
+		<div class="comment_content">
+		  <p class="author">
+			<strong jscontent="$this.userName"></strong>
+			<span jseval="$time=longToDateTimeStr($this.timestamp)" jscontent="$time"></span>
+		  </p>
+		  <div class="description">
+			<p jscontent="$this.comment"></p>
+		  </div>
+		  <!-- /description -->
+		  <p class="clear">
+			<span class="rating" jshtml="readCommentScoreByPerson($this.scoreP)">
+			</span>
+			<span class="rating" jshtml="readCommentScoreByActivity($this.scoreA)">
+			</span>
+		  </p>
+		</div>
+	  </li>
+	</ol>
+
+	
+	
+</div>
+
+
+#end
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?v=3&sensor=false&libraries=geometry"></script>
+$context.readFooter()
+$context.includeJavaScript("jquery/","jquery.gallery.js")
+$context.includeJavaScript("jquery/","jquery.calendar.js")
+$context.includeJavaScript("jquery/","jquery.jcarousel.js")
+$context.includeJavaScript("","room.js")
+$context.includeJavaScript("","swfobject.js")
+$context.includeJavaScript("","web_socket.js")
+$context.includeJavaScript("","yuncall.js")
+$context.includeJavaScript("","appoint.js")
+</body>
+
+</html>
+	<div style="font: 0px/0px sans-serif;clear: both;display:block"></div>	
+</div>	

@@ -1,0 +1,23 @@
+		<div class="t-post nW530"  id="forumpack" style="display:none">
+			<h2 class="t-post-tit"></button><a href="javascript:void(0)" class="nClose" onclick="forumpack.hide();"></a>加入锦囊</h2>
+			<div id="pack1" class="t-post-header" style="height:60px;">	
+				<div id="pack1name"class="t-post-title">选择锦囊：</div>
+				<div class="t-post-nType nW250">
+					<div class="t-post-type-arrow"></div>
+					<div class="t-post-type-current">我的锦囊</div>
+					<div class="creat-type">
+						<input id="packnames" type="text" class="nIpnut"  />
+						<button id ="packbut"type="button" class="nButton" onclick="forumpack.showPoint()"></button>
+					</div>
+					<ul id ="packname"class="t-post-type-nList" style="display:none">
+					</ul>
+				</div>
+			</div>
+			<div id="pack3" class="t-post-header" style="height:82px;">
+				<div class="t-post-title">贴士内容：</div>
+				<textarea id="packContent" class="t-post-textarea" name="query" rows="3" tip="" style="width: 210px; height: 50px; text-align: left; overflow-y: hidden;" value="#请输入想说的话题#"></textarea>
+			</div>
+			<div id="pack4" class="t-post-footer">
+				<button type="button" class="t-post-btn-ok btn1" onclick="forumpack.insertForumPake()"></button>
+			</div>
+		</div>

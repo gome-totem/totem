@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>$tool.seoTitle()</title> $context.readHtmlHeader()
+$context.includeCss("","index.css")
+</head>
+<body>
+	$context.readHeader(false)
+	<div class="search">
+		<div class="searchbg" style="background:#333 ">
+			<img src="/images/bg/6.jpg" width="100%" height="500px" />
+			<div class="shadow"></div>
+		</div>
+		<div class="seachform">
+			<!--  
+			<a href="javascript:void(0)" class="left"></a> <a
+				href="javascript:void(0)" class="right"></a>
+				-->
+			<div class="lblguide">寻找导游，寻找你的故事</div>
+			<div class="lblInfo">
+				在全球<span>60</span>多个国家、<span>300</span>多个城市，提供司机兼导游、个性化旅行定制服务
+			</div>
+			<div class="inputs">
+				<div class="where">
+					<span class="ico"></span><input type="text" id="edtCountry"
+						placeholder="您要去哪个国家或城市" />
+				</div>
+				<div class="depart">
+					<input type="text" id="edtDeptDate"
+						value="$tool.currentDateTime(3)" />
+				</div>
+				<input type="text" value="1~2位旅客" class="person" id="person"
+					readonly /> <input type="button" value="搜索" class="redbutton"
+					id="btnSearch" />
+				<div class="popup" id="personBox"
+					style="display:none;width: 160px;height: 190px;position: relative;left:-90px;top:0px;z-index:30;float:right;font-size:16px;">
+					<div class="arrow" style="top:-23px"></div>
+					<ul style="padding:10px 10px 10px 20px;">
+						<li><label><input type="radio" name="edtPerson"
+								value="1" style="margin-right:6px" checked>1~2位旅客</label>
+						</li>
+						<li><label><input type="radio" name="edtPerson"
+								value="2" style="margin-right:6px">3~4位旅客</label>
+						</li>
+						<li><label><input type="radio" name="edtPerson"
+								value="3" style="margin-right:6px">5~7位旅客</label>
+						</li>
+						<li><label><input type="radio" name="edtPerson"
+								value="4" style="margin-right:6px">8~9位旅客</label>
+						</li>
+						<li><label><input type="radio" name="edtPerson"
+								value="5" style="margin-right:6px">10位以上旅客</label>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="w1200" id="list" >
+		<div class="w1200left" style="padding-left:60px">
+			<div id="contientBar">
+				<dl class="line">
+					<dt class="current">
+						<a href="javascript:void(0)" >推荐<sup></sup> </a>
+					</dt>
+					#if($user.role.isCustomerService() || $isSpider)
+					<dt style="width:160px;">
+						<a href="/portal" target="_blank">海外导游社区<sup></sup> </a>
+					</dt>
+					#end
+					<dt>
+						<a href="/searchtrip/ct=$tool.encode('欧洲')" target="_blank">欧洲<sup></sup> </a>
+					</dt>
+					<dt>
+						<a href="/searchtrip/ct=$tool.encode('亚洲')" target="_blank">亚洲<sup></sup> </a>
+					</dt>
+					<dt>
+						<a href="/searchtrip/ct=$tool.encode('北美洲')" target="_blank">北美洲<sup></sup> </a>
+					</dt>
+					<dt>
+						<a href="/searchtrip/ct=$tool.encode('南美洲')" target="_blank">南美洲<sup></sup> </a>
+					</dt>
+					<dt>
+						<a href="/searchtrip/ct=$tool.encode('大洋洲')" target="_blank">大洋洲<sup></sup> </a>
+					</dt>
+					<dt>
+						<a href="/searchtrip/ct=$tool.encode('非洲')" target="_blank">非洲<sup></sup> </a>
+					</dt>
+					<dd>
+						<span id="loading"></span>
+					</dd>
+				</dl>
+			</div>
+			<div id="content" >
+				#set($records=$context.search(16,$tool.dbObject().append("pageSize",12)))
+				#foreach($record in $records) #set($right=13)
+				#if($tool.mod($velocityCount,4)==0) #set($right=0) #end
+				<div tag="block"
+					style=" display:inline-block;margin-right:${right}px" class="block">
+					<div class="img">
+						<!--  
+						<div class="month">
+							<span>9</span>天
+						</div>
+						-->
+						<a target="_blank"
+							href="$tool.bizUrl($record.getInt('bizType'),$record.getInt('catalog'),$record.getLong('short_id'))">
+							<img width="260"  height="230"
+							src="http://image.yiqihi.com/shots/$record.get('snapshot')">
+						</a> $tool.bizTag($record.getInt('bizType'),$record.getInt('catalog'))
+					</div>
+					<div class="desc">
+						<dl>
+							<dt>
+								<div class="icons">
+									<span class="dibiao"></span> <font>$record.get('country')</font>
+									<font>$record.get('city')</font> <span class="rating"
+										style="float:right;margin:5px 15px 0 0;"> <b
+										class="star"></b><b class="star"></b> </span>
+								</div>
+							</dt>
+							<dd
+								style="width:230px; overflow:hidden; margin:10px;line-height:20px;">
+								<font class="colorb">$tool.currentMonth()月</font><a
+									target="_blank"
+									href="$tool.bizUrl($record.getInt('bizType'),$record.getInt('catalog'),$record.getLong('short_id'))"
+									target="_blank">$tool.abbreviate($record.get('description'),60)</a>
+							</dd>
+						</dl>
+					</div>
+				</div>
+				#end
+			</div>
+		</div>
+	</div>
+	<div class="clear"></div>
+	<div class="jz">
+		<button style="width: 100%" onclick="searchBy('#searching')"
+			class="lightbtn large">
+			加载更多<span id="searching"></span>
+		</button>
+	</div>
+
+	<!-- 媒体部分 开始 -->
+	<div class="info">
+		<div class="content">
+			<div class="c1">
+				<div class="text">
+					<div class="title">官方微信二维码</div>
+					<img class=img src="/images/weixin.jpg" border="0" height="162"
+						width="162" style="margin-left:60px" />
+					<div class="description">官方微信公共平台目前正在开发中，我们将在公共平台，提供实时的服务资讯，微信预约导游，旅行体验监督等服务。感谢您的关注！</div>
+				</div>
+			</div>
+			<div class="c1">
+				<div class="text">
+					<div class="title">加入我们，导游招募</div>
+					<div class="description">
+						<p>招募海外留学生,华人做兼职司机、导游</p>
+						<p style="color:#167A1D;font-size:16px;">
+							<b>注意事项：</b>一起嗨不收取导游的任何佣金，报价时请直接优惠给我们的客人！优秀导游享受一起嗨佣金的10%奖励。
+						</p>
+						<p>
+							<b>必备条件：</b>留学3年以上,语言能力优秀,对当地的文化,交通,景点,购物足够了解.必须提供驾照和身份证明的扫描件。
+						</p>
+						<p>
+							<b>优先原则：</b><br>有车或驾照的优先合作
+						</p>
+						<p>有绿卡或在国外居住6年以上的优先合作</p>
+						<hr>
+						<p>所有款项通过支付宝、paypal、银联、西联汇款4种方式交易，请准备好账号！</p>
+					</div>
+				</div>
+			</div>
+			<div class="c2">
+				<div class="title">手机、平板直接访问</div>
+				<img src="/images/html5.png" />
+			</div>
+
+		</div>
+	</div>
+	<!-- 媒体部分 结束 -->
+
+	<div style="display:none">
+		<div id="block"></div>
+		<div class="block" tag="block" id="templateBlock" jseval="$index++"
+			jsvalues="style:readBlockStyle($index)" jsselect="items">
+			<div class="img">
+				<a target="_blank"
+					jsvalues="href:bizPageNameBy($this.bizType,$this.catalog)+'/'+ifEmpty($this.id,$this.shortId)">
+					<img   width="260"  height="230"
+					jsvalues="src:'http://image.yiqihi.com/shots/'+$this.snapshot">
+				</a> <span jsvalues="class:readBizClass($this.bizType,$this.catalog)"
+					jscontent="readBizContent($this.bizType,$this.catalog)"></span>
+			</div>
+			<div class="desc">
+				<dl>
+					<dt>
+						<div class="icons">
+							<span class="dibiao"></span> <font jscontent="$this.country"></font>
+							<font jscontent="$this.city">$record.get('city')</font> <span
+								class="rating"
+								style="float:right;margin-top:5px; *margin-top:-18px;"> <b
+								class="star"></b><b class="star"></b> </span>
+						</div>
+					</dt>
+					<dd
+						style="width:215px; overflow:hidden; margin:10px;line-height:20px;">
+						<font class="colorb">$tool.currentMonth()月</font><a
+							target="_blank"
+							jsvalues="href:bizPageNameBy($this.bizType,$this.catalog)+'/'+ifEmpty($this.id,$this.shortId)"
+							target="_blank" jscontent="abbreviate($this.content,50)"></a>
+					</dd>
+				</dl>
+			</div>
+		</div>
+	</div>
+	$context.readFooter() $context.includeJavaScript("","index.js")
+</body>
+</html>

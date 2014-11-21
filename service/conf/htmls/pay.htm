@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+<title></title> $context.readHtmlHeader()
+$context.includeCss("","style.css") $context.includeCss("","pay.css")
+#set($idStr=$context.getParam('id',""))
+#set($payCode=$context.getParamByInt('code',1))
+#if($payCode==9)
+#set($ticket=$ticketorder.getTicketOrder($idStr,$context))
+#else
+#set($orders=$order.getOrders($idStr,$context))
+#end
+#set($balance=$bill.readBalance($context))
+#set($balanceMoney=$balance.getInt("balance"))
+#set($hasBalance=false)
+#set($money=0)
+
+</head>
+<body>
+	$context.readHeader()
+	<div id="container">
+		<div class="wrap" style="padding:30px;">
+			#if($payCode==8 ) #if($tool.isNotNull($orders))
+			<div class="payit_section">
+				<h1>
+					<b>1.订单</b>
+				</h1>
+				<ul class="orders">
+					#set($orderSize=$orders.size()) #foreach($order in $orders)
+					<li class="order">
+						<div class="detail">
+							<div class="head">
+								<div class="icon">
+									<a target="_blank" href="/order/$!{order.id}"><span>订单编号：<b>$!{order.id}</b>
+									</span> </a>
+								</div>
+								<div class="title">
+									<b>$!{order.customer.username}</b>$!{order.destCity}
+								</div>
+							</div>
+							<div class="body">
+								<div class="detail">
+									<p>
+										<span>行程出发日期：<b>$!{order.startTime}</b> </span> <span>行程结束日期：<b>$!{order.endTime}</b>
+										</span>
+									</p>
+									<p>
+										<a target="_blank" href="/i/$!{order.guide.userId}"><span>行程服务导游：<b>$!{order.guide.username}</b>
+										</span> </a> <a target="_blank" href="/i/$!{order.service.userId}"><span>您的专属客服：<b>$!{order.service.username}</b>
+										</span> </a>
+									</p>
+								</div>
+								<div class="price">
+									#set($isPaid=$!{order.status}==8 || $!{order.status}==11)
+									#if(!$isPaid) #set($money=$money+${order.prepaidPriceRate}) <b
+										class="nPrice">￥$!{order.prepaidPriceRate}</b> #else <b
+										class="nPrice">已支付</b> #end
+								</div>
+								<div class="clearfix"></div>
+							</div>
+						</div>
+					</li> #end
+					<!-- end for each orders-->
+				</ul>
+			</div>
+			#end
+			<!-- end if orders -->
+			#set($subject=$tool.join('一起嗨订单:',$idStr))
+			#elseif($payCode==9)
+			#if($tool.isNotNull($ticket))
+			<div class="payit_section">
+				<h1>
+					<b>1.机票订单</b>
+				</h1>
+				<ul class="orders">
+					<li class="order">
+						<div class="detail">
+							<div class="head">
+								<div class="icon">
+									<a target="_blank" href="/airticket/$!{ticket.id}"><span>机票订单编号：<b>$!{ticket.id}</b>
+									</span> </a>
+								</div>
+							</div>
+		
+							<div class="body">
+								<div class="detail">
+									<p>
+										<span>出发地：<b>$!{ticket.starting}</b> </span> <span>目的地：<b>$!{ticket.destination}</b>
+										</span>
+									</p>
+								   <p>
+										<span>成人：<b>$!{ticket.adultCount}</b> </span> <span>儿童：<b>$!{ticket.childrenCount}</b>
+										</span>
+									</p>
+									<p>
+										</span> </a> <a target="_blank" href="/i/$!{ticket.guideUserId}"><span><b>机票客服</b>
+										</span> </a>
+									</p>
+								</div>
+								<div class="price">
+									#set($isPaid=$!{ticket.status}==2 || $!{ticket.status}==3)
+									#if($isPaid) #set($money=${ticket.totalPrice}) <b
+										class="nPrice">￥$!{ticket.totalPrice}</b> #else <b class="nPrice">已支付</b> #end
+								</div>
+								<div class="clearfix"></div>
+							</div>
+						</div>
+					</li>
+					<!-- end for each orders-->
+				</ul>
+			</div>
+			#end
+			#else
+			#set($subject="一起嗨账户充值") #set($money=$context.getParamByInt('id',30))
+			#end
+			<!-- end if paycode=8 -->
+			#set($body=${context.user.server}+"_"+${context.user.userId})
+			#if($money>0)
+			<div class="payit_section">
+				<h1>
+					#if($payCode==8) <b>2.在线支付</b> #else <b>2.在线充值</b> #end
+				</h1>
+				#if ($payCode==8||$payCode==9)
+				<div style="padding:15px;">
+					<ul class="dashed_table">
+						<li class="top"><span class="label"> <span
+								class="inner">您的订单总金额（人民币）</span> </span> <span class="data">
+								$money </span>
+						</li> #set($hasBalance=$balanceMoney>=$money) #if($hasBalance)
+						<li class="bottom"><span class="label"> <span
+								class="inner">您当前账户余额（人民币） </span> </span> <span class="data"> $balanceMoney </span>
+						</li> #else
+						<li><span class="label"> <span class="inner">您当前账户余额（人民币）
+							</span> </span> <span class="data"> -$balanceMoney </span>
+						</li>
+						<li class="bottom"><span class="label"><span
+								class="inner">您当前需要支付（人民币）</span> </span><span class="data" style="color:#CC0000">$tool.dec($money,$balanceMoney)
+						</span>
+						</li> #end
+					</ul>
+				</div>
+				#else
+				<div style="padding:15px;">
+					<ul class="dashed_table">
+						<li class="top"><span class="label"> <span
+								class="inner">您当前账户余额（人民币） </span> </span> <span class="data"
+							style="color:#666">$balanceMoney</span>
+						</li>
+						<li class="bottom"><span class="label"><span
+								class="inner">本次充值（人民币）</span> </span> <span class="data" style="color:#CC0000">$money</span></li>
+					</ul>
+				</div>
+				#end
+				<div class="clearfix"></div>
+				<div style="padding:15px;margin-top:20px">
+					<div class="platform-text">
+						<p style="display:none">
+							<input type="hidden" id="payCode" value="$payCode" /> <input
+								type="hidden" id="orderIds" value="$idStr" /> <input
+								type="hidden" id="money" value="$money" /> <input type="hidden"
+								id="subject" value="$subject" /> <input type="hidden" id="body"
+								value="$body" />
+						</p>
+					</div>
+					<div class="pay-platform">
+						#if($hasBalance==false)
+						<p class="platform-tishi">
+							<span class="ic"></span>点<br>击<br>选<br>择
+						</p>
+						<div class="platform-hd clearfix">
+							<b class="plat-chs platCur">支付平台</b><b class="plat-chs">储蓄卡</b><b
+								class="plat-chs">信用卡</b>
+						</div>
+						<div class="platform-bd">
+							<div class="plat-con" style="display:block;">
+								<ul class="nCard-list nCard-last clearfix" js-shownum="7">
+									<li class="bankCard"><label for=""><input
+											type="radio" class="nRadio" name="pay_bank" value="z-a" /><img
+											src="/images/bank/zfb2.gif" alt="" /> </label></li>
+									<!-- <li class="bankCard"><label for=""><input
+								type="radio" class="nRadio" name="pay_bank" value="z-b" /><img
+								src="/images/bank/kq2.gif" alt="" /> </label>
+						</li>
+						<li class="bankCard"><label for=""><input
+								type="radio" class="nRadio" name="pay_bank" value="z-t" /><img
+								src="/images/bank/cft2.gif" alt="" /> </label>
+						</li> -->
+								</ul>
+							</div>
+							<div class="plat-con">
+								<ul class="nCard-list nCard-last clearfix">
+									<li class="bankCard"><label for=""><input
+											type="radio" class="nRadio" name="pay_bank" value="ICBCB2C-a" /><img
+											src="/images/bank/bank_5.gif" alt="" /> </label>
+									</li>
+									<li class="bankCard"><label for=""><input
+											type="radio" class="nRadio" name="pay_bank" value="CMB-a" /><img
+											src="/images/bank/bank_11.gif" alt="" /> </label>
+									</li>
+									<li class="bankCard"><label for=""><input
+											type="radio" class="nRadio" name="pay_bank" value="CCB-a" /><img
+											src="/images/bank/bank_6.gif" alt="" /> </label>
+									</li>
+									<li class="bankCard"><label for=""><input
+											type="radio" class="nRadio" name="pay_bank" value="ABC-a" /><img
+											src="/images/bank/bank_17.gif" alt="" /> </label>
+									</li>
+									<li class="bankCard"><label for=""><input
+											type="radio" class="nRadio" name="pay_bank" value="COMM-a" /><img
+											src="/images/bank/bank_9.gif" alt="" /> </label>
+									</li>
+									<li class="bankCard"><label for=""><input
+											type="radio" class="nRadio" name="pay_bank" value="CITIC-a" /><img
+											src="/images/bank/bank_1.gif" alt="" /> </label>
+									</li>
+								</ul>
+							</div>
+							<div class="plat-con">
+								<ul class="nCard-list nCard-last clearfix">
+									<li class="bankCard"><label for=""><input
+											type="radio" class="nRadio" name="pay_bank" value="ICBCB2C-a" /><img
+											src="/images/bank/bank_5.gif" alt="" /> </label>
+									</li>
+									<li class="bankCard"><label for=""><input
+											type="radio" class="nRadio" name="pay_bank" value="CMB-a" /><img
+											src="/images/bank/bank_11.gif" alt="" /> </label>
+									</li>
+									<li class="bankCard"><label for=""><input
+											type="radio" class="nRadio" name="pay_bank" value="CCB-a" /><img
+											src="/images/bank/bank_6.gif" alt="" /> </label>
+									</li>
+									<li class="bankCard"><label for=""><input
+											type="radio" class="nRadio" name="pay_bank" value="ABC-a" /><img
+											src="/images/bank/bank_17.gif" alt="" /> </label>
+									</li>
+									<li class="bankCard"><label for=""><input
+											type="radio" class="nRadio" name="pay_bank" value="COMM-a" /><img
+											src="/images/bank/bank_9.gif" alt="" /> </label>
+									</li>
+									<li class="bankCard"><label for=""><input
+											type="radio" class="nRadio" name="pay_bank" value="CITIC-a" /><img
+											src="/images/bank/bank_1.gif" alt="" /> </label>
+									</li>
+								</ul>
+							</div>
+							<p class="nCard-next">
+								<a id="normalDopay" href="javascript:void(0)" class="nBtn-pay">
+									#if($payCode==8||$payCode==9) <b>立即支付</b> #else <b>立即充值</b> #end <i></i> </a>
+							</p>
+						</div>
+						#else
+						<div class="platform-bd">
+							<p class="nCard-next">
+								<a id="dopay" href="javascript:payUseBalance(this)"
+									class="nBtn-pay"> #if($payCode==8||$payCode==9) <b>使用余额支付</b> #end <i></i>
+								</a>
+							</p>
+						</div>
+						#end
+					</div>
+				</div>
+			</div>
+			#else 
+				<div class="payit_section">
+				<h1>
+					<b>您没有要支付的订单！</b>
+				</h1>
+				</div>
+			 #end
+			<!-- end if money -->
+		</div>
+	</div>
+	$context.readFooter() $context.includeJavaScript("","pay.js")
+</body>
+</html>

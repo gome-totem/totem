@@ -1,0 +1,337 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+#set($profile=$user.readProfile($context.getParam("u"),true))
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>推广网站©$tool.seoTitle()</title>
+<link rel="shortcut icon" href="/images/hi.ico">
+	<link rel="icon" type="image/png" href="/images/hi.png" >
+		$context.includeCss("","backend.css")
+		$context.includeCss("","tuiba.css") $context.readHtmlHeader()
+</head>
+
+<style>
+.funcParam {
+	border: 0 none;
+	border-bottom: 1px solid #CECECE;
+	background: none repeat scroll 0 0 #F9F9F9;
+}
+</style>
+<body>
+	<script>
+function langName(type)
+{
+  switch(type)
+  {
+	case 0: return "PascalScript";
+	case 1: return "C++Script";
+	case 2: return "JScript";
+  }
+}
+
+function isAuthor(userId){
+	var user=parseInt($("#header").attr("userid"));
+	if (user==0) {return false;}
+	return user==userId;
+}
+
+</script>
+	$context.readHeader(false) $context.include("usertitle")
+	<div class="home">
+		$context.include("userinfo")
+		<div class="content clearfix">
+			$context.include("userpanel")
+			<div class="fieldset">
+				<div id="spinner"></div>
+				<div class="htx">
+					<div class="per_st">
+						<div class="per_set01">
+							提示①<br /> <a href="javascript:void(0)" class="per_gg"></a>
+						</div>
+						<div class="per_set02">
+							<p class="per_wz01">基于浏览器编程.驱动浏览器自动运行</p>
+							<p class="per_wz02">打开您要开发插件的网站,点击工具栏的"推"按钮,新建自己的插件..</p>
+						</div>
+						<span class="per_sub" style="margin-top:-35px;"> <input
+							type="text" id="searchTitle" value="" style="width:200px" /> </span>
+					</div>
+					<div class="per_yx" id="scriptContent"></div>
+					<div id="scriptPager" class="pagebar" style="margin-bootom:9px">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div style="display:none">
+
+		<div class="stgl" id="templateScript">
+			<div class="stgl-con" jsselect="items">
+				<div class="stgl-date">
+					<img jsvalues="src:$this.logo;.id:'logo'+$this.id;" width="48px"
+						height="48px">
+				</div>
+				<div class="stgl-info">
+					<div class="stgl-edit">
+						<ul>
+							<li><span class="tl"><span class="tr"> <a
+										jsvalues=".scriptId:$this.id;" href="javascript:void(0)"
+										onclick="editScript(this,this.scriptId)">插件源码</a> <a
+										jsdisplay="isAuthor($this.user_id)"
+										jsvalues=".scriptId:$this.id;" href="javascript:void(0)"
+										onclick="deleteScript(this,this.scriptId)">|&nbsp;&nbsp;删除插件</a>
+								</span> </span>
+							</li>
+							<li class="line1">
+								<ul>
+									<li><span class="stgl-tb-time"></span><font
+										jseval="$v1=dateDiff($this.version)" jscontent="$v1"></font></li>
+									<li><span class="stgl-tb-ren"></span><font
+										jscontent="$this.user_name"></font></li>
+								</ul>
+							</li>
+							<li class="line2">
+								<ul>
+									<li><span class="stgl-tb-rennum"></span>开发语言：<font
+										jseval="$v2=langName($this.lang)" jscontent="$v2"></font>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+					<div class="stgl-xq">
+						<b class="green12" jsvalues="id:'title'+$this.id;"
+							jscontent="$this.title"></b>
+						<div>
+							<span style="margin-left:6px;color:#999999;font-size:9px;"
+								jsvalues="id:'domain'+$this.id;" jscontent="$this.domain"></span>.
+							<span style="color:#999999;font-size:9px;"
+								jsvalues="id:'site'+$this.id;" jscontent="$this.site"></span>&nbsp;
+							<span style="color:#999999;font-size:9px;"
+								jscontent="'id='+$this.id"></span>
+						</div>
+						<ul jsdisplay="isAuthor($this.user_id)">
+							<li jsvalues="id:'tab1_'+$this.id;"><span class="stgl-tb-lv">1</span>
+								<a jsvalues=".scriptId:$this.id;" href="javascript:void(0)"
+								onclick="editPlugin(this,1,this.scriptId)" class="xz02">基本信息维护</a>
+							</li>
+							<li jsvalues="id:'tab2_'+$this.id;"><span class="stgl-tb-lv">2</span><a
+								jsvalues=".scriptId:$this.id;" href="javascript:void(0)"
+								class="xz02" onclick="editPlugin(this,2,this.scriptId)">插件功能管理</a>
+							</li>
+						</ul>
+					</div>
+					<div class="stgl-tong" jsvalues="id:'content'+$this.id;"
+						style="display:none">
+						<div class="stgl-tong-t">
+							<div class="stgl-tong-tl"></div>
+							<div class="stgl-tong-tr"></div>
+						</div>
+						<div class="stgl-tong-m">
+							<div class="stgl-tong-mr">
+								<div class="stgl-tong-mc">
+									<div jsvalues="id:'edit'+$this.id;" mode="0"></div>
+								</div>
+							</div>
+						</div>
+						<div class="stgl-tong-b">
+							<div class="stgl-tong-bl"></div>
+							<div class="stgl-tong-br"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+		<div id="hideInfo"></div>
+
+		<div id="templateInfo">
+			<div>
+				<a class="pass" id="edtScriptId" scriptId=""
+					href="javascript:void(0)"
+					onclick="closeEdit(1,$(this).attr('scriptId'))"></a>
+			</div>
+			<table width="100%" border="0" cellspacing="0" cellpadding="0"
+				class="tytb2">
+				<tr>
+					<td class="b" width="100">名称</td>
+					<td class="b">值</td>
+				</tr>
+				<tr>
+					<td>网站域&nbsp;&nbsp;(如www或子域名如mail)</td>
+					<td><input type="text" id="edtDomain" style="width:490px" />
+					</td>
+				</tr>
+				<tr>
+					<td>网站名&nbsp;&nbsp;(如taobao.com)</td>
+					<td><input type="text" id="edtSite" style="width:490px" /></td>
+				</tr>
+				<tr>
+					<td>logo图标</td>
+					<td><input type="text" id="edtLogo" style="width:490px" /></td>
+				</tr>
+				<tr>
+					<td>脚本标题</td>
+					<td><input type="text" id="edtTitle" style="width:490px" /></td>
+				</tr>
+			</table>
+			<div class="stgl-tong-cancel">
+				<a href="javascript:void(0)" class="angreen"
+					onclick="postScriptInfo(this)"><span id="spanScript">保存</span>
+				</a>
+			</div>
+		</div>
+
+		<div id="templatePlugin">
+			<div>
+				<a class="pass" jsvalues=".scriptId:$scriptId"
+					href="javascript:void(0)" onclick="closeEdit(2,this.scriptId)"></a>
+			</div>
+			<table width="100%" border="0" cellspacing="0" cellpadding="0"
+				class="tytb2" jseval="$recIndex=0">
+				<tr>
+					<td class="b" width="120">函数名称</td>
+					<td class="b">描述</td>
+					<td class="b" width="100">操作</td>
+				</tr>
+				<tr jsselect="items" jseval="$recIndex++">
+					<td>
+						<p jsvalues=".id:'funcName'+$scriptId+$recIndex"
+							jscontent="$this.funcName"></p> <span
+						style="color:#999999;font-size:9px;" jscontent="'id='+$this.id"></span>
+					</td>
+					<td jsvalues=".id:'funcDesc'+$scriptId+$recIndex"
+						jshtml="$this.funcDesc"></td>
+					<td><span style="display:none"> <label
+							jsvalues=".id:'funcId'+$scriptId+$recIndex" jscontent="$this.id"></label>
+							<label jsvalues=".id:'tabDoc'+$scriptId+$recIndex"
+							jscontent="$this.tabDoc"></label> <label
+							jsvalues=".id:'tabAccount'+$scriptId+$recIndex"
+							jscontent="$this.tabAccount"></label> <label
+							jsvalues=".id:'enableParam'+$scriptId+$recIndex"
+							jscontent="$this.enableParam"></label> <label
+							jsvalues=".id:'enableQuery'+$scriptId+$recIndex"
+							jscontent="$this.enableQuery"></label> <label
+							jsvalues=".id:'funcParam'+$scriptId+$recIndex"
+							jscontent="$this.func_param"></label> <label
+							jsvalues=".id:'url'+$scriptId+$recIndex" jscontent="$this.url"></label>
+							<label jsvalues=".id:'demo'+$scriptId+$recIndex"
+							jscontent="$this.demo"></label> </span> <a
+						jsvalues=".scriptId:$scriptId;.domain:$domain;.site:$site;.recIndex:$recIndex"
+						href="javascript:void(0)"
+						onclick="editFunc(this,this.domain,this.site,this.scriptId,this.recIndex)">编辑</a>
+						<a jsvalues=".scriptId:$scriptId;.funcId:$this.id"
+						href="javascript:void(0)"
+						onclick="deleteFunc(this,this.scriptId,this.funcId)">删除</a>
+					</td>
+				</tr>
+			</table>
+
+			<table width="100%" border="0" cellspacing="0" cellpadding="0"
+				class="tytb2">
+				<tr>
+					<td class="b" width="100">名称</td>
+					<td class="b">值</td>
+				</tr>
+				<tr>
+					<td>函数名称<br>(main=主函数) 
+					</td>
+					<td><input type="hidden" jsvalues=".id:'funcId'+$scriptId" />
+						<input type="text" jsvalues=".id:'funcName'+$scriptId"
+						style="width:490px" /></td>
+				</tr>
+				<tr>
+					<td>函数描述</td>
+					<td><input type="text" jsvalues=".id:'funcDesc'+$scriptId"
+						style="width:490px" /></td>
+				</tr>
+				<tr>
+					<td>特性</td>
+					<td><label><input type="checkbox"
+							jsvalues=".id:'tabDoc'+$scriptId" />启用推广文档</label> <label><input
+							type="checkbox" jsvalues=".id:'tabAccount'+$scriptId" />启用网站账号管理</label>
+						<label><input type="checkbox"
+							jsvalues=".id:'enableQuery'+$scriptId" />启用页面查询参数</label>
+					</td>
+				</tr>
+				<tr>
+					<td>进入URL</td>
+					<td><input type="text" jsvalues=".id:'url'+$scriptId"
+						style="width:490px" value="" /></td>
+				</tr>
+				<tr>
+					<td>DEMO-URL</td>
+					<td><input type="text" jsvalues=".id:'demo'+$scriptId"
+						style="width:490px" /></td>
+				</tr>
+				<tr>
+					<td>参数信息&nbsp;&nbsp;</td>
+					<td>
+						<div>
+							<input class="funcParam"
+								jsvalues=".id:'funcParam_name_1_'+$scriptId" value="变量名"
+								style="width:100px;" /> <input class="funcParam"
+								jsvalues=".id:'funcParam_desc_1_'+$scriptId" value="变量描述"
+								style="width:100px;" /> <select class="funcParam"
+								jsvalues=".id:'funcParam_type_1_'+$scriptId"
+								style="width:100px;">
+								<option value="0">字符串</option>
+								<option value="1">数字</option>
+								<option value="2">字符串列表</option>
+								<option value="3">数字列表</option>
+							</select> <input class="funcParam"
+								jsvalues=".id:'funcParam_value_1_'+$scriptId" value="变量值"
+								style="width:100px;" /> <label><input type="checkbox"
+								jsvalues=".id:'funcParam_user_1_'+$scriptId" />用户输入</label>
+						</div>
+						<div>
+							<input class="funcParam"
+								jsvalues=".id:'funcParam_name_2_'+$scriptId" value="变量名"
+								style="width:100px;" /> <input class="funcParam"
+								jsvalues=".id:'funcParam_desc_2_'+$scriptId" value="变量描述"
+								style="width:100px;" /> <select class="funcParam"
+								jsvalues=".id:'funcParam_type_2_'+$scriptId"
+								style="width:100px;">
+								<option value="0">字符串</option>
+								<option value="2">数字</option>
+								<option value="2">字符串列表</option>
+								<option value="3">数字列表</option>
+							</select> <input class="funcParam"
+								jsvalues=".id:'funcParam_value_2_'+$scriptId" value="变量值"
+								style="width:100px;" /> <label><input type="checkbox"
+								jsvalues=".id:'funcParam_user_2_'+$scriptId" />用户输入</label>
+						</div>
+						<div>
+							<input class="funcParam"
+								jsvalues=".id:'funcParam_name_3_'+$scriptId" value="变量名"
+								style="width:100px;" /> <input class="funcParam"
+								jsvalues=".id:'funcParam_desc_3_'+$scriptId" value="变量描述"
+								style="width:100px;" /> <select class="funcParam"
+								jsvalues=".id:'funcParam_type_3_'+$scriptId"
+								style="width:100px;">
+								<option value="0">字符串</option>
+								<option value="1">数字</option>
+								<option value="2">字符串列表</option>
+								<option value="3">数字列表</option>
+							</select> <input class="funcParam"
+								jsvalues=".id:'funcParam_value_3_'+$scriptId" value="变量值"
+								style="width:100px;" /> <label><input type="checkbox"
+								jsvalues=".id:'funcParam_user_3_'+$scriptId" />用户输入</label>
+						</div>
+					</td>
+				</tr>
+			</table>
+			<div class="stgl-tong-cancel">
+				<a href="javascript:void(0)" class="angreen"
+					jsvalues=".scriptId:$scriptId;.domain:$domain;.site:$site"
+					onclick="postPluginInfo(this,this.domain,this.site,this.scriptId)"><span>更新</span>
+				</a>
+			</div>
+		</div>
+
+	</div>
+	$context.readFooter() $context.includeJavaScript("","rock.js")
+	$context.includeJavaScript("","tuibadev.js")
+</body>
+</html>

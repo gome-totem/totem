@@ -1,0 +1,326 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" class="mozilla">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+#set($profile=$user.readProfile($context.getParam("u"),true))
+<title>发布需求©$tool.seoTitle()</title>
+<link rel="shortcut icon" href="/images/hi.ico">
+<link rel="icon" type="image/png" href="/images/hi.png" >
+$context.readHtmlHeader() $context.includeCss("","backend.css")
+</head>
+
+<body>
+	$context.readHeader(false) $context.include("usertitle")
+	#set($shortId=$context.getParam('id'))
+	#set($activity=$service.readByEdit($context,$shortId))
+	<div class="home">
+		$context.include("userinfo")
+		<div class="content clearfix">
+			$context.include("userpanel")
+			<div class="fieldset">
+				<span style="display:none" id="activityContent">$activity.toString()</span>
+				<!-- 编辑服务 -->
+				<div class="service" id="container" shortId="$shortId"
+					state="$activity.get('state')" catalog="$context.getParam('c')">
+					<div class="service-c">
+						<div id="form-wizard" class="wizard clearfix">
+							<ul class="steps">
+								<li class="active" data-target="#step1"><span class="none"></span>
+									<b>1</b>需求详情</li>
+								<li data-target="#step2"><span
+									class="none"></span> <b>2</b>联系方式</li>
+							</ul>
+						</div>
+						<div class="step-content" id="step1">
+							<div class="tip" style="margin-top:20px;">
+								<span class="public-badge">&nbsp;公开<b></b> </span>以下信息完全公开,多名导游将对你的行程报价，您将获得最适合您的价格
+							</div>
+							<div>
+								<h4>
+									<i></i><b>行程要求<span class="f-red">*</span> </b>
+								</h4>
+								<div class="form four clearfix">
+									<dl>
+										<dt>
+											出发日期<b>*</b>
+										</dt>
+										<dd>
+											<input type="text" id="edtDeptDate" class="input frame" />
+										</dd>
+									</dl>
+									<dl>
+										<dt>
+											出行天数<b>*</b>
+										</dt>
+										<dd>
+											<input type="text" id="edtDay" class="input frame numeric"
+												minValue="1" />
+										</dd>
+									</dl>
+									<dl>
+										<dt>
+											酒店档次要求<b>*</b>
+										</dt>
+										<dd>
+											<select class="select frame" id="edtHotelStar">
+												<option value="0">经济(三星及以下)</option>
+												<option value="1">中档(三星+到四星+)</option>
+												<option value="2">豪华(四星+及以上)</option>
+											</select>
+										</dd>
+									</dl>
+									<dl>
+										<dt>
+											酒店价格接受范围<b>*</b>
+										</dt>
+										<dd>
+											<select class="select frame" id="edtHotelPrice">
+												<option value="0">每晚300RMB以下</option>
+												<option value="1">每晚300-500RMB</option>
+												<option value="2">每晚500-800RMB</option>
+												<option value="3">每晚800-1000RMB</option>
+												<option value="4">每晚1000RMB以上</option>
+											</select>
+										</dd>
+									</dl>
+								</div>
+								<div class="form four clearfix">
+									<dl>
+										<dt>
+											您一共几人<b>*</b>
+										</dt>
+										<dd>
+											<input type="text" id="edtPerson" class="input frame numeric"
+												minValue="1" />
+										</dd>
+									</dl>
+									<dl>
+										<dt>
+											其中有几个婴儿(2岁以下)<b>*</b>
+										</dt>
+										<dd>
+											<input type="text" id="edtBaby" class="input frame numeric" />
+										</dd>
+									</dl>
+									<dl>
+										<dt>
+											其中有几个小孩(2-11岁)<b>*</b>
+										</dt>
+										<dd>
+											<input type="text" id="edtChild" class="input frame numeric" />
+										</dd>
+									</dl>
+									<dl>
+										<dt>
+											其中有几个老人<b>*</b>
+										</dt>
+										<dd>
+											<input type="text" id="edtOld" class="input frame numeric" />
+										</dd>
+									</dl>
+								</div>
+								<h4>
+									<i></i><b>其他要求<span class="f-red">*</span> </b>
+								</h4>
+								<div class="form four clearfix">
+									<dl>
+										<dt>
+											对导游性别的要求<b>*</b>
+										</dt>
+										<dd>
+											<select class="select frame" id="edtSex">
+												<option value="不限">不限</option>
+												<option value="男">男</option>
+												<option value="女">女</option>
+											</select>
+										</dd>
+									</dl>
+									<dl>
+										<dt>
+											是否需要用车<b>*</b>
+										</dt>
+										<dd>
+											<select class="select frame" id="edtCarEnabled">
+												<option value="0">不需要用车</option>
+												<option value="1">需要用车</option>
+											</select>
+										</dd>
+									</dl>
+									<dl>
+										<dt>
+											对车型品牌要求<b>*</b>
+										</dt>
+										<dd>
+											<input type="text" id="edtCarModel" class="input frame" />
+										</dd>
+									</dl>
+									<dl>
+										<dt>
+											需要几辆车<b>*</b>
+										</dt>
+										<dd>
+											<input type="text" id="edtCarCount"
+												class="input frame numeric" />
+										</dd>
+									</dl>
+								</div>
+								<div class="form four clearfix">
+									<dl>
+										<dt>
+											是否已办签证<b>*</b>
+										</dt>
+										<dd>
+											<select id="edtVisa" class="select frame">
+												<option value="0">未办理</option>
+												<option value="1">正在办理中</option>
+												<option value="2">已经办理</option>
+											</select>
+										</dd>
+									</dl>								
+									<dl>
+										<dt>
+											行程安排-紧凑程度<b>*</b>
+										</dt>
+										<dd>
+											<select id="edtRelax" class="select frame">
+												<option value="0">尽可能多游览景点</option>
+												<option value="1">适当紧凑安排，我们体力不错</option>
+												<option value="2">休闲一些，别太赶</option>
+											</select>
+										</dd>
+									</dl>
+									<dl>
+										<dt>
+											预算金额货币<b>*</b>
+										</dt>
+										<dd>
+											<select id="edtCurrency" class="select frame">
+													$context.include("plugin.currency")
+											</select>
+										</dd>
+									</dl>
+									<dl>
+										<dt>
+											预算总金额<b>*</b>
+										</dt>
+										<dd>
+											<span class="currency"> <em>￥</em> <input type="text" style="width:170px;"
+											id="edtPrice" class="input frame numeric" /> </span>
+										</dd>
+									</dl>
+								</div>
+								<h4>
+									<i></i><b>对语言的要求 <span class="f-red">*</span> </b>
+								</h4>
+								<div class="tag110 clearfix">
+									<ul>
+										<li><label><input type="checkbox" value="德语"
+												tag="tag" id="tag0" />德语</label></li>
+										<li><label><input type="checkbox" value="英语"
+												tag="tag" id="tag1" />英语</label></li>
+										<li><label><input type="checkbox" value="韩语"
+												tag="tag" id="tag2" />韩语</label></li>
+										<li><label><input type="checkbox" value="法语"
+												tag="tag" id="tag3" />法语</label></li>
+										<li><label><input type="checkbox" value="日语"
+												tag="tag" id="tag4" />日语</label></li>
+										<li><label><input type="checkbox" value="西班牙语"
+												tag="tag" id="tag5" />西班牙语</label></li>
+										<li><label><input type="checkbox" value="普通话"
+												tag="tag" id="tag6" />普通话</label></li>
+										<li><label><input type="checkbox" value="广东话"
+												tag="tag" id="tag7" />广东话</label></li>
+										<li><label><input type="checkbox" value="四川话"
+												tag="tag" id="tag8" />四川话</label></li>
+										<li><label><input type="checkbox" value="闽南话"
+												tag="tag" id="tag9" />闽南话</label></li>
+										<li><label><input type="checkbox" value="上海话"
+												tag="tag" id="tag10" />上海话</label></li>
+										<li><label><input type="checkbox" value="意大利语"
+												tag="tag" id="tag11" />意大利语</label></li>
+									</ul>
+								</div>
+								<h4>
+									<i></i><b>对服务的要求 *</b>
+								</h4>
+								<div class="tag200 clearfix">
+									<ul>
+										<li><label><input type="checkbox" value="有私家车"
+												tag="tag" id="tag12" /><b>有</b>私家车</label></li>
+										<li><label><input type="checkbox" value="提供接机"
+												tag="tag" id="tag13" /><b>提供</b>接机</label></li>
+										<li><label><input type="checkbox" value="熟悉美食"
+												tag="tag" id="tag14" /><i>熟悉</i>美食</label></li>
+										<li><label><input type="checkbox" value="熟悉夜总会"
+												tag="tag" id="tag15" /><i>熟悉</i>夜总会</label></li>
+										<li><label><input type="checkbox" value="有导游证"
+												tag="tag" id="tag16" /><b>有</b>导游证</label></li>
+										<li><label><input type="checkbox" value="提供住宿"
+												tag="tag" id="tag17" /><b>提供</b>住宿</label></li>
+										<li><label><input type="checkbox" value="熟悉摄影"
+												tag="tag" id="tag18" /><i>熟悉</i>摄影</label></li>
+										<li><label><input type="checkbox" value="熟悉红灯区"
+												tag="tag" id="tag19" /><i>熟悉</i>红灯区</label></li>
+										<li><label><input type="checkbox" value="有驾照"
+												tag="tag" id="tag20" /><b>有</b>驾照</label></li>
+										<li><label><input type="checkbox" value="商务翻译"
+												tag="tag" id="tag21" /><b>提供</b>商务翻译</label></li>
+										<li><label><input type="checkbox" value="熟悉文化历史"
+												tag="tag" id="tag22" /><i>熟悉</i>文化历史</label></li>
+										<li><label><input type="checkbox" value="代购"
+												tag="tag" id="tag23" />代购商品 </label></li>
+										<li><label><input type="checkbox" value="专业导游"
+												tag="tag" id="tag24" /><s>专业导游</s> </label></li>
+										<li><label><input type="checkbox" value="兼职导游"
+												tag="tag" id="tag25" /><s>兼职导游</s> </label></li>
+										<li><label><input type="checkbox" value="熟悉美容医院"
+												tag="tag" id="tag26" /><i>熟悉</i>美容医院</label></li>
+										<li><label><input type="checkbox" value="代订酒店"
+												tag="tag" id="tag27" />代订酒店</label></li>
+									</ul>
+								</div>
+								<h4>
+									<i></i><b>您想要去的目的地(城市)</b>
+								</h4>
+								<div class="clearfix"  style="padding-left:20px;">
+									<input type="text" id="edtTargets" style="width:900px;"
+										class="text token frame" />
+								</div>
+							</div>
+
+							<div class="next-step">
+								<label>还有<i>1个步骤</i>即可发布需求</label> <a href="javascript:void(0)"
+									data-target="1"
+									class="button grey red-hover button-1 image-right" tag="next"><span
+									class="next"></span>下一步</a>
+							</div>
+						</div>
+
+						<div class="step-content" id="step2" style="display:none">
+							$context.include("plugin.editdesc")
+							$context.include("plugin.editcontact")
+								<div class="next-step">
+									<label><i>全部填写完成</i> 即可发布服务</label><span
+										style="display:block;float:right;"> <a
+										href="javascript:commit()"
+										class="button grey red-hover button-3 image-right"
+										tag="commit"><span class="tick"></span>保存发布</a> <a
+										href="javascript:void(0)" data-target="2"
+										class="button grey red-hover button-1" tag="prev"><span
+											class="prev"></span>上一步</a> </span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	$context.readFooter(false)
+	$context.includeJavaScript("jquery/","jquery.calendar.js")
+	$context.includeJavaScript("","tinymce/tinymce.min.js")
+	$context.includeJavaScript("jquery/","jquery.tokeninput.js")
+	$context.includeJavaScript("","rock.js")
+	$context.includeJavaScript("","postreq.js")
+</body>
+</html>

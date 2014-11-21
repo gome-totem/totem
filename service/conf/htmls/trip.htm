@@ -1,0 +1,717 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" class="mozilla">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>$tool.seoTitle()</title> $context.includeCss("","bubbles.css")
+$context.readHtmlHeader() $context.includeCss("","trip.css")
+</head>
+#set($shortId=$context.getParamByLong('id'))
+#set($name=$context.getParam("name")) #if ($name=="plan")
+#set($activity=$service.readBy($shortId,2))
+$service.decodeCustomer($context,$activity) #else
+#set($activity=$service.readBy($shortId,1)) #end
+<body>
+	$context.readHeader() #if ($tool.isNull($activity) ||
+	($tool.byInt($activity,'state')!=2 &&
+	!$context.hasPageRight('guide',$activity.getLong('user_id'))))
+	<div class="container area clearfix">
+		#if ($tool.isNull($activity))
+		<h2 class="page-title">服务已经下线或者不存在。</h2>
+		#else
+		<h2 class="page-title">服务正在审核中，请稍候访问。</h2>
+		#end
+		<p>
+			联系我们： <a href="mailto:team@yiqihi.com">team@yiqihi.com</a>
+		</p>
+	</div>
+	#else #set($profile=$user.readProfile("",false))
+	#set($currency=$tool.currencyNameBy($activity.getInt("currency")))
+	#set($currencyName=$tool.currencyName($activity.getInt("currency")))
+	#set($firstGuide=$activity.get("firstGuide"))
+	#set($schedules=$activity.get('schedules'))
+	#set($guiders=$activity.get('guide')) #set($deptDate=$tool.addDay(3))
+	#if($name=="plan")
+	#set($deptDate=$tool.addDay($activity.getLong("customer_date"),0)) #end
+
+	<div style="display:none">
+		#set($priceName=$tool.priceNameBy($activity.get('prices'),$activity.getInt('price')))
+		<input type="hidden" id="edtTime" value="$schedules.size()" /> <input
+			type="hidden" value="$activity.getString('id')" id="activityId" /> <input
+			type="hidden" value="$shortId" id="shortId" /> <input type="hidden"
+			value="$activity.getInt('chargeWay')" id="chargeWay" /> <input
+			type="hidden" value="$activity.getInt('currency')" id="currency" />
+		<input type="hidden" value="6" id="bizType" /> <input type="hidden"
+			value="$activity.getString('title')" id="bizTitle" /> <input
+			type="hidden" value="$activity.getString('catalog')" id="catalog" />
+		<input type="hidden" value="$profile.getString('bind_mobile')"
+			id="bindMobile" /> <input type="hidden"
+			value="$profile.getString('mobile')" id="mobile" /> <input
+			type="hidden" value="$activity.getLong('user_id')" id="userId" /> <input
+			type="hidden" id="bizName" value="$priceName" />
+	</div>
+	<!-- travel wraper s -->
+	<div id="p">
+		#if(!$context.pdf())
+		<div class="p-path">
+			<div class="icon-home"></div>
+			<ul class="clearfix">
+				<li><a href="/">主页</a></li> #if($tool.isNull($firstGuide)==false)
+				<li><span class="text-arr">/</span></li>
+				<li><a href="/searchtrip/c=$firstGuide.get('country')">$firstGuide.get("country")</a>
+				</li> #end
+				<li><span class="text-arr">/</span></li>
+				<li><span class="p-path-title">$activity.getString('title')</span>
+				</li>
+			</ul>
+		</div>
+		#end
+		<div class="p-header" style="height:360px;">
+			<div
+				class="icon-travel-tag $tool.tripTypeClassName($activity.getInt('type'))"></div>
+			<div class="p-header-left">
+				<div class="p-header-guide clearfix">
+					<div class="p-header-guide-l">
+						<a href="/i/${firstGuide.get('userId')}" target="_blank"> <span
+							class="avatar"> <img
+								src="/photo/faces/${firstGuide.get('userId')}" /> </span> </a>
+					</div>
+					<div class="p-header-guide-r">
+						<h1 class="p-header-title">$activity.getString('title')</h1>
+						<div class="p-header-tag">
+							<ul class="clearfix">
+								#foreach($tag in $activity.get("tags"))
+								#set($tagText=$tool.extractText($tag,14)) #if
+								($velocityCount<=3)
+								<li class="tag-style-a"><span>$tagText</span><i></i></li> #else
+								<li class="tag-style-b"><span>$tagText</span><i></i></li> #end
+								#end
+							</ul>
+						</div>
+						<div class="guide-info">
+							#if($tool.isNull($firstGuide)==false)
+							<ul class="clearfix">
+								<li>导游名称：<b>$firstGuide.get("userName")</b></li>
+								<li>国家：<b>$firstGuide.get("country")</b></li>
+								<li>城市：<b>$firstGuide.get("city")</b></li>
+							</ul>
+							#else
+							<h1>请指定至少一个导游，在后台添加导游即可!!!</h1>
+							#end
+						</div>
+						<div class="guide-reason"
+							style="height:99px;font-size:15px;overflow:hidden;">$tool.extractText($activity.get("description"),200)</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="p-header-right" style="height:360px;">
+
+				<div class="p-reserve-tab">
+					<ul class="clearfix">
+						<li class="active" tag="booking"><span>在线预约</span></li>
+						<!-- 
+						<li tag="share"><span>发送给朋友</span>
+						</li>
+						 -->
+					</ul>
+				</div>
+
+				<div class="p-reserve-con">
+					<div style="display:none" id="calendar"></div>
+					<div style="display:block;" class="p-reserve-item" tag="booking">
+						<div class="reserve">
+							<div class="days">
+								<span class="days-num">$schedules.size()</span> <span
+									class="days-unit">天</span>
+							</div>
+
+							<ul class="reserve-ul">
+								<li><div class="totalprice">标准价：$currency$activity.get("price")</div>
+								</li>
+								<li>
+									<div class="reserve-input">
+										<div class="reserve-input-title">预约出发日期</div>
+										<input type="text" id="edtDeptDate"
+											value="$tool.formatDate($deptDate)"
+											onchange="user.bookingChange($('#calcLoading'))" />
+										<div class="icon-success"></div>
+									</div>
+								</li>
+								<li class="clearfix">
+
+									<div class="reserve-input-small input-l">
+										<div class="reserve-input-title">旅客人数</div>
+										<input type="text" value="1" class="numeric"
+											id="edtPersonCount" />
+										<div class="icon-success"></div>
+									</div>
+
+									<div class="reserve-input-small input-r">
+										<div class="reserve-input-title">小孩和老人数</div>
+										<input type="text" value="0" class="numeric" />
+										<div class="icon-success"></div>
+									</div>
+								</li>
+							</ul>
+
+							<div class="orderbtn" style="margin:20px 0px 0px 0px;"
+								onclick="user.callNow()">
+								<span> 费用合计： <em class="png">$currency<font
+										id="total-price">$activity.get("price")</font> </em> </span> <b
+									class="tet">立即预定</b>
+							</div>
+
+						</div>
+					</div>
+					<div style="display:none;" class="p-reserve-item" tag="share">
+
+						<div class="invite-friends">
+							<dl class="clearfix">
+								<dt>朋友1</dt>
+								<dd>
+									<input type="text" />
+								</dd>
+							</dl>
+							<dl class="clearfix">
+								<dt>朋友2</dt>
+								<dd>
+									<input type="text" />
+								</dd>
+							</dl>
+							<dl class="clearfix">
+								<dt>朋友3</dt>
+								<dd>
+									<input type="text" />
+								</dd>
+							</dl>
+							<dl class="clearfix">
+								<dt>朋友4</dt>
+								<dd>
+									<input type="text" />
+								</dd>
+							</dl>
+							<div class="invite-friends-btns clearfix">
+								<a class="btn-join" href="#"> <span class="icon-join"></span>
+									<span class="btn-name">邀请加入</span> </a> <a class="btn-discuss"
+									href="#"> <span class="icon-discuss"></span> <span
+									class="btn-name">开始讨论</span> </a>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+		<!-- p-header e -->
+
+		<!-- p-content s -->
+		<div class="p-content clearfix" style="margin-top:20px;">
+			<div class="o-ti-nav clearfix">
+				<div class="o-ti-tit">
+					<span class="icon-tools"></span>行程单
+				</div>
+				<div class="o-ti-tab">
+					<div class="tripexp">
+						<div class="head">
+							<div>
+								<div class="title">体验评分</div>
+								<div class="value">
+									#foreach($i in [1..$activity.getInt("level")]) <span
+										class='icon-star-a'></span> #end
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="o-ti-menu">
+				<div class="o-ti-menu-l"></div>
+				<div class="o-ti-menu-con">
+					<ul class="left">
+						<li><a class="icon-ti-1 active" href="javascript:void(0)"
+							data-id="default"><em></em><font>阅读模式</font></a>
+						</li>
+						<!-- 
+						<li><a class="icon-ti-2" href="javascript:void(0)"
+							data-id="fee">费用模式</a></li>
+						<li><a class="icon-ti-3" href="javascript:void(0)"
+							data-id="calendar">日历模式</a></li>
+							 -->
+					</ul>
+					#if(!$context.pdf())
+					<div class="guide-btns">
+						<span> <a class="btn-free-down"
+							href="/file/trip?id=$!{shortId}&name=$name"> <span
+								class="icon-down"></span> <span class="btn-name">免费下载</span> </a> </span>
+						#if($user.role.isCustomerService() && $name=="plan") <span><a
+							class="btn-post" href="javascript:void(0)"
+							onclick="sendMail(this,$shortId)"><span class="icon-post"></span>
+								<span class="btn-name">发送给客人</span> </a> </span> #end
+					</div>
+					#end
+				</div>
+				<div class="o-ti-menu-r"></div>
+			</div>
+			<div class="clearfix"></div>
+			<div id="defaultTab" tag="tab">
+				<div class="p-content-left" style="display:none">
+					<div id="dayCatalogs" class="log-flow">
+						<div class="log-flow-item">
+							<div class="log-flow-item-wrap">
+								<div class="log-flow-icon">
+									<div class="icon-ready"></div>
+								</div>
+								<div class="log-flow-content">
+									<div class="log-flow-title">行前准备</div>
+									<div class="log-flow-intro">签证，保险，酒店，机票</div>
+								</div>
+							</div>
+						</div>
+						<div class="content">
+							<ul class="ui-sortable">
+								#foreach($day in $schedules) #if
+								($guiders.size()>$day.getInt('guiderIndex'))
+								#set($guider=$guiders.get($day.getInt('guiderIndex')))
+								<li class="log-flow-item" tag="dayTab" day="$day.get('day')">
+									<div class="log-flow-item-wrap">
+										<div class="log-flow-icon">
+											<div class="icon-days">
+												<img src="/photo/faces/${guider.get('userId')}" />
+											</div>
+										</div>
+										<div class="log-flow-content">
+											<div class="log-flow-sday">
+												D${velocityCount} <span class="log-flow-sDate">$tool.formatShortDate($tool.addDay($deptDate,$tool.dec($velocityCount,1)))</span>
+											</div>
+											<div class="log-flow-title">$day.location</div>
+											<div class="log-flow-intro">
+												<div>
+													<span class="label">导游:$guider.get('name')</span> <span
+														class="clear type-price type-2"><font
+														class="currency">$currency</font><font class="totalPrice">$day.totalPrice</font><i></i>
+													</span>
+												</div>
+											</div>
+										</div>
+									</div>
+								</li> #end #end
+							</ul>
+							<div class="add">
+								<span class="icon-close-day"></span>
+							</div>
+						</div>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="p-content-right" style="width:100%">
+					#set($optionCounts=$activity.get('optionCounts'))
+					#set($optionNames=$activity.get('optionNames'))
+					#set($optionClasses=$activity.get('optionClasses'))
+					<div class="putAway on" id="btnLeft"></div>
+					<div class="days-options clearfix">
+						<dl>
+							#set($optionIndex=0) #foreach($count in $optionCounts)
+							#if($optionCounts[$optionIndex]>0)
+							<dt index="$optionIndex" #if ($optionIndex==0) class="selected"
+								#end>
+								<a href="javascript:void(0)">$optionNames[$optionIndex]($count)
+								</a>
+							</dt>
+							#end #set($optionIndex=$tool.inc($optionIndex)) #end
+						</dl>
+					</div>
+					#foreach($day in $schedules) #if($day.getInt('optionCount')>0)
+					<div class="days-item" id="day$day.getInt('day')">
+						<div class="days-title ">
+							<div class="number">D$day.get("day")</div>
+							<div class="dl">
+								#set($oTime=$tool.parseDay($deptDate,$tool.dec($day.getInt("day"),1)))
+								<div class="time">$oTime.getString('date')
+									$oTime.get('weekName')</div>
+								<div class="loc">
+									#set($locations=$day.get('locations')) #foreach($location in
+									$locations) <span>$location</span> #end
+								</div>
+							</div>
+						</div>
+						<div class="days-content">
+							<div class="schedule">
+								<div class="days-log">
+
+									#set($transports=$day.get('transports'))
+									#if($transports.size()>0)
+									<div class="log-item log-item-jiaotong" data-id="item"
+										index="2">
+										<div class="log-type">
+											<h3>交通</h3>
+										</div>
+										#foreach($transport in $transports) #set($icon1="plane")
+										#set($name1="航班") #if($transport.getInt('type')==2)
+										#set($icon1="train") #set($name1="车次") #end
+										<div class="log-scenic jiaotong-lists clearfix">
+											<div class="title">
+												<strong> $transport.get("deptPort") </strong> <span
+													class="icon $icon1"></span>
+												#if($transport.getInt('type')==1) <strong>$transport.get("arrivePort")</strong><span
+													class="icon $icon1"></span> <strong>$transport.get("lastArrivePort")</strong>
+												#else <strong>$transport.get("arrivePort")</strong> #end
+											</div>
+											<div class="content">
+												<div class="detail clearfix">
+													<div class="col">
+														出发<span class="info"> $transport.get("deptTime")</span>
+													</div>
+													<div class="col">
+														$name1<span class="info">$transport.get("no") </span>
+													</div>
+													#if ($transport.getInt('type')==1)
+													<div class="col">
+														到达<span class="info"> $transport.get("arriveTime")</span>
+													</div>
+													<div class="col">
+														中转航班<span class="info">$transport.get("lastNo")</span>
+													</div>
+													<div class="col">
+														到达<span class="info">$transport.get("lastArriveTime")</span>
+													</div>
+													#else
+													<div class="col">
+														到达<span class="info"> $transport.get("arriveTime")</span>
+													</div>
+													#end
+													<div class="clear"></div>
+												</div>
+											</div>
+										</div>
+										#end
+									</div>
+									#end
+									<!-- end if transport size -->
+
+									#set($hotels=$day.get('hotels')) #if ($hotels.size()>0)
+									<div class="log-item log-item-hotel" data-id="item" tag="hotel"
+										index="3">
+										<div class="log-type">
+											<h3>住宿</h3>
+										</div>
+										<div class="log-scenic clearfix">
+											#foreach($hotel in $hotels)
+											<div class="title">
+												<em><i class="hotel"></i> </em><strong>$hotel.get("name")</strong>
+											</div>
+											<div class="content">
+												#set($pictures=$hotel.get('pictures'))
+												#if($pictures.size()>0)
+												<div class="pic" tag="hotelPictures">
+													<span class="num"> <em>$pictures.size()</em> </span>
+													#foreach($picture in $pictures) <a
+														href="http://image.yiqihi.com/pictures/${picture.get('picture')}.jpg"
+														title="" data-fancybox-group="hotel-${day.get('day')}"
+														class="fancybox"> <img
+														src="/shots/${picture.get('shot')}.jpg" /> </a> #end
+												</div>
+												#end
+												<div>
+													<dl>
+														<dt class="address">地址：</dt>
+														<dd>$hotel.get("addr")</dd>
+													</dl>
+													<dl>
+														<dt class="price">房价：</dt>
+														<dd>
+															<span class="fontYaHei">$hotel.get("room")
+																$tool.currencyName($hotel.getInt("currency"))
+																$hotel.get("price")</span>
+														</dd>
+													</dl>
+													<dl>
+														<dt class="note">备注：</dt>
+														<dd>
+															<p>$hotel.get("url")</p>
+														</dd>
+													</dl>
+												</div>
+											</div>
+											#end
+										</div>
+									</div>
+									#end
+									<!-- end if hotel size -->
+
+									#set($trips=$day.get('trips')) #if ($trips.size()>0)
+									<div class="log-item log-item-scenic" data-id="item" tag="trip"
+										index="4">
+										<div class="log-type">
+											<h3>行程</h3>
+										</div>
+										<div class="log-scenic clearfix">
+											#set($tripIndex=0) #foreach($trip in $trips)
+											#set($tripType=$trip.getInt('type'))
+											#set($tripItems=$trip.get('items')) #foreach($tripItem in
+											$tripItems) #set($tripIndex=$tool.inc($tripIndex))
+											<div class="title">
+												<strong><em><i
+														class="trip${tripItem.get('type')}"></i> </em>
+													$tripItem.getString("title","&nbsp;")</strong>
+											</div>
+											<div class="content clearfix">
+												#set($pictures=$tripItem.get('pictures'))
+												#set($hasTripImage=$pictures.size()>0) #if($hasTripImage)
+												<div class="pic" tag="tripPictures">
+													<span class="num"> <em>1/$pictures.size()</em> </span>
+													#foreach($picture in $pictures) <a
+														href="http://image.yiqihi.com/pictures/${picture.get('picture')}.jpg"
+														data-fancybox-group="trip-${day.get('day')}-${tripIndex}"
+														class="fancybox"> <img
+														src="/shots/${picture.get('shot')}.jpg" /> </a> #end
+												</div>
+												#end #set($itemStyle="") #if($hasTripImage)
+												#set($itemStyle="padding-left:15px;") #end
+												<div class="item" style="${itemStyle}">
+													<span><em class="time"></em>
+														出发时间：$tripItem.get("time")</span> <span><em class="loc"></em>地点：$tripItem.get("location")</span>
+												</div>
+												<div class="text" style="${itemStyle}">
+													<em></em> $tripItem.get("content")
+												</div>
+											</div>
+											#end
+											<!-- end each tripItems -->
+											#end
+											<!-- end each trips -->
+										</div>
+									</div>
+									#end
+									<!-- end if trips size -->
+								</div>
+								<!-- end day log -->
+							</div>
+							<!-- end schedule -->
+							<div class="fee">
+								#set($prices=$day.get("prices"))
+								#set($priceCount=$prices.size()) #if($priceCount>0)
+								<ul>
+									#foreach($price in $prices)
+									<li>#if($price.getBoolean('selected',false)==true) <em
+										class="icon include"></em> #else <em class="icon exclude"></em>
+										#end <span class="name">$price.get("name")</span> <span
+										class="price">$currency$price.get("price")</span><span
+										class="qty"><em class="icon cheng"></em>$price.get("qty")</span>
+									</li> #end
+								</ul>
+								<div class="total">
+									费用合计<span>$currency$day.totalPrice</span>
+								</div>
+								#end
+								<!-- end if priceCount size -->
+							</div>
+
+						</div>
+						<!-- end days-content -->
+					</div>
+					<!-- end days-item -->
+					#end
+					<!-- end if optionCount size -->
+					#end
+					<!-- end each schedules -->
+				</div>
+			</div>
+			<div id="calendarTab" class="o-ti-con"  style="display:none" tag="tab">
+				<div class="pvw_date_contents">
+					<div class="d_title">
+						<ul>
+							<li class="dt1">空</li>
+							<li class="dt2"><span>日期</span></li>
+							<li class="dt3"><span>城市</span></li>
+							<li class="dt4"><span>交通</span></li>
+							<li class="dt5"><span>景点</span></li>
+							<li class="dt6"><span>住宿</span></li>
+						</ul>
+					</div>
+					<table width="100%" cellspacing="0" cellpadding="0" border="0">
+						<tbody>
+							#foreach($day in $schedules)
+							<tr>
+								<td class="tt1"><span>$velocityCount</span></td>
+								#set($oTime=$tool.parseDay($deptDate,$tool.dec($day.getInt("day"),1)))
+								<td class="tt2"><em>$oTime.get('dayName')</em><span>$oTime.get('monthName')</span><strong>$oTime.get('weekName')</strong>
+								</td>
+								<td valign="top" class="tt3">
+									<ul>
+										<li><span class="cn">北京</span><span class="en"><a
+												class="cLightgray" target="_blank" href=""></a> </span></li>
+										<li><span class="cn"><a class="cGray"
+												target="_blank" href="http://place.qyer.com/toronto/">多伦多</a>
+										</span><span class="en"><a class="cLightgray" target="_blank"
+												href="http://place.qyer.com/toronto/">Toronto</a> </span></li>
+									</ul>
+								</td>
+								<td valign="top" class="tt4">
+									<div class="list">
+										<strong class="title">13:55 - 15:10</strong>
+										<p class="city">
+											北京<span class="plane"></span><a class="cLightgray"
+												target="_blank" href="http://place.qyer.com/toronto/">多伦多</a>
+										</p>
+										<div class="no">HU7975</div>
+									</div>
+								</td>
+								<td valign="top" class="tt5">
+									#set($trips=$day.get('trips')) 
+									#foreach($trip in $trips)
+									#set($tripItems=$trip.get('items')) 
+									#foreach($tripItem in $tripItems) 
+										<h1>$tripItem.getString("location")</h1>
+										<p>$tripItem.get("content")</p>
+									#end			
+									#end			
+								</td>
+								<td valign="top" class="tt6">
+									<p class="f16">The Amsterdam Guest House (阿姆斯特丹宾馆)</p>
+								</td>
+							</tr>
+							#end
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div id="feeTab" style="display:none" class="o-ti-con" tag="tab">
+				<div class="pvw_money_contents">
+					<div class="m_titles">
+						<div class="lists">
+							<strong>列表样式</strong>
+							<div class="fl">
+								<a data-bn-ipg="planview-cost-date"
+									onclick="selectTab(&#39;day&#39;);" id="dayBtn"
+									href="javascript:;" class=""><span class="date">日期</span> </a>
+								<a data-bn-ipg="planview-cost-type"
+									onclick="selectTab(&#39;type&#39;);" id="typeBtn"
+									href="javascript:;" class="current"><span class="style">类型</span>
+								</a>
+							</div>
+						</div>
+						<p class="moneyInfo fontYaHei">
+							<span>全部费用:</span><strong>11080</strong> 人民币
+						</p>
+					</div>
+					<div id="day_view" style="display: block;">
+						<div class="warps" id="js_day_layer">
+							<div class="lists">
+								<div class="titlelt">
+									<div class="tt1 fontYaHei">
+										<span>第1天</span> (总计：<em>￥10100</em>)
+									</div>
+									<div class="tt2">单价</div>
+									<div class="tt3">数量</div>
+									<div class="tt4">总计</div>
+								</div>
+								<div class="items plane">
+									<div class="l1">
+										<span class="text">北京 -- 多伦多</span>
+									</div>
+									<div class="l2">
+										<span class="number">CNY 5050.00</span>
+									</div>
+									<div class="l3">
+										<span class="number">2</span>
+									</div>
+									<div class="l4">
+										<p>
+											<strong>CNY10100</strong>
+										</p>
+									</div>
+								</div>
+								<div class="titlelt">
+									<div class="tt1 fontYaHei">
+										<span>第15天</span> (总计：<em>￥8060</em>)
+									</div>
+									<div class="tt2">单价</div>
+									<div class="tt3">数量</div>
+									<div class="tt4">总计</div>
+								</div>
+								<div class="items plane">
+									<div class="l1">
+										<span class="text">多伦多 -- 北京</span>
+									</div>
+									<div class="l2">
+										<span class="number">CNY 4030.00</span>
+									</div>
+									<div class="l3">
+										<span class="number">2</span>
+									</div>
+									<div class="l4">
+										<p>
+											<strong>CNY8060</strong>
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<div id="js_type_layer" class="warps">
+						<div class="lists">
+							<div class="titlelt">
+								<div class="tt1 fontYaHei">
+									<span>交通</span> (总计：<em>¥18160</em>)
+								</div>
+								<div class="tt2">单价</div>
+								<div class="tt3">数量</div>
+								<div class="tt4">总计</div>
+							</div>
+							<div class="items traffic">
+								<div class="l1">
+									<span class="dday">D1</span><span class="text">北京 -- 多伦多</span>
+								</div>
+								<div class="l2">
+									<span class="number">CNY 5050.00</span>
+								</div>
+								<div class="l3">
+									<span class="number">2</span>
+								</div>
+								<div class="l4">
+									<p>
+										<strong>CNY10100</strong>
+									</p>
+								</div>
+							</div>
+							<div class="items traffic">
+								<div class="l1">
+									<span class="dday">D15</span><span class="text">多伦多 --
+										北京</span>
+								</div>
+								<div class="l2">
+									<span class="number">CNY 4030.00</span>
+								</div>
+								<div class="l3">
+									<span class="number">2</span>
+								</div>
+								<div class="l4">
+									<p>
+										<strong>CNY8060</strong>
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- p-content e -->
+	</div>
+	<!-- travel wraper e -->
+	</div>
+	<div style="display:none">
+		$context.readCall($activity,6,$activity.getInt('catalog'))</div>
+	#end $context.readFooter(true)
+	$context.includeJavaScript("","swfobject.js")
+	$context.includeJavaScript("","web_socket.js")
+	$context.includeJavaScript("jquery/","jquery.fancybox.js")
+	$context.includeJavaScript("jquery/","jquery.calendar.js")
+	$context.includeJavaScript("","trip.js")
+	$context.includeJavaScript("","user.js")
+</body>
+</html>

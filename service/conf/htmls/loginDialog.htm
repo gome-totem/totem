@@ -1,0 +1,173 @@
+<div class="popupBox" id="dlgLogin" action="$context.getParam('action')">
+	<div class="mask"></div>
+	<div class="popupBox_lr">
+		<a href="javascript:void(0)" onclick="dlgLogin.hide();"
+			class="close png">关闭</a>
+		<div class="top_nav">
+			<ul class="clearfix">
+				<li><a href="javascript:;" class="current" tag="loginTab"
+					data-target="2">登录</a></li>
+				<li><a href="javascript:;" tag="loginTab" data-target="1">注册</a>
+				</li>
+			</ul>
+		</div>
+
+		<div class="popupBox_body" id="loginTab2">
+			<div class="loginbox_wrap">
+				<form class="loginbox">
+					<h2>使用一起嗨注册账号登录</h2>
+					<div class="item clearfix">
+						<label for="account" class="lbl">账<span class="char"></span>号：</label>
+						<input type="text" id="username" class="input frame"
+							placeholder="您的邮件地址或手机号" />
+					</div>
+					<div class="item clearfix">
+						<label for="password" class="lbl">密<span class="char"></span>码：</label>
+						<input type="password" id="password" class="input frame"
+							placeholder="长度必须大于6位" />
+					</div>
+					<div class="item verif_item clearfix">
+						<label for="verif_code" class="lbl">验证码：</label> <input
+							type="text" id="verif_code" class="input frame"
+							placeholder="验证码不能够为空" />
+					</div>
+					<div class="item verif_item clearfix">
+						<label for="verif_code" class="lbl">&nbsp;</label> <span
+							class="verif_img"> <img src="" alt="验证码"
+							id="loginVerifCode"
+							onclick="javascript:dlgLogin.refreshCaptcha(2)"
+							style="cursor:pointer;" /> </span>
+					</div>
+					<div class="item check_item clearfix">
+						<label class="lbl">&nbsp;</label> <label class="checkbox">
+							<input id="rememberMe" type="checkbox" />记住我 <a
+							style="margin-left:10px;font-size:16px;"
+							href="javascript:void(0)" tag="loginTab" data-target="3"
+							class="bluelink">忘记密码?</a> </label>
+					</div>
+					<div class="item clearfix">
+						<a id="btnLogin" href="javascript:void(0)" onclick="dlgLogin.doLogin(this)"
+							style="width:320px;margin-left:100px;"
+							class="btn btn-rounded btn-green ">登录</a>
+					</div>
+				</form>
+				<!--  
+				<div class="seperate">
+					<div class="line"></div>
+					<span class="union">或</span>
+				</div>
+				<div class="union_login">
+					<h2>使用以下账号直接登录</h2>
+					<ul class="clearfix">
+						<li><a class="btn btn-arrow-right btn-red" href="/sinalogin"><em
+								class="xl"></em>微博登录</a>
+						</li>
+						<li><a class="btn btn-arrow-right  btn-blue" href="/qqlogin"><em
+								class="qq"></em>QQ登录</a>
+						</li>
+						<li><a class="btn btn-arrow-right  btn-green" href="#"><em
+								class="wx"></em>微信登录</a></li>
+					</ul>
+				</div>
+					-->
+			</div>
+		</div>
+
+		<div class="popupBox_body" id="loginTab1">
+			<div class="loginbox_wrap">
+				<form class="loginbox">
+					<div class="item clearfix">
+						<label for="account" class="lbl">用户名：</label> <input type="text"
+							id="regUsername" class="input frame" placeholder="用户名(只能输入中文)" />
+					</div>
+					<div class="item clearfix">
+						<label for="email" class="lbl">邮件地址：</label> <input type="text"
+							id="regEmail" class="input frame" placeholder="请输入邮箱地址" />
+					</div>
+					<div class="item clearfix">
+						<label for="password" class="lbl">登录密码：</label> <input
+							type="password" id="regPassword" class="input frame"
+							placeholder="长度必须大于6位" />
+					</div>
+					<div class="item clearfix">
+						<label for="password2" class="lbl">确认登录密码：</label> <input
+							type="password" id="regConfirmPassword" class="input frame"
+							placeholder="两次输入密码必须一致" />
+					</div>
+					<div class="item verif_item clearfix">
+						<label for="verif_code" class="lbl">验证码：</label> <input
+							type="text" id="regVerifCode" class="input frame"
+							placeholder="验证码不能够为空" />
+					</div>
+					<div class="item verif_item clearfix">
+						<label class="lbl"></label> <span class="verif_img"> <img
+							src="" style="cursor:pointer;" alt="点击刷新" id="registerVerifCode"
+							onclick="javascript:dlgLogin.refreshCaptcha(1)" /> </span>
+					</div>
+					<div class="item check_item clearfix">
+						<label class="lbl">&nbsp;</label> <label class="checkbox">
+							<input type="checkbox" checked="checked" id="regCheck" />我同意接受<a
+							href="terms" target="_blank">一起嗨免责服务条款</a> </label>
+					</div>
+					<div class="item clearfix">
+						<a href="javascript:void(0)" onclick="dlgLogin.doRegister(this)"
+							style="width:320px;margin-left:100px;"
+							class="btn btn-rounded btn-green ">立即注册</a>
+					</div>
+				</form>
+			</div>
+		</div>
+
+		<div class="popupBox_body" id="loginTab3">
+			<div class="find_psd">
+				<h2>找回密码</h2>
+				<ul class="step clearfix">
+					<li class="seq done" id="one">1</li>
+					<li class="line"></li>
+					<li class="seq" id="two">2</li>
+				</ul>
+			</div>
+			<div class="step_mod step_1" id="">
+				<form class="loginbox">
+					<h2 style="margin-left:100px;">您至少需要记得以下其中一项：</h2>
+					<div class="item clearfix">
+						<label for="account" class="lbl">邮箱：</label> <input type="text"
+							id="account" class="input frame" placeholder="请输入邮箱地址" />
+					</div>
+					<div class="item verif_item clearfix">
+						<label for="verifcode" class="lbl">验证码：</label> <input type="text"
+							id="forget_verif_code" class="input frame" placeholder="请输入验证码" />
+					</div>
+					<div class="item verif_item clearfix">
+						<label class="lbl">&nbsp;</label> <span class="verif_img"><img
+							src="" alt="点击刷新" onclick="javascript:dlgLogin.refreshCaptcha(3)"
+							style="cursor:pointer;" id="forgetVerifCode" /> </span>
+					</div>
+					<div class="item clearfix">
+						<a href="javascript:void(0)" onclick="dlgLogin.doForgetPassword()"
+							style="width:320px;margin-left:100px;"
+							class="btn btn-rounded btn-green ">找回密码</a>
+					</div>
+					<div class="item check_item clearfix">
+						<label class="lbl">&nbsp;</label> <a href="javascript:;"
+							class="bluelink" onclick="javascript:dlgLogin.show(2)">哦，又想起来了点这里&gt;&gt;</a>
+					</div>
+				</form>
+			</div>
+
+			<div class="step_mod step_2" style="display: none;">
+				<form class="loginbox" style="padding:30px 20px 20px 120px">
+					<h2>我们已将找回密码的邮件发送到以下邮箱：</h2>
+					<p>
+						<span class="input_text" id="forgerEmail">someone@sina.com</span>
+					</p>
+					<p></p>
+					<a href="javascript:void(0)" class="btn btn-arrow-right btn-green"
+						id="openEmail" target="_blank">查看邮箱</a>
+				</form>
+			</div>
+
+		</div>
+
+	</div>
+</div>

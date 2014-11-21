@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" class="mozilla">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>$tool.seoTitle()</title>
+$context.includeCss("","trip.css") $context.readHtmlHeader()
+</head>
+
+<body>
+	$context.readHeader() #set($id=$context.getParam('id'))
+	#set($topic=$service.readTopic($user.server,$id,true))
+	<div id="container" shortId="$id">
+		<div class="wrap">
+			<div class="detailhead" style="margin-top:20px;">
+				<div class="detailtitle">
+					<p class="authtrip"></p>
+					<p class="text" id="title">
+						<span><label id="lblTitle">行程线路标题，点击此处编辑</label><input
+							tag="title" id="edtTitle" type="text"
+							style="display:none;width:900px;">
+						</span>
+					</p>
+				</div>
+				<div class="meta">
+					<div class="clear"></div>
+				</div>
+			</div>
+			<div class="clear">
+				<span style="display:none" id="topicContent">$topic.toString()</span>
+			</div>
+			<div class="timelineToggle">
+				<div class="toolbar" style="margin:0px;">
+					<ul>
+						<li><a onclick="newDay()" href="javascript:void(0)"
+							id="btnAddDay"><span class="jia"></span>增加一天行程</a>
+						</li>
+					</ul>
+				</div>
+				<div class="right">
+					<ul class="ctl">
+						<li><a class="filter" tag="ci,he" href="javascript:void(0)"><font>美食</font><span>0</span>
+						</a>
+						</li>
+						<li><a class="filter" tag="wan" href="javascript:void(0)"><font>景点</font><span>0</span>
+						</a>
+						</li>
+						<li><a class="filter" tag="le" href="javascript:void(0)"><font>好玩</font><span>0</span>
+						</a>
+						</li>
+						<li style="width:120px;"><a tag="tree" class="collapse"><font
+								style="float:left">全部收起</font><em style="margin-top:10px"></em>
+						</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div id="timelineContainer"></div>
+			<div class="left" style="padding:30px 0px 0px 10px">
+				<button type="button" class="button red green-hover left w150"
+					id="btnNextStep" onclick="commit()">
+					<span class="tick"></span>发布分享行程
+				</button>
+			</div>
+		</div>
+	</div>
+	<div class="clear" style="height:200px"></div>
+
+	$context.readFooter(true) $context.includeJavaScript("","rock.js")
+	$context.includeJavaScript("jquery/","jquery.tokeninput.js")
+	$context.includeJavaScript("jquery/","jquery.calendar.js")
+	$context.includeJavaScript("jquery/","jquery.nicedit.js")
+	$context.includeJavaScript("","posttopic.js")
+</body>
+</html>

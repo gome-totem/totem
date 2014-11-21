@@ -1,0 +1,699 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+	<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>#set($qCountry=$context.getParam('c'))
+    #set($quri=$context.pageName)
+	#set($qPageNumber=$context.getParamByInt('p',1))
+	#set($qContinent=$service.readContinent($qCountry)) $qCountry
+	私人旅行社区©$tool.seoTitle()</title>
+<link rel="shortcut icon" href="/images/hi.ico">
+	<link rel="icon" type="image/png" href="/images/hi.png" >
+		<script src="http://maps.google.com/maps/api/js?sensor=false"
+			type="text/javascript"></script>
+		$context.includeCss("","newforum.css")
+		$context.readHtmlHeader()
+		<style>
+/* cluster */
+.cluster {
+	color: #FFFFFF;
+	text-align: center;
+	font-family: Verdana;
+	font-size: 14px;
+	font-weight: bold;
+	text-shadow: 0 0 2px #000;
+	-moz-text-shadow: 0 0 2px #000;
+	-webkit-text-shadow: 0 0 2px #000;
+}
+
+.cluster-1 {
+	background: url(/images/markers/m1.png) no-repeat;
+	line-height: 50px;
+	width: 50px;
+	height: 40px;
+}
+
+.cluster-2 {
+	background: url(/images/markers/m2.png) no-repeat;
+	line-height: 53px;
+	width: 60px;
+	height: 48px;
+}
+
+.cluster-3 {
+	background: url(/images/markers/m3.png) no-repeat;
+	line-height: 66px;
+	width: 70px;
+	height: 56px;
+}
+
+#toTop 
+{ 
+position:fixed; 
+_position:fixed; 
+font-size:12px; 
+color:Blue; 
+width:15px; 
+text-align:center; 
+right:300px; 
+bottom:100px; 
+cursor:pointer; 
+background-color:RGB(243,247,251); 
+display:none; 
+} 
+</style>
+	</head>
+
+	<body>
+		$context.readHeader()
+		<div class="nBanner" style="background:url(images/test/banner.jpg)">
+			<div class="w1200">
+				<div class="nFabu">
+					<p>从海量贴士中,抽取自己所需的</p>
+					<p>随心所欲打包贴士</p>
+					<a class="btn" href="javascript:void(0)" onclick="javascript:forumpost.show(1)"></a>
+				</div>
+				<h2 class="title"><b></b>这是我吃到的最好吃的泰国点心了</h2>
+				<p class="des">韩国导游-老赵</p>
+				<div class="smallPic">
+					<div class="borde"></div>
+					<img src="images/test/test-5.jpg" alt="">
+				</div>
+			</div>
+			<div class="nBottomBg"></div>
+		</div>
+				<!-- t-content s -->
+				<div class="t-content">
+				   #set($result=$service.readTopicsBy($context,$qCountry,$qPageNumber))
+					#set($items=$result.get("items"))
+					#set($totalCount=$result.getInt("totalCount"))
+					#set($remianCount=$result.getInt("remianCount"))
+					#set($continents=$result.get("CountryList"))
+					#set($countriesCount=$continents.getInt("CountriesCount"))
+			   <ul class="sideBar">
+				<li class="ff"><b class="hi"></b><a href="/messages">我</a></li>
+				<li class="ff"  id="pack">
+					<b class="jn" ></b>锦囊
+					<ul class="ss" style="display:none">
+						<li class="ii"></li>
+						#if($result.get("existPack"))
+						#foreach($list in $items)
+						#foreach($item in $list)
+						#set($type=$item.getInt('type',2)) 
+						#if($type==8)
+						<li class="tt" >
+							<h3 class="title"><span class="fr">$item.getInt('packcount',2)个贴士<em>&gt;</em></span>$item.getString("title")</h3>
+							<p>$item.getString("content")</p>
+						</li>
+						#end
+						#end
+						#end
+						#else
+						<li class="tt" >
+						<h3 class="title">您还没有收藏锦囊</h3>
+						</li>
+						#end
+					</ul>
+				</li>
+				<li class="ff"><b class="kg"></b>看过</li>
+				<li class="ff" id="like"> <b class="xh"></b>喜欢
+				<ul class="ss" style="display:none">
+				</ul>
+				</li>
+			  </ul>
+					<!-- t-content-header s -->
+					<div class="t-content-header">
+						<div class="t-content-tab">
+							<ul>
+							#if($user.userId!=0)
+								<li class="active">
+									<a onclick="searchByUser(this)" href="javascript:void(0)">我发布的</a>
+								</li>
+								#end
+								<li>
+									<a onclick="searchByType(this)" tag="5" href="javascript:void(0)">寻求帮助</a>
+								</li>
+								<li>
+									<a onclick="searchByType(this)" tag="1" href="javascript:void(0)">美食</a>
+								</li>
+								<li>
+									<a onclick="searchByType(this)" tag="2" href="javascript:void(0)">必去景点</a>
+								</li>
+								<li>
+									<a onclick="searchByType(this)" tag="3" href="javascript:void(0)">购物</a>
+								</li>
+							</ul>
+						</div>
+						<div class="t-content-search">
+							<input id ="keysearch" type="text" class="t-content-search-input" value="搜你喜欢的" />
+							<button onclick ="searchByKeyWord(this); "type="button" class="t-content-search-btn"></button>
+						</div>
+					</div>
+					<!-- t-content-header e -->
+					#if($totalCount>0)
+			<ul class="t-content-list area clearfix" id="continent">
+					<li class="cur"><a href="#">全部</a></li>
+			#foreach($continent in $continents)
+				<li><a onclick="searchByContinent(this)" continent="$continent.getString('continents')" href="javascript:void(0)">$continent.getString('continents')($continent.get('counts'))</a></li>
+			#end
+			</ul>
+			<ul class="t-content-list city" id="country">
+				<li class="cur"><a href="#">全部</a></li>
+					#foreach($continent in $continents)
+					#set($countries=$continent.get("countrys"))
+						#foreach($country in $countries)
+				<li><a onclick="searchByCountry(this)" country="$country.getString('country')" href="javascript:void(0)">$country.getString('country')($country.get('count'))</a></li>
+				#end
+				#end
+				#if($countriesCount>20)
+				<li class="more"></li>  
+				#end
+			</ul>
+			$user.userId
+			#end
+					<!-- t-tips s -->
+					<div class="t-tips clearfix" id="topics">
+						#foreach($list in $items)
+						<!-- row 1 s -->
+						<div class="t-tips-row" >
+							 #foreach($item in $list)
+							 	#set($keyId=$item.getString('id'))
+								#set($server=$item.getString('server'))
+								#set($type=$item.getInt('type',2)) 
+								#set($userId=$item.getInt('userId',1))
+								#if($type==5)
+								#set($indexs=$item.getInt('reindex',1))
+							
+							<div class="t-tips-item">
+								<!-- 图钉 -->
+								<div class="t-tips-item-thumbtack">
+									<span>Hello Text</span>
+								</div>
+								<div class="t-tips-item-content">
+									<!-- 类型：文字贴士 -->
+									<div class="type-text">
+										<div class="type-text-title">
+											$item.get('country').get(0)
+										</div>
+										<div class="type-text-intro">
+											<i class="icon-coordinate"></i>
+										<strong>$item.getString("title") </strong>	
+										$item.getString("content") 
+										</div>
+										<div class="type-text-comment on">
+										   #if($item.getInt('replyCount',0)>1)
+											<div class="type-text-comment-count">
+												<a  onclick="reloadReplieshide(this,'$server','$keyId','$indexs')">$item.get('replyCount')条评论</a>
+												<a class ="replyCount" id="replyCount$indexs" style="display:none" server="$server" keyId="$keyId" index="$indexs" count="$item.get('replyCount')" >收起</a>
+												<i class="icon-arrow"></i>
+											</div>
+											#end
+												#if($item.getInt('replyCount',0)>0)
+											<div class="type-text-comment-list" >
+												<ul id="replyComment$indexs">
+													<li class="clearfix">
+														<div class="noavatar">
+															<img src="/photo/faces/$item.get('userId')" />
+														</div>
+														<dl>
+															<dt>
+																<strong>$item.getString('last_userName')</strong><span>$tool.dateDiff($item.getLong('last_timestamp'))</span>
+															</dt>
+															<dd>
+																$item.getString('last_content')
+																<!-- <button userName="$user.userName" index="$indexs"server="$server" keyId="$keyId"type="button" replyId="$item.getString('last_keyId')"; onclick="reply(this)">回复</button> -->
+															</dd>
+															
+														</dl>
+													</li>
+												</ul>
+											</div>
+											#end
+											<div class="freplyBox" id="freplyBox" >
+														<div class="top">
+															<span></span>
+														</div>
+														<div class="content" id="reply$indexs">
+															<textarea id="replyContext$indexs" class ="replyContext" index="$indexs"></textarea>
+															<div class="clear"></div>
+														</div>
+														<div id="replyMessage" class="type-text-comment-btn" style="display:none">
+															<button userName="$user.userName" index="$indexs"server="$server" keyId="$keyId"type="button" level=0 onclick="replyMessage(this)">发表</button>
+														</div>
+				request.setCharacterEncoding("utf-8");
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="t-tips-item-shadow"></div><!-- 投影 -->
+							</div>
+							#elseif ($type==10)
+					<div class="t-tips-item">
+						<div class="t-tips-item-content">
+							<!-- 类型：天气，交通 -->
+							<div class="type-weather">
+								<div class="type-weather-view">
+									<a href="#" class="icon-magnify"></a>
+									<div class="type-weather-view-city">
+										<p><strong>Hong Kong, Hong Kong</strong></p>
+										<p>Wednesday 25 09 2013</p>
+									</div>
+									<div class="icon-weather">
+										<img src="images/test/icon-weather-3.png">
+									</div>
+									
+									<div class="type-weather-view-degree">29℃</div>
+									
+									<div class="type-weather-view-distance">
+										<ul>
+											<li>
+												<i class="icon-direction"></i>SOUTH-EAST
+											</li>
+											<li>
+												<i class="icon-distance"></i>19 KMH
+											</li>
+										</ul>
+									</div>
+								</div>
+								<div class="type-weather-content">
+									<table width="100%" cellpadding="0" border="0" class="table-weather">
+										<tbody><tr class="bg-a">
+											<td width="40%"><span class="ml8">Wednesday 25</span></td>
+											<td width="20%" align="center"><img src="images/test/icon-weather-1.png" class="icon-weather"></td>
+											<td width="40%" align="center">25℃ / 31℃</td>
+										</tr>
+										<tr class="bg-b">
+											<td width="40%"><span class="ml8">Wednesday 25</span></td>
+											<td width="20%" align="center"><img src="images/test/icon-weather-2.png" class="icon-weather"></td>
+											<td width="40%" align="center">25℃ / 31℃</td>
+										</tr>
+										<tr class="bg-a">
+											<td width="40%"><span class="ml8">Wednesday 25</span></td>
+											<td width="20%" align="center"><img src="images/test/icon-weather-1.png" class="icon-weather"></td>
+											<td width="40%" align="center">25℃ / 31℃</td>
+										</tr>
+										<tr class="bg-b">
+											<td width="40%"><span class="ml8">Wednesday 25</span></td>
+											<td width="20%" align="center"><img src="images/test/icon-weather-2.png" class="icon-weather"></td>
+											<td width="40%" align="center">25℃ / 31℃</td>
+										</tr>
+									</tbody></table>
+								</div>
+							</div>
+						</div>
+						<div class="t-tips-item-shadow"></div><!-- 投影 -->
+					</div>
+							
+							#elseif ($type==8)
+								<div class="t-tips-item">
+								<div class="t-tips-item-clip"></div><!-- 曲别针 -->
+								<div class="t-tips-item-tag">$item.getInt('packcount',1)</div><!-- 标签 -->
+								<div class="t-tips-item-content">
+									<!-- 类型：贴士 -->
+									<div class="type-tips">
+										<div class="type-tips-pic">
+											<a href="" class="type-tips-pic-a">
+												#if($tool.isEmpty($item.getString('title'))==false)
+												<span class="tipsname">$item.getString('title')</span>
+												#end
+												<span class="mask"></span>
+												<img src="images/test/test-4.jpg" class="tipsimg" />
+											</a>
+										</div>
+										<div class="type-tips-strategy">
+										
+										   #set($packlist=$item.get("packlist"))
+											 #foreach($pack in $packlist)
+											<div class="type-tips-strategy-item">
+												<i class="icon-message"></i>
+												<strong>$pack.getString("title") </strong>$pack.getString("content") 
+											</div>
+											#end
+										</div>
+									</div>
+								</div>
+								<div class="t-tips-item-shadow"></div><!-- 投影 -->
+							</div>
+						  #elseif ($type==2||$type==1 ||$type==3)
+							<div class="t-tips-item">
+								<div class="t-tips-item-clip"></div><!-- 曲别针 -->
+								<div class="t-tips-item-content">
+									<!-- 类型：购物 -->
+									<div class="type-shop">
+										<div class="type-shop-pic">
+											<ul class="type-shop-pic-a">
+												<li class="add-jn" href="javascript:void(0)" id ="$item.getString('id')" onclick="javascript:forumpack.show(this)">加入锦囊</li>
+												#set($collect=$item.getString('islike','collect')) 
+												<li class="$collect" tag="$item.getString("id")" title="$item.getString("title")"></li>
+												<li class="share " tag="$item.getString("id")">
+													<a href="#" class="weibo"></a>
+													<a href="#" class="weixin"></a>
+													<a href="#" class="mail"></a>
+												</li>
+												<li class="photo"><a target="_blank" href="/i/$item.getString('userId')"> <img
+										width="60px" height="60px"
+										src="/photo/faces/$item.get('userId')" /> </a></li>
+												<li class="name-day"><b>$item.getString("userName")</b><br />$tool.dateDiff($item.getLong('timestamp',0))</li>
+												<li class="mask"></li>
+												#set($pictures=$item.get("pictures")) #if($pictures.size()>0)
+												<li><img lazy="true" shot="$picture.getString('shot')"
+											src="http://image.yiqihi.com/shots/$picture.getString('shot')" class="shopimg" /></li>
+												#end
+											</ul>
+										</div>
+										<div class="type-shop-intro">
+										    #if($type==1)
+										    <span class="msg_tag_food"></span>
+										    #elseif($type==2)
+										    <span class="msg_tag_eye"></span>
+										    #else
+										    <span class=".msg_tag_shop"></span>
+										    #end
+											<strong>$item.getString("title")——</strong>$item.getString("content") 
+										</div>
+										<div class="type-shop-info">
+											<ul>
+											   <li><strong>国家：$item.getString("country")</strong></li>
+											   #if($tool.isEmpty($item.getString('hdr1'))==false)
+												<li><strong>$item.getString("hdr1")</strong></li>
+												#end
+  												#if($tool.isEmpty($item.getString('hdr2'))==false)
+												<li><strong>$item.getString("hdr2")</strong></li>
+												#end
+												 #if($tool.isEmpty($item.getString('hdr3'))==false)
+												<li><strong>$item.getString("hdr3")</strong></li>
+												#end
+											</ul>
+										</div>
+									</div>
+									
+								</div>
+								<div class="t-tips-item-shadow"></div><!-- 投影 -->
+							</div>
+							#end
+						#end
+						
+						</div>
+							#end
+						<!-- row 3 s -->
+						<!-- row 3 e -->
+						
+					</div>
+					<!-- t-tips e -->
+					<!-- t-tips-more s -->
+					#if($remianCount>0)
+					<div class="t-tips-more">
+					<span onclick="waterfallclick()">加载更多</span><i></i>
+					</div>
+					#end
+					<div id="toTop"><span>△回顶部</span></div> 
+					<!-- t-tips-more e -->
+				</div>
+		
+				 <!-- 发布区 s -->
+		
+		<div class="msg_reply" id="templateReply" style="display:none">
+		      <div jsselect="$this.items">
+					<li class="clearfix">
+				<div class="noavatar">
+				</div>
+				<dl>
+					<dt>
+						<strong jscontent="$this.userName"></strong><span jscontent="dateDiff($this.timestamp)"></span>
+					</dt>
+					<dd jscontent="htmlToText($this.content,300)">
+					</dd>
+					<!--<button jsvalues="replyServer:$replyServer;replyKeyId:$replyKeyId;userName:$this.userName;index:$replyindex;replyId:$this.id" type="button" onclick="reply(this)">回复</button>  -->
+				</dl>
+			</li>
+			</div>
+		</div>
+				<!-- t-content e -->
+			<div style="display:none">
+		       <div  class="t-tips clearfix" id="templateWarterfall">
+		         <div jseval="setContent(this,$this)">
+							<div class="t-tips-item" tag="5">
+								<!-- 图钉 -->
+								<div class="t-tips-item-thumbtack">
+									<span>Hello Text</span>
+								</div>
+								<div class="t-tips-item-content">
+									<!-- 类型：文字贴士 -->
+									<div class="type-text">
+										<div class="type-text-title">
+											<a href="#" jscontent="$this.country[0]" ></a>
+										</div>
+										<div class="type-text-intro">
+											 <i class="icon-coordinate"></i>
+											 <strong></strong>
+										</div>
+										<div class="type-text-comment">
+											<div class="type-text-comment-count" style="display:none">
+												<a class ="preplay" jsvalues="replyServer:$this.server;replyKeyId:$this.id;userName:$this.userName;index:$this.reindex;replyId:$this.id" onclick="reloadRepliestp(this)" ></a>
+												<a class ="replyCount"  jsvalues="replyServer:$this.server;replyKeyId:$this.id;userName:$this.userName;index:$this.reindex;replyId:$this.id;count:$this.replyCount;" style="display:none"></a>
+												<i class="icon-arrow"></i>
+											</div>
+											<div class="type-text-comment-list">
+												<ul>
+													<li class="clearfix">
+														<div class="noavatar">
+														</div>
+														<dl>
+															<dt>
+																<strong jscontent="$this.last_userName" ></strong><span class ="time"></span>
+															</dt>
+															<dd jscontent="$this.last_content">
+																
+															</dd>
+														</dl>
+													</li>
+												</ul>
+											</div>
+											<div class="freplyBox" id="freplyBox" >
+														<div class="top">
+															<span></span>
+														</div>
+														<div class="content" id="reply$this.reindex">
+															<textarea  class ="replyContext"  ></textarea>
+															<div class="clear"></div>
+														</div>
+														<div id="replyMessage" class="type-text-comment-btn" style="display:none">
+															<button jsvalues="server:$this.server;keyId:$this.id;userName:$this.userName;index:$this.reindex;"type="button" level=0 onclick="replyMessage(this)">发表</button>
+														</div>
+											</div>
+										</div>
+										
+									</div>
+									
+								</div>
+								<div class="t-tips-item-shadow"></div><!-- 投影 -->
+							</div>
+								<div class="t-tips-item" tag="8">
+								<div class="t-tips-item-clip"></div><!-- 曲别针 -->
+								<div class="t-tips-item-tag" jscontent="$this.packcount"></div><!-- 标签 -->
+								<div class="t-tips-item-content">
+									<!-- 类型：贴士 -->
+									<div class="type-tips">
+										<div class="type-tips-pic">
+											<a href="" class="type-tips-pic-a">
+												<span class="tipsname"  jscontent="$this.title" ></span>
+												<span class="mask"></span>
+												<img src="images/test/test-4.jpg" class="tipsimg" />
+											</a>
+										</div>
+										<div class="type-tips-strategy">
+											<div class="type-tips-strategy-item">
+												<i class="icon-message"></i>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="t-tips-item-shadow"></div><!-- 投影 -->
+							</div>
+							<div class="t-tips-item" tag="1">
+	                     <div class="t-tips-item-clip"></div><!-- 曲别针 -->
+								<div class="t-tips-item-content">
+									<!-- 类型：购物 -->
+									<div class="type-shop">
+										<div class="type-shop-pic">
+											<a href="/topic?u=" class="type-shop-pic-a">
+												<li class="add-jn" href="javascript:void(0)" jsvalues="id:$this.id" onclick="javascript:forumpack.show(this)">加入锦囊</li>
+												<li class="collect" jsvalues="tag:$this.id"></li>
+												<li class="share " jsvalues="tag:$this.id">
+													<a href="#" class="weibo"></a>
+													<a href="#" class="weixin"></a>
+													<a href="#" class="mail"></a>
+												</li>
+												<li class="photo"><img src="images/test/avatar.gif" alt=""></li>
+												<li class="name-day"></li>
+												<li class="mask"></li>
+												<li><img src="images/test/test-3.jpg" class="shopimg"></li>
+											</a>
+										</div>
+										<div class="type-shop-intro">
+
+										</div>
+										<div class="type-shop-info">
+											<ul>
+											</ul>
+										</div>
+									</div>
+									
+								</div>
+								<div class="t-tips-item-shadow"></div><!-- 投影 -->
+							</div>
+							</div>
+							</div>
+		<div id="templateTopic" class="t-tips clearfix"  >
+				<div jsselect="$this.items"
+				jsvalues="id:'item'+$args.index">
+			<div  class="t-tips-row" jsselect="$this" >
+			   <div jseval="setContent(this,$this)">
+							<div class="t-tips-item" tag="5">
+								<!-- 图钉 -->
+								<div class="t-tips-item-thumbtack">
+									<span>Hello Text</span>
+								</div>
+								<div class="t-tips-item-content">
+									<!-- 类型：文字贴士 -->
+									<div class="type-text">
+										<div class="type-text-title">
+											<a href="#" jscontent="$this.country[0]" ></a>
+										</div>
+										<div class="type-text-intro">
+											 <i class="icon-coordinate"></i>
+											 <strong></strong>
+										</div>
+										
+										<div class="type-text-comment">
+											<div class="type-text-comment-count" style="display:none">
+												<a class ="preplay" jsvalues="replyServer:$this.server;replyKeyId:$this.id;userName:$this.userName;index:$this.reindex;replyId:$this.id" onclick="reloadRepliestp(this)" ></a>
+												<a class ="replyCount"  jsvalues="replyServer:$this.server;replyKeyId:$this.id;userName:$this.userName;index:$this.reindex;replyId:$this.id;count:$this.replyCount;" style="display:none"></a>
+												<i class="icon-arrow"></i>
+											</div>
+											<div class="type-text-comment-list">
+												<ul>
+													<li class="clearfix">
+														<div class="noavatar">
+														</div>
+														<dl>
+															<dt>
+																<strong jscontent="$this.last_userName" ></strong><span class ="time"></span>
+															</dt>
+															<dd jscontent="$this.last_content">
+																
+															</dd>
+														</dl>
+													</li>
+												</ul>
+											</div>
+											<div class="freplyBox" id="freplyBox" >
+														<div class="top">
+															<span></span>
+														</div>
+														<div class="content" id="reply$this.reindex">
+															<textarea  class ="replyContext"  ></textarea>
+															<div class="clear"></div>
+														</div>
+														<div id="replyMessage" class="type-text-comment-btn" style="display:none">
+															<button jsvalues="server:$this.server;keyId:$this.id;userName:$this.userName;index:$this.reindex;"type="button" level=0 onclick="replyMessage(this)">发表</button>
+														</div>
+											</div>
+										</div>
+										
+									</div>
+									
+								</div>
+								<div class="t-tips-item-shadow"></div><!-- 投影 -->
+							</div>
+								<div class="t-tips-item" tag="8">
+								<div class="t-tips-item-clip"></div><!-- 曲别针 -->
+								<div class="t-tips-item-tag" jscontent="$this.packcount"></div><!-- 标签 -->
+								<div class="t-tips-item-content">
+									<!-- 类型：贴士 -->
+									<div class="type-tips">
+										<div class="type-tips-pic">
+											<a href="" class="type-tips-pic-a">
+												<span class="tipsname"  jscontent="$this.title" ></span>
+												<span class="mask"></span>
+												<img src="images/test/test-4.jpg" class="tipsimg" />
+											</a>
+										</div>
+										<div class="type-tips-strategy">
+											<div class="type-tips-strategy-item">
+												<i class="icon-message"></i>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="t-tips-item-shadow"></div><!-- 投影 -->
+							</div>
+							<div class="t-tips-item" tag="1">
+								<div class="t-tips-item-clip"></div><!-- 曲别针 -->
+								<div class="t-tips-item-content">
+									<!-- 类型：购物 -->
+									<div class="type-shop">
+										<div class="type-shop-pic">
+											<a jsvalues="href:'/topic?u='+$this.userId"  class="type-shop-pic-a">
+												<li class="add-jn" href="javascript:void(0)" jsvalues="id:$this.id" onclick="javascript:forumpack.show(this)">加入锦囊</li>
+												<li class="collect" jsvalues="tag:$this.id"></li>
+												<li class="share " jsvalues="tag:$this.id">
+													<a href="#" class="weibo"></a>
+													<a href="#" class="weixin"></a>
+													<a href="#" class="mail"></a>
+												</li>
+												<li class="photo"><img src="images/test/avatar.gif" alt=""></li>
+												<li class="name-day"></li>
+												<li class="mask"></li>
+												<li><img src="images/test/test-3.jpg" class="shopimg"></li>
+											</a>
+										</div>
+										<div class="type-shop-intro">
+
+										</div>
+										<div class="type-shop-info">
+											<ul>
+											</ul>
+										</div>
+									</div>
+									
+								</div>
+								<div class="t-tips-item-shadow"></div><!-- 投影 -->
+							</div>
+			</div>
+			</div>
+			</div>
+			</div>
+			<div id="templateContinent">
+			<ul class="t-content-list area clearfix">
+					<li class="cur"><a href="">全部</a></li>
+						<span jsselect="$this">
+				<li jseval="setContinent(this,$this)" ></li>
+				</span>
+			</ul>
+			</div>
+		<div id="templateCountry">
+		      <ul class="t-content-list city" id="country">
+					<li class="cur"><a href="">全部</a></li>
+				<span jsselect="$this">
+				<span jsselect="$this.countrys">
+				   <li jseval="setCountry(this,$this)" ></li>
+				</span>   
+				</span>
+			</ul>
+			</div>
+	</div>
+		
+		<!-- traveltips wraper e -->
+	$context.readFooter(true)
+   $context.include('forum-post') 
+   $context.include('forum-pack') 
+	$context.includeJavaScript("","swfobject.js")
+	$context.includeJavaScript("jquery/","jquery.fancybox.js")
+	$context.includeJavaScript("jquery/","jquery.tokeninput.js")
+	$context.includeJavaScript("","rock.js")
+	$context.includeJavaScript("","newforum.js")
+	$context.includeJavaScript("","forum-post.js")
+	$context.includeJavaScript("","forum-pack.js")
+	</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+$context.includeCss("","triporder.css")
+#set($orderId=$context.getParamByInt('id',0))
+#set($order=$travelorder.getOrder($orderId,$context))
+#set($currencyName=$tool.currencyNameBy($tool.intOf($order.currency)))
+#set($currency=$tool.currencyName($tool.intOf($!{order.currency})))
+#set($isClose=$!{order.status}==11) 
+#set($isPaid=$!{order.status}==8 || $isClose )
+<title>我的订单-$!{order.customer.username}-$!{order.id}-$!{order.startTime}</title>
+$context.readHtmlHeader()
+</head>
+<body>
+	$context.readHeader() #if($travelorder.showorder($context,$order))
+	#set($b6=$user.role.isAccounter()) $context.include("showorder") #else
+	<div class="container area clearfix">
+		<h2 class="page-title">您没有权限查看订单</h2>
+	</div>
+	#end 
+	
+	$context.readFooter()
+</body>
+</html>

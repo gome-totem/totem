@@ -1,0 +1,199 @@
+#if ($showCloseBudget)
+<div>
+	<a href="javascript:void(0)" jsvalues=".day:$dayIndex;.itemIndex:$itemIndex" id="budget34_A"
+		onclick="closeBudget(this.day,this.itemIndex)" class="pass">
+	</a>
+</div>
+#end
+
+<div class="search-tong">
+	<div class="search-date" jstcache="0">
+		<h1><font id="queryTitle"></font></h1>
+		<ul id="dateBar"></ul>
+	</div>
+	<div class="search-con">
+		<div class="z2">
+			<div class="z201">
+				<label class="text">出发城市&nbsp;</label>
+				<input type="text"  class="inputn filterInput"  id="fromCity" value="" size="13" />
+				<label class="text">&nbsp;到达&nbsp;</label>
+				<input id="toCity"  class="inputn filterInput"  type="text"  size="13" />
+				<label class="text">&nbsp;出发日期&nbsp;</label>
+				<input id="deptDate"  type="text"  class="inputn filterInput" datepicker="true" size="13" />
+			</div>
+			<div class="z202" >
+				<a class="submitBtnGreen" href="javascript:void(0)" id="searchButton" style="float:right;" onclick="reSearchTicket()" /><span>重新搜索</span></a>
+				<span id="waiting" style="padding-right:3px;float:left;"></span>
+			</div>
+		</div>
+		<div class="search-con-b">
+			<p class="p1">出行工具</p>
+			<p>
+				<label>
+					<img id="image1" src="/images/img25.gif" />
+					<a href="javascript:void(0)" onclick="switchTicket(1)">
+					<font id="font1" color="green" tag="focus">飞机</font></a>
+				</label>
+				<label>
+					<img id="image2" src="/images/img28.gif" />
+					<a href="javascript:void(0)" onclick="switchTicket(2)"><font id="font2" color="">火车</font></a>
+				</label>
+			</p>
+			<p class="p1">出发时间</p>
+			<p>
+				<label>
+				<input name="timeType" type="checkbox" value="0" onclick="renderFlight(1,10)" />
+				<font>上午</font>
+				</label>
+				<label><input name="timeType" type="checkbox" value="1" onclick="renderFlight(1,10)" />
+				<font>中午</font></label>
+				<label><input name="timeType" type="checkbox" value="2" onclick="renderFlight(1,10)" />
+				<font>下午</font></label>
+				<label><input name="timeType" type="checkbox" value="3" onclick="renderFlight(1,10)" />
+				<font>晚上</font></label>
+			</p>
+			<p class="p1" id="airlineContent" style="display:none">航空公司</p>
+			<p id="airlines">
+			</p>
+		</div>
+	</div>
+	<div class="jp-list" id="flightContent">
+		<ul class="jp-list-title">
+			<li><p class="p1" >航空公司<br ><span >航班/机型</span></p><p class="p5" >起降时间</p><p class="p1" >机场</p><p class="p5" ><span >燃油</span><br ><span >建设费</span></p><p class="p2" >推荐网站</p><p class="p3" >最低报价</p></li>
+		</ul>
+		<ul class="jp-list-con">
+		#set($list=["0","1","2","3","4","5","6","7","8","9"])
+		#foreach($index in $list)
+			<li id="rec$index" style="display:none">
+				<p tag="logo"></p>
+				<p class="p2">
+					<span tag="airline">
+						<font class="airline"></font>
+						<font color="green" class="flightNumber"></font> <br/>
+						<font class="planeType"></font>
+					</span>
+				</p>
+				#set($pClass1='p8')
+				#set($pClass2='p2')
+				#set($pClass3='p8')
+				#if($width < 1000)
+					#set($pClass1='p3')
+					#set($pClass2='p8')
+					#set($pClass3='p3')
+				#end
+				<p class="$pClass1"><font class="deptTime"></font><br/><font class="arriveTime"></font></p>
+				<p class="$pClass2"><font class="deptPort"></font><br/><font class="arrivePort"></font></p>
+				<p class="$pClass3"><font class="useTime"></font><br/><font class="fee"></font></p>
+				<p class="p8"><font class="siteName"></font><br/>￥<font class="sitePrice"></font></p>
+				<p class="p4">
+					<span>￥<font class="flightPrice"></font></span><br/>
+					<input onclick="openBooking($index)" type="button" class="btnGreen" value="订票" />
+				</p>
+				<div  class="jp-list-x" tag="list"  style="display:none">
+				</div>
+			</li>				
+		#end
+		</ul>
+	</div>
+	<div class="search-page" id="flightPager"></div>
+	<div class="daz" id="trainContent" style="display:none">
+		<ul class="hcp">
+			<li><p class="p1">车次</p><p class="p1">车型</p><p class="p1">发站-到站</p><p class="p1">出发-到达时间</p><p class="p1">全程时间</p><p class="p6">最低票价</p><p class="p3">订票</p></li>			
+		</ul>
+		<div id="trainOutput">
+			<ul class="paio" jseval="$recIndex=0">
+			</ul>
+		</div>
+	</div>		
+	<div class="search-page" id="trainPager" style="display:none"></div>	
+</div>
+
+<div style="display:none">
+
+	<div id="flightRecordTemplate">
+		<a href="javascript:void(0)" jsvalues=".index:$recIndex" onclick="closeBooking(this.index)" class="pass" jseval="$flight=$this"></a>
+		<div class="jp-list-x-l" onMouseOver="$(this).addClass('ptbj')" onMouseOut="$(this).removeClass('ptbj')" jsselect="sites">
+			<div class="zb">
+				<b><a target="_blank" jsvalues=".booking:$this.booking;.siteName:$this.siteName;" onclick="clickBooking(this.booking,this.siteName)" jscontent="$this.siteName"></a></b>
+			</div>
+			<div class="yb"><span jseval="$content='￥'+$this.price" jscontent="$content"></span>
+				<i jseval="$time=dateDiff($this.timestamp)" jscontent="$time"></i>
+				#if ($callMode=='ticket')
+					<input type="button" jsvalues=".booking:$this.booking;.siteName:$this.siteName;" class="btnOrange" onclick="clickBooking(this.booking,this.siteName)" value="预定" />
+				#elseif ($callMode=='normal')
+					<input type="button" jsvalues=".object:$this;.index:$recIndex;.flight:$flight" class="btnOrange" onclick="doSelectPrice3(this,this.flight,this.object,this.index)" value="选择" />
+				#else
+					<input type="button" jsvalues=".object:$this;.index:$recIndex" class="btnOrange" onclick="doFlashCallback(this,this.object,this.index)" value="预定" />
+				#end
+			</div>
+		</div>
+	</div>
+
+	<label id="airlineTemplate" jsselect="airlines">
+		<input name="airline" jsvalues=".value:$this.value" type="checkbox" onclick="renderFlight(1, 10)" />
+		<font jscontent="$this.name"></font>
+	</label>
+
+	<li id="ticketBarTemplate" jsselect="prices" jsvalues=".year:$this.year;.month:$this.month;.day:$this.day;" onclick="selectDateBar(this.year,this.month,this.day)">
+		<font jscontent="$this.month" jseval="$recIndex++" ></font>-<font  jscontent="$this.day"></font>
+		(周<font jseval="$content=weekName($this.week)" jscontent="$content"></font>)
+	</li>
+
+	<li id="trainRecordTemplate" jsselect="items" jseval="$recIndex++">
+		<p class="p5" >
+			<a href="javascript:void(0)" jsvalues=".code:$this.train_code;.index:$recIndex" 
+			onclick="showTrainDetail(this.index,this.code,this)">
+			<font jsvalues=".id:'item'+$recIndex">
+				<font jscontent="$this.train_code"></font>详情
+			</font>
+			</a>
+		</p>
+		<p class="p5"><font jscontent="$this.train_type"></font></p>
+		<p class="p5">
+			<font jshtml="$this.station_from"></font><br/>
+			<font jshtml="$this.station_to"></font>
+		</p>
+		<p class="p5">
+		<font jscontent="$this.dept_time"></font><br/>
+		<font jscontent="$this.arrive_time"></font>
+		</p>
+		<p class="p5" jscontent="$this.run_time"></p>
+		<p class="p6">
+		   <select jsvalues=".id:'trainPrice'+$recIndex" style="width:160px">
+			  <option jsselect="prices" jsvalues=".ticketName:$this.name;.ticketAmount:$this.amount" jseval="$content=$this.name+':￥'+$this.amount" jscontent="$content"></option>
+		   </select>
+		</p>
+		<p class="p7">
+		<input jsvalues=".object:$this;.index:$recIndex" onclick="doSelectPrice4(this,this.object,this.index)"
+		type="button"  class="btnOrange" value="选择"/></p>
+		<div class="ptan" jsvalues=".id:'panel'+$recIndex" style="display:none">
+			<div class="ptanl" jsvalues=".id:'detail'+$recIndex">
+				<div class="dynamic">
+					
+				</div>
+			</div>
+		</div>		
+	</li>
+
+	<div id="trainDetailTemplate">
+		<table width="680" border="0" cellspacing="0" cellpadding="0" class="hcpxq" >
+		  <tr>
+			<td width="45">站次</td>
+			<td width="50">车次</td>
+			<td width="55">站名</td>
+			<td width="65">到达时间</td>
+			<td width="65">开车时间</td>
+			<td width="80">运行时间</td>
+		  </tr>
+		  <tr jsselect="items">
+			<td jscontent="$this.sequence"></td>
+			<td jscontent="$this.train_code"></td>
+			<td jshtml="station_name"></td>
+			<td jscontent="arrive_time"></td>
+			<td jscontent="dept_time"></td>
+			<td jscontent="run_time"></td>
+		  </tr>
+		</table>
+	</div>
+
+</div>

@@ -1,0 +1,93 @@
+<div class="menu">
+	<!--   <div class="title">
+		<em></em>个人中心
+	</div>
+	-->
+	
+	#set($b1=$user.role.isCarPoolAssistant())
+	#set($b2=$user.role.isRoomAssistant())
+	#set($b3=$user.role.isTripAssistant()) 
+	#set($b4=$user.role.isPushAssistant()) 
+	#set($b5=$user.role.isRoot())
+	#set($b6=$user.role.isAccounter())
+	#set($b7=$user.role.isProductAssistant()) 
+	#set($b8=$user.role.isCustomerService()) 
+	<dl>
+		<dt>
+			<a href="javascript:void(0)">我的业务</a>
+		</dt>
+		<dd>
+			<span>$messageCount</span><a href="/messages">最新消息</a>
+		</dd>
+		<dd>
+			<span class="rednum">$user.tripCount</span><a href="/trips">我的行程单</a>
+		</dd>
+		<dd>
+			<span class="greennum">$context.travelOrder().getOrderCount($context)</span><a href="/orders">我的订单</a>
+		</dd>
+		<dd>
+			<span class="greennum">$context.AirTicket().getOrderCount($context,0)</span><a href="/airticketorders">我的机票</a>
+		</dd>
+		<dd>
+			<span>$user.serviceCount</span><a href="/offers">我发布的服务</a>
+		</dd>
+		<dd>
+			<span>$user.reqCount</span><a href="/requires">我发布的需求</a>
+		</dd>
+	</dl>
+	<dl>
+		<dt>
+			<a href="javascript:void(0)">我的账户</a>
+		</dt>
+		<dd>
+			<a href="/profile">资料修改</a>
+		</dd>
+		<dd>
+			<a href="/auth">账户认证</a>
+		</dd>
+		<dd>
+			<a href="/charge">账户充值 </a>
+		</dd>
+	</dl>
+
+	
+	#if($b1 ||$b2 ||$b3 ||$b4 ||$b5 ||$b6 || $b7  || $b8)
+	<dl>
+		<dt>
+			<a href="javascript:void(0)">后台管理</a>
+		</dt>
+		#if ($b6)
+		<dd>
+			<span>$context.bill().getReceiptCount()</span><a href="/managereceipts">银行对账</a>
+		</dd>
+		#end
+		#if ($b1 || $b2 || $b3)
+		<dd>
+			<a href="/checkoffers">审核服务</a>
+		</dd>
+		#end
+		#if ($b8)
+		<dd>
+			<a href="/recommends">推荐管理</a>
+		</dd>
+		<dd>
+			<a href="/checkcomments">审核评论</a>
+		</dd>
+		#end
+		#if ($b4)
+		<dd>
+			<a href="/tuibadoc">推广软文编辑</a>
+		</dd>
+		<dd>
+			<a href="/tuibatrace">推广效果监控</a>
+		</dd>
+		<dd>
+			<a href="/tuibadev">推广目标网站</a>
+		</dd>
+		#end
+	</dl>
+	
+	
+	#end
+</div>
+

@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>$tool.seoTitle()</title>$context.includeCss("","tuiba.css")
+$context.readHtmlHeader()
+</head>
+<body>
+	<script>
+function readValue(v1,defaultV){
+  if (v1.length==0) {
+    return defaultV;
+  }
+  return v1;
+}
+
+function readSourceUrl(items)
+{
+  return items[0].source;
+}
+
+function readTitleByState(state){
+  if (state==0){
+	return "警告:未审核,请注意安全!";
+  }else if (state==1) {
+	return "警告:已审核,有安全隐患!";
+  }else if (state==2){
+	return "已审核,放心使用!";
+  }
+}
+
+</script>
+	$context.readHeader()
+	<div class="w1200">
+		#set($catalog=$context.getParamByInt('id',2))
+		#set($sites=$service.readSites($context,$catalog,1))
+		<div class="wrap" style="margin:0px;">
+			<ul id="breadcrum">
+				<li style="width:300px"><span class="lx2" id="sitePages"
+					totalCount="$sites.getInt('totalCount')"> <span
+						class="dynamic"></span> </span>
+				</li>
+			</ul>
+		</div>
+		<div class="con_all" id="content"
+			catalog="$context.getParamByInt('id')">
+			<ul style="width:1100px">
+				#set($itemCount=$sites.get("items").size()) #foreach($site in
+				$sites.get("items"))
+				<li style="width:480px;float:left;margin-bottom:39px"
+					id="rec$velocityCount">
+					<div class="gf_con" style="width:480px">
+						<div class="gf_c_l">
+							<div class="pic70">
+								<img width="70px" height="70px" id="logo$velocityCount"
+									src="${site.getString('logo')}" />
+							</div>
+							<div style="display:none">
+								<span id="catalog$velocityCount">$site.getString("catalog")</span>
+								<span id="domain$velocityCount">$site.getString("domain")</span>
+								<span id="site$velocityCount">$site.getString("site")</span> <span
+									id="scriptId$velocityCount">$site.getString("id")</span> <span
+									id="licenceVersion$velocityCount">$site.getString("licence_version")</span>
+								<span id="licenceName$velocityCount">$site.getString("licence_name")</span>
+							</div>
+						</div>
+						<div class="gf_c_r" style="width:390px">
+							<div class="gf_title" style="font-size:13px">
+								<span id="scriptTitle$velocityCount">$site.getString("title")</span>
+							</div>
+							#set($index=$velocityCount) #set($plugins=$site.get("plugins"))
+							<div id="plugins$velocityCount">
+								<div class="dynamic" jseval="$pluginIndex=0">
+									#foreach($plugin in $plugins)
+									<div class="gf_nr" style="width:390px">
+										<div class="ex_nr01_n">
+											<div class="ex_nr_n01">
+												<span class="per_icon30">$velocityCount</span>&nbsp; <span
+													id="funcDesc${index}_$velocityCount">$plugin.getString('func_desc')</span>
+												<span style="display:none" id="id${index}_$velocityCount">$plugin.getString('id')</span>
+												<span style="display:none" id="url${index}_$velocityCount">$plugin.getString('url')</span>
+												<span style="display:none"
+													id="funcName${index}_$velocityCount">$plugin.getString('func_name')</span>
+												<span style="display:none"
+													id="tabDoc${index}_$velocityCount">$plugin.getString('tabDoc')</span>
+												<span style="display:none"
+													id="tabAccount${index}_$velocityCount">$plugin.getString('tabAccount')</span>
+												<span style="display:none"
+													id="enableParam${index}_$velocityCount">$plugin.getString('enableParam')</span>
+												<span style="display:none"
+													id="enableQuery${index}_$velocityCount">$plugin.getString('enableQuery')</span>
+											</div>
+											<div class="ex_nr_n01">
+												&nbsp; &nbsp;&nbsp; <a recIndex="$index"
+													pluginIndex="$velocityCount" href="javascript:void(0)"
+													onclick="openPlugin(this)" class="sl noline"><b>点击运行</b>
+												</a> &nbsp; <a recIndex="$index" pluginIndex="$velocityCount"
+													href="javascript:void(0)" onclick="timePlugin(this)"
+													class="sl noline"><b>定时运行</b> </a>
+											</div>
+										</div>
+									</div>
+									#end
+								</div>
+							</div>
+						</div>
+					</div></li> #end
+			</ul>
+		</div>
+	</div>
+
+	<div style="display:none">
+		<div id="templateSitePage" class="trigger-bar">
+			<a href="javascript:void(0)" title="下翻" id="nextSite" class="next"
+				onclick="nextSitePage()"></a> <a href="javascript:void(0)"
+				title="上翻" id="prevSite" class="prev" onclick="priorSitePage()"></a>
+			<div class="scrollable-trigger">
+				<a jsselect="items" tag="sitePage" href="javascript:void(0)"
+					jsvalues=".pageNumber:$this;.title:'第'+$this+'页'"></a>
+			</div>
+		</div>
+
+		<div id="templatePlugin" class="gf_nr" style="width:390px"
+			jsselect="plugins" jseval="$pluginIndex++">
+			<div class="ex_nr01_n">
+				<div class="ex_nr_n01">
+					<span class="per_icon30" jscontent="$pluginIndex"></span>&nbsp; <span
+						jsvalues=".id:'funcDesc'+$recIndex+'_'+$pluginIndex"
+						jshtml="$this.func_desc"></span> <span style="display:none"
+						jsvalues=".id:'id'+$recIndex+'_'+$pluginIndex"
+						jscontent="$this.id"></span> <span style="display:none"
+						jsvalues=".id:'url'+$recIndex+'_'+$pluginIndex"
+						jscontent="$this.url"></span> <span style="display:none"
+						jsvalues=".id:'funcName'+$recIndex+'_'+$pluginIndex"
+						jscontent="$this.func_name"></span> <span style="display:none"
+						jsvalues=".id:'tabDoc'+$recIndex+'_'+$pluginIndex"
+						jscontent="$this.tabDoc"></span> <span style="display:none"
+						jsvalues=".id:'tabAccount'+$recIndex+'_'+$pluginIndex"
+						jscontent="$this.tabAccount"></span> <span style="display:none"
+						jsvalues=".id:'enableParam'+$recIndex+'_'+$pluginIndex"
+						jscontent="$this.enableParam"></span> <span style="display:none"
+						jsvalues=".id:'enableQuery'+$recIndex+'_'+$pluginIndex"
+						jscontent="$this.enableQuery"></span>
+				</div>
+				<div class="ex_nr_n01">
+					&nbsp; &nbsp;&nbsp; <a
+						jsvalues=".recIndex:$recIndex;.pluginIndex:$pluginIndex;"
+						href="javascript:void(0)" onclick="openPlugin(this)"
+						class="sl noline"><b>点击运行</b> </a>&nbsp; <a
+						jsvalues=".recIndex:$recIndex;.pluginIndex:$pluginIndex;"
+						href="javascript:void(0)" onclick="timePlugin(this)"
+						class="sl noline"><b>定时运行</b> </a>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+
+	$context.readFooter() $context.includeJavaScript("","tuiba.js")
+
+</body>
+</html>

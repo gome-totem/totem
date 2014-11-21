@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" class="mozilla">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>我发布的需求©$tool.seoTitle()</title>
+<link rel="shortcut icon" href="/images/hi.ico">
+<link rel="icon" type="image/png" href="/images/hi.png" >
+$context.readHtmlHeader() $context.includeCss("","backend.css")
+</head>
+
+<body>
+	$context.readHeader(false) $context.include("usertitle")
+	<div class="home">
+		$context.include("userinfo")
+		<div class="content clearfix">
+			$context.include("userpanel")
+			<div class="fieldset">
+				<div class="content" id="requires" jseval="$args.index=0"></div>
+				<div id="pager" class="pagebar"></div>
+			</div>
+		</div>
+	</div>
+
+	<div style="display:none">
+		<div id="requireTemplate">
+			<div class="listbox" jsselect="items" jseval="$args.index++"
+				jsvalues=".id:'result'+$args.index">
+				<dl>
+					<dt class="date">
+						<ul>
+							<li class="yue"><font jscontent="monthOf($this.dept_date)"></font>月</li>
+							<li class="ri" jscontent="dayOf($this.dept_date)"></li>
+							<li jscontent="yearOf($this.dept_date)"></li>
+						</ul>
+					</dt>
+					<dd>
+						<ul>
+							<li><span jshtml="readStateHtml($this,$args.index,11)"></span><strong jscontent="$this.title"></strong></li>
+							<li><p jscontent="htmlToText($this.description,180)"></p></li>
+							<li><p>
+									<span>目的城市:<span jshtml="readLocation($this)"></span> </span><span>费用预算:
+										<font jscontent="getCurrencyName($this.currency)"></font> <font
+										jscontent="$this.price"></font> </span> <span
+										jsvalues=".id:'loading'+$args.index"></span>
+								</p>
+								<p class="check_msgbox" jsdisplay="readCheckVisible($this)"
+									jshtml="readCheckMessage($this,6)"></p></li>
+						</ul>
+					</dd>
+				</dl>
+
+				<ul class="pnl"
+					jsvalues=".id:'item'+$args.index;shortId:$this.short_id;">
+					<li><a class="iconbtn" href="javascript:void(0)"
+						jsvalues=".href:'/postreq/'+$this.short_id"><span class="edit"></span>编辑需求</a>
+					</li>
+					<li><a class="iconbtn" href="javascript:void(0)"
+						jsvalues=".recIndex:$args.index;"
+						onclick="deleteRequire(this.recIndex,11)"><span class="remove"></span>删除需求</a>
+					</li>
+				</ul>
+				<!-- 
+				<div class="left">
+					<div class="box1-left">
+						<div class="box1-tl"></div>
+						<div class="box1-tc-left">
+							<div class="box1-tc01-left"></div>
+						</div>
+						<div class="box1-tr"></div>
+						<div class="box1-c-left">
+							<div class="box1-c"></div>
+						</div>
+						<div class="box1-bl"></div>
+						<div class="box1-bc-left"></div>
+						<div class="box1-br"></div>
+					</div>
+				</div>
+				 -->
+				<div class="clear"></div>
+			</div>
+		</div>
+	</div>
+
+	$context.include('offercommon') $context.readFooter(false)
+	$context.includeJavaScript("jquery/","jquery.calendar.js")
+	$context.includeJavaScript("","rock.js")
+	$context.includeJavaScript("","requires.js")
+</body>
+</html>

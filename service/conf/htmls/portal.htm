@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+#set($doc=$service.readPushDoc($context))
+<title>$doc.getString("title")©$tool.seoTitle()</title>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+$context.includeCss("","portal.css") $context.readHtmlHeader()
+</head>
+<body>
+	$context.readHeader() #if($user.role.isPushAssistant())
+	<div class="w1200" style="padding:10px;height:60px;" >
+		<a class="button grey red-hover  w110"  style="float:right;margin-top:15px;" id="btnCommit"
+			href="javascript:void(0)">保存更新</a>
+	</div>
+	<div class="clear"></div>
+	#end
+	<div class="w1200" id="content" docId="$context.getParam('id', '0')">
+		$doc.getString("content")</div>
+	<div class="clear" style="margin-top:40px;"></div>
+	$context.readFooter()
+	$context.includeJavaScript("","tinymce/tinymce.min.js")
+	$context.includeJavaScript("","portal.js")
+</body>
+</html>

@@ -1,0 +1,226 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>我的订单©$tool.seoTitle()</title> $context.readHtmlHeader()
+$context.includeCss("","backend.css")
+#set($t=$context.getParamByInt('t',1))
+</head>
+
+<body>
+	$context.readHeader(false) $context.include("usertitle")
+	<div class="home">
+		$context.include("userinfo")
+		<div class="content clearfix">
+			$context.include("userpanel")
+			<div class="fieldset">
+				<div id="container" class="service">
+					<div class="service-c">
+						<div class="wizard clearfix" id="form-wizard">
+							<ul class="steps">
+							<li #if($t==1) class="active" #end data-id="1">等待定制<em>($airticket.getOrderStatus($context))</em>
+								</li>
+								<li #if($t==2) class="active" #end data-id="2">等待支付<em>($airticket.getOrderOneStatus($context))</em>
+								</li>
+								<li #if($t==3) class="active" #end data-id="3">已支付<em>($airticket.getOrderTwoStatus($context)</em>
+								</li>
+								<li #if($t==4) class="active" #end data-id="4">已出票<em>($airticket.getOrderThirdStatus($context))</em>
+								</li>
+							</ul>
+						</div>
+						#if($b5 || $b6 || $b8)
+						<div class="wizard clearfix"
+							style="margin-top: 10px;padding:10px;background-color:  rgba(0, 0, 0, 0);">
+							<p>
+								出发地: <input type="text" id="destCity" /> 目的地:<input
+									type="text" id="bizId" /> <input type="button"
+									onclick="javascript:search($t)" value="搜索" />
+									<input type="button" id ="maketicketOrder"  value="创建机票订单"/>
+							</p>
+						</div>
+						#end
+							$context.include("ticketorder")
+							<input type="button" id ="takeTicket" style="display: none;float: right;margin-right: 37px;" onclick="airticketorder.TickteReq()"  value="提交机票订单"/>
+						<div class="i_new_msg clearfix">
+							#if($b6||$b8)
+							#set($orders=$airticket.readTicketOrders($context,$t,0))
+							#end 
+							#if($tool.isNull($orders))
+							<h3>暂无数据</h3>
+							#else 
+								#set($more=$orders.size()==10)
+								#foreach($order in $orders.items) 
+								#set($orderId=$order.id)#set($status=$order.status)
+								#set($customerUserId=$order.customerUserId)
+							   #set($starting=$order.starting)
+								#set($destination=$order.destination)
+							   #set($guideUserId=$order.guideUserId)
+							   #set($startTime=$order.startTime)
+							   #set($endTime=$order.endTime)
+							   #set($specialInfo=$order.specialInfo)
+							   #set($totalPrice=$order.totalPrice)
+								<div class="listbox" style="border:none;">
+									<dl style="width: 780px;">
+										<dt>
+											#if($t==1)<input type="checkbox" name="orderId"
+												value="$!{orderId}" />#end <a target="_blank"
+												href="/airticket/$!{orderId}"> <img class="shot"
+												src="/photo/faces/$!{customerUserId}">
+											</a>
+								
+										</dt>
+										<dd>
+											<ul>
+												<li><span><label #if($!{status}==1)
+														class="badge pending" #elseif($!{status}==2)
+														class="badge paid" #elseif($!{status}==3)
+														class="badge closed" #end>$tool.ticketStateName($!{status})</label>
+												</span><strong><a target="_blank" class="title"
+														href="/airticket/$!{order.id}">订单号:$!{orderId}</a></strong></li>
+												<li>
+													<p>
+													   <span>出发地(城市) :<span><strong>$!{starting}</strong>
+														</span> </span>
+														<span>目的地(城市) :<span><strong>$!{destination}</strong>
+														</span> </span>
+													</p>
+													<p class="check_msgbox" style="display: none;"></p></li>
+													<li><span>订单要求:<span>$!{specialInfo} </li>
+													<li><span > 金额：<span>$!{totalPrice}</li>
+													<li style="text-align:right">
+													</li>
+											</ul>
+										</dd>
+									</dl>
+									<ul class="pnl">
+										#if($orders.editAuth) 
+										#if($!{status}==1||$!{status}==2)
+										<li><a href="/airticket/$!{orderId}&edit=1" class="iconbtn"
+											target="_blank"><span class="edit"></span>编辑订单</a></li>
+										#end
+										#end
+										<li><a href="javascript:void(0)" onclick="airticketorder.delOrder($!{order.id})"
+											class="iconbtn"><span class="remove"></span>删除订单</a></li>
+											#if($!{status}!=1)
+											<li><a href="/pay/code=9&$!{orderId}"
+											class="iconbtn"><span class="add"></span>立刻支付</a></li>#end
+											 
+									</ul>
+								</div>
+											#end
+								#end
+							</div>
+							#if($more)
+							<div class="jz" id="more">
+								<button class="lightbtn large"
+									onclick="javascript:getMoreOrders($b6,'$!{day.id}',$t)"
+									id="btnLoadMore" pagenumber="1" style="width: 100%">加载更多</button>
+							</div>
+							#end 
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div style="display: none;">
+		<div id="orderTemplate">
+			<div class="i_msg_before">以前</div>
+			<div jsselect="$this.orders" jsvalues="index:$index" class="listbox">
+				<dl style="width: 780px;">
+					<dt>
+						<a target="_blank" href="/order/$this.id"> <img
+							jsvalues=".src:'/photo/faces/'+$this.customerUserId" class="shot">
+						</a>
+					</dt>
+					<dd>
+						<ul>
+							<li><span><label class="badge closed"
+									jscontent="getOrderStateName($this.status)"></label> </span> <strong><a
+									target="_blank" class="title"
+									jsvalues=".href:'/order/'+$this.id"
+									jscontent="'订单号:'+$this.id+'&nbsp;客人：'+$this.customer.username+'&nbsp;导游：'+$this.guide.username"></a>
+							</strong><strong jsdisplay="$this.guide.bizId!=0"><a
+									target="_blank"
+									jsvalues=".href:'/'+$this.guide.bizType+'/'+$this.guide.bizId"
+									jscontent="$this.guide.bizId"></a> </strong></li>
+							<li>客服:<span><strong
+									jscontent="$this.service.username"></strong>&nbsp;<span>价格:<span><strong
+											jscontent="'￥'+$this.prepaidPrice"></strong> </span> </span>
+							</li>
+							<li><span>订单时间:<span><strong
+										jscontent="$this.startTime+' - '+$this.endTime"> </strong> </span> </span>
+							</li>
+							<li>
+								<p>
+									<span>目的地(城市) :<span><strong
+											jscontent="$this.destCity"></strong> </span> </span>
+								</p>
+								<p class="check_msgbox" style="display: none;"></p></li>
+						</ul>
+					</dd>
+				</dl>
+				<ul class="pnl">
+					<li></li> #if($b8)
+					<li><a class="iconbtn"
+						jsvalues=".href:'/createorder/'+$this.id" target="_blank"><span
+							class="edit"></span>编辑订单</a></li>
+					<li><a class="iconbtn"
+						jsvalues=".href:'javascript:cloneOrder('+$this.id+')'"
+						target="_blank"><span class="view"></span>追加订单</a></li> #end
+					<li><a href="javascript:void(0)"
+						jsvalues="onclick:getOnclick($index)" class="iconbtn"><span
+							class="view"></span>支付状态</a></li>
+				</ul>
+				<div class="embox" jsvalues=".id:'paidStatusbefore'+$index"
+					style="display: none;">
+					<div class="emboxlt">
+						<span></span>
+					</div>
+					<div class="emboxh">
+						<div class="emboxrt">
+							<a jsvalues="onclick:getOnclick($index)"
+								href="javascript:void(0)" class="close"><em></em> </a>
+						</div>
+						<strong jstcache="0">支付状态</strong>
+					</div>
+					<div class="emboxcontent">
+						<table width="100%" border="0" cellpadding="0">
+							<thead>
+								<tr>
+									<th width="10%" align="center">时间</th>
+									<th width="20%" align="center">费用名称</th>
+									<th width="8%" align="center">金额</th>
+									<th width="9%" align="center">线上预付</th>
+									<th width="9%" align="center">线下支付</th>
+									<th width="8%" align="center">收佣金</th>
+									<th width="9%" align="center">支付状态</th>
+									<th width="10%" align="center">截图</th>
+									<th align="center">备注</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr jsselect="$this.orderItems" jsvalues="index:$index">
+									<td align="center" jscontent="$this.time"></td>
+									<td align="center" jscontent="$this.costName"></td>
+									<td align="center" jscontent="$this.price"></td>
+									<td align="center">$!{onLinePrice}</td>
+									<td align="center">$!{offLinePrice}</td>
+									<td align="center"></td>
+									<td align="center" jscontent="getOrderStateName($this.status)"></td>
+									<td align="center">#if($!{orderItem.status}>=8)<a
+										href="http://www.yiqihi.com/pictures/$!{orderItem.picture}"
+										target="_blank">查看</a>#end</td>
+									<td align="center" jscontent="$this.description"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	$context.readFooter(false) $context.includeJavaScript("","rock.js")
+	$context.includeJavaScript("","airticketorders.js")
+</body>
+</html>

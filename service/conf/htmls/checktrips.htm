@@ -1,0 +1,217 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" class="mozilla">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>数据维护©$tool.seoTitle()</title>
+	<link rel="shortcut icon" href="/images/hi.ico" >
+	<link rel="icon" type="image/gif" href="/images/hi.gif" >
+	$context.includeCss("","global.css")
+	$context.includeCss("","reset.css")
+	$context.includeCss("","backend.css")
+	$context.includeCss("","firefix.css")
+	$context.includeCss("jquery/","jquery.plugin.css")
+	$context.readHtmlHeader()
+	<style>
+		.caption li{float:left;color: #7F7F7F;display:inner-block;font-size: 13px;margin: 0 0 5px;padding:0;width:100px;}
+		.data li{float:left;color: #7F7F7F;display:inner-block;font-size: 13px;margin: 0 5px 0 5px;padding:0;}
+		li.title{float:left;color: #7F7F7F;display:inner-block;font-size: 13px;margin: 0 0 5px;padding:0;width:36px;}
+		.data input{float:left;display:inner-block;width:480px;}
+		.input li{float:left;color: #7F7F7F;display:inner-block;font-size: 13px;margin: 0 0 5px;padding:0;width:480px;border:0px}
+		ul.data{float:left;display:block;}
+	</style>
+</head>
+
+<body class="mon-compte">
+$context.readHeader()
+#if ($user.role.isRoot()==false)
+<div id="container">
+    <div class="wrap">
+        <ul id="breadcrum">
+          <li>
+            <a href="/" class="home">
+              <span></span>
+              <strong>主页</strong>
+            </a>
+          </li>
+        </ul>
+        <h2 class="page-title">页面不存在。</h2>
+        <p>
+          请联系我们 <a href="mailto:team@yiqihi.com">team@yiqihi.com</a>
+        </p>
+      </div>
+	<div style="font: 0px/0px sans-serif;clear: both;display:block"></div>	
+</div>
+#else
+<div id="container" catalog="$catalog">
+    <div class="wrap">
+        <ul id="breadcrum">
+          <li>
+            <a href="/" class="home">
+              <span></span>
+              <strong>主页</strong>
+            </a>
+          </li>
+          <li>
+            /
+          </li>
+		  <li>
+            <a href="/dashboard">用户中心</a>
+          </li>
+          <li>
+            /
+          </li>
+          <li>
+            数据维护
+          </li>
+        </ul>
+		<div>
+			#set($record=$root.readCheckTripCount())
+			<h2 class="heading">数据维护
+				<span style="float:right;display:block;margin-top:6px;margin-right:6px;"><span id="spinner"></span>
+				</span>
+			</h2>
+			<ul class="tab_list">
+				<li class="current"  catalog="0">
+				  <a href="javascript:void(0)" >导游(<b id="tripCount">$record.get('tripCount')</b>)</a>
+				  <span></span>
+				</li>
+				<li catalog="1">
+				  <a href="javascript:void(0)">租车(<b id="carCount">$record.get('carCount')</b>)</a>
+				  <span></span>
+				</li>
+			</ul>
+		    <div class="content" id="items" jseval="$recIndex=0">
+			</div>
+			<div id="pager" class="pagebar"></div>
+		</div>	
+	</div>	
+	<div style="font: 0px/0px sans-serif;clear: both;display:block"></div>	
+</div>
+<div style="display:none">
+    <div id="checkTemplate">
+		<div class="result" jsselect="items" style="padding-top:0px;" jseval="$recIndex++" jsvalues=".id:'result'+$recIndex" >
+			<div class="content" >
+				<div style="height:30px;">
+					<a id="lblUrl" style="float:left;width:880px;" target="_blank" jsvalues=".href:$this.url" jscontent="$this.url"></a>
+					<a style="float:right;width:60px;"  class="sup" href="javascript:void(0)" onclick="deleteTrip(this)"><span></span>删除</a>
+				</div>
+				<div class="data" style="font-size:13px;padding:6px;">
+					<ul jshtml="readDetail($this)"></ul>
+				</div>
+			</div>
+			<div class="pl-tong" jsvalues=".id:'setting'+$recIndex" style="width:960px;">	
+				<div class="pl-tong-t">
+					<div class="pl-tong-tr"></div>
+					<div class="pl-tong-t">
+					  <div class="pl-tong-tl"></div>
+					  <div class="pl-tong-tc"><div class="pl-tong-tc-c"></div></div>
+					</div>
+				</div>
+				<div class="pl-tong-m" jsvalues=".id:'item'+$recIndex;">
+					<table cellpadding="2">
+					<tr>
+						<td width="450px" valign="top" style="border-right:1px solid #DDD" jsselect="$this.source">
+							<h3 style="align:center">原始内容</h3>
+							<ul style="display:block;float:left" >
+								<li jsselect="$this.options">
+									<span style="width:90px;" jscontent="$this.name"></span>
+									<span style="width:90px;" jscontent="$this.value"></span>
+								</li>
+							</ul>
+							<div jshtml="$this.content" style="width:450px;overflow:hidden;"></div>
+						</td>
+						<td  width="480px" valign="top" style="padding-left:10px;">
+							<h3 style="align:center;height:39px;">
+								上线数据
+								<button class="btn small" id="btnSave" onclick="javascript:commit(this)">保存</button>
+								<button class="btn small btn-pink" id="btnMail" onclick="javascript:sendMail(this)">发送邀请邮件</button>
+								<button class="btn small btn-grey" id="btnRelease" onclick="javascript:release(this)">提交发布</button>
+							</h3>
+							<div style="margin-bottom:10px;">
+								<ul style="color:#CC2A43">
+									<li>城市：如果没有具体的城市，就输入国家首都</li>
+									<li>用户：用户名来自描述内容、QQ的空间别名、帖子原文的用户名称</li>
+									<li>电话：电话优先选择手机，其次是电话。必须加国家区号</li>
+									<li>价格：描述内容没有说明的，就输入300</li>
+									<li>图片：优先选择帖子本身的图片/用户QQ空间的图片，其次是在mafengwo.cn找2张图片即可</li>
+									<li>不要：不是提供服务（导游，翻译，租车，租房）的帖子不要</li>
+									<li>不要：提供服务的帖子，没有邮件地址和联系电话的不要</li>
+									<li>不要：标题和帖子，不要留下邮件和电话等联系信息</li>
+								</ul>
+							</div>
+							<ul class="data">
+								<li class="title">国家:</li>
+								<li tag="country" style="margin-left:10px;">
+									<input type="text" id="edtCountry" userId="" style="width:100px;"/>
+								</li>
+								<li class="title">城市:</li><li>
+									<input type="text" id="edtCity" style="width:100px;"/>
+								</li>
+								<li class="title">用户:</li><li>
+									<input type="text" id="edtUserName" userId="" style="width:100px;"/>
+								</li>
+							</ul>
+							<ul class="data">
+								<li class="title">标题:</li>
+								<li><input type="text" id="edtTitle" style="width:400px;"/></li>
+							</ul>
+							<ul class="data">
+								<li class="title">电话:</li>
+								<li><input type="text" id="edtMobile" style="width:100px;"/></li>
+								<li class="title">QQ:</li>
+								<li><input type="text" id="edtQQ" style="width:100px;"/></li>
+								<li class="title">邮件:</li>
+								<li><input type="text" id="edtMail"  style="width:100px;"/></li>
+							</ul>
+							<ul class="data">
+								<li class="title">货币:</li>
+								<li>
+									<select id="edtCurrency" style="width:100px;">
+									<option value="0">人民币</option>
+									<option value="1" selected="selected">欧元</option>
+									<option value="2">美元</option>
+									</select>
+								</li>
+								<li class="title">价格:</li>
+								<li><input tag="price" type="text" id="edtPrice" style="width:110px;"/></li>
+								<li class="title">收费:</li>
+								<li>
+									<select id="edtChargeWay" style="width:110px;">
+										<option value="0" selected="selected">按小时收费(每小时)</option>
+										<option value="1">按天收费(每天8小时)</option>
+										<option value="2">按天收费(每天10小时)</option>
+										<option value="3">按次数收费(每次)</option>
+									</select>								
+								</li>
+							</ul>
+							<div style="width:480px;clear:both;float:left;">
+								<textarea rows="6" id="edtDesc" cols="40"></textarea>
+							</div>
+							<div style="width:480px;min-height:500px;margin-top:20px;float:left;">
+								<button class="btn btn-grey" id="btnUpload">上传文件</button>
+								<ul id="pictures"></ul>
+							</div>
+						</td>
+					</tr>
+					</table>
+				</div>
+				<div class="pl-tong-b">
+					<div class="pl-tong-br"></div>
+					<div class="pl-tong-b">
+					  <div class="pl-tong-bl"></div>
+					  <div class="pl-tong-bc"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>	
+
+</div>
+#end
+$context.readFooter()
+$context.includeJavaScript("","swfobject.js")
+$context.includeJavaScript("jquery/","jquery.tokeninput.js")
+
+
+</body>
+</html>

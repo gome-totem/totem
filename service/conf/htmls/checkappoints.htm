@@ -1,0 +1,235 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" class="mozilla">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>预约处理©$tool.seoTitle()</title>
+	<link rel="shortcut icon" href="/images/hi.ico" >
+	<link rel="icon" type="image/gif" href="/images/hi.gif" >
+	$context.includeCss("","global.css")
+	$context.includeCss("","reset.css")
+	$context.includeCss("","backend.css")
+	$context.includeCss("","firefix.css")
+	$context.includeCss("jquery/","jquery.plugin.css")
+	$context.readHtmlHeader()
+	<style>
+		ul.data{float:left;width:530px;}
+		.data li{float:left;color: #7F7F7F;display:inner-block;font-size: 13px;margin: 0 5px 0 5px;padding:0;width:120px;border-bottom:1px solid #DDD}
+		ul.items{float:left;width:630px;}
+		.items li{float:left;color: #7F7F7F;display:inner-block;font-size: 13px;margin: 0 5px 0 5px;padding:0;width:200px;border-bottom:1px solid #DDD}
+	</style>
+</head>
+
+<body class="mon-compte">
+$context.readHeader()
+#if ($user.role.isRoot()==false)
+<div id="container">
+    <div class="wrap">
+        <ul id="breadcrum">
+          <li>
+            <a href="/" class="home">
+              <span></span>
+              <strong>主页</strong>
+            </a>
+          </li>
+        </ul>
+        <h2 class="page-title">页面不存在。</h2>
+        <p>
+          请联系我们 <a href="mailto:team@yiqihi.com">team@yiqihi.com</a>
+        </p>
+      </div>
+	<div style="font: 0px/0px sans-serif;clear: both;display:block"></div>	
+</div>
+#else
+<div id="container" catalog="$catalog">
+    <div class="wrap">
+        <ul id="breadcrum">
+          <li>
+            <a href="/" class="home">
+              <span></span>
+              <strong>主页</strong>
+            </a>
+          </li>
+          <li>
+            /
+          </li>
+		  <li>
+            <a href="/dashboard">用户中心</a>
+          </li>
+          <li>
+            /
+          </li>
+          <li>
+            审核预约
+          </li>
+        </ul>
+		$context.readUserPanel()
+		<div class="four_columns right">
+			<h2 class="heading">预约列表
+				<span style="float:right;display:block;margin-top:6px;margin-right:6px;"><span id="spinner"></span>
+					<a class="btn" onclick="handleExpireAppoint(this)" href="javascript:void(0)">处理过期预约</a>
+				</span>
+			</h2>
+		    <div class="content" id="items" jseval="$recIndex=0">
+			</div>
+			<div id="pager" class="pagebar"></div>
+		</div>	
+	</div>	
+	<div style="font: 0px/0px sans-serif;clear: both;display:block"></div>	
+</div>
+<div style="display:none">
+    <div id="checkTemplate">
+		<div class="result" jsselect="items" jseval="$args.index++" jsvalues=".id:'result'+$args.index" >
+			<div class="caption" style="width:660px;">
+				<div class="content"  style="background:none;font-size:13px;">
+					<div class="info wide">
+						<h3>
+							<span jshtml="renderAppointAction($this)"></span>
+							<a  target="_blank" class="link underline" jsvalues=".href:'/i/'+$this.user_id"><span jscontent="$this.user_name"></span></a>
+							<a  target="_blank" class="link"  jsvalues=".id:'title'+$args.index;.href:readOfferUrl($this.bizMeta)" jscontent="$this.title"></a>
+						</h3>
+						<p style="font-size:13px;padding:6px;">
+							<ul class="data" >
+								<li>
+									<a  target="_blank" jsvalues=".href:'/i/'+$this.toUserId">
+										发布主Id:
+										<span jscontent="$this.toUserId"></span>
+									</a>
+								</li>	
+								<li>
+									发布:<span jscontent="dateDiff($this.timestamp)"></span>
+								</li>	
+								<li>
+									出发:<span jscontent="$this.bizMeta.deptDate"></span>
+								</li>	
+								<li>
+									客人数:<span jscontent="$this.bizMeta.personCount"></span>
+								</li>	
+								<li>
+									预约天数:<span jscontent="$this.bizMeta.day"></span>
+								</li>	
+								<li>
+									收费-货币:<span jscontent="$this.bizMeta.chargeWay"></span>-<span jscontent="$this.bizMeta.currency"></span>
+								</li>	
+								<li>
+									总价:<span jscontent="$this.bizMeta.total"></span>
+								</li>	
+								<li>
+									预约金:<span jscontent="$this.bizMeta.fee"></span>
+								</li>	
+							</ul>	
+							<p class="quote" style="width:530px">
+								<span class="begin"></span><font jshtml="$this.content"></font><span class="end"> </span>
+							</p>
+						</p>
+					</div>
+					<!-- /info -->
+					<div class="result-actions show_all" mapId="0">
+						<label style="color:#CC2A43">[<font jshtml="readExpire($this)"></font>]</label>
+						<a class="edit" href="javascript:void(0)" jsvalues=".record:$this;.recIndex:$args.index;" onclick="openSetting(this,this.record,this.recIndex)"><span></span>立即处理</a>
+					</div>
+				</div>
+				<!-- /content -->
+			</div>
+			<!-- /caption -->
+			<div class="pl-tong" jsvalues=".id:'setting'+$args.index" style="display:none">	
+				<div class="pl-tong-t">
+					<div class="pl-tong-tr"></div>
+					<div class="pl-tong-t">
+					  <div class="pl-tong-tl"></div>
+					  <div class="pl-tong-tc"><div class="pl-tong-tc-c"></div></div>
+					</div>
+				</div>
+				<div class="pl-tong-m" tag="content">
+					<div class="fulltag" style="width:600px;background:none;">
+						<img jsvalues=".recIndex:$args.index" onclick="return closeSetting(this.recIndex);" style="width:30px;height:30px;float:right;cursor:pointer;margin-top:-3px;" src="/images/closebox.png"/>
+					</div>	
+					<table width="100%" cellspacing="0" cellpadding="0" border="0" class="table" >
+						<tbody>
+						<tr class="even">
+							<th width="20%" scope="col">用户名</th>
+							<th width="10%" scope="col">操作</th>
+							<th width="70%" scope="col" >内容</th>
+						</tr>
+						</tbody>
+						<tbody jsvalues=".id:'records'+$args.index">
+						</tbody>
+					</table>					
+					<div style="margin-top:20px;" jsvalues=".id:'from'+$args.index">
+						<h3>预订方</h3>
+						<ul class="items" jsvalues=".id:'fromItems'+$args.index"></ul>
+						<p style="padding:5px;">
+							<label>
+								发送内容
+								<em>*</em>
+							</label>
+							<textarea rows="6" jsvalues=".id:'descFrom'+$args.index" cols="40" style="width:620px;height:60px;"></textarea>
+						</p>
+						<p style="padding:5px;">
+							<button class="btn" jsvalues=".id:'sendMailFrom'+$args.index;.index:$args.index" onclick="sendMail(this,true,this.index)">
+								发送邮件
+								<font jsvalues=".id:'countEmailFrom'+$args.index"></font>
+							</button>
+							<button class="btn" jsvalues=".id:'sendSmsFrom'+$args.index;.index:$args.index" onclick="sendSms(this,this.index)" style="margin-left:10px;">
+								发送短信
+								<font jsvalues=".id:'countSmsFrom'+$args.index"></font>
+							</button>
+						</p>
+					</div>
+					<div jsvalues=".id:'to'+$args.index">
+						<h3>服务提供方</h3>
+						<ul class="items" jsvalues=".id:'toItems'+$args.index"></ul>
+						<p style="padding:5px;">
+							<label>
+								发送内容
+								<em>*</em>
+							</label>
+							<textarea rows="6" jsvalues=".id:'descTo'+$args.index" cols="40" style="width:620px;height:60px;"></textarea>
+						</p>
+						<p style="padding:5px;">
+							<button class="btn" jsvalues=".id:'sendMailTo'+$args.index;.index:$args.index" onclick="sendMail(this,false,this.index)">
+								发送邮件
+								<font jsvalues=".id:'countEmailTo'+$args.index"></font>
+							</button>
+						</p>
+					</div>	
+					<div jsvalues=".id:'assign'+$args.index">
+						<h3>重新指派服务方</h3>
+						<p style="padding:5px;">
+							<label>
+								重新指派服务提供方的服务URL
+								<em>*</em>
+							</label>
+							<input type="text" jsvalues=".id:'edtAssignUrl'+$args.index" style="width:620px;height:20px;"></textarea>
+						</p>
+						<ul class="items" jsvalues=".id:'assignItems'+$args.index"></ul>
+						<p style="padding:5px;">
+							<button class="btn btn-pink" jsvalues=".index:$args.index" onclick="requireAssign(this,this.index)">
+								申请指派
+							</button>
+							<button class="btn" jsvalues=".index:$args.index" onclick="assign(this,this.index)">
+								确认指派
+							</button>
+						</p>
+					</div>	
+					<div class="clear"></div>
+				</div>
+				<div class="pl-tong-b">
+					<div class="pl-tong-br"></div>
+					<div class="pl-tong-b">
+					  <div class="pl-tong-bl"></div>
+					  <div class="pl-tong-bc"></div>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+	</div>	
+
+</div>
+#end
+$context.readFooter()
+$context.includeJavaScript("","swfobject.js")
+$context.includeJavaScript("","checkappoints.js")
+
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" class="mozilla">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>验证邮件地址©一起嗨</title>
+<link rel="shortcut icon" href="/images/hi.ico">
+	<link rel="icon" type="image/png" href="/images/hi.png" >
+		$context.readHtmlHeader()
+</head>
+<script type="text/javascript">
+	function jumpUrl(url) {
+		var delay = document.getElementById("time").innerHTML;
+		if (delay > 0) {
+			delay--;
+			document.getElementById("time").innerHTML = delay;
+		} else {
+			window.top.location.href = url;
+		}
+		setTimeout("jumpUrl('" + url + "')", 1000);
+	}
+	
+	function documentReady(){
+		jumpUrl("/");
+	}
+</script>
+<body class="mon-compte">
+	$context.readHeader()
+	<div id="container">
+		<div class="wrap">
+			<ul id="breadcrum">
+				<li><a href="/" class="home"> <span></span> <strong>主页</strong>
+				</a></li>
+			</ul>
+			
+			<p>
+				#if ($user.checkBindMail())
+				<h2 class="page-title">邮件地址验证成功！</h2>
+				 #else
+				 <h2 class="page-title">邮件地址验证失败！</h2>
+				 #end
+				 <span id="time" style="color: red">3</span>秒钟之后自动跳转，如果不跳转，请点击下面链接<a href="/">返回首页</a>
+			</p>
+		</div>
+	</div>
+	$context.readFooter()
+</body>
+</html>

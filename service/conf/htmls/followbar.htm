@@ -1,0 +1,13 @@
+<span style="display:inline;margin-top:9px;margin-right:6px;text-align:center;" >
+#if($request.containsField('userId'))
+	#set($followUserId=$request.getLong('userId'))
+	#set($followed=$user.checkFollow($followUserId))
+	#set($followUserName=$request.getString('userName'))
+#else
+	#set($followUserId=$request.getLong('user_id'))
+	#set($followed=$user.checkFollow($followUserId))
+	#set($followUserName=$request.getString('user_name'))
+#end
+<label id="bar_followed" style="display:$tool.displayOf($followed)"><span class="checkimg"></span>已经关注</label>
+<button id="bar_follow" class="button grey left red-hover" style="display:$tool.displayOf($tool.not($followed));width:120px;margin:10px 0px 0px 20px;" onclick="follow(this,'$followUserId','$followUserName')"><span class="plus"></span>关注我</button>
+</span>

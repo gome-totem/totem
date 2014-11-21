@@ -1,0 +1,298 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" class="mozilla">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>我要预订服务©$tool.seoTitle()</title>
+    <title>预订$record.get('title')©$tool.seoTitle()</title>
+	<link rel="shortcut icon" href="/images/hi.ico" >
+	<link rel="icon" type="image/gif" href="/images/hi.gif" >
+	$context.includeCss("","global.css")
+	$context.includeCss("","reset.css")
+	$context.includeCss("","book.css")
+	$context.includeCss("","firefix.css")
+    $context.readHtmlHeader()
+</head>
+<body class="mon-compte" >
+$context.readHeader()
+<div id="container">
+    <div class="wrap">
+        <ul id="breadcrum">
+          <li>
+            <a href="/" class="home">
+              <span></span>
+              <strong>首页</strong>
+            </a>
+          </li>
+          <li>/
+          </li>
+          <li>
+            <a href="/dashboard">用户中心</a>
+          </li>
+        </ul>
+        <h1 class="page-title">
+				在线支付
+		</h1>
+		<div class="right" style="opacity:0.7">
+		</div>
+
+        <div class="left four_columns">
+		<div class="rounded_more drop_shadow_standard" id="book_it">
+		<form id="book_it_form" >        
+        <div class="book_it_section" id="how_it_works">
+            <h1>1. 怎样运作？</h1>
+            <div class="content_box">
+                <p>①客人通过账户余额的方式，支付预订(余额不足，请充值)。预订后，会生成一张订单。</p>
+                <p>②发布主确认订单。并选择<b>接受预订</b>或<b>拒绝预订</b>。</p>
+                <p>●<b>拒绝预订</b>：交易取消，客人支付的款项全额退回。</p>
+                <p>●<b>接受预订</b>：交易达成。</p>
+				<hr>
+				<p>③<b>违约取消</b>：客人在发布主接受预订后，由于意外的事情，不能完成交易，如果您取消的时间满足发布主规定的【违约取消条款】，支付的款项全额退回。否则不退！</p>
+				<hr>
+				<p>④交易结束后24小时内，客人必须对交易做出评价，并选择<b>确认支付</b>或<b>拒绝支付</b>。</p>
+				<p>●<b>确认支付</b>：发布主收到您的评价和支付的款项。</p>
+				<p>●<b>拒绝支付</b>：24小时内向yiqihi提交交易中违约的证据，申请仲裁！否则支付的款项会自动支付给发布主。</p>
+				<hr>
+				<p>★对所有的交易纠纷，yiqihi有权在双方的信用档案中，公开纠纷的全部内容（包括违约证据或法庭判决等）。这样的目的，让yiqihi所有的用户都拥有知情权，建立一个以诚实为代价的交易服务平台。</p>
+                <div class="clear"></div>
+            </div>
+        </div>
+
+        <div class="book_it_section" id="property_details">
+            <h1>2. 服务详细信息</h1>
+            <div class="content_box">
+                <img width="160" height="160" class="main_photo" src="http://image.yiqihi.com/shots/$record.get('snapshot')">
+                <div id="hosting_details">
+                    <h2><a target="_blank" href="/$pageName/$shortId">asdfasfsdfsafd&nbsp;&nbsp;asdfsafdasfasdf</a></h2>
+                    <div class="rounded_more" id="hosting_address">
+                        <p>asdfasfasdfasdfasfasdf</p>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+
+        <div class="book_it_section" id="trip_details">
+            <h1>3. 预订详细信息</h1>
+            <ul class="dashed_table" id="details_breakdown">
+                <li class="top">
+                    <span class="label"><span class="inner"><span id="icon_cal" class="checkout_icon"></span>
+					#if($bizType==7)
+						入住日期
+					#else
+						预约出发日期
+					#end						
+					</span></span>
+                    <span class="data">
+						<span class="inner">
+						#if($bizType==7)
+							$record.get('checkinDate')
+						#else
+							$record.get('deptDate')
+						#end
+						<em class="check_in_out_time"></em></span>
+					</span>
+                </li>
+                <li>
+				    <span class="label"><span class="inner"><span id="icon_cal" class="checkout_icon"></span>交易结束时间</span></span>
+                    <span class="data">
+						<span class="inner" id="settleDate" value="$record.getLong('settleDate')">
+						    $tool.formatDate($record.getLong('settleDate'),'yyyy-MM-dd HH:mm')
+						</span>
+					</span>
+				</li>
+				#if($bizType==7)
+                <li>
+                    <span class="label"><span class="inner"><span id="icon_cal" class="checkout_icon"></span>
+					房间数
+					</span></span>
+                    <span class="data">
+						<span class="inner">
+							$record.getInt('roomCount')
+						</span>
+					</span>
+                </li>
+				#end
+                <li>
+                    <span class="label"><span class="inner"><span id="icon_person" class="checkout_icon"></span>客人数</span></span>
+                    <span class="data"><span class="inner">$record.get('personCount')</span></span>
+                </li>
+                <li>
+                    <span class="label"><span class="inner"><span id="icon_coupon" class="checkout_icon"></span>
+					$tool.chargeWayName($record.getInt('chargeWay'),$bizType)
+					</span></span>
+                    <span class="data">
+						<span class="inner">
+							#if($record.getInt('chargeWay')==0)
+								$record.getInt('hour')
+							#else
+								$record.getInt('day')
+							#end
+						</span>
+					</span>
+                </li>
+                <li>
+                    <span class="label">
+                        <span class="inner"><span id="icon_coupon" class="checkout_icon"></span>
+							$tool.chargeWayBy($record.getInt('chargeWay'))价格
+                        </span>
+                    </span>
+                    <span class="data">
+                        <span class="inner">$currency$record.get('price')<sup></sup></span>
+                    </span>
+                </li>				
+                <li class="bottom">
+                    <span class="label">
+                        <span class="inner"><span id="icon_calc" class="checkout_icon"></span>
+							订单总额
+                        </span>
+                    </span>
+                    <span class="data">
+                        <span class="inner">$currency$record.get('total')<sup></sup></span>
+                    </span>
+                </li>				
+                <div class="clear"></div>
+            </ul>
+
+        </div>
+
+        <div class="book_it_section" id="payment_options">
+			<h1>4. 付款</h1>
+			#set($balance=$record.getInt('balance'))
+			#set($diff=$tool.dec($balance,$record.getInt('depositBy')))
+			#set($diff=$tool.dec($diff,$context.feeBy($bizType)))
+            <ul class="dashed_table" id="price_breakdown">
+                <li class="top">
+                    <span class="label">
+						<span class="inner" >
+							<span class="checkout_icon icon_star"></span>
+							支付订金(总额的20%)
+						</span>
+					</span>
+					<span class="data" style="font-size:26px !important;font-weight:bold;">
+						<span class="inner" >
+							$currency<font id="deposit">$record.get('deposit')</font>
+						</span>
+					</span>
+                </li>
+                <li>
+                    <span class="label">
+						<span class="inner">
+							<span class="checkout_icon icon_star"></span>一起嗨服务费
+						</span>
+					</span>
+					<span class="data" style="font-size:26px !important;font-weight:bold;">
+						<span class="inner" >
+							￥0
+						</span>
+					</span>
+                </li>
+                <li>
+                    <span class="label"><span class="inner"><span class="checkout_icon icon_calc"></span>支付合计</span></span>
+                    <span class="data" style="font-size:26px !important;font-weight:bold;">
+                        <span class="inner">
+                           ￥$record.getInt('depositBy')<sup>人民币汇率:$record.getString('rate')</sup>
+                        </span>
+                    </span>
+                </li>
+                <li id="total" style="color:#CC2A43" class="bottom">
+                    <span class="label">
+						<span class="inner">
+							<span id="icon_check" class="checkout_icon"></span>
+							您当前账户的余额
+						</span>
+					</span>
+					<span class="data" style="font-size:26px !important;font-weight:bold;">
+						<span class="inner" >
+							￥<font id="deposit">$balance</font>
+							#if($diff<0)
+							<a class="btn" target="_blank" href="/alipay/$tool.abs($diff)">立即给我的账户充值</a>
+							#end
+						</span>
+					</span>
+                </li>
+            </ul>
+		</div>
+
+        <div class="book_it_section" id="policies">
+            <h1>5. 条款</h1>
+            <ul class="dashed_table">
+                <li class="top">
+                    <span class="label" style="height:50px;">
+                        <span class="inner">
+						<span class="checkout_icon icon_quotes"></span>
+						接受预订后，客人违约取消条款
+						</span>
+                    </span>
+                    <span class="data"  style="height:50px;">
+                        <span class="inner">
+                           $record.get('policyCancel')
+                        </span>
+                    </span>
+                </li>
+				#if ($record.getLong('diffContractCancel')<0)
+                <li>
+                    <span class="label" style="height:80px;">
+                        <span class="inner">
+						<span class="checkout_icon icon_quotes"></span>
+						接受预订后，客人违约取消期限
+						</span>
+                    </span>
+                    <span class="data">
+                        <span class="inner" style="color:#CC2A43;font-size:15px;font-weight:bold">
+                           警告：根据您当前预订的日期和违约取消条款计算，您付款预订后，一旦发布主接受预订，您将无法进行违约退款。
+						   请再次确认您预订的日期。
+                        </span>
+                    </span>
+                </li>
+				#end
+                <li class="bottom">
+                    <span class="label">
+                        <span class="inner"><span class="checkout_icon icon_quotes"></span>附加条款</span>
+                    </span>
+                    <span class="data" style="min-height:40px;">
+                        <span class="inner">
+                           <!-- $record.get('policy') -->
+                        </span>
+                    </span>
+                </li>
+                <div class="clear"></div>
+            </ul>
+        </div>
+		<div style="padding-bottom:10px;" class="book_it_section">
+		    <input type="hidden" id="bizType" value="$bizType"/>
+		    <input type="hidden" id="shortId" value="$shortId"/>
+		    <input type="hidden" id="bizName" value="$record.get('bizName')"/>
+			#if($context.containsParam('d'))
+		    <input type="hidden" id="deptDate" value="$context.getParam('d')"/>
+		    <input type="hidden" id="personCount" value="$context.getParam('p')"/>
+			<input type="hidden" id="hour" value="$context.getParamByInt('hour')"/>
+			<input type="hidden" id="day" value="$context.getParamByInt('day')"/>
+			<input type="hidden" id="roomCount" value="$context.getParamByInt('room')"/>
+			#end
+			#if($context.containsParam('s'))
+		    <input type="hidden" id="server" value="$context.getParam('s')"/>
+		    <input type="hidden" id="msgId" value="$context.getParam('m')"/>
+			#end
+			<p style="width:660px; overflow:hidden;" id="book_it_fine_print">
+				<input type="checkbox" id="agreeTerm" style="width:20px; float:left;">
+				<label style="display:block; float:left; padding-left:6px;" for="agreeTerm">
+					我接受<a target="_blank" href="/terms">yiqihi免责服务条款</a>和违约取消预订条款。
+				</label>
+			</p>
+			<p style="width:660px;height:50px;margin-top:10px;">
+				<button class="left btn" id="paypal" onclick="bookIt(this)" type="button">确定预订</button>
+			</p>
+		</div>
+        </form>
+		</div>
+      </div>
+    </div>
+	<div style="font: 0px/0px sans-serif;clear: both;display:block"></div>	
+</div>		
+#end		
+		
+$context.readFooter()
+$context.includeJavaScript("","book.js")
+</body>
+</html>

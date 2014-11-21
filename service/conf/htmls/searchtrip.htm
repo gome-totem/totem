@@ -1,0 +1,382 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" class="mozilla">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+#set($qPageNumber=$context.getParamByInt('p',1))
+#set($c=$tool.decode($context.getParam('c')))
+#set($m=$context.getParam('m')) 
+#set($date=$context.getParam('d')) 
+#set($city=$context.getCity())
+#set($result=$context.searchByUrl(16,$context.pageParams))
+#set($require=$result.get('require')) #set($requires=$require.records)
+<meta name="Keywords" content="$require.seoTitle('|',1)" >	
+<meta name="description" content="一起嗨海外导游旅行网,出国旅行预约私人导游,留学生导游,机场接机专业网站.为想要出国自由行,蜜月旅行,体验个性化旅行的朋友提供全球60多个国家,300多个城市的海外私人导游服务.一起嗨客服电话:400-838-2003" >
+<title>$require.seoTitle('_',0)</title> 
+<link rel="shortcut icon" href="/images/hi.ico" >
+<link rel="icon" type="image/gif" href="/images/hi.gif" >
+$context.includeCss("","search.css")
+$context.includeCss("","style.css")	
+$context.includeCss("","button.css")	
+$context.includeCss("","tag.css")	
+$context.includeCss("jquery/","jquery.plugin.css")
+
+<style>
+.TB_Wrapper {
+	max-width: 850px;
+	height: 300px;
+}
+</style>
+</head>
+
+
+<body>
+	$context.readHeader()
+	<div id="s">
+		<div class="clearfix">
+			<div class="s-tools" style="background:none;border: medium none;">
+				<img src="/images/html5.png" style="border:0" />
+				<p style="font-size:16px;margin:10px 10px 10px 50px;">手机访问,直接预约导游</p>
+			</div>
+			<div class="s-slide">
+				<div class="s-slide-con">
+					<div class="s-slide-item">
+						#set($sliders=$context.recommend().sliders())
+						#if($sliders.size()>0)
+						<div class="TB_Wrapper">
+							<div class="Slides">
+								#foreach($slider in $sliders)
+								<div class="Slide">
+									#set($url='http://image.yiqihi.com'+$slider.get('picture')+'.jpg')
+									<a target="_blank" href="$slider.get('url')"><img
+										src="$url" /> </a>
+									<div>
+										<span style="font-weight:bold">$slider.get('title')</span><br />
+										$slider.get('content')
+									</div>
+								</div>
+								#end
+							</div>
+						</div>
+						#end
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="s-options">
+
+			<div class="s-options-hd gradual-hd">
+				<ul class="clearfix">
+					<li>全部搜索</li> 
+					#foreach($reqItem in $requires) 
+						#if($reqItem.type()<1)
+							<li><span class="text-arr">&gt;</span></li>
+							<li>
+								<div class="s-options-stair">
+									$reqItem.valueBy(0)($reqItem.fieldValueBy(0,"count","0"))<i class="icon-arrow-s"></i>
+								</div>
+							</li> 
+					   #else
+							<li><span class="text-arr">&gt;</span></li>
+							<li>
+								<div class="s-options-on">
+									<span class="label">$reqItem.label()</span>
+									$reqItem.valueBy(0)($reqItem.fieldValueBy(0,"count","0"))
+									<a href="$require.removeUrlBy($reqItem)"><span title="取消该条件" class="close"></span></a>
+								</div></li> 
+						#end 
+					#end
+					<li>
+						<input id="totalCount" type="hidden" value='$result.get("totalCount")' />共$result.get("totalCount")条记录
+					</li>
+				</ul>
+				<div class="s-options-reset">
+					<a href="$require.resetUrl()">重置筛选条件</a>
+				</div>
+			</div>
+			#set($facets=$result.get('facets'))
+
+			<div class="s-options-con">
+				#foreach($facet in $facets)
+				<div class="s-options-item clearfix">
+					<div class="s-options-item-hd">$facet.getString("label")：</div>
+					<div class="s-options-item-con">
+						 #set($facetItems=$facet.get('items'))
+						 #set($facetRow=$velocityCount) 
+						<ul class="clearfix"  tag="facet$facetRow">
+							 #foreach($facetItem in $facetItems)
+							<li #if($velocityCount>=29) style="display:none" tag="more" #end><a
+								#if($facetItem.getBoolean("select")) class="active" #end
+								href="$require.urlBy($facetItem)">
+								$facetItem.getString("v")
+								#if($facetRow<=1) <i class="icon-arrow-bottom"></i> #end </a>
+							</li> 
+							#end
+						</ul>
+						#if($facetItems.size()>29)
+						<div class="s-options-item-more" tag="expand"  row="$facetRow">
+							<i class="icon-arrow-down"></i>更多
+						</div>
+						#end
+					</div>
+				</div>
+				#end
+			</div>
+		</div>
+
+
+		<!-- 主搜索 s -->
+		<div class="s-main">
+
+			<!-- 主搜索-hd s -->
+			<div class="s-main-hd gradual-hd">
+				<i class="s-main-hd-slogan">语言及特色服务筛选</i>
+
+				<ul class="s-main-hd-sort clearfix">
+					<li class="active">
+						<div class="sort" field="1">
+							<a href="javascript:void(0);" ><span>默认排序</span></a>
+						</div>
+					</li>
+					<li><span class="sort-line"></span></li>
+					<li>
+						<div class="sort" field="2">
+							<a href="javascript:void(0);" > <span>价格</span>
+							</a> <i></i>
+						</div>
+					</li>
+					<li><span class="sort-line"></span></li>
+					<li>
+						<div class="sort"  field="3">
+							<a href="javascript:void(0);"> <span>更新时间</span>
+							</a> <i></i>
+						</div>
+					</li>
+					<li><span class="sort-line"></span></li>
+				</ul>
+
+				<ul class="s-main-hd-right">
+					<ul>
+						<li>
+							<div class="search-form">
+								<input type="text" name="" value="" placeholder="输入要查找的关键词"
+									class="search-input" id="searchKey" />
+								<button type="button" class="search-btn" id="searchButton">搜索</button>
+							</div></li>
+						<li #if($m==1||$m.length()==0)class= "active"#end><a
+							href="/searchtrip/c=$c&m=1"><i class="icon-square"
+								title="切换到大图"></i> </a>
+						</li>
+						<li><span class="sort-line"></span>
+						</li>
+						<li #if($m==2)class= "active"#end><a
+							href="/searchtrip/c=$c&m=2"><i class="icon-list"
+								title="切换到列表"></i>
+						</li>
+						</a>
+					</ul>
+				</ul>
+			</div>
+			<!-- 主搜索-hd e -->
+
+			<!-- 主搜索-con s -->
+			<div class="s-main-con clearfix">
+
+				<!-- 主搜索-左侧 -->
+				<div class="s-main-left">
+					#set($languages=$result.get('languages'))
+					<div class="s-main-left-group">
+						<h3>筛选需要的语言：</h3>
+						<div class="s-main-left-group-con">
+							<ul class="service-options-two clearfix">
+								#foreach($language in $languages) 
+									#foreach($langItem in $language.get("items"))
+									<li>
+									<label> 
+										<input name="filter" t="7"  code="${langItem.get('i')}" value="${langItem.get('v')}" type="checkbox"  #if($langItem.getBoolean('select')) checked="checked" #end
+										 />$langItem.getString("v") </label></li> 
+										#end 
+								#end
+							</ul>
+						</div>
+					</div>
+
+					#set($serviceTags=$result.get('serviceTags'))
+					<div class="s-main-left-group">
+						<h3>筛选需要的服务：</h3>
+						<div class="s-main-left-group-con">
+							<ul class="service-options-two clearfix" style="font-size:12px">
+								#foreach($serviceTag in $serviceTags) 
+								#foreach($serviceItem in $serviceTag.get("items"))
+								<li><label> <input name="filter" t="4"  code="${serviceItem.get('i')}" value="${serviceItem.get('v')}"
+										type="checkbox"
+										#if($serviceItem.getBoolean('select')) checked="checked" #end
+										/>$serviceItem.getString("v") </label></li> #end #end
+							</ul>
+						</div>
+					</div>
+
+					<div class="s-main-left-group">
+						<h3>筛选报价：</h3>
+						#set($priceTags=$result.get('priceTags'))
+						<div class="s-main-left-group-con">
+							<div class="find-price">
+								<ul class="clearfix">
+									#foreach($priceTag in $priceTags) #foreach($priceItem in
+									$priceTag.get("items"))
+									<li><input type="checkbox" name="filter" t="7"  code="${priceItem.get('i')}" value="${priceItem.get('v')}"
+											#if($priceItem.getBoolean('select')) checked="checked" #end />&nbsp;&nbsp;$priceItem.getString("v")
+									</li> #end #end
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				 #set($items=$result.get('items'))
+				<div class="s-main-right">
+					<!-- 搜索列表 -->
+					<div class="s-main-product">
+						#if($isSpider) #set($m=2) #end 
+						#if($m==1||$m.length()==0)
+						<div class="product-bigpic clearfix" id="results">
+							#foreach($item in $items)
+							<div class="product-group">
+								$tool.bizTag($item.getInt('bizType'),$item.getInt('catalog'))
+								<div class="product-pic">
+									<a target="_blank" href="$tool.bizUrl($item)"><img
+										src="http://image.yiqihi.com/shots/$item.get('snapshot')"
+										class="product-pic-img" /> </a>
+								</div>
+								<div class="product-title">
+									<a target="_blank" href="$tool.bizUrl($item)">$item.get("title")</a>
+								</div>
+								<div class="clearfix">
+									<div class="product-price">
+										<i>$tool.currencyNameBy($item.getInt('currency'))</i><span>$item.get("price")</span>
+									</div>
+									<div class="product-time">$tool.chargeWayBy($item.getInt('chargeWay'))</div>
+									<div class="product-stars">
+										$tool.rank($item.getInt('rank'))</div>
+								</div>
+							</div>
+							#end
+						</div>
+						<div style="display:none">
+							<div class="product-group" id="templateResult"
+								jsselect="$this.items" jsvalues="index:$recIndex">
+								<i jshtml="search.bizTag($this.bizType,$this.catalog)"></i>
+								<div class="product-pic">
+									<a target="_blank" jsvalues=".href:search.readTripUrl($this)"><img
+										jsvalues=".src:'http://image.yiqihi.com/shots/'+$this.snapshot"
+										class="product-pic-img" /> </a>
+								</div>
+								<div class="product-title">
+									<a target="_blank" jsvalues=".href:search.readTripUrl($this)"
+										jscontent="$this.title"></a>
+								</div>
+								<div class="clearfix">
+									<div class="product-price">
+										<i jscontent="getCurrencyName($this.currency)"></i><span
+											jscontent="$this.price"></span>
+									</div>
+									<div class="product-time"
+										jscontent="getChargeWayName($this.chargeWay)"></div>
+									<div class="product-stars" jshtml='search.rank($this.rank)'>
+									</div>
+								</div>
+							</div>
+						</div>
+						#elseif ($m==2)
+						<div class="product-list" id="results">
+							#foreach($item in $items)
+							<div class="product-group clearfix">
+								<i class="product-border"></i>
+								<div class="product-left">
+									#if($isSpider!=true) <a target="_blank"
+										href="$tool.bizUrl($item)"><img
+										src="http://image.yiqihi.com/shots/$item.get('snapshot')"
+										class="product-pic-img" /> </a> </a> #end
+								</div>
+								<div class="product-center">
+									<h2 class="product-title">
+										<a target="_blank" href="$tool.bizUrl($item)">$item.get('title')</a>
+									</h2>
+									<div class="product-intro">$item.get('description')</div>
+								</div>
+								<div class="product-right">
+									<div class="clearfix">
+										<div class="icon-certified"></div>
+									</div>
+									<div class="clearfix">
+										<div class="product-time">
+											<span>$tool.chargeWayBy($item.getInt('chargeWay',0))</span> <b>$tool.currencyNameBy($item.getInt('currency',0))</b><b>$item.get('price')</b>
+										</div>
+									</div>
+									<div class="product-btn clearfix">
+										<a target="_blank" href="$tool.bizUrl($item)">查看详情</a>
+									</div>
+								</div>
+							</div>
+							#end
+						</div>
+						<div style="display:none">
+							<div class="product-group clearfix" id="templateResult"
+								jsselect="$this.items" jsvalues="index:$recIndex">
+								<i class="product-border"></i>
+								<div class="product-left">
+									<a target="_blank" jsvalues=".href:search.readTripUrl($this)"><img
+										jsvalues=".src:'http://image.yiqihi.com/shots/'+$this.snapshot"
+										class="product-pic-img" /> </a> </a>
+								</div>
+								<div class="product-center">
+									<h2 class="product-title">
+										<a target="_blank" jsvalues=".href:search.readTripUrl($this)"
+											jscontent="$this.title"></a>
+									</h2>
+									<div class="product-intro" jscontent="$this.description"></div>
+								</div>
+								<div class="product-right">
+									<div class="clearfix">
+										<div class="icon-certified"></div>
+									</div>
+									<div class="clearfix">
+										<div class="product-time">
+											<span jscontent="getChargeWayName($this.chargeWay)"></span> <b
+												jscontent="getCurrencyName($this.currency)"></b> <b
+												jscontent="$this.price"></b>
+										</div>
+									</div>
+									<div class="product-btn clearfix">
+										<a target="_blank" jsvalues=".href:search.readTripUrl($this)">查看详情</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						#end
+					</div>
+
+					<div class="pagebar clearfix" id="pager">
+						#if($isSpider) #set($url='/searchtrip/c='+$context.getParam('c'))
+						$tool.getPager($result.getInt('totalCount'),$qPageNumber,10,$url)
+						#end</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+		<div class="s-sale" style="visibility:hidden"></div>
+
+	</div>
+
+
+
+	$context.readFooter()
+	$context.includeJavaScript("jquery/","jquery.slider.js")
+	$context.includeJavaScript("jquery/","jquery.tokeninput.js")
+	$context.includeJavaScript("jquery/","jquery.datepicker.js")
+	$context.includeJavaScript("","search.js")
+	$context.includeJavaScript("","searchtrip.js")
+</body>
+</html>

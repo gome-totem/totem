@@ -1,0 +1,209 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" class="mozilla">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>最新消息©$tool.seoTitle()</title>
+<link rel="shortcut icon" href="/images/hi.ico">
+<link rel="icon" type="image/png" href="/images/hi.png" >
+$context.readHtmlHeader() $context.includeCss("","backend.css")
+<style>
+.scroller .viewport {height: 360px;overflow: hidden;}
+.scroller .overview {list-style: none;position: absolute;left: 0;top: 0;padding: 0;margin: 0;}
+</style>
+</head>
+
+<body>
+	$context.readHeader(false) $context.include("usertitle")
+	<div class="home">
+		$context.include("userinfo")
+		<div class="content clearfix">
+			$context.include("userpanel")
+			<div class="fieldset">
+				<div class="i_new_msg clearfix">
+				    #set($count=0)
+					#set($days=$user.readMessageHeaders()) #foreach($day in $days)
+					#set($count=$tool.inc($count,$day.getInt("totalCount")))
+					#if($day.getInt("totalCount")>0)
+					<div class="$day.get('className')">$day.get("dayName")</div>
+					#set($items=$day.get("items")) #foreach($item in $items)
+					<div class="i_msg_list clearfix" tag="msgHeader"
+						id="$item.getString('id')">
+						<span class="markcolor"><em class="redbk">$tool.bizWord($item.getInt("bizType"),$item.getInt("catalog"))</em>
+						</span>
+						<div class="i_msg_des fl">
+							<h5>$item.get("customerName"),预约[$item.get("bizTitle")]</h5>
+							<p tag="quote">
+								<s class="icon_qm"></s> <i>$item.get('ago')</i> <span>$item.get("content")</span>
+							</p>
+						</div>
+						<div class="i_msg_aw fr">
+							<a class="icon_aw_b_down" href="javascript:void(0)"></a>
+							#if($item.getInt('unReadMsg')==0) <em class="icon_pre_num"
+								style="display:none">0</em> #else <em class="icon_pre_num"
+								style="display:block">$item.getInt('unReadMsg')</em> #end
+						</div>
+					</div>
+					<div class="clearfix" id="talk_$item.getString('id')"
+						style="display:none" pageNumber="1" pageCount="0" state="0">
+						<s class="i_msg_brooch"></s>
+						<div class="msg_listbox clearfix">
+							<div class="fl  clearfix">
+								<a class="loadmore">加载更多历史对话</a>
+								<div class="scroller">
+									<div class="scrollbar">
+										<div class="track">
+											<div class="thumb">
+												<div class="end"></div>
+											</div>
+										</div>
+									</div>
+									<div class="viewport">
+										<div class="overview" style="width:670px;">
+											<div id="msg_$item.getString('id')"
+												style="width:670px;min-height:360px;"></div>
+										</div>
+									</div>
+								</div>
+								<!-- 发表 start -->
+								<div class="send_msg">
+									<textarea msgId="$item.getString('id')"
+										placeholder="输入内容,按回车即可发送消息"></textarea>
+								</div>
+								<!-- 发表 end -->
+							</div>
+							<div class="fr msg_user_list">
+								<div class="user_list_tit">用户列表</div>
+								<div id="contact_$item.getString('id')"></div>
+								<a href="javascript:void(0)" class="user_join"
+									msgId="$item.getString('id')"><s class="icon_user_join"></s>邀请好友加入</a>
+								<a href="javascript:void(0)" class="user_close"><s
+									class="icon_user_close"></s>关闭对话</a>
+							</div>
+							<div class="i_msg_form_bg"></div>
+						</div>
+					</div>
+					#end #end #if($velocityCount==3 && $count>0)
+					<div id="dayMore"></div>
+					<div class="jz">
+						<button style="width: 100%" pageNumber="1" id="btnLoadMore"
+							onclick="talk.readMessageByDay(3,this)" class="lightbtn large">
+							加载更多</button>
+					</div>
+					#end #end
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div style="display:none">
+		<div id="dlgJoinUser" style="z-index:999;">
+			<div style="width:480px;height:60px">
+				<div style="width:430;padding:10px;height:30px">
+					<label class="left" style="margin:8px 5px 0px 0px">输入用户昵称</label> <input
+						id="edtJoinUserName" style="width:350px;" class="left frame" />
+				</div>
+				<label class="left"
+					style="width:430px;margin-left:90px;color:#cc2a43"
+					id="loadJoinUser"></label>
+			</div>
+		</div>
+
+
+		<div id="templateContact">
+			<div jsselect="$this.contacts">
+				<div class="clearfix user_box online">
+					<img class="user_pic_box fl" jseval="talk.setFaceImage(this,$this)">
+						<span class="msg_user_name fl" jscontent="$this.userName"></span>
+						<span jseval="setOnlineClassName($this,this)"></span>
+				</div>
+			</div>
+		</div>
+		<div id="templateMsg">
+			<div jseval="setMsgClassName($this,this)">
+				<div class="msg_item_pic">
+					<a javalues=".href:'/i/'+$this.userId" target="_blank"
+						class="dialist_pic_box" jscontent="$this.userName"> </a>
+				</div>
+				<div class="msg_item_content">
+					<div class="msg_arrow">
+						<em class="line2_c">◆</em> <span class="bg5_c">◆</span>
+					</div>
+					<div class="msg_item_main">
+						<div class="msg_dia_con">
+							<p class="msg_dia_txt" jshtml="replaceLine($this.content)"></p>
+							<div class="msg_time">
+								<span class="a" jscontent="$this.ago"></span> <span class="h"
+									jscontent="$this.timestamp"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="templateDay">
+			<div class="i_msg_list clearfix" tag="msgHeader"
+				jsvalues=".id:$this.id">
+				<span class="markcolor"><em class="redbk"
+					jscontent="bizWord($this.bizType,$this.catalog)"></em> </span>
+				<div class="i_msg_des fl">
+					<h5>
+						<font jscontent="$this.customerName"></font>,预约[<font
+							jscontent="$this.bizTitle"></font>]
+					</h5>
+					<p tag="quote">
+						<s class="icon_qm"></s> <i jscontent="$this.ago"></i> <span
+							jscontent="$this.content"></span>
+					</p>
+				</div>
+				<div class="i_msg_aw fr">
+					<a class="icon_aw_b_down" href="javascript:void(0)"></a> <em
+						class="icon_pre_num" jseval="talk.setUnReadMsg(this,$this)"
+						style="display:none"></em>
+				</div>
+			</div>
+			<div class="clearfix" jsvalues=".id:'talk_'+$this.id" pageNumber="1"
+				pageCount="0" state="0" style="display:none">
+				<s class="i_msg_brooch"></s>
+				<div class="msg_listbox clearfix">
+					<div class="fl  clearfix">
+						<a class="loadmore">加载更多历史对话</a>
+						<div class="scroller">
+							<div class="scrollbar">
+								<div class="track">
+									<div class="thumb">
+										<div class="end"></div>
+									</div>
+								</div>
+							</div>
+							<div class="viewport">
+								<div class="overview" style="width:570px;">
+									<div jsvalues=".id:'msg_'+$this.id"
+										style="width:570px;min-height:360px;"></div>
+								</div>
+							</div>
+						</div>
+						<!-- 发表 start -->
+						<div class="send_msg">
+							<textarea jsvalues="msgId:$this.id" placeholder="输入内容,按回车即可发送消息"></textarea>
+						</div>
+						<!-- 发表 end -->
+					</div>
+					<div class="fr msg_user_list">
+						<div class="user_list_tit">用户列表</div>
+						<div jsvalues=".id:'contact_'+$this.id"></div>
+						<a href="javascript:void(0)" class="user_join"
+							jsvalues="msgId:$this.id"><s class="icon_user_join"></s>邀请好友加入</a>
+						<a href="javascript:void(0)" class="user_close"><s
+							class="icon_user_close"></s>关闭对话</a>
+					</div>
+					<div class="i_msg_form_bg"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	$context.readFooter(false) $context.includeJavaScript("","webtalk.js")
+	$context.includeJavaScript("","rock.js")
+	$context.includeJavaScript("","messages.js")
+</body>
+</html>

@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+$context.readHtmlHeader()$context.includeCss("","triporder.css")
+#set($orderId=$context.getParamByInt('id',0))
+#set($edit=$context.getParamByInt('edit',0))
+#set($order=$airticket.getOrder($context,$orderId))
+#set($initcode=$!{order.status}==1)
+#set($orderinfo=$!{order.order})
+<title>编辑订单-$!{orderinfo.guideUserId}-$!{order.id}-$!{orderinfo.startTime}</title>
+</head>
+<body>
+	$context.readHeader()
+	#set($createorder=$airticket.editTicketorder($context,$orderId))
+	#if($createorder==1 && ($initcode||$edit==1))
+	<div id="o">
+		<form id="frmTicket" name="frmTicket"
+			action="/airTicket#if($orderId!=0)?id=$!{orderId}#end" method="post"
+			accept-charset="utf-8" onsubmit="return order.checkForm()">
+			<div class="p-path">
+				<div class="icon-home"></div>
+				<ul class="clearfix">
+					<li><a href="#">主页</a></li>
+					<li><span class="text-arr">&gt;</span></li>
+					<li><a href="/createorder/$!{order.id}">$!{order.customerUserId}-$!{order.id}-$tool.formatDate($!{order.startTime})</a>
+					</li>
+				</ul>
+			</div>
+			<div class="o-h">
+				<div class="o-h-top">
+					<div class="o-h-l">
+						<div class="o-h-l-order">
+							<span class="o-h-l-icon"></span> <span class="o-h-l-name">一起嗨机票函</span>
+							<span class="o-h-l-number">NO.$!{order.id}</span>
+						</div>
+					</div>
+					<div class="o-h-c">
+						<div class="o-h-c-state #if($!{isClose}) close #end">
+							<span>状态：</span><em>$tool.ticketStateName($!{order.status})</em>
+						</div>
+					</div>
+					<div class="o-h-r">
+						<ul>
+							<li><a href="javascript:void(0)" onclick="airticketorder.submit();"
+								class="btn-operation btn-operation-service"> <i
+									class="icon-save"></i> <span class="btn-text">保存更新</span> </a>
+							</li>
+							<li><a href="#" class="btn-operation btn-operation-service">
+									<i class="icon-service"></i> <span class="btn-text">联系客服</span>
+							</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			#if($initcode)
+				<div class="o-p-con" style="padding:5px;margin-bottom:10px;" id="editTicketInfo">
+					<textarea style="width:1193px;height: 300px;" class="textareaBox"
+						id ="codeContext" rows="3" placeholder="请输入机票代码代码" ></textarea>
+						<input type="button" id ="codeChange" onclick="airticketorder.codeChange();" value="转化机票代码"/>
+						
+				</div>
+				#end
+				<input type="hidden" name="ticketOrderId" value="$!{orderId}" />
+				<div class="o-p o-p-none">
+				<div class="o-p-nav">
+					<span class="icon-person"></span>客人信息
+				</div>
+				<div class="o-p-con" id="customerResult">
+					<table width="100%" cellpadding="0" border="0">
+						<tbody>
+							<tr>
+								<th width="20%">姓名<input type="hidden"
+									value="$!{order.customers.size()}" name="customerCount">
+								</th>
+								<th width="10%">性别</th>
+								<th width="10%">国籍</th>
+								<th width="20%">护照号</th>
+								<th width="15%">护照有效期</th>
+								<th width="15%">出生日期</th>
+								<th width="10%">操作</th>
+							</tr>
+							#if(!$tool.isNull($order)&&!$tool.isNull($order.passport))
+							#set($pass=$order.passport) #foreach($pas in $pass)
+							<tr>
+						  #set($velocityCount=${velocityCount} - 1)
+							<td align="center">
+							  <input type="text" class="input-text" placeholder="姓名"
+									name="o.c${velocityCount}.name" value="$!{pas.name}" /></td>
+								<td align="center">
+									<select name="o.c${velocityCount}.sex" class="selectBox">
+										<option value="MS" #if($!{pas.sex}=='MR') selected="selected" #end>先生</option>
+										<option value="MS" #if($!{pas.sex}=='MS') selected="selected" #end>女士</option>
+										<option value="CHD" #if($!{pas.sex}=='CHD') selected="selected" #end>儿童</option>
+									</select>
+								</td>
+									<td align="center"><input type="text" class="input-text"
+									placeholder="国籍" name="o.c${velocityCount}.country"
+									value="$!{pas.country}" /></td>
+							  <td align="center"><input type="text" class="input-text numeric" placeholder="护照号"
+									name="o.c${velocityCount}.ppn" value="$!{pas.passNumber}" />
+							  </td>
+									<td align="center" valign="top"><input type="text" class="input-text"
+									placeholder="护照有效期" name="o.c${velocityCount}.ppt"
+									id="ot${velocityCount}time" value="$!{pas.validity}" />
+								</td>
+								<td align="center" valign="top"> <input type="text" class="input-text"
+									placeholder="出生日期" name="o.c${velocityCount}.bd"
+									id="ot${velocityCount}time" value="$!{pas.born}" />
+								</td>
+								<td align="center"><a href="javascript:void(0)"
+									class="delCustomer" index=${velocityCount} index=${velocityCount}>删除</a></td>
+							</tr>
+							#end 
+							#else
+							<tr>
+								<td align="center"> <input type="text" class="input-text"
+									placeholder="姓名" name="o.c0.name" /></td>
+								<td align="center">
+									<select name="o.c0.sex" class="selectBox">
+										<option value="1">先生</option>
+										<option value="2">女士</option>
+										<option value="3">儿童</option>
+									</select>
+								</td>
+									<td align="center"><input type="text" class="input-text"
+									placeholder="国籍" name="o.c0.country" /></td>
+								<td align="center"><input type="text"
+									class="input-text numeric" placeholder="护照号" name="o.c0.ppn" />
+								</td>
+								<td align="center" valign="top"><input type="text" class="input-text"
+									placeholder="护照有效期" name="o.c0.ppt" />
+								</td>
+								<td align="center" valign="top"><input type="text" class="input-text"
+									placeholder="出生日期" name="o.c0.bd" />
+								</td>
+								<td align="center"><a href="javascript:void(0)"
+									class="delCustomer" index=${velocityCount} >删除</a></td>
+							</tr>
+							#end
+							<tr class="nAdd">
+								<td align="center" colspan="7">
+									<div class="o-d-days-edit-add addCustomer">
+										<i></i><span>增加客人信息</span>
+									</div></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+				<div class="o-p o-p-none">
+				<div class="o-p-nav">
+					<span class="icon-schedule"></span>航班信息
+				</div>
+				<div class="o-p-con" id="ticketInfoResult">
+					<table width="100%" cellpadding="0" border="0">
+						<tbody>
+							<tr>
+								<th width="15%">航班编号<input type="hidden"
+									value="$!{order.customers.size()}" name="customerCount">
+								</th>
+								<th width="12%">出发机场</th>
+								<th width="18%">起飞时间</th>
+								<th width="12%">到达机场</th>
+								<th width="18%">到达时间</th>
+								<th width="10%">成人票价(含税)</th>
+								<th width="10%">儿童票价(含税)</th>
+								<th width="5%">操作</th>
+							</tr>
+							#if(!$tool.isNull($order)&&!$tool.isNull($order.ticket))
+							#set($tick=$order.ticket) #foreach($ticket in $tick)
+							<tr>
+						#set($velocityCount=${velocityCount} - 1)
+							<td align="center">
+							  <input type="text" class="input-text" placeholder="航班编号"
+									name="o.t${velocityCount}.airnum" value="$!{ticket.airNumber}" /></td>
+									<td align="center"><input type="text" class="input-text"
+									placeholder="始发地" name="o.t${velocityCount}.starting"
+									value="$!{ticket.starting}" /></td>
+									<td align="center" valign="top"> <input type="text" class="input-text"
+									placeholder="起飞时间" name="o.t${velocityCount}.startime"
+									id="ot${velocityCount}time" value="$!{ticket.startTime}" />
+								</td>
+								 <td align="center"><input type="text" class="input-text" placeholder="目的地"
+									name="o.t${velocityCount}.des" value="$!{ticket.destination}" />
+							  </td>
+								<td align="center" valign="top"> <input type="text" class="input-text"
+									placeholder="到达时间" name="o.t${velocityCount}.endtime"
+									id="ot${velocityCount}endtime" value="$!{ticket.endTime}" />
+								</td>
+								<td align="center" valign="top"> <input type="text" class="input-text"
+									placeholder="成人票价(含税)" name="o.t${velocityCount}.tp"
+									id="ot${velocityCount}ticketPrice" value="$!{ticket.ticketPrice}" />
+								</td>
+								<td align="center" valign="top"> <input type="text" class="input-text"
+									placeholder="儿童票价(含税)" name="o.t${velocityCount}.cp"
+									id="ot${velocityCount}childrenPrice" value="$!{ticket.childrenPrice}" />
+								</td>
+								<td align="center"><a href="javascript:void(0)"
+									class="delCustomer" index=${velocityCount} >删除</a></td>
+							</tr>
+							#end 
+							#else
+							<tr>
+								<td align="center"><input type="text" class="input-text"
+									placeholder="航班编号" name="o.t0.tn" /></td>
+									<td align="center"><input type="text" class="input-text"
+									placeholder="始发地" name="o.t0.starting" /></td>
+								<td align="center"><input type="text"
+									class="input-text numeric" placeholder="目的地" name="o.t0.des" />
+								</td>
+								<td align="center" valign="top"><input type="text" class="input-text"
+									placeholder="起飞时间" name="o.t0.startime" />
+								</td>
+								<td align="center" valign="top"><input type="text" class="input-text"
+									placeholder="到达时间" name="o.t0.endtime" />
+								</td>
+								<td align="center" valign="top"><input type="text" class="input-text"
+									placeholder="成人票价(含税)" name="o.t0.tp" />
+								</td>
+								<td align="center" valign="top"><input type="text" class="input-text"
+									placeholder="儿童票价(含税)" name="o.t0.cp" />
+								</td>
+								<td align="center"><a href="javascript:void(0)"
+									class="delTicket" index=${velocityCount} >删除</a></td>
+							</tr>
+							#end
+							<tr class="nAdd">
+								<td align="center" colspan="7">
+									<div class="o-d-days-edit-add addTicket">
+										<i></i><span>增加航班</span>
+									</div></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				</div>
+				<div class="o-p o-p-none">
+					<div class="o-p-nav">
+						<span class="icon-schedule"></span>航班备注
+					</div>
+					<div class="o-p-con">
+						<table width="100%" cellpadding="0" border="0">
+							<tbody>
+								  <tr>
+								  <td align="center">
+								  					<textarea style="width:1193px;height: 100px;" class="textareaBox"
+						id ="codeContext" rows="3"  name="comment" placeholder="请输入备注" ></textarea>
+						      </td>
+								  </tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			<div class="o-clause">
+				<div class="o-clause-nav">
+					<span class="icon-clause"></span>温馨提示
+				</div>
+				<div  class="o-clause-con">
+					<ul>
+						<li><span class="icon-arrow-right">&gt;</span>请确认您的护照有效期在半年以上。</li>
+						<li><span class="icon-arrow-right">&gt;</span>如您有任何有关签证或护照的问题请联系大使馆进行确认。</li>
+						<li><span class="icon-arrow-right">&gt;</span>航空公司有可能根据市场或者其他原因调整航班时间及日期，建议起飞前三天与承运航空公司做机票再确认。以免航班变动给您的行程带来不便。</li>
+						<li><span class="icon-arrow-right">&gt;</span>发票请在行程走完之前开具。</li>
+						<li><span class="icon-arrow-right">&gt;</span>请您在航班起飞前2小时到达机场，或请根据所乘航空公司规定提前到达机场，凭购票时使用的有效身份证件到值机柜台按时办理乘机手续。</li>
+						<li><span class="icon-arrow-right">&gt;</span>请您持有效身份证件、登机牌及报销凭证办理安全检查手续。</li>
+						<li><span class="icon-arrow-right">&gt;</span>如有任何疑问，请随时与我们联系</li>
+					</ul>
+				</div>
+			</div>
+			<div class="o-clause">
+				<div class="o-clause-nav">
+					<span class="icon-clause"></span>一起嗨服务条款
+				</div>
+				<div class="o-clause-con">
+					<ul>
+						<li><span class="icon-arrow-right">&gt;</span>7*24小时客服协调服务，如果对导游的服务不满意，一起嗨提供导游更换服务,充分保障您的旅行体验。</li>
+						<li><span class="icon-arrow-right">&gt;</span>一起嗨仅收取网站佣金，及代理收取导游的预订金，其它的消费支出由您决定，并当时当地和导游结算，杜绝类似国内旅行市场乱收费的现象。</li>
+						<li><span class="icon-arrow-right">&gt;</span>一起嗨保障交易双方的安全，所以您务必提供真实有效的身份认证信息给我们。交易的双方都会收到一份对方认证信息的函件。</li>
+						<li><span class="icon-arrow-right">&gt;</span>如果导游未经客人允许带客人进入强制购物场所,客人保留证据,
+							有权拒绝支付导游费用。一起嗨会退还客人当天导游服务费,及网站佣金。</li>
+						<li><span class="icon-arrow-right">&gt;</span>如果导游没能按照订单进行服务,开始或中途甩下客人,
+							一起嗨会及时更换导游, 并且退还客人当天导游服务费,及网站佣金。</li>
+						<li><span class="icon-arrow-right">&gt;</span>根据法规,如果客人选择没有专业讲解证的导游，则导游不能在规定的景点景区进行讲解,如需专业讲解需景区内另请讲解员</li>
+						<li><span class="icon-arrow-right">&gt;</span>部分收费景点客人自主选择是否进入。如因收费景点客人不选择进入览而
+							致的景点提前游览完毕，导游服务费不变，不会因行程提前结束而减少收费</li>
+						<li><span class="icon-arrow-right">&gt;</span>因不可抗拒因素导致的行程延误缩短或提前完成，导游服务费不变，仍按约
+							定价格收费（不可抗拒因素：如交通堵塞 、意外事故、天气、游客身体状况）</li>
+						<li><span class="icon-arrow-right">&gt;</span>请客人保管好个人物品，旅途中任何时候、地方遗失物品都与本公司无关</li>
+					</ul>
+				</div>
+			</div>
+			<div class="o-clause-bg"></div>
+		</form>
+	</div>
+	#elseif($createorder==2 || $createorder==1)
+	$context.include("showTicket") #else
+	<div class="container area clearfix">
+		<h2 class="page-title">您没有权限查看订单</h2>
+	</div>
+
+	#end
+	<div style="display: none;">
+		<table width="100%" cellpadding="0" border="0" id="customerTemplate">
+			<tbody>
+				<tr>
+					<tr>
+					<th width="20%">姓名<input type="hidden" jsvalues=".value:$this.customers.length;" name="customerCount">
+					</th>
+					<th width="10%">性别</th>
+					<th width="10%">国籍</th>
+					<th width="20%">护照号</th>
+					<th width="15%">护照有效期</th>
+					<th width="15%">出生日期</th>
+					<th width="10%">操作</th>
+				  </tr>
+				</tr>
+				<tr jsselect="$this.customers" jsvalues="index:$index">
+					<td align="center"><input
+						type="text" placeholder="姓名" class="input-text"
+						jsvalues=".value:$this.name;.name:'o.c'+$index+'.name'"></td>
+
+					<td align="center">
+						<select class="selectBox" jsvalues=".value:$this.sex;.name:'o.c'+$index+'.sex';">
+							<option value="MR">先生</option>
+							<option value="MS">女士</option>
+							<option value="CHD">儿童</option>
+							<option value="INF">婴儿</option>
+						</select>
+					</td>
+					<td align="center"><input type="text" placeholder="国籍"
+						class="input-text numeric"
+						jsvalues=".value:$this.country;.name:'o.c'+$index+'.country'"></td>
+					<td align="center"><input type="text" placeholder="护照号"
+						class="input-text" data-name="customer-city"
+						jsvalues=".value:$this.ppn;.name:'o.c'+$index+'.ppn'"></td>
+					<td align="center"><input type="text" placeholder="护照有效期"
+						class="input-text"
+						jsvalues=".value:$this.ppt;.name:'o.c'+$index+'.ppt'">
+					</td>
+					<td align="center"><input type="text" placeholder="出生日期"
+						class="input-text"
+						jsvalues=".value:$this.bd;.name:'o.c'+$index+'.bd'">
+					</td>
+					<td align="center"><a class="delCustomer"
+						href="javascript:void(0)" jsvalues="index:$index">删除</a>
+					</td>
+				</tr>
+				<tr class="nAdd">
+					<td align="center" colspan="7">
+						<div class="o-d-days-edit-add addCustomer">
+							<i></i><span>增加客人信息</span>
+						</div></td>
+				</tr>
+			</tbody>
+		</table>
+			<table width="100%" cellpadding="0" border="0" id="ticketTemplate">
+			<tbody>
+				<tr>
+				<tr>
+					<th width="15%">航班编号<input type="hidden" jsvalues=".value:$this.ticket.length;" name="ticketCount">
+					</th>
+								<th width="12%">出发机场</th>
+								<th width="18%">起飞时间</th>
+								<th width="12%">到达机场</th>
+								<th width="18%">到达时间</th>
+								<th width="10%">成人票价(含税)</th>
+								<th width="10%">儿童票价(含税)</th>
+								<th width="5%">操作</th>
+				</tr>
+				</tr>
+				<tr jsselect="$this.ticket" jsvalues="index:$index">
+					<td align="center"> <input
+						type="text" placeholder="航班编号" class="input-text"
+						jsvalues=".value:$this.airnum;.name:'o.t'+$index+'.airnum'"></td>
+					<td align="center"><input type="text" placeholder="出发机场"
+						class="input-text numeric"
+						jsvalues=".value:$this.starting;.name:'o.t'+$index+'.starting'"></td>
+					<td align="center"><input type="text" placeholder="起飞时间"
+						class="input-text"
+						jsvalues=".value:$this.startime;.name:'o.t'+$index+'.startime'">
+					</td>
+						<td align="center"><input type="text" placeholder="到达机场" class="input-text" 
+						jsvalues=".value:$this.des;.name:'o.t'+$index+'.des'"></td>
+					<td align="center"><input type="text" placeholder="到达时间"
+						class="input-text"
+						jsvalues=".value:$this.endtime;.name:'o.t'+$index+'.endtime'">
+					</td>
+					<td align="center"><input type="text" placeholder="成人票价(含税)"
+						class="input-text" jsvalues=".value:$this.tp;.name:'o.t'+$index+'.tp'">
+					</td>
+					<td align="center"><input type="text" placeholder="儿童票价(含税)"
+						class="input-text"jsvalues=".value:$this.cp;name:'o.t'+$index+'.cp'" >
+					</td>
+					<td align="center"><a class="delTicket"
+						href="javascript:void(0)" jsvalues="index:$index" >删除</a>
+					</td>
+				</tr>
+				<tr class="nAdd">
+					<td align="center" colspan="7">
+						<div class="o-d-days-edit-add addTicket">
+							<i></i><span>增加航班</span>
+						</div></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	$context.readFooter()
+	$context.includeJavaScript("jquery/","jquery.tokeninput.js")
+	$context.includeJavaScript("","tinymce/tinymce.min.js")
+	$context.includeJavaScript("","airticketorders.js")
+	<script type="text/javascript">
+		function payOrder(id) {
+			$.ajax({
+				type : "GET",
+				url : "/tripOrder?action=payOrder&id=" + id,
+				dataType : "json",
+				success : function(obj) {
+					if (obj.xeach == true) {
+						showInfo("支付成功");
+					} else {
+						showInfo(obj.message);
+					}
+				}
+			});
+		}
+	</script>
+</body>
+</html>

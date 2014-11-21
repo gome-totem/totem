@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" class="mozilla">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>我关注的旅行者©一起嗨</title> $context.includeCss("","backend.css") $context.readHtmlHeader()
+</head>
+<body class="mon-compte">
+     $context.readHeader() #set($profile=$user.readProfile("",false))
+     <div id="container" shortId="$shortId">
+          <div class="wrap">
+               $context.readUserTitle() $context.readUserPanel()
+               <div class="w900 right">
+                    <div class="heading">
+                         <h2>我关注的旅行者，导游，旅行社，团队</h2>
+                         <div class="btn">
+                              <div id="spinner"></div>
+                              <div class="collapse" link="all"></div>
+                         </div>
+                    </div>
+                    <form class="form">
+                         <fieldset id="groupInfo">
+                              <div class="fieldset_title">
+                                   <div class="text">
+                                        <h6>如果您关注的人太多,建议您分组</h6>
+                                        <em>您分享信息是可以指定公开范围：选择不同的组 </em>
+                                   </div>
+                                   <div class="collapse" link="groupInfo"></div>
+                              </div>
+                              <div class="fieldset_content">
+                                   <div>
+                                        <p>
+                                             <span class="input_holder" style="float:left"> <input id="newGroupName"
+                                                  placeholder="输入新组名" type="text" style="height:20px;width:300px;" class="input" />
+                                             </span> <span style="display:block;float:left;margin-left:10px;"> <a
+                                                  href="javascript:void(0)" class="button grey green-hover w70"
+                                                  style="margin-right:9px;" onclick="addGroup(this)"> 增加组 </a> <a
+                                                  href="javascript:void(0)" class="button grey red-hover w70"
+                                                  onclick="deleteGroup(this)"> 删除组 </a> </span>
+                                        </p>
+                                   </div>
+                                   <div id="groups" style="float:left;"></div>
+                              </div>
+                         </fieldset>
+                         <fieldset id="focusInfo">
+                              <div class="fieldset_title">
+                                   <div class="text">
+                                        <h6>我关注的人</h6>
+                                        <em>(共<span id="followCount"></span>)个</em>
+                                   </div>
+                                   <div class="collapse" link="focusInfo"></div>
+                              </div>
+                              <div class="fieldset_content">
+                                   <div id="follows"></div>
+                              </div>
+                              <div class="pagebar" id="pager" style="padding:0px 15px 0px 0px"></div>
+                         </fieldset>
+                         <fieldset id="fanInfo">
+                              <div class="fieldset_title">
+                                   <div class="text">
+                                        <h6>我的粉丝()</h6>
+                                        <em>(共<span id="beFollowCount"></span> 个) </em>
+                                   </div>
+                                   <div class="collapse" link="fanInfo"></div>
+                              </div>
+                              <div class="fieldset_content">
+                                   <div id="beFollows"></div>
+                              </div>
+                              <div class="pagebar" id="pages" style="padding:0px 15px 0px 0px"></div>
+                         </fieldset>
+                    </form>
+               </div>
+          </div>
+     </div>
+
+     <div style="display:none">
+          <ul id="templateGroup" jseval="$args.index=0">
+               <li jsselect="groups" jseval="$args.index++" style="width:130px;"><input
+                    jsvalues=".id:'g'+$args.index;index:$args.index;groupName:$this" type="checkbox" /> <label
+                    jsvalues="for:'g'+$args.index" jscontent="$this"></label></li>
+          </ul>
+          <div id="templateFollow">
+               <ul>
+                    <li style="border-bottom:1px dashed #999;height:40px;width:660px" jsselect="follows">
+                         <div style="width:160px;float:left;">
+                              <a target="_blank" jsvalues=".href:'/topici/'+$this.userId"> <img style="float:left;"
+                                   jsvalues=".src:'/photo/faces/'+$this.userId+'.jpg'" width="30" height="30"> <span
+                                        style="float:left;display:block;margin-top:6px;" jscontent="$this.userName"></span>
+                              </a>
+                         </div>
+                         <div style="width:370px;float:left;" jseval="$id=$this.userId" jsvalues=".id:'td'+$this.userId;">
+                              <ul style="display:block;width:370px;">
+                                   <li class="token-input-token-facebook" style="margin-right:6px;" jsselect="groups"><font
+                                        style="color:#C2A43;" jscontent="$this"></font> <span
+                                        class="token-input-delete-token-facebook"> <a href="javascript:void(0)"
+                                             jsvalues=".groupName:$this;.userId:$id"
+                                             onclick="removeUserFromGroup(this,this.userId,this.groupName)">×</a> </span></li>
+                              </ul>
+                         </div>
+                         <div style="width:130px;float:left;padding-top:6px;">
+                              <a href="javascript:void(0)" jsvalues=".userId:$this.userId;"
+                                   onclick="javascript:showGroupBox(this,this.userId)"> 添加到组 </a>&nbsp; <a
+                                   href="javascript:void(0)" jsvalues=".userId:$this.userId;.userName:$this.userName"
+                                   onclick="javascript:removeFollow(this,this.userId,this.userName)"> 取消关注 </a>
+                         </div></li>
+               </ul>
+          </div>
+
+          <div id="templateBeFollow">
+               <ul>
+                    <li style="float:left;width:63px;margin-right:3px;" jsselect="beFollows"><a target="_blank"
+                         jsvalues=".href:'/topici/'+$this.userId" style="text-align:center;"> <img
+                              jsvalues=".src:'/photo/faces/'+$this.userId+'.jpg'" width="60" height="60"> <span
+                                   style="display:block;margin-top:6px;" jscontent="$this.userName"></span>
+                    </a></li>
+               </ul>
+          </div>
+
+
+     </div>
+
+     <div id="selectGroupBox" class="innerDialog" style="display:none">
+          <div class="arrow-up">&nbsp;</div>
+          <div id="groupNames" jseval="$recIndex=0">
+               <ul>
+                    <li jsselect="groups" jseval="$recIndex++"><input
+                         jsvalues=".id:'gbox'+$recIndex;index:$recIndex;groupName:$this" type="checkbox" /> <label
+                         jsvalues=".for:'gbox'+$recIndex" jscontent="$this"></label></li>
+               </ul>
+          </div>
+          <div style="margin-top:10px;text-align:right;">
+               <input type="button" onclick="javascript:addUserToGroup(this)" class="btn btn-small" value="确定" /> <input
+                    type="button" onclick="javascript:$('#selectGroupBox').toggle();" class="btn btn-small" value="取消" />
+          </div>
+     </div>
+
+     $context.readFooter() $context.includeJavaScript("","rock.js") $context.includeJavaScript("","follow.js")
+
+</body>
+</html>

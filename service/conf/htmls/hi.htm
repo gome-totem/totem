@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>在线服务</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" href="/images/hi.ico" type="image/x-icon" />
+$context.includeCss("mobile/","framework.css")
+$context.includeCss("mobile/","colorbox.css")
+$context.includeCss("mobile/","elements.css")
+$context.includeCss("mobile/","style.css")
+$context.includeCss("mobile/","responsive.css")
+$context.includeCss("mobile/","hidpi.css")
+</head>
+<body>
+	<!-- website wrapper starts -->
+	<div class="websiteWrapper">
+
+		<!-- main menu wrapper starts -->
+		<ul class="mainMenuWrapper">
+			<li class="currentPage"><a href="/">一起嗨首页</a></li>
+		</ul>
+
+		<div class="headerOuterWrapper">
+			<div class="headerWrapper">
+				<a class="mainLogo" href="/"><img src="/images/m/logo.png"
+					alt="" /> </a> <a href="/" class="mainMenuButton"></a>
+			</div>
+		</div>
+
+		<div class="pageWrapper homePageWrapper">
+			$service.test($context)
+			<div class="testimonialsWrapper">
+				<h3 class="sectionTitle testimonialsTitle">您好，Testimonials</h3>
+				<div class="testimonialWrapper">
+					<a href="#" class="testimonialImageWrapper"><img
+						class="testimonialImage" src="images/content/testimonial-1.jpg"
+						alt="" /> </a>
+					<p class="testimonialText">
+						&quot;Nam libero tempore, cum soluta nobis est eligendi optio
+						cumque.&quot;<span class="testimonialAuthor">- John Doe</span>
+					</p>
+				</div>
+				<div class="testimonialWrapper">
+					<a href="#" class="testimonialImageWrapper"><img
+						class="testimonialImage" src="images/content/testimonial-2.jpg"
+						alt="" /> </a>
+					<p class="testimonialText">
+						&quot;Nam libero tempore, cum soluta nobis est eligendi optio
+						cumque.&quot;<span class="testimonialAuthor">- Jane Doe</span>
+					</p>
+				</div>
+				<div class="testimonialWrapper">
+					<a href="#" class="testimonialImageWrapper"><img
+						class="testimonialImage" src="images/content/testimonial-3.jpg"
+						alt="" /> </a>
+					<p class="testimonialText">
+						&quot;Nam libero tempore, cum soluta nobis est eligendi optio
+						cumque.&quot;<span class="testimonialAuthor">- John Smith</span>
+					</p>
+				</div>
+			</div>
+
+		</div>
+
+		<div class="pageWrapper homePageWrapper">
+			<div class="testimonialsWrapper">
+				<div>
+					<textarea id="edtMsg"
+						style="width:98%;font-size:16px;line-height:26px;color:#000"></textarea>
+				</div>
+				<a
+					style="float:right;background: #CC2A43;cursor:pointer;color: #FFFFFF;height: 30px;line-height: 30px;margin: -67px 38px 0;width: 100px;text-align:center;font-size:15px;">发送消息</a>
+			</div>
+		</div>
+
+	</div>
+	<!-- page wrapper ends -->
+
+	<div class="footerTopDeco"></div>
+	<div class="footerWrapper">
+		<div class="copyrightWrapper">
+			<span class="copyright">&copy; copyright yiqihi.com.</span> <a
+				href="javascript:void(0)" class="backToTopButton"></a>
+		</div>
+	</div>
+</body>
+</html>

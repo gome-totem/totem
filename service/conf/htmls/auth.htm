@@ -1,0 +1,318 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" class="mozilla">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+#set($profile=$user.readProfile($context.getParam("id"),false))
+#set($picture=$profile.get("picture"))
+<title>账户安全©$tool.seoTitle()</title>
+<link rel="shortcut icon" href="/images/hi.ico">
+	<link rel="icon" type="image/png" href="/images/hi.png" >
+		$context.readHtmlHeader() $context.includeCss("","backend.css")
+</head>
+
+<body>
+	$context.readHeader(false) $context.include("usertitle")
+	<div class="home">
+		$context.include("userinfo")
+		<div class="content clearfix">
+			$context.include("userpanel")
+			<div class="fieldset">
+				<h3>
+					<span>绑定手机，微博账号，上传身份证、驾照</span>账户安全
+				</h3>
+				<div class="item">
+					<dl class="clearfix" tag="password">
+						<dt>
+							<em class="yes"></em><strong>登录密码</strong>
+						</dt>
+						<dd class="clearfix">
+							<a href="javascript:void(0)" tag="box" name="password">修改</a>
+							<p>
+								<span>建议您定期更改密码以保护账户安全。
+							</p>
+						</dd>
+					</dl>
+					<div class="edit" tag="password">
+						<em class="triangle">&diams;</em> <a href="javascript:void(0)"
+							class="close"></a>
+						<div class="icon">
+							<b class="private"></b>保密
+						</div>
+						<table>
+							<tr>
+								<td class="tr">旧密码：</td>
+								<td><input id="edtPassword" class="frame" type="password" />
+								</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td class="tr">新密码：</td>
+								<td><input id="edtPassword1" class="frame" type="password" />
+								</td>
+								<td>
+									<div class="tips">
+										<em>&diams;</em>
+										<p>字母、数字或符号最短为6位，区分大小写。</p>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td class="tr">再次输入新密码：</td>
+								<td><input id="edtPassword2" class="frame" type="password" />
+								</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td><a class="btn btn-arrow-right btn-green"
+									href="javascript:void(0)" onclick="changePassword(this)">保存更新</a>
+								</td>
+								<td></td>
+							</tr>
+						</table>
+					</div>
+				</div>
+				<div class="item">
+					<dl class="clearfix" tag="email">
+						<dt>
+							#set($value=$tool.iff($tool.equals($user.bindMail,1),"yes","no"))
+							<em class="$value"></em><strong>邮箱验证</strong>
+						</dt>
+						<dd class="clearfix">
+							<a href="javascript:void(0)" tag="box" name="email">修改</a> <a
+								href="javascript:void(0)" style="margin-right:20px;"
+								onclick="sendAuthMail(this)">发送验证邮件</a>
+							<p class="o">
+								您验证的邮箱：<strong>$profile.get("email")</strong>
+							</p>
+						</dd>
+					</dl>
+					<div class="edit" tag="email">
+						<em class="triangle">&diams;</em> <a href="javascript:void(0)"
+							class="close"></a>
+						<div class="icon">
+							<b class="private"></b>保密
+						</div>
+						<table>
+							<tr>
+								<td class="tr">密码：</td>
+								<td><input id="edtPass" class="frame" type="password" /></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td class="tr">新邮箱地址：</td>
+								<td><input id="edtMail" class="frame" type="text" /></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td><a class="btn btn-arrow-right btn-green"
+									href="javascript:void(0)" onclick="changeMail(this)">保存更新</a></td>
+								<td></td>
+							</tr>
+						</table>
+					</div>
+
+					<dl class="clearfix b-t" tag="mobile">
+						<dt>
+							<em class="yes" id="iconMobile"></em><strong>手机验证</strong>
+						</dt>
+						#set($mobile=$profile.get("mobile"))
+						<dd class="clearfix">
+							#if($user.bindMobile==0)<a href="javascript:void(0)" tag="box" name="mobile">修改</a> #else<a
+								href="javascript:sendUnbindMobile()"  name="unbindmobile"
+								style="margin-right:9px;">取消绑定</a>#end
+							<p class="o">
+								 您验证的手机：<strong>$mobile</strong>
+							</p>
+						</dd>
+					</dl>
+					#if($user.bindMobile==1)
+					<div class="edit" tag="unbindmobile">
+						<em class="triangle">&diams;</em> <a class="close"></a>
+						<div style="height:30px;">
+							<div class="icon left" style="margin-right:100px;">
+								<b class="private"></b>保密
+							</div>
+							<label class="grn1"></label> <label
+								style="float:left;display:block;">------------------------------</label><label
+								class="gry2"></label>
+						</div>
+						<div class="clear"></div>
+						<table>
+							<tr>
+								<td class="tr">手机验证码：</td>
+								<td class="md"><input id="mobileCode" class="frame"
+									type="text" />&nbsp;&nbsp;</td>
+								<td colspan="2"><em class="c">仅限国内</em></td>
+							</tr>
+							<tr>
+								<td>&nbsp;</td>
+								<td><a class="btn btn-arrow-right btn-green"
+									href="javascript:void(0)" onclick="unbindMobile(this)">取消绑定</a></td>
+								<td colspan="2"></td>
+							</tr>
+						</table>
+					</div>
+					#else
+					<div class="edit" tag="mobile">
+						<em class="triangle">&diams;</em> <a class="close"></a>
+						<div style="height:30px;">
+							<div class="icon left" style="margin-right:100px;">
+								<b class="private"></b>保密
+							</div>
+							<label class="grn1"></label> <label
+								style="float:left;display:block;">------------------------------</label><label
+								class="gry2"></label>
+						</div>
+						<div class="clear"></div>
+						<table>
+							<tr>
+								<td class="tr">手机号码：</td>
+								<td class="md"><input id="edtMobile" class="frame"
+									type="text" />&nbsp;&nbsp;</td>
+								<td colspan="2"><em class="c">仅限国内</em></td>
+							</tr>
+							<tr>
+								<td class="tr">验证码：</td>
+								<td class="md"><input id="edtMobileCode" class="frame"
+									type="text" /></td>
+								<td class="code"><img onclick="changeImage(this)"
+									src="/captcha.jpg" style="cursor:pointer" id="imageCode" /></td>
+								<td class="code"></td>
+							</tr>
+							<tr>
+								<td>&nbsp;</td>
+								<td><a class="btn btn-arrow-right btn-green"
+									href="javascript:void(0)" onclick="sendMobile(this)">发送验证码到手机</a>
+								</td>
+								<td colspan="2"></td>
+							</tr>
+						</table>
+					</div>
+					#end
+					<div class="edit" tag="mobile2">
+						<em class="triangle">&diams;</em> <a class="close"></a>
+						<div style="height:30px;">
+							<div class="icon left" style="margin-right:100px;">
+								<b class="private"></b>保密
+							</div>
+							<label class="grn1"></label> <label
+								style="float:left;display:block;">------------------------------</label><label
+								class="grn2"></label>
+						</div>
+						<div class="clear"></div>
+						<table>
+							<tr>
+								<td class="tr">手机号码：</td>
+								<td class="md"><input id="edtMobile2" class="frame"
+									type="text" style="background:#E3E3E3" " readonly /></td>
+								<td class="t"><em class="c">校验码已发出，请注意查收短信，如果没有收到你可以在50秒要求系统重新发送</em>
+								</td>
+							</tr>
+							<tr>
+								<td class="tr">验证码：</td>
+								<td class="md"><input id="edtMobileCode2" class="frame"
+									type="text" /></td>
+								<td><em class="c">6位数字</em></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td><a class="btn btn-arrow-right btn-green"
+									href="javascript:void(0)" onclick="checkMobile(this)">绑定手机号</a>
+								</td>
+								<td></td>
+							</tr>
+						</table>
+					</div>
+
+					<dl class="clearfix b-t" tag="social">
+						<dt>
+							<em class="yes"></em><strong class="e">微博认证</strong>
+						</dt>
+						<dd class="clearfix">
+							<a tag="box" name="social">修改</a>
+							<p class="o">
+								激活<strong>微博，QQ，微信</strong>账号
+							</p>
+						</dd>
+					</dl>
+					<div class="edit" tag="social">
+						<em class="triangle">&diams;</em> <a class="close"></a>
+						<div class="icon">
+							<b class="public"></b>公开
+						</div>
+						<table>
+							<tr>
+								<td><a class="btn btn-arrow-right btn-red xl"
+									href="javascript:void(0)"><b></b>绑定新浪微博</a></td>
+								<!--
+								<td><a class="btn btn-arrow-right btn-blue tx"     href="javascript:void(0)"><b></b>绑定腾讯微博</a></td>
+								<td><a class="btn btn-arrow-right btn-green wx" href="javascript:void(0)"><b></b>绑定微信账号<span></span> </a>
+								</td>
+								 -->
+							</tr>
+						</table>
+					</div>
+
+					<dl class="clearfix b-t" tag="picture">
+						<dt>
+							<em class="yes"></em><strong class="e">证件认证</strong>
+						</dt>
+						<dd class="clearfix">
+							<a tag="box" name="picture">修改</a>
+							<p class="o">
+								您认证的证件依次为：<strong>导游证、驾驶证、身份证</strong>
+							</p>
+						</dd>
+					</dl>
+					<div class="edit" tag="picture">
+						<em class="triangle">&diams;</em> <a class="close"></a>
+						<div class="icon">
+							<b class="protected"></b>保护
+							#set($guider=$picture.getString("guider"))
+							#set($driver=$picture.getString("driver"))
+							#set($person=$picture.getString("person")) <span id="guider"
+								style="display:none">$guider</span> <span id="driver"
+								style="display:none">$driver</span> <span id="person"
+								style="display:none">$person</span>
+						</div>
+
+						<ul class="clearfix">
+							#if ($tool.isEmpty($guider))
+							<li tag="upload" index="0"><a class="sc"
+								href="javascript:void(0)">点击上传导游证</a>
+							</li> #else
+							<li tag="upload" index="0" class="img"><img
+								src="http://image.yiqihi.com/pictures/$guider" width="130"
+								height="130" /> <a class="xg" href="javascript:void(0)">删除<b></b>
+							</a>
+							</li> #end #if ($tool.isEmpty($driver))
+							<li tag="upload" index="1"><a class="sc"
+								href="javascript:void(0)">点击上传驾驶证</a>
+							</li> #else
+							<li tag="upload" index="1" class="img"><img
+								src="http://image.yiqihi.com/pictures/$driver" width="130"
+								height="130" /> <a class="xg" href="javascript:void(0)">删除<b></b>
+							</a>
+							</li> #end #if ($tool.isEmpty($person))
+							<li tag="upload" index="2"><a class="sc"
+								href="javascript:void(0)">点击上传身份证</a>
+							</li> #else
+							<li tag="upload" index="2" class="img"><img
+								src="http://image.yiqihi.com/pictures/$person" width="130"
+								height="130" /> <a class="xg" href="javascript:void(0)">删除<b></b>
+							</a>
+							</li> #end
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	$context.readFooter(true) $context.includeJavaScript("","rock.js")
+	$context.includeJavaScript("","auth.js")
+
+</body>
+</html>

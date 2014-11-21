@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" class="mozilla">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>我的行程单©$tool.seoTitle()</title>
+<link rel="shortcut icon" href="/images/hi.ico">
+	<link rel="icon" type="image/png" href="/images/hi.png" >
+		$context.readHtmlHeader() $context.includeCss("","backend.css")
+</head>
+
+<body>
+	$context.readHeader(false) $context.include("usertitle")
+	<div class="home">
+		$context.include("userinfo")
+		<div class="content clearfix">
+			$context.include("userpanel")
+			<div class="fieldset">
+				<div class="content" id="trips" jseval="$args.index=0"></div>
+				<div id="pager" class="pagebar"></div>
+			</div>
+		</div>
+	</div>
+
+	<div style="display:none">
+		<div id="tripTemplate">
+			<div class="listbox" jsselect="$this.items" jseval="$args.index++"
+				jsvalues=".id:'result'+$args.index">
+				<dl>
+					<dt>
+						<a target="_blank" jsvalues=".href:readTripLink($this)"> <img
+							class="shot"
+							jsvalues=".src:'http://image.yiqihi.com/shots/'+$this.snapshot+'.jpg'" />
+						</a>
+					</dt>
+					<dd>
+						<ul>
+							<li><span jshtml="readStateHtml($this,$args.index,6)"></span><strong><a class="title" target="_blank"
+									jsvalues=".href:readTripLink($this)"
+									jscontent="htmlToText($this.title,180)"></a> </strong></li>
+							<li><p jscontent="htmlToText($this.description,180)"></p></li>
+							<li><p>
+									<span>编号：<font jscontent="$this.short_id"></font> </span> <span>客人：<font
+										jscontent="$this.customer_userName"></font> </span> <span>价格:
+										<font jscontent="getCurrencyName($this.currency)"></font> <font
+										jscontent="$this.price"></font> </span><span
+										jsvalues=".id:'loading'+$args.index"></span>
+								</p></li>
+							<li><p>
+									<span>行程：<span jshtml="readLocation($this)"></span> </span>
+								</p></li>
+						</ul>
+					</dd>
+				</dl>
+
+				<ul class="pnl"
+					jsvalues=".id:'item'+$args.index;shortId:$this.short_id;">
+					<li><a class="iconbtn" href="javascript:void(0)"
+						jsvalues=".href:readTripEditLink($this)"><span class="edit"></span>编辑行程</a>
+						</a></li>
+					<li><a class="iconbtn" href="javascript:void(0)"
+						jsvalues=".recIndex:$args.index;"
+						onclick="checkTrip(this.recIndex,6,2)"><span class="accept"></span>确认行程</a>
+					</li> #if($b8)
+					<li><a class="iconbtn" href="javascript:void(0)"
+						jsvalues=".recIndex:$args.index;"
+						onclick="checkTrip(this.recIndex,6,3)"><span class="cancel"></span>行程作废</a>
+					</li> #end
+				</ul>
+				<div class="clear"></div>
+			</div>
+		</div>
+	</div>
+
+	$context.readFooter(false)
+	$context.includeJavaScript("jquery/","jquery.calendar.js")
+	$context.includeJavaScript("","rock.js")
+	$context.includeJavaScript("","trips.js")
+</body>
+</html>

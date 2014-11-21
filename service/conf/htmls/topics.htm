@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" class="mozilla">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>我发布的话题©$tool.seoTitle()</title>
+	<link rel="shortcut icon" href="/images/hi.ico" >
+	<link rel="icon" type="image/gif" href="/images/hi.gif" >
+	$context.includeCss("","global.css")
+	$context.includeCss("","reset.css")
+	$context.includeCss("","backend.css")
+	$context.includeCss("","firefix.css")
+	$context.includeCss("","editlist.css")
+	$context.includeCss("jquery/","jquery.plugin.css")
+	$context.readHtmlHeader()
+</head>
+
+<body class="mon-compte" >
+$context.readHeader()
+<div id="container">
+    <div class="wrap">
+        <ul id="breadcrum">
+          <li>
+            <a href="/" class="home">
+              <span></span>
+              <strong>主页</strong>
+            </a>
+          </li>
+          <li>
+            /
+          </li>
+		  <li>
+            <a href="/dashboard">用户中心</a>
+          </li>
+          <li>
+            /
+          </li>
+          <li>
+            <a href="/forum">旅行社区</a>
+          </li>
+        </ul>
+		$context.readUserPanel()
+		<div class="four_columns right">
+			<h2 class="heading">我发布的旅行话题
+				<span style="float:right;display:block;margin-top:13px;margin-right:6px;">
+					<a style="display:block;margin-top:-6px;" class="btn" href="/posttopic">发布新话题</a>
+				</span>
+			</h2>
+			<div class="content">
+				<div id="topics" jseval="$recIndex=0" style="background:none;"></div>
+			</div>
+			<div id="pager" class="pagebar"></div>
+		</div>	
+	</div>	
+	<div style="font: 0px/0px sans-serif;clear: both;display:block"></div>	
+</div>
+
+<div style="display:none">
+    <div id="templateTopic">
+		<div class="result" jsselect="items" jseval="$recIndex++" jsvalues=".id:'result'+$recIndex" >
+			<div class="left" style="width:40px;">
+				<div class="stgl-date">
+				  <ul>
+					<li jseval="$content=monthOf($this.timestamp)+'月'" jscontent="$content"></li>
+					<li class="ri" jseval="$content=dayOf($this.timestamp)" jscontent="$content"></li>
+					<li jseval="$content=yearOf($this.timestamp)" jscontent="$content"></li>
+				  </ul>
+				</div>
+				
+				<div style="float:left;" jsdisplay="$this.readMode==1">
+					<span style="width:30px;height:30px;padding:3px 1px 3px 1px;margin-top:5px;margin-left:3px;" class="protected-badge"><b></b>&nbsp;私密</span>
+				</div>
+			</div>
+			<div class="caption" style="width:620px;">
+				<div class="content" style="background:none;font-size:13px;">
+					<div class="info wide">
+						<h3><a  class="link" target="_blank" jsvalues=".href:'/topic/'+$this.id" jscontent="$this.title"></a></h3>
+						<p style="font-size:13px;padding:6px;" >
+						  <font jshtml="$this.content"></font>
+						</p>
+						<p class="quote" jsdisplay="$this.last_userId!=0">
+							<span class="begin"></span><span jshtml="$this.last_content"></span><span class="end"> </span>
+							<span style="margin-left:9px;" jscontent="$this.last_userName"></span>
+							<i style="font-size:9px"jscontent="dateDiff($this.last_timestamp)"></i>
+						</p>
+						<p style="width:90%;color:#CC2A43;padding:3px;" jsdisplay="readCheckVisible($this)" jshtml="readCheckMessage($this)">
+						</p>
+					</div>
+					<!-- /info -->
+					<div class="result-actions show_all" jsvalues=".id:'item'+$recIndex;keyId:$this.id" >
+						<span jshtml="readStateHtml($this,$recIndex)" style="display:block;margin-bottom:6px;"></span>
+						<a class="edit" href="javascript:void(0)" jsvalues=".id:$this.id;replyCount:$this.replyCount" onclick="editTopic(this,this.id)"><span></span>编辑</a>
+						<a class="sup" href="javascript:void(0)" jsvalues=".recIndex:$recIndex;replyCount:$this.replyCount" onclick="deleteTopic(this,this.recIndex)"><span></span>删除</a>
+					</div>
+				</div>
+				<!-- /content -->
+			</div>
+			<!-- /caption -->
+		</div>
+	</div>	
+
+</div>
+
+$context.readFooter()
+$context.includeJavaScript("jquery/","jquery.calendar.js")
+$context.includeJavaScript("","topics.js")
+
+</body>
+</html>

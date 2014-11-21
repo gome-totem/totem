@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+$context.readHtmlHeader()$context.includeCss("","triporder.css")
+#set($orderId=$context.getParamByInt('id',0))
+#set($order=$travelorder.getOrder($orderId,$context))
+#set($currencyName=$tool.currencyNameBy($order.get('currency')))
+#set($isClose=$!{order.status}==11)
+#set($isPaid=$!{order.status}==8 || $isClose )
+<title>编辑订单-$!{order.customer.username}-$!{order.id}-$!{order.startTime}</title>
+</head>
+
+<body>
+	$context.readHeader()
+	#set($createorder=$travelorder.createorder($context,$order))
+	#if($createorder==1)
+	<div id="o">
+		<form id="frmOrder" name="frmOrder"
+			action="/tripOrder#if($orderId!=0)?id=$!{orderId}#end" method="post"
+			accept-charset="utf-8" onsubmit="return order.checkForm()">
+			<div class="p-path">
+				<div class="icon-home"></div>
+				<ul class="clearfix">
+					<li><a href="#">主页</a></li>
+					<li><span class="text-arr">&gt;</span></li>
+					<li><a href="/createorder/$!{order.id}">$!{order.customer.username}-$!{order.id}-$!{order.startTime}</a>
+					</li>
+				</ul>
+			</div>
+			<div class="o-h">
+				<div class="o-h-top">
+					<div class="o-h-l">
+						<div class="o-h-l-order">
+							<span class="o-h-l-icon"></span> <span class="o-h-l-name">一起嗨订单函</span>
+							<span class="o-h-l-number">NO.$!{order.id}</span>
+						</div>
+					</div>
+					<div class="o-h-c">
+						<div class="o-h-c-price">
+							金额：<b>￥$!{order.prepaidPriceRate}</b>
+						</div>
+						<div class="o-h-c-state #if($!{isClose}) close #end">
+							<span>状态：</span><em>$tool.orderStateName($!{order.status})</em>
+						</div>
+					</div>
+					<div class="o-h-r">
+						<ul>
+							<li><a href="javascript:void(0)" onclick="order.submit();"
+								class="btn-operation btn-operation-service"> <i
+									class="icon-save"></i> <span class="btn-text">保存更新</span> </a>
+							</li>
+							<li><a href="#" class="btn-operation btn-operation-service">
+									<i class="icon-service"></i> <span class="btn-text">联系客服</span>
+							</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="o-h-content">
+					<input type="hidden" name="o.id" value="$!{order.id}" />
+					<div class="clearfix">
+						<div class="o-h-intro">
+							<div class="avatar">
+								<img src="/photo/faces/$!{order.customer.userId}" id="ocimg" />
+								<label>客户</label>
+							</div>
+							<div class="intro">
+								<ul class="clearfix">
+									<li>
+										<div class="item-name">用户名：</div>
+										<div class="item-value">
+											<input type="hidden" name="o.c.id"
+												value="$!{order.customer.id}" /> <input type="hidden"
+												name="o.c.userId" value="$!{order.customer.userId}" /> <input
+												type="text" class="input-text" placeholder="点击即可输入"
+												name="o.c.username" value="$!{order.customer.username}" />
+
+										</div>
+									</li>
+									<li>
+										<div class="item-name">城市：</div>
+										<div class="item-value">
+											<input type="text" class="input-text" placeholder="点击即可输入"
+												name="o.c.city" value="$!{order.customer.city}"
+												data-name="customer-city" />
+										</div>
+									</li>
+									<li>
+										<div class="item-name">姓名：</div>
+										<div class="item-value">
+											<input type="text" class="input-text" placeholder="点击即可输入"
+												name="o.c.name" value="$!{order.customer.name}" />
+										</div>
+									</li>
+									<li>
+										<div class="item-name">微信号：</div>
+										<div class="item-value">
+											<input type="text" class="input-text" placeholder="点击即可输入"
+												name="o.c.weixin" value="$!{order.customer.weixin}" />
+										</div>
+									</li>
+									<li>
+										<div class="item-name">电话：</div>
+										<div class="item-value">
+											<input type="text" class="input-text" placeholder="点击即可输入"
+												name="o.c.phone" value="$!{order.customer.phone}" />
+										</div>
+									</li>
+									<li>
+										<div class="item-name">QQ号：</div>
+										<div class="item-value">
+											<input type="text" class="input-text" placeholder="点击即可输入"
+												name="o.c.qq" value="$!{order.customer.qq}" />
+										</div>
+									</li>
+									<li class="email">
+										<div class="item-name">E-mail：</div>
+										<div class="item-value">
+											<input type="text" class="input-text" placeholder="点击即可输入"
+												name="o.c.email" value="$!{order.customer.email}" />
+										</div>
+									</li>
+
+								</ul>
+							</div>
+
+							<div class="icon-paperclip"></div>
+							<div class="shadow-x"></div>
+
+						</div>
+						<div class="o-h-intro fr">
+							<div class="avatar">
+								<img src="/photo/faces/$!{order.guide.userId}" id="ogimg" /> <label>导游</label>
+							</div>
+							<div class="intro">
+								<ul class="clearfix">
+									<li>
+										<div class="item-name ">用户名：</div>
+										<div class="item-value">
+											<input type="hidden" name="o.g.id" value="$!{order.guide.id}" />
+											<input type="hidden" name="o.g.bizId" value="$!{order.guide.bizId}" />
+											<input type="hidden" name="o.g.bizType" value="$!{order.guide.bizType}" />
+											<input type="hidden" name="o.g.userId"
+												value="$!{order.guide.userId}" /> <input type="text"
+												class="input-text w90" placeholder="点击即可输入"
+												name="o.g.username" value="$!{order.guide.username}" />
+										</div>
+									</li>
+									<li>
+										<div class="item-name">城市：</div>
+										<div class="item-value">
+											<input type="text" class="input-text" placeholder="点击即可输入"
+												name="o.g.city" value="$!{order.guide.city}"
+												data-name="customer-city" />
+										</div>
+									</li>
+									<li>
+										<div class="item-name">姓名：</div>
+										<div class="item-value">
+											<input type="text" class="input-text w90"
+												placeholder="点击即可输入" name="o.g.name"
+												value="$!{order.guide.name}" />
+
+										</div>
+									</li>
+									<li>
+										<div class="item-name">微信号：</div>
+										<div class="item-value">
+											<input type="text" class="input-text" placeholder="点击即可输入"
+												name="o.g.weixin" value="$!{order.guide.weixin}" />
+										</div>
+									</li>
+									<li>
+										<div class="item-name">电话：</div>
+										<div class="item-value">
+											<input type="text" class="input-text w90"
+												placeholder="点击即可输入" name="o.g.phone"
+												value="$!{order.guide.phone}" />
+										</div>
+									</li>
+									<li>
+										<div class="item-name">QQ号：</div>
+										<div class="item-value">
+											<input type="text" class="input-text" placeholder="点击即可输入"
+												name="o.g.qq" value="$!{order.guide.qq}" />
+										</div>
+									</li>
+									<li class="email">
+										<div class="item-name">E-mail：</div>
+										<div class="item-value">
+											<input type="text" class="input-text" placeholder="点击即可输入"
+												name="o.g.email" value="$!{order.guide.email}" />
+										</div>
+									</li>
+								</ul>
+							</div>
+
+							<div class="icon-paperclip"></div>
+							<div class="shadow-x"></div>
+
+						</div>
+					</div>
+
+					<div class="clearfix">
+
+						<div class="o-h-table fl">
+							<div class="item">
+								<span class="item-name">您的专属客服</span> <span class="item-value">
+									<input type="hidden" name="o.s.id" value="$!{order.service.id}" />
+									<input type="hidden" name="o.s.userId" value="$!{user.userId}" />
+									<input type="text" class="input-text" placeholder="点击即可输入"
+									name="o.s.username" value="$!{user.userName}"
+									readonly="readonly" /> </span>
+							</div>
+							<div class="item">
+								<span class="item-name">客服工号</span> <span
+									class="item-value w128"> <input type="text"
+									class="input-text" placeholder="点击即可输入" name="o.s.jobNum"
+									value="$!{order.service.jobNum}" /> </span> <span class="item-name">客服手机号码</span>
+								<span class="item-value"> <input type="text"
+									class="input-text" placeholder="点击即可输入" name="o.s.phone"
+									value="$!{order.service.phone}" /> </span>
+							</div>
+							<div class="item">
+								<span class="item-name">客服微信</span> <span
+									class="item-value  w128"><input type="text"
+									class="input-text" placeholder="点击即可输入" name="o.s.weixin"
+									value="$!{order.service.weixin}" /> </span> <span class="item-name">客服QQ号码</span>
+								<span class="item-value"><input type="text"
+									class="input-text" placeholder="点击即可输入" name="o.s.qq"
+									value="$!{order.service.qq}" /> </span>
+							</div>
+							<div class="item">
+								<span class="item-name">服务佣金折扣</span> <span
+									class="item-value value-label"> <select
+									data-v="$!{order.discount}" class="select" name="o.discount">
+										<option value="10">不打折</option>
+										<option value="9">9折</option>
+										<option value="8">8折</option>
+										<option value="7">7折</option>
+										<option value="6">6折</option>
+										<option value="5">5折</option>
+										<option value="0">免佣金</option>
+								</select> </span>
+							</div>
+							<div class="item">
+								<span class="item-name">订单创建时间</span> <span
+									class="item-value  w128">$!{order.createTime}</span> <span
+									class="item-name">订单支付时间</span> <span class="item-value">$!{order.paidTime}</span>
+							</div>
+							<div class="shadow-x"></div>
+						</div>
+
+						<div class="o-h-table fr">
+							<div class="item">
+								<span class="item-name">订单开始时间 <input type="hidden"
+									value="$!{order.startTime}" name="o.startTime" /> </span> <span
+									class="item-value w128" id="oStartTime">$!{order.startTime}
+								</span> <span class="item-name">订单结束时间 <input type="hidden"
+									value="$!{order.endTime}" name="o.endTime" /> </span> <span
+									class="item-value w128" id="oEndTime">$!{order.endTime}
+								</span>
+							</div>
+							<div class="item">
+								<span class="item-name">行程天数</span> <span
+									class="item-value w128" id="lblDays">$!{order.totalDays}
+								</span> <span class="item-name">游客人数</span> <span class="item-value" id="peopleCount">$!{order.peopleCount}</span>
+							</div>
+							<div class="item">
+								<span class="item-name">行程类型</span> <span
+									class="item-value w128"><input type="text"
+									class="input-text" placeholder="点击即可输入" name="o.travelType"
+									value="$!{order.travelType}" /> </span> <span class="item-name">车型</span>
+								<span class="item-value"><input type="text"
+									class="input-text" placeholder="点击即可输入" name="o.carType"
+									value="$!{order.carType}" /> </span>
+							</div>
+							<div class="item">
+								<span class="item-name">货币</span> <span class="item-value w128">
+									<select name="o.currency" class="select"
+									data-v="$!{order.currency}">
+									$context.include("plugin.currency")
+								</select> </span> <span class="item-name">汇率</span> <span class="item-value"><input
+									type="text" class="input-text" placeholder="点击即可输入"
+									name="o.rate" value="$!{order.rate}" /> </span>
+							</div>
+							<div class="item last-child">
+								<span class="item-name">目的地<i>(城市)</i> </span> <span
+									class="item-value"><input type="text" class="input-text"
+									placeholder="点击即可输入" name="o.destCity"
+									data-name="customer-city" value="$!{order.destCity}" /> </span>
+							</div>
+							<div class="shadow-x"></div>
+						</div>
+
+					</div>
+
+				</div>
+			</div>
+			<div class="o-p o-p-none">
+				<div class="o-p-nav">
+					<span class="icon-person"></span>客人详细信息
+				</div>
+				<div class="o-p-con" id="customerResult">
+					<table width="100%" cellpadding="0" border="0">
+						<tbody>
+							<tr>
+								<th width="15%">姓名<input type="hidden"
+									value="$!{order.customers.size()}" name="customerCount">
+								</th>
+								<th width="10%">性别</th>
+								<th width="10%">年龄</th>
+								<th width="20%">所在城市</th>
+								<th width="15%">电话</th>
+								<th width="15%">微信</th>
+								<th width="15%">操作</th>
+							</tr>
+							#if(!$tool.isNull($order)&&!$tool.isNull($order.customers))
+							#set($customers=$order.customers) #foreach($customer in
+							$customers)
+							<tr>
+								#set($velocityCount=${velocityCount} - 1)
+								<td align="center"><input type="hidden"
+									name="o.c${velocityCount}.id" value="$!{customer.id}" /> <input
+									type="text" class="input-text" placeholder="点击即可输入"
+									name="o.c${velocityCount}.name" value="$!{customer.name}" /></td>
+								<td align="center">
+									<select name="o.c${velocityCount}.sex" class="selectBox">
+										<option value="1" #if($!{customer.sex}==1) selected="selected" #end>男</option>
+										<option value="2" #if($!{customer.sex}==2) selected="selected" #end>女</option>
+									</select>
+								</td>
+								<td align="center"><input type="text"
+									class="input-text numeric" placeholder="点击即可输入"
+									name="o.c${velocityCount}.age" value="$!{customer.age}" /></td>
+								<td align="center"><input type="text" class="input-text"
+									placeholder="点击即可输入" name="o.c${velocityCount}.city"
+									data-name="customer-city" value="$!{customer.city}" /></td>
+								<td align="center"><input type="text" class="input-text"
+									placeholder="点击即可输入" name="o.c${velocityCount}.phone"
+									value="$!{customer.phone}" /></td>
+								<td align="center"><input type="text" class="input-text"
+									placeholder="点击即可输入" name="o.c${velocityCount}.weixin"
+									value="$!{customer.weixin}" /></td>
+								<td align="center"><a href="javascript:void(0)"
+									class="delCustomer">删除</a></td>
+							</tr>
+							#end #else
+							<tr>
+								<td align="center"><input type="hidden" name="o.c0.id"
+									value="0" /> <input type="text" class="input-text"
+									placeholder="点击即可输入" name="o.c0.name" /></td>
+								<td align="center">
+									<select name="o.c0.sex" class="selectBox">
+										<option value="1">男</option>
+										<option value="2">女</option>
+									</select>
+								</td>
+
+								<td align="center"><input type="text"
+									class="input-text numeric" placeholder="点击即可输入" name="o.c0.age" />
+								</td>
+								<td align="center"><input type="text" class="input-text"
+									placeholder="点击即可输入" name="o.c0.city" data-name="customer-city" />
+								</td>
+								<td align="center"><input type="text" class="input-text"
+									placeholder="点击即可输入" name="o.c0.phone" /></td>
+								<td align="center"><input type="text" class="input-text"
+									placeholder="点击即可输入" name="o.c0.weixin" /></td>
+								<td align="center"><a href="javascript:void(0)"
+									class="delCustomer">删除</a></td>
+							</tr>
+							#end
+							<tr class="nAdd">
+								<td align="center" colspan="7">
+									<div class="o-d-days-edit-add addCustomer">
+										<i></i><span>增加客人信息</span>
+									</div></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="o-p o-p-none">
+				<div class="o-p-nav">
+					<span class="icon-schedule"></span>客人的行程
+				</div>
+				<div class="o-p-con  des-lists" id="travelResult">
+					<table width="100%" cellpadding="0" border="0">
+						<tbody>
+							<tr>
+								<th width="15%">日期<input type="hidden"
+									value="$!{order.travels.size()}" name="travelCount"></th>
+								<th>描述</th>
+								<th width="15%">操作</th>
+							</tr>
+							#if(!$tool.isNull($order)&&!$tool.isNull($order.travels))
+							#set($travels=$order.travels) #foreach($travel in $travels)
+							#set($velocityCount=${velocityCount} - 1)
+							<tr>
+								<td align="center" valign="top"><input type="hidden"
+									class="input-text" name="o.t${velocityCount}.id"
+									value="$!{travel.id}" /> <input type="text" class="input-text"
+									placeholder="点击即可输入" name="o.t${velocityCount}.time"
+									id="ot${velocityCount}time" value="$!{travel.time}" />
+								</td>
+								<td align="left">
+									<p>
+										<textarea rows="3" placeholder="点击即可输入"
+											name="o.t${velocityCount}.description">$!{travel.description}</textarea>
+									</p>
+									<div class="des-add-box"
+										#if($tool.isNull($!{travel.flight})&&$tool.isNull($!{travel.hotel})) style="display: none;"
+										#end>
+										<b class="iic"></b>
+										<p>
+											<span>航班： </span>
+											<textarea name="o.t${velocityCount}.flight">$!{travel.flight}</textarea>
+										</p>
+										<p>
+											<span>酒店： </span>
+											<textarea name="o.t${velocityCount}.hotel">$!{travel.hotel}</textarea>
+										</p>
+									</div>
+								</td>
+								<td align="center" valign="top"><a href="javascript:void(0)"
+									class="flightAndHotel">修改航班酒店</a><a
+									href="javascript:void(0)" class="delTravel">删除该条行程</a>
+									<a href="javascript:void(0)" id ="maketicketOrder" >创建机票订单</a>
+								</td>
+							</tr>
+							#end #else
+							<tr>
+								<td align="center" valign="top"><input type="hidden"
+									class="input-text" name="o.t0.id" /> <input type="text"
+									class="input-text" placeholder="点击即可输入" name="o.t0.time"
+									id="ot0time" />
+								</td>
+								<td align="left">
+									<p>
+										<textarea rows="3" placeholder="点击即可输入"
+											name="o.t0.description"></textarea>
+									</p>
+									<div class="des-add-box" style="display: none;">
+										<b class="iic"></b>
+										<p>
+											<span>航班： </span>
+											<textarea name="o.t0.flight"></textarea>
+										</p>
+										<p>
+											<span>酒店： </span>
+											<textarea name="o.t0.hotel"></textarea>
+										</p>
+									</div>
+								</td>
+								<td align="center" valign="top">
+								<a href="javascript:void(0)" class="flightAndHotel">修改航班酒店</a>
+									<a href="javascript:void(0)" class="delTravel">删除该条行程</a>
+										<a href="javascript:void(0)" id ="maketicketOrder" >创建机票订单</a>
+								</td>
+							</tr>
+							#end
+							<tr class="nAdd">
+								<td align="center" colspan="4"><div
+										class="o-d-days-edit-add addTravel">
+										<i></i><span>增加行程信息</span>
+									</div></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			#if(!$tool.isNull($order))
+			$context.include("ticketorder")
+			#end
+			<div class="o-p">
+				<div class="o-p-nav">
+					<span class="icon-pay"></span>服务内容及费用（不含税）明细
+				</div>
+				<div class="o-p-con" style="padding:5px;">
+					<span style="margin-right:10px;">服务时间</span> <label><input type="radio"
+						value="8" name="o.serviceTime" #if($!{order.serviceTime}==8)
+						checked="checked" #end />每天服务8小时 </label> <label><input type="radio" value="10"
+						name="o.serviceTime" #if($!{order.serviceTime}==10)
+						checked="checked" #end />每天服务10小时</label>
+				</div>
+				<div class="o-p-con" style="padding:5px;">
+					<span style="margin-right:10px;">银行帐号</span><input
+						class="input-text" value="$!{order.accountInfo}"
+						placeholder="点击即可输入" name="o.accountInfo" />
+				</div>
+				<div class="o-p-con" style="padding:5px;margin-bottom:10px;">
+					<span style="margin-right:10px;float:left;">内容描述</span>
+					<textarea style="width:943px;height: 372px;" class="textareaBox"
+						rows="3" placeholder="点击即可输入" name="o.serviceInfo">$!{order.serviceInfo}</textarea>
+				</div>
+				<div class="o-p-con">
+					<table width="100%" cellpadding="0" border="0" id="orderItemResult">
+						<tbody>
+							<tr>
+								<th width="10%">日期<input type="hidden"
+									value="$!{order.orderItems.size()}" name="orderItemCount">
+								</th>
+								<th width="20%" align="left">费用名称</th>
+								<th width="10%" align="left">金额</th>
+								<th width="10%" align="center">收佣金</th>
+								<th width="10%" align="left">线上预付金额</th>
+								<th width="10%" align="left">线下支付金额</th>
+								<th>备注</th>
+								<th width="10%" align="center">操作</th>
+							</tr>
+							#if(!$tool.isNull($order)&&!$tool.isNull($order.orderItems))
+							#set($orderItems=$order.orderItems) #foreach($orderItem in
+							$orderItems) #set($velocityCount=${velocityCount} - 1)
+							<tr>
+								<td align="center"><input type="hidden"
+									name="o.oi${velocityCount}.id" value="$!{orderItem.id}" /> <input
+									type="text" class="input-text" name="o.oi${velocityCount}.time"
+									id="ooi${velocityCount}time" value="$!{orderItem.time}"
+									placeholder="点击即可输入" /></td>
+								<td align="left"><input type="text" class="input-text"
+									name="o.oi${velocityCount}.costName"
+									value="$!{orderItem.costName}" placeholder="点击即可输入" /></td>
+								<td align="left"><span class="currency"> <em>$currencyName</em>
+										<input type="text" class="input-text numeric"
+										name="o.oi${velocityCount}.price" value="$!{orderItem.price}"
+										placeholder="点击即可输入" index="${velocityCount}" /> </span></td>
+								<td align="center"><label class="labelBox"><input
+										type="checkbox" name="o.oi${velocityCount}.commission"
+										value="1" #if($!{orderItem.commission} == 1)checked="checked"
+										#end />收佣金</label></td>
+								<td align="left"><select class="selectBox"
+									name="o.oi${velocityCount}.prepaid" index="${velocityCount}">
+										<option value="0" #if($!{orderItem.prepaid} ==
+											'0')selected="selected" #end>0%</option>
+										<option value="10" #if($!{orderItem.prepaid} ==
+											'10')selected="selected" #end>10%</option>
+										<option value="20" #if($!{orderItem.prepaid} ==
+											'20')selected="selected" #end>20%</option>
+										<option value="30" #if($!{orderItem.prepaid} ==
+											'30')selected="selected" #end>30%</option>
+										<option value="40" #if($!{orderItem.prepaid} ==
+											'40')selected="selected" #end>40%</option>
+										<option value="50" #if($!{orderItem.prepaid} ==
+											'50')selected="selected" #end>50%</option>
+										<option value="100" #if($!{orderItem.prepaid} ==
+											'100')selected="selected" #end>100%</option>
+								</select>
+								</td>
+								<td align="left"><span id="o.oi${velocityCount}.offLine">
+										#set($offLine=$!{orderItem.price} - $!{orderItem.price} *
+										$!{orderItem.prepaid} /100) <font class="currency">$currencyName</font>
+										$offLine </span></td>
+								<td align="left"><input type="text" class="input-text"
+									name="o.oi${velocityCount}.description"
+									value="$!{orderItem.description}" placeholder="点击即可输入" /></td>
+								<td align="center"><a href="javascript:void(0)"
+									class="delOrderItem">删除</a></td>
+							</tr>
+							#end #else
+							<tr>
+								<td align="center"><input type="hidden" name="o.oi0.id" />
+									<input type="text" class="input-text" name="o.oi0.time"
+									id="ooi0time" placeholder="点击即可输入" /></td>
+								<td align="left"><input type="text" class="input-text"
+									name="o.oi0.costName" placeholder="点击即可输入" /></td>
+								<td align="left"><span class="currency"> <em>$currencyName</em>
+										<input type="text" class="input-text numeric"
+										name="o.oi0.price" placeholder="点击即可输入" index="0" /> </span></td>
+								<td align="center"><label class="labelBox"><input
+										type="checkbox" name="o.oi0.commission" value="1" />收佣金</label></td>
+								<td align="left"><select class="selectBox"
+									name="o.oi0.prepaid" index="0">
+										<option value="0">0%</option>
+										<option value="10">10%</option>
+										<option value="20">20%</option>
+										<option value="30">30%</option>
+										<option value="40">40%</option>
+										<option value="50" selected="selected">50%</option>
+										<option value="100">100%</option>
+								</select>
+								</td>
+								<td align="left"><span id="o.oi0.offLine"></span></td>
+								<td align="left"><input type="text" class="input-text"
+									name="o.oi0.description" placeholder="点击即可输入" /></td>
+								<td align="center"><a href="javascript:void(0)"
+									class="delOrderItem">删除</a></td>
+							</tr>
+							#end
+							<tr class="nAdd">
+								<td align="center" colspan="8"><div
+										class="o-d-days-edit-add addOrderItem">
+										<i></i><span>增加服务内容</span>
+									</div></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="o-clause">
+				<div class="o-clause-nav">
+					<span class="icon-clause"></span>一起嗨服务条款
+				</div>
+				<div class="o-clause-con">
+					<ul>
+						<li><span class="icon-arrow-right">&gt;</span>7*24小时客服协调服务，如果对导游的服务不满意，一起嗨提供导游更换服务,充分保障您的旅行体验。</li>
+						<li><span class="icon-arrow-right">&gt;</span>一起嗨仅收取网站佣金，及代理收取导游的预订金，其它的消费支出由您决定，并当时当地和导游结算，杜绝类似国内旅行市场乱收费的现象。</li>
+						<li><span class="icon-arrow-right">&gt;</span>一起嗨保障交易双方的安全，所以您务必提供真实有效的身份认证信息给我们。交易的双方都会收到一份对方认证信息的函件。</li>
+						<li><span class="icon-arrow-right">&gt;</span>如果导游未经客人允许带客人进入强制购物场所,客人保留证据,
+							有权拒绝支付导游费用。一起嗨会退还客人当天导游服务费,及网站佣金。</li>
+						<li><span class="icon-arrow-right">&gt;</span>如果导游没能按照订单进行服务,开始或中途甩下客人,
+							一起嗨会及时更换导游, 并且退还客人当天导游服务费,及网站佣金。</li>
+						<li><span class="icon-arrow-right">&gt;</span>根据法规,如果客人选择没有专业讲解证的导游，则导游不能在规定的景点景区进行讲解,如需专业讲解需景区内另请讲解员</li>
+						<li><span class="icon-arrow-right">&gt;</span>部分收费景点客人自主选择是否进入。如因收费景点客人不选择进入览而
+							致的景点提前游览完毕，导游服务费不变，不会因行程提前结束而减少收费</li>
+						<li><span class="icon-arrow-right">&gt;</span>因不可抗拒因素导致的行程延误缩短或提前完成，导游服务费不变，仍按约
+							定价格收费（不可抗拒因素：如交通堵塞 、意外事故、天气、游客身体状况）</li>
+						<li><span class="icon-arrow-right">&gt;</span>请客人保管好个人物品，旅途中任何时候、地方遗失物品都与本公司无关</li>
+					</ul>
+				</div>
+
+			</div>
+			<div class="o-clause-bg"></div>
+
+		</form>
+		#if($b6)
+		<div class="o-p o-p-none">
+			<div class="o-p-nav">
+				<span class="icon-arrow"></span>行程中，每天由一起嗨支付导游费用明细
+			</div>
+			<div class="o-p-con">
+				<table width="100%" cellpadding="0" border="0">
+					<tr>
+						<th width="10%" align="center">支付时间</th>
+						<th width="20%" align="left" style="padding-left:10px;">支付内容</th>
+						<th width="10%" align="center">支付金额</th>
+						<th width="10%" align="center">状态</th>
+						<th width="10%" align="center">支付截图</th>
+					</tr>
+					#set($parseOrderItems=$order.parseOrderItems)
+					#foreach($parseOrderItem in $parseOrderItems)
+					<tr>
+						<td align="center">$!{parseOrderItem.time}</td>
+						<td width="20%" align="left" style="padding-left:10px;">$!{parseOrderItem.costName}</td>
+						<td align="center"><b>$currencyName$!{parseOrderItem.price}</b>
+						<td align="center">#set($paid=$parseOrderItem.status >=8)
+							<div
+								class="#if(${paid}) o-p-state-success #else o-p-state-fail #end">
+								#if($!{parseOrderItem.status}>0)<span class="icon-correct"></span>#end $tool.orderStateName($!{parseOrderItem.status})
+							</div>
+						</td>
+						<td align="center">#set($_orderItemId=$context.getParam('orderItemId'))
+							#if(${paid}) <a
+							href="http://www.yiqihi.com/receipts/$!{parseOrderItem.receipt}"
+							target="_blank">查看截图</a> #elseif($_orderItemId==$!{orderItem.id})
+							<font color="red">$context.getParam('msg')</font> #end</td>
+					</tr>
+					#end
+				</table>
+			</div>
+		</div>
+		#end
+	</div>
+	#elseif($createorder==2)
+	#set($currency=$tool.currencyName($tool.intOf($!{order.currency})))
+	#set($gProfile=$context.readProfile(${order.guide.userId}))
+	$context.include("showorder") #else
+	<div class="container area clearfix">
+		<h2 class="page-title">您没有权限编辑订单</h2>
+	</div>
+
+	#end
+
+
+	<div style="display: none;">
+		<table width="100%" cellpadding="0" border="0" id="customerTemplate">
+			<tbody>
+				<tr>
+					<th width="15%">姓名<input type="hidden"
+						jsvalues=".value:$this.customers.length;" name="customerCount">
+					</th>
+					<th width="10%">性别</th>
+					<th width="10%">年龄</th>
+					<th width="20%">所在城市</th>
+					<th width="15%">电话</th>
+					<th width="15%">微信</th>
+					<th width="15%">操作</th>
+				</tr>
+				<tr jsselect="$this.customers" jsvalues="index:$index">
+					<td align="center"><input type="hidden"
+						jsvalues=".value:$this.id;.name:'o.c'+$index+'.id'"> <input
+						type="text" placeholder="点击即可输入" class="input-text"
+						jsvalues=".value:$this.name;.name:'o.c'+$index+'.name'"></td>
+
+					<td align="center">
+						<select class="selectBox" jsvalues=".value:$this.sex;.name:'o.c'+$index+'.sex';">
+							<option value="1">男</option>
+							<option value="2">女</option>
+						</select>
+					</td>
+					<td align="center"><input type="text" placeholder="点击即可输入"
+						class="input-text numeric"
+						jsvalues=".value:$this.age;.name:'o.c'+$index+'.age'"></td>
+					<td align="center"><input type="text" placeholder="点击即可输入"
+						class="input-text" data-name="customer-city"
+						jsvalues=".value:$this.city;.name:'o.c'+$index+'.city'"></td>
+					<td align="center"><input type="text" placeholder="点击即可输入"
+						class="input-text"
+						jsvalues=".value:$this.phone;.name:'o.c'+$index+'.phone'">
+					</td>
+					<td align="center"><input type="text" placeholder="点击即可输入"
+						class="input-text"
+						jsvalues=".value:$this.weixin;.name:'o.c'+$index+'.weixin'">
+					</td>
+					<td align="center"><a class="delCustomer"
+						href="javascript:void(0)">删除</a>
+					</td>
+				</tr>
+				<tr class="nAdd">
+					<td align="center" colspan="7">
+						<div class="o-d-days-edit-add addCustomer">
+							<i></i><span>增加客人信息</span>
+						</div></td>
+				</tr>
+			</tbody>
+		</table>
+
+		<table width="100%" border="0" cellpadding="0" id="travelTemplate">
+			<tbody>
+				<tr>
+					<th width="15%">日期<input type="hidden"
+						jsvalues=".value:$this.travels.length;" name="travelCount">
+					</th>
+					<th>描述</th>
+					<th width="15%">操作</th>
+				</tr>
+				<tr jsselect="$this.travels" jsvalues="index:$index">
+					<td valign="top" align="center"><input type="hidden"
+						class="input-text"
+						jsvalues=".value:$this.id;.name:'o.t'+$index+';" /> <input
+						type="text" placeholder="点击即可输入" class="input-text"
+						jsvalues=".value:$this.time;.name:'o.t'+$index+'.time';.id:'ot'+$index+'time'" />
+					</td>
+					<td align="left">
+						<p>
+							<textarea placeholder="点击即可输入" rows="3"
+								jsvalues=".name:'o.t'+$index+'.description';"
+								jscontent="$this.description"></textarea>
+						</p>
+						<div class="des-add-box">
+							<b class="iic"></b>
+							<p>
+								<span>航班： </span>
+								<textarea
+									jsvalues=".value:$this.flight;.name:'o.t'+$index+'.flight';"></textarea>
+							</p>
+							<p>
+								<span>酒店： </span>
+								<textarea
+									jsvalues=".value:$this.hotel;.name:'o.t'+$index+'.hotel';"></textarea>
+							</p>
+						</div>
+					</td>
+					<td valign="top" align="right"><a class="flightAndHotel"
+						href="javascript:void(0)">显示航班及酒店</a><br> <a
+						class="delTravel" href="javascript:void(0)">删除该条行程</a>
+						<a href="javascript:void(0)" id ="maketicketOrder" >创建机票订单</a>
+					</td>
+				</tr>
+				<tr class="nAdd">
+					<td align="center" colspan="4"><div
+							class="o-d-days-edit-add addTravel">
+							<i></i><span>增加客人行程</span>
+						</div></td>
+				</tr>
+			</tbody>
+		</table>
+
+		<table width="100%" cellpadding="0" border="0" id="orderItemTemplate">
+			<tbody>
+				<tr>
+					<th width="10%">日期 <input type="hidden"
+						jsvalues=".value:$this.orderItems.length;" name="orderItemCount">
+					</th>
+					<th width="20%" align="left">费用名称</th>
+					<th width="10%" align="left">金额</th>
+					<th width="8%" align="center">收佣金</th>
+					<th width="10%" align="left">线上预付金额</th>
+					<th width="10%" align="left">线下支付金额</th>
+					<th>备注</th>
+					<th width="10%" align="center">操作</th>
+				</tr>
+				<tr jsselect="$this.orderItems" jsvalues="index:$index">
+					<td align="center"><input type="hidden"
+						jsvalues=".value:$this.id;.name:'o.oi'+$index+'.id'" /> <input
+						type="text" class="input-text"
+						jsvalues=".value:$this.time;.name:'o.oi'+$index+'.time';.id:'ooi'+$index+'time'"
+						placeholder="点击即可输入" /></td>
+					<td><input type="text" class="input-text"
+						jsvalues=".value:$this.costName;.name:'o.oi'+$index+'.costName'"
+						placeholder="点击即可输入" /></td>
+					<td align="left"><span class="currency"><em
+							jscontent="$CN"></em><input type="text"
+							class="input-text numeric"
+							jsvalues=".value:$this.price;.name:'o.oi'+$index+'.price';index:$index;"
+							placeholder="点击即可输入" /> </span></td>
+					<td align="center"><label class="labelBox"><input
+							type="checkbox" value="1" name="o.oi0.commission"
+							jsvalues=".checked:$this.commission==true?'checked':'';.name:'o.oi'+$index+'.commission'"
+							checked="checked" />收佣金</label></td>
+					<td align="left"><select class="selectBox"
+						jsvalues=".value:$this.prepaid;.name:'o.oi'+$index+'.prepaid';index:$index">
+							<option value="0">0%</option>
+							<option value="10">10%</option>
+							<option value="20">20%</option>
+							<option value="30">30%</option>
+							<option value="40">40%</option>
+							<option value="50">50%</option>
+							<option value="100">100%</option>
+					</select>
+					</td>
+					<td align="left"><span jsvalues=".id:'o.oi'+$index+'.offLine'"
+						jshtml="setOfflineAmount($this.price,$this.prepaid)"></span></td>
+					<td align="left"><input type="text" class="input-text"
+						jsvalues=".value:$this.description;.name:'o.oi'+$index+'.description'"
+						placeholder="点击即可输入" /></td>
+					<td align="center"><a href="javascript:void(0)"
+						class="delOrderItem">删除</a></td>
+				</tr>
+				<tr class="nAdd">
+					<td align="center" colspan="8"><div
+							class="o-d-days-edit-add addOrderItem">
+							<i></i><span>增加服务内容</span>
+						</div></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<span id="orderData" style="display: none;">$order</span>
+
+	$context.readFooter()
+	$context.includeJavaScript("jquery/","jquery.tokeninput.js")
+	$context.includeJavaScript("","tinymce/tinymce.min.js")
+	$context.includeJavaScript("","triporder.js")
+	<script type="text/javascript">
+		function payOrder(id) {
+			$.ajax({
+				type : "GET",
+				url : "/tripOrder?action=payOrder&id=" + id,
+				dataType : "json",
+				success : function(obj) {
+					if (obj.xeach == true) {
+						showInfo("支付成功");
+					} else {
+						showInfo(obj.message);
+					}
+				}
+			});
+		}
+	</script>
+</body>
+</html>

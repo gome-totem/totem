@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>$context.includeCss("","tuiba.css")
+</head>
+<style>
+.inputParam {
+	border: 1px solid #E2E2E2;
+	margin: 3 3 3 3;
+	display: block;
+	float: left;
+	color: #2A65A1;
+	font-size: 18px;
+	font-weight: bold;
+	background-color: #fff;
+	font-family: "Microsoft YaHei", Arial, "宋体", monospace !important;
+}
+</style>
+<body>
+	#set($id=$context.getParam('id'))
+	#set($plugin=$service.readPluginById($context,$id))
+	#set($items=$plugin.get('items')) #set($index=1) #if($id==0) #else
+	<div class="biank" style="width:800px;font-size:16px;margin-top:6px;">
+		<div style="width:800px;color:#cc2a43"><b>$plugin.getString('funcDesc')</b><hr/></div>
+		<span style="color:#999999;font-size:11px;margin-left:16px;">(如果有参数,请输入相关参数)</span>
+		<span id="funcName" style="display:none">$plugin.getString('funcName')</span>
+		<span style="display:none" id="paramCount">$items.size()</span> <span
+			style="display:none" id="pluginId">$id</span>
+		<div class="szt" style="width:800px;">
+			#foreach($item in $items) #if($item.get('user')==true)
+			<div class="feny" style="width:593px;">
+				<p style="margin-left:3px;float:left">$index</p>
+				<div style="margin-left:3px;float:left">$item.getString('desc')</div>
+				#if ($item.getInt('type')>=2) <span><b>注意:回车换行,一行对应一个参数</b> </span>
+				#end <span style="display:none;" id="name$velocityCount">$item.getString('name')</span>
+			</div>
+			<p style="width:800px;clear:both;">
+				#if($item.getInt('type')==0) <input type="text"
+					id="value$velocityCount" class="inputParam"
+					style="width:95%;height:23px;" tag="$item.getInt('type')"
+					value="$item.getString('value')" /> #elseif
+				($item.getInt('type')==1) <input type="text"
+					id="value$velocityCount" class="inputParam"
+					style="width:95%;height:23px;" tag="$item.getInt('type')"
+					value="$item.getString('value')" /> #elseif
+				($item.getInt('type')==2)
+				<textarea id="value$velocityCount" class="inputParam"
+					tag="$item.getInt('type')"
+					style="width:95%;height:100px;font-size:15px;">$item.getString('value')</textarea>
+				#elseif ($item.getInt('type')==3)
+				<textarea id="value$velocityCount" class="inputParam"
+					tag="$item.getInt('type')"
+					style="width:95%;height:100px;font-size:15px;">$item.getString('value')</textarea>
+				#end
+			</p>
+			#set($index=$tool.inc($index)) #else
+			<div style="display:none;height:0px;">
+				<span id="name$velocityCount">$item.getString('name')</span> <input
+					type="hidden" id="value$velocityCount" style="width:50%;"
+					tag="$item.getInt('type')" value="$item.getString('value')" />
+			</div>
+			#end #end
+		</div>
+		<a href="javascript:void(0)" style="display:none"
+			onclick="commitParam(false)">TEST</a>
+	</div>
+	#end 
+    $context.includeJavaScript("jquery/","jquery-1.8.3.min.js")
+    $context.includeJavaScript("jquery/","jquery-ui.1.9.2.min.js")
+	$context.includeJavaScript("jquery/","jquery.common.js")
+	$context.includeJavaScript("jquery/","jquery.blockUI.js")
+	$context.includeJavaScript("","common.js")
+	$context.includeJavaScript("","tuibaconfig.js")
+</body>
+</html>

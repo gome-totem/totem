@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>$tool.seoTitle()</title>
+<link rel="shortcut icon" href="/images/hi.ico" >
+<link rel="icon" type="image/gif" href="/images/hi.gif" >
+$context.includeCss("","plugins.css")
+$context.includeCss("jquery/","jquery.plugin.css")
+<script>
+function initHeader(){};
+</script>
+</head>
+<body>
+<div class="jpss_con">
+	<div class="jpss_conc">
+		<div class="jpss_d1"></div>
+		<div class="jpss_cocccon">
+			<div class="jpss_22"><a class="jpss_22dandu" href="javascript:void(0)"></a></div>
+			<div class="jpss_ccc1">
+				<div class="fd_jpsss fd_jpss">
+					<p class="fjyd_tb"></p><p class="fjyd_text">地标</p>
+				</div>
+				<form>
+				<div class="sscon">
+					<span>所在城市</span>
+					<input type="text" id="cityName">
+					<span>地标或地址</span>
+					<input type="text"  id="searchKey">
+					<a id="searchBtn" href="javascript:void(0)" onclick="doSearch()">搜索</a>
+				</div>
+				</form>
+			</div>
+			<div class="jpss_ccc2" id="resultOutput"></div>
+		</div>
+		<div class="jpss_conc2"></div>
+	</div>
+</div>
+
+<div  style="display:none">
+	<div id="locTemplate">
+		<div  class="jp_c2hbb" jsselect="items">
+			<div class="jp_cd1" jseval="$args.index++">
+				<p style="overflow:hidden;">
+					<a href="javascript:void(0)" jsvalues=".object:$this" onclick="doFlashCallback(this.object)">
+						<span style="color:#CC2A43;font-weight:bold;">选择&nbsp;</span>
+						<span>经度：<label jscontent="$this.lgt"></label></span>
+						<span>纬度：<label jscontent="$this.lat"></label></span>
+					</a>
+				</p>
+				<p><a href="javascript:void(0)"></a></p>
+			</div>
+			<div class="jp_cd2">
+				<span jscontent="$this.location"></span>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+$context.includeJavaScript("jquery/","jquery-1.8.3.min.js")
+$context.includeJavaScript("jquery/","jquery-ui.1.9.2.min.js")
+$context.includeJavaScript("jquery/","jquery.common.js")
+$context.includeJavaScript("jquery/","jquery.dateinput.js")
+$context.includeJavaScript("jquery/","jquery.watermark.js")
+$context.includeJavaScript("jquery/","jquery.pager.js")
+$context.includeJavaScript("jquery/","jquery.scrollTo.js")
+$context.includeJavaScript("jquery/","jquery.autocomplete.js")
+$context.includeJavaScript("jquery/","jquery.poshytip.js")
+$context.includeJavaScript("","common.js")
+$context.includeJavaScript("","header.js")
+$context.includeJavaScript("","json2.js")
+$context.includeJavaScript("","util.js")
+$context.includeJavaScript("","template.js")
+$context.includeJavaScript("","plugin.loc.js")
+<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=ABQIAAAACqlenZsAuviR48wcB9zJ6xR6JYo_q9UDbl_IqCzG9eI1S1wmuRSk0tPUYakmHPxuH8Q4f99Z8ODS2g" type="text/javascript"></script>
+
+</body>
+</html>

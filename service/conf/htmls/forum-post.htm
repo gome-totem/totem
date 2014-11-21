@@ -1,0 +1,64 @@
+<div class="t-post" id="forumpost" action="$context.getParam('action')" style="display:none">
+			<h2 class="t-post-tit" ><a href="javascript:void(0)" class="nClose"  onclick="forumpost.hide();"></a>发布贴士</h2>
+			<div class="t-post-header">
+				<div class="t-post-title">贴士类型：</div>
+						<div class="t-post-type" onmousemove="showli()">
+							<div class="t-post-type-arrow"></div>
+							<div class="t-post-type-current" tag="1" id="forumtype">当地美食</div>
+							<ul class="t-post-type-list">
+								<li onclick="changetype(this)" href="javascript:void(0)" tag ="5">寻求帮助</li>
+								<li onclick="changetype(this)" href="javascript:void(0)" tag="2">必去景点</li>
+								<li onclick="changetype(this)" href="javascript:void(0)" tag="3">购物</li>
+							</ul>
+						</div>
+				<div class="t-post-mycity">
+					<b class="nc">标题：</b>
+					 <input id="title" type="text" class="t-post-input" value="" style="width:429px;" />
+				</div>
+			</div>
+			<div class="t-post-header" style="height:62px;">
+				      <div class="t-post-title" >城市标签：</div>
+							<input type="text" id="edtTargets"  class="t-post-input" style="padding: 4px 4px 4px 20px;margin-left: 120px;width: 429px;" placeholder="希望提供服务的城市" />
+			</div>
+			<div class="t-post-header" id="hd1">
+				<div class="t-post-title" id="shop" >店名：</div>
+				<input id="hdr1" type="text" class="t-post-input" value="" style="width:429px;" />
+			</div>
+			
+			<div class="t-post-header" id="hd2">
+				<div class="t-post-title" id="address">地址：</div>
+				<input id="hdr2" type="text" class="t-post-input" value="" style="width:429px;" />
+			</div>
+
+			<div class="t-post-header" id="hd3">
+				<div class="t-post-title" id="consume" >人均消费：</div>
+				<input id="hdr3"  type="text" class="t-post-input" value="" style="width:429px;" />
+			</div>
+
+			<div class="t-post-header" style="height:132px;">
+				<div class="t-post-title">贴士内容：</div>
+				<textarea  id="edtContent" class="t-post-textarea" name="query" rows="5" tip="" style="width: 433px; height: 100px; text-align: left; overflow-y: hidden;" placeholder="我有问题请教..有资讯分享..,这里不适合长篇大论,我们认为有价值的东西，往往都是最简单的..."></textarea>
+			</div>
+
+
+			<div class="t-post-header" style="height:152px;">
+				<div class="t-post-title">上传图片：</div>
+					<div class="pictures" style="clear:both;display:none">
+						<ul id="pictures" class="photo-gallery"></ul>
+						<div class="clear" style="height:1px;"></div>
+					</div>
+					<div class="btm"></div>
+					<div id="btnUpload" class="t-post-upload-add">
+					<a href="javascript:void(0)" id="btnUpload"
+											onclick="dlgPicture.popup()"> 
+					<i></i></div>
+				<div class="t-post-upload-item pictures" style="clear:both;display:none" id="pictures">
+				<span class="close"></span>
+				</div>
+			</div>
+
+			
+			<div class="t-post-footer">
+				<button type="button" class="t-post-btn-ok" onclick="postMessage(this)"></button>
+			</div>
+		</div>
