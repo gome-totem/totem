@@ -188,6 +188,11 @@ public class ZeroConnect {
 		oReq.append("pageParams", pageParams);
 		return post(ServiceName.HtmlPage, MessageType.REQUEST, "0", oReq);
 	}
+	public static DBObject readHtmlPage(String pageName, BasicDBObject oReq) {
+		oReq.append("action", "read");
+		oReq.append("pageName", pageName);
+		return post(ServiceName.HtmlPage, MessageType.REQUEST, "0", oReq);
+	}
 
 	public static DBObject updateIndex(ServiceName service, String msgTag, DBObject oDoc) {
 		return send(Device.SERVER, service, Global.DevelopMode ? MessageScope.ALLROUTER : MessageScope.BROADCAST, MessageType.UPDATE, MessageVersion.MQ, msgTag, oDoc, null);
