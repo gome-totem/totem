@@ -43,7 +43,8 @@ public class MemoryStoreRequest extends IndicesReplicationOperationRequest<Memor
 
     private static final XContentType contentType = Requests.CONTENT_TYPE;
     public BytesReference source;
-    private boolean sourceUnsafe;
+    @SuppressWarnings("unused")
+	private boolean sourceUnsafe;
     
     
     public MemoryStoreRequest source(Map source) throws ElasticsearchGenerationException {
@@ -83,16 +84,15 @@ public class MemoryStoreRequest extends IndicesReplicationOperationRequest<Memor
     }
     public static void main(String[] args) {
         MemoryStoreRequest request=new MemoryStoreRequest();
-        Map map=new HashMap();
+        Map<String,List<String>> map=new HashMap<String,List<String>>();
         List<String>  list=new ArrayList<String>();list.add("333");
-        map .put("1", "2222");
         map.put("2", list);
         request.source(map);
         System.out.println(request.source);
         
         try {
             XContentParser parser = XContentHelper.createParser(request.source);
-            Map m=parser.map();
+            Map<String, Object> m=parser.map();
                System.out.println(m.get("2"));
 //            for (XContentParser.Token token = parser.nextToken(); token != XContentParser.Token.END_OBJECT; token = parser.nextToken()) {
 //                System.out.println(token.toString());

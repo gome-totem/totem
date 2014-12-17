@@ -49,7 +49,8 @@ public class MongodbUtils extends AbstractComponent{
         }
         
      }
-    private static MongoClientOptions getClientOptions(){
+    @SuppressWarnings("deprecation")
+	private static MongoClientOptions getClientOptions(){
         MongoClientOptions mongoClientOptions = null;
         try {
             Builder builder = null;

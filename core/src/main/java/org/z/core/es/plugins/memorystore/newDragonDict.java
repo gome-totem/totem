@@ -75,8 +75,6 @@ public class newDragonDict {
     }
     
     public static void main(String[] args) {
-        newDragonDict d=new newDragonDict();
-        d.init();
     }
 
 }

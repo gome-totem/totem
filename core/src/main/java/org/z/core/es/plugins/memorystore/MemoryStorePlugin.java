@@ -1,7 +1,6 @@
 package org.z.core.es.plugins.memorystore;
 
 
-import org.elasticsearch.action.Action;
 import org.elasticsearch.action.ActionModule;
 import org.elasticsearch.common.inject.Module;
 import org.elasticsearch.plugins.AbstractPlugin;

@@ -151,7 +151,8 @@ public class TransportMemoryStoreAction extends TransportAction<MemoryStoreReque
             channel.sendResponse(new MemoryStoreResponse());
         }
     }
-    private void  saveLocal(MemoryStoreRequest request){
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	private void  saveLocal(MemoryStoreRequest request){
     	   try {
                XContentParser parser = XContentHelper.createParser(request.source);
                Map m=parser.map();
