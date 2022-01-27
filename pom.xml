@@ -30,7 +30,7 @@
 		<commons.pool.version>1.6</commons.pool.version>
 		<commons.lang.version>2.6</commons.lang.version>
 		<nekohtml.version>1.9.18</nekohtml.version>
-		<xercesImpl.version>2.11.0</xercesImpl.version>
+		<xercesImpl.version>2.12.2</xercesImpl.version>
 		<pinyin4j.version>2.5.0</pinyin4j.version>
 		<log4j.version>1.2.17</log4j.version>
 		<junit.version>4.11</junit.version>
