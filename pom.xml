@@ -53,7 +53,7 @@
 		<joor.version>0.9.3</joor.version>
 		<curator.version>2.5.0</curator.version>
 		<jackson.version>1.9.13</jackson.version>
-		<mysql.connector.java.version>5.1.26</mysql.connector.java.version>
+		<mysql.connector.java.version>8.0.28</mysql.connector.java.version>
 		<guava.version>17.0</guava.version>
 		<dependency.lib.dir>/server/totem/lib/</dependency.lib.dir>
 		<leveldbjni.all.version>1.8</leveldbjni.all.version>
