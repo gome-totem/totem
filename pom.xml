@@ -62,7 +62,7 @@
 		<flume.version>1.4.0</flume.version>
 		<flume.log4j.version>1.4.0</flume.log4j.version>
 		<mongo.version>2.12.2</mongo.version>
-		<zookeeper.version>3.4.6</zookeeper.version>
+		<zookeeper.version>3.4.14</zookeeper.version>
 		<joda-time.version>2.3</joda-time.version>
 		<objectpool.version>1.1.2</objectpool.version>
 		<netty.version>3.2.10.Final</netty.version>
