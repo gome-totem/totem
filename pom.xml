@@ -58,7 +58,7 @@
 		<dependency.lib.dir>/server/totem/lib/</dependency.lib.dir>
 		<leveldbjni.all.version>1.8</leveldbjni.all.version>
 		<compiler.version>1.7</compiler.version>
-		<opennlp.version>1.5.3</opennlp.version>
+		<opennlp.version>1.8.2</opennlp.version>
 		<flume.version>1.4.0</flume.version>
 		<flume.log4j.version>1.4.0</flume.log4j.version>
 		<mongo.version>2.12.2</mongo.version>
